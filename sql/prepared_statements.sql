@@ -50,3 +50,20 @@ VALUES(?, (SELECT id from edition_type where name = ?), (SELECT id from edition_
 
 INSERT INTO edition(name, type_id, theme_id, periodicity_per_year, minimum_subscription_period_in_months, price_for_minimum_subscription_period) 
 VALUES("Мир тяжелых моторов", (SELECT id from edition_type where name = "Newspaper"), (SELECT id from edition_theme where name = "Auto"), 24, 6, 35.88);
+
+-- -----------------------------------------------------
+-- insert payment_type
+-- -----------------------------------------------------
+INSERT INTO payment_type(type) VALUES (?)
+INSERT INTO payment_type(type) VALUES ("refill")
+INSERT INTO payment_type(type) VALUES ("payment")
+INSERT INTO payment_type(type) VALUES ("refund")
+
+-- -----------------------------------------------------
+-- insert payment
+-- -----------------------------------------------------
+INSERT INTO payment(user_id, type_id, date, amount, subscription_id)
+VALUES(?, (SELECT type FROM payment_type WHERE type = ?), ?, ?, ?)
+
+INSERT INTO payment(user_id, type_id, date, amount)
+VALUES(1, (SELECT id FROM payment_type WHERE type = "refill"), "2020-02-13 13:00:00", "999.99")
