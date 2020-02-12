@@ -66,4 +66,23 @@ INSERT INTO payment(user_id, type_id, date, amount, subscription_id)
 VALUES(?, (SELECT type FROM payment_type WHERE type = ?), ?, ?, ?)
 
 INSERT INTO payment(user_id, type_id, date, amount)
-VALUES(1, (SELECT id FROM payment_type WHERE type = "refill"), "2020-02-13 13:00:00", "999.99")
+VALUES(1, (SELECT id FROM payment_type WHERE type = "refill"), "2020-02-13 13:00:00", 999.99)
+
+-- -----------------------------------------------------
+-- insert subscription
+-- -----------------------------------------------------
+INSERT INTO subscription(edition_id, user_id, subscription_start_date, subscription_end_date)
+VALUES(?, ?, ?, ?)
+
+INSERT INTO subscription(edition_id, user_id, subscription_start_date, subscription_end_date)
+VALUES(1, 1, "2020-03-00 00:00:00", "2020-09-00 00:00:00");
+
+-- -----------------------------------------------------
+-- payment for subscription
+-- -----------------------------------------------------
+INSERT INTO payment(user_id, type_id, date, amount, subscription_id)
+VALUES(1, (SELECT id FROM payment_type WHERE type = "payment"), "2020-02-13 14:00:00", 35.88, 1)
+
+UPDATE user
+SET money = (money - 35.88)
+WHERE id = 1
