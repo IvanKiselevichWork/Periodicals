@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `periodicals`.`edition` (
   `minimum_subscription_period_in_months` INT(11) NOT NULL,
   `price_for_minimum_subscription_period` DECIMAL(19,4) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE)
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) )
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8;
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `periodicals`.`user_role` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `role` ENUM('Admin', 'User') CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `name_UNIQUE` (`role` ASC) VISIBLE)
+  UNIQUE INDEX `name_UNIQUE` (`role` ASC) )
 ENGINE = InnoDB
 AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8;
@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS `periodicals`.`user` (
   `money` DECIMAL(19,4) NOT NULL,
   `is_available` TINYINT(4) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `login_UNIQUE` (`login` ASC) VISIBLE,
-  INDEX `user_role_fk` (`role_id` ASC) VISIBLE,
+  UNIQUE INDEX `login_UNIQUE` (`login` ASC),
+  INDEX `user_role_fk` (`role_id` ASC),
   CONSTRAINT `user_role_fk`
     FOREIGN KEY (`role_id`)
     REFERENCES `periodicals`.`user_role` (`id`))
@@ -84,8 +84,8 @@ CREATE TABLE IF NOT EXISTS `periodicals`.`subscription` (
   `subscription_end_date` DATETIME NOT NULL,
   `user_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `edition_fk` (`edition_id` ASC) VISIBLE,
-  INDEX `user_sub_fk` (`user_id` ASC) VISIBLE,
+  INDEX `edition_fk` (`edition_id` ASC),
+  INDEX `user_sub_fk` (`user_id` ASC),
   CONSTRAINT `edition_fk`
     FOREIGN KEY (`edition_id`)
     REFERENCES `periodicals`.`edition` (`id`),
@@ -120,9 +120,9 @@ CREATE TABLE IF NOT EXISTS `periodicals`.`payment` (
   `amount` DECIMAL(19,4) NOT NULL,
   `subscription_id` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `user_fk` (`user_id` ASC) VISIBLE,
-  INDEX `type_fk` (`type_id` ASC) VISIBLE,
-  INDEX `subscription_fk` (`subscription_id` ASC) VISIBLE,
+  INDEX `user_fk` (`user_id` ASC),
+  INDEX `type_fk` (`type_id` ASC),
+  INDEX `subscription_fk` (`subscription_id` ASC),
   CONSTRAINT `subscription_fk`
     FOREIGN KEY (`subscription_id`)
     REFERENCES `periodicals`.`subscription` (`id`),
