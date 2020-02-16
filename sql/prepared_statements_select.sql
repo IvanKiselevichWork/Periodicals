@@ -10,7 +10,7 @@ select * from user where login = ?
 -- -----------------------------------------------------
 -- check user for sign in
 -- -----------------------------------------------------
-select * from user where login = ? and password = ? and is_available = true
+select id, login, username, role_id, password, money, is_available from user where login = ? and password = ?
 
 -- -----------------------------------------------------
 -- show user his subscriptions
