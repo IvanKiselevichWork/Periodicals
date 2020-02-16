@@ -53,7 +53,7 @@ public enum ConnectionPool {
                 DriverManager.registerDriver(DriverManager.getDriver(url));
 
                 for (int i = 0; i < POOL_CAPACITY; i++) {
-                    availableConnections.add(DriverManager.getConnection(url, user, new String(password)));
+                    availableConnections.add(new ConnectionProxy(DriverManager.getConnection(url, user, new String(password))));
                 }
                 isPoolAlreadyInitiated = true;
             } catch (IOException e) {
@@ -116,7 +116,7 @@ public enum ConnectionPool {
     private void closeConnections(BlockingQueue<Connection> connections) {
         while (!connections.isEmpty()) {
             try {
-                connections.take().close();
+                ((ConnectionProxy)connections.take()).closeWhileDeInitPool();
             } catch (SQLException e) {
                 LOG.warn("Cant close connection", e);
             } catch (InterruptedException e) {
