@@ -17,6 +17,7 @@ import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public enum ConnectionPool {
     INSTANCE;
@@ -30,12 +31,12 @@ public enum ConnectionPool {
 
     private BlockingQueue<Connection> availableConnections;
     private Deque<Connection> unavailableConnections;
-    private volatile boolean isPoolAlreadyInitiated;
+    private AtomicBoolean isPoolAlreadyInitiated;
 
     ConnectionPool() {
         availableConnections = new LinkedBlockingQueue<>();
         unavailableConnections = new ArrayDeque<>();
-        isPoolAlreadyInitiated = false;
+        isPoolAlreadyInitiated = new AtomicBoolean(false);
     }
 
     /**
@@ -43,8 +44,8 @@ public enum ConnectionPool {
      * @throws NoJDBCDriverException while no driver
      * @throws NoJDBCPropertiesException while no properties file
      */
-    public synchronized void initPool() throws NoJDBCDriverException, NoJDBCPropertiesException {
-        if (!isPoolAlreadyInitiated) {
+    public void initPool() throws NoJDBCDriverException, NoJDBCPropertiesException {
+        if (!isPoolAlreadyInitiated.get()) {
             Properties databaseProperties = new Properties();
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(DATABASE_PROPERTIES_FILENAME);
             if (inputStream == null) {
@@ -59,7 +60,7 @@ public enum ConnectionPool {
                 for (int i = 0; i < POOL_CAPACITY; i++) {
                     availableConnections.add(new ConnectionProxy(DriverManager.getConnection(url, databaseProperties)));
                 }
-                isPoolAlreadyInitiated = true;
+                isPoolAlreadyInitiated.set(true);
             } catch (IOException e) {
                 throw new NoJDBCPropertiesException(e);
             } catch (SQLException e) {
@@ -108,8 +109,8 @@ public enum ConnectionPool {
     /**
      *
      */
-    public synchronized void deInitPool() {
-        if (isPoolAlreadyInitiated) {
+    public void deInitPool() {
+        if (isPoolAlreadyInitiated.get()) {
 
             if (!unavailableConnections.isEmpty()) {
                 LOG.warn("Deinitializing connection pool while not all connections returned");
@@ -129,7 +130,7 @@ public enum ConnectionPool {
                 Thread.currentThread().interrupt();
             }
 
-            isPoolAlreadyInitiated = false;
+            isPoolAlreadyInitiated.set(false);
         }
     }
 
