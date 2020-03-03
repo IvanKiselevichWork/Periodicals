@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -27,12 +29,12 @@ public enum ConnectionPool {
     private static final String DATABASE_URL_PROPERTY = "url";
 
     private BlockingQueue<Connection> availableConnections;
-    private BlockingQueue<Connection> unavailableConnections;
+    private Deque<Connection> unavailableConnections;
     private volatile boolean isPoolAlreadyInitiated;
 
     ConnectionPool() {
         availableConnections = new LinkedBlockingQueue<>();
-        unavailableConnections = new LinkedBlockingQueue<>();
+        unavailableConnections = new ArrayDeque<>();
         isPoolAlreadyInitiated = false;
     }
 
@@ -77,7 +79,7 @@ public enum ConnectionPool {
             if (connection == null) {
                 throw new NoConnectionAvailableException();
             }
-            unavailableConnections.put(connection);
+            unavailableConnections.add(connection);
         } catch (InterruptedException e) {
             LOG.warn(e);
             Thread.currentThread().interrupt();
@@ -113,23 +115,21 @@ public enum ConnectionPool {
                 LOG.warn("Deinitializing connection pool while not all connections returned");
             }
 
-            closeConnections(availableConnections);
-            closeConnections(unavailableConnections);
-
-            isPoolAlreadyInitiated = false;
-        }
-    }
-
-    private void closeConnections(BlockingQueue<Connection> connections) {
-        while (!connections.isEmpty()) {
             try {
-                ((ConnectionProxy)connections.take()).closeWhileDeInitPool();
+                while (!availableConnections.isEmpty()) {
+                    ((ConnectionProxy)availableConnections.take()).closeWhileDeInitPool();
+                }
+                while (!unavailableConnections.isEmpty()) {
+                    ((ConnectionProxy)unavailableConnections.removeLast()).closeWhileDeInitPool();
+                }
             } catch (SQLException e) {
                 LOG.warn("Cant close connection", e);
             } catch (InterruptedException e) {
                 LOG.warn(e);
                 Thread.currentThread().interrupt();
             }
+
+            isPoolAlreadyInitiated = false;
         }
     }
 

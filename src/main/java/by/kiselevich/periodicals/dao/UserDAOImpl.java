@@ -2,6 +2,7 @@ package by.kiselevich.periodicals.dao;
 
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.DAOException;
+import by.kiselevich.periodicals.exception.NoConnectionAvailableException;
 import by.kiselevich.periodicals.pool.ConnectionPool;
 
 import java.sql.Connection;
@@ -51,7 +52,7 @@ public class UserDAOImpl implements UserDAO {
                 );
             }
             resultSet.close();
-        } catch (SQLException e) {
+        } catch (SQLException | NoConnectionAvailableException e) {
             throw new DAOException(e);
         }
         return user;
@@ -78,7 +79,7 @@ public class UserDAOImpl implements UserDAO {
             if (result == 1) {
                 user = signIn(login, password);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NoConnectionAvailableException e) {
             throw new DAOException(e);
         }
         return user;
