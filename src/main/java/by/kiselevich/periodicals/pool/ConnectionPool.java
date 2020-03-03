@@ -1,5 +1,6 @@
 package by.kiselevich.periodicals.pool;
 
+import by.kiselevich.periodicals.exception.NoConnectionAvailableException;
 import by.kiselevich.periodicals.exception.NoJDBCDriverException;
 import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
 import org.apache.logging.log4j.LogManager;
@@ -13,12 +14,15 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public enum ConnectionPool {
     INSTANCE;
 
     private static final Logger LOG = LogManager.getLogger(ConnectionPool.class);
+
     private static final int POOL_CAPACITY = 15;
+    private static final long MAXIMUM_CONNECTION_WAITING_IN_SECONDS = 60;
     private static final String DATABASE_PROPERTIES_FILENAME = "database.properties";
     private static final String DATABASE_URL_PROPERTY = "url";
 
@@ -66,10 +70,13 @@ public enum ConnectionPool {
      *
      * @return Connection ready to use
      */
-    public Connection getConnection() {
+    public Connection getConnection() throws NoConnectionAvailableException {
         Connection connection = null;
         try {
-            connection = availableConnections.take();
+            connection = availableConnections.poll(MAXIMUM_CONNECTION_WAITING_IN_SECONDS, TimeUnit.SECONDS);
+            if (connection == null) {
+                throw new NoConnectionAvailableException();
+            }
             unavailableConnections.put(connection);
         } catch (InterruptedException e) {
             LOG.warn(e);
@@ -84,10 +91,12 @@ public enum ConnectionPool {
      */
     public void returnConnection(Connection connection) {
         try {
-            if(!unavailableConnections.remove(connection)) {
-                LOG.warn("Cant remove connection from unavailable connections");
+            if (connection != null) {
+                if (!unavailableConnections.remove(connection)) {
+                    LOG.warn("Cant remove connection from unavailable connections");
+                }
+                availableConnections.put(connection);
             }
-            availableConnections.put(connection);
         } catch (InterruptedException e) {
             LOG.warn(e);
             Thread.currentThread().interrupt();
