@@ -20,9 +20,7 @@ public enum ConnectionPool {
     private static final Logger LOG = LogManager.getLogger(ConnectionPool.class);
     private static final int POOL_CAPACITY = 15;
     private static final String DATABASE_PROPERTIES_FILENAME = "database.properties";
-    private static final String DATABASE_USER_PROPERTY = "db.user";
-    private static final String DATABASE_PASSWORD_PROPERTY = "db.password";
-    private static final String DATABASE_URL_PROPERTY = "db.url";
+    private static final String DATABASE_URL_PROPERTY = "url";
 
     private BlockingQueue<Connection> availableConnections;
     private BlockingQueue<Connection> unavailableConnections;
@@ -34,7 +32,6 @@ public enum ConnectionPool {
         isPoolAlreadyInitiated = false;
     }
 
-
     /**
      *
      * @throws NoJDBCDriverException while no driver
@@ -44,16 +41,17 @@ public enum ConnectionPool {
         if (!isPoolAlreadyInitiated) {
             Properties databaseProperties = new Properties();
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(DATABASE_PROPERTIES_FILENAME);
+            if (inputStream == null) {
+                throw new NoJDBCPropertiesException();
+            }
             try {
                 databaseProperties.load(inputStream);
-                String user = databaseProperties.getProperty(DATABASE_USER_PROPERTY);
-                char[] password = databaseProperties.getProperty(DATABASE_PASSWORD_PROPERTY).toCharArray();
                 String url = databaseProperties.getProperty(DATABASE_URL_PROPERTY);
 
                 DriverManager.registerDriver(DriverManager.getDriver(url));
 
                 for (int i = 0; i < POOL_CAPACITY; i++) {
-                    availableConnections.add(new ConnectionProxy(DriverManager.getConnection(url, user, new String(password))));
+                    availableConnections.add(new ConnectionProxy(DriverManager.getConnection(url, databaseProperties)));
                 }
                 isPoolAlreadyInitiated = true;
             } catch (IOException e) {
