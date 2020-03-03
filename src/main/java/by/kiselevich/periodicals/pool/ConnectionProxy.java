@@ -56,11 +56,11 @@ public class ConnectionProxy implements Connection {
     }
 
     @Override
-    public void close() throws SQLException {
+    public void close() {
         ConnectionPool.INSTANCE.returnConnection(this);
     }
 
-    public void closeWhileDeInitPool() throws SQLException {
+    void closeWhileDeInitPool() throws SQLException {
         connection.close();
     }
 

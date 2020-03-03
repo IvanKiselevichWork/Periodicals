@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
@@ -29,8 +28,8 @@ public enum ConnectionPool {
     private static final String DATABASE_PROPERTIES_FILENAME = "database.properties";
     private static final String DATABASE_URL_PROPERTY = "url";
 
-    private BlockingQueue<Connection> availableConnections;
-    private Deque<Connection> unavailableConnections;
+    private BlockingQueue<ConnectionProxy> availableConnections;
+    private Deque<ConnectionProxy> unavailableConnections;
     private AtomicBoolean isPoolAlreadyInitiated;
 
     ConnectionPool() {
@@ -73,8 +72,8 @@ public enum ConnectionPool {
      *
      * @return Connection ready to use
      */
-    public Connection getConnection() throws NoConnectionAvailableException {
-        Connection connection = null;
+    public ConnectionProxy getConnection() throws NoConnectionAvailableException {
+        ConnectionProxy connection = null;
         try {
             connection = availableConnections.poll(MAXIMUM_CONNECTION_WAITING_IN_SECONDS, TimeUnit.SECONDS);
             if (connection == null) {
@@ -92,7 +91,7 @@ public enum ConnectionPool {
      *
      * @param connection Connection to return
      */
-    public void returnConnection(Connection connection) {
+    public void returnConnection(ConnectionProxy connection) {
         try {
             if (connection != null) {
                 if (!unavailableConnections.remove(connection)) {
@@ -118,10 +117,10 @@ public enum ConnectionPool {
 
             try {
                 while (!availableConnections.isEmpty()) {
-                    ((ConnectionProxy)availableConnections.take()).closeWhileDeInitPool();
+                    availableConnections.take().closeWhileDeInitPool();
                 }
                 while (!unavailableConnections.isEmpty()) {
-                    ((ConnectionProxy)unavailableConnections.removeLast()).closeWhileDeInitPool();
+                    unavailableConnections.removeLast().closeWhileDeInitPool();
                 }
             } catch (SQLException e) {
                 LOG.warn("Cant close connection", e);
