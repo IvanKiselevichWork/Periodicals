@@ -9,8 +9,6 @@ public class ConnectionProxy implements Connection {
 
     private Connection connection;
 
-
-
     public ConnectionProxy(Connection connection) {
         this.connection = connection;
     }

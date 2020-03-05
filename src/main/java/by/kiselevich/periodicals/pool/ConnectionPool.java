@@ -110,17 +110,9 @@ public enum ConnectionPool {
      */
     public void deInitPool() {
         if (isPoolAlreadyInitiated.get()) {
-
-            if (!unavailableConnections.isEmpty()) {
-                LOG.warn("Deinitializing connection pool while not all connections returned");
-            }
-
             try {
-                while (!availableConnections.isEmpty()) {
+                for (int i = 0; i < POOL_CAPACITY; i++) {
                     availableConnections.take().closeWhileDeInitPool();
-                }
-                while (!unavailableConnections.isEmpty()) {
-                    unavailableConnections.removeLast().closeWhileDeInitPool();
                 }
             } catch (SQLException e) {
                 LOG.warn("Cant close connection", e);
