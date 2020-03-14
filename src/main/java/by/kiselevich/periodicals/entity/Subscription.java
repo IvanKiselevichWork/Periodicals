@@ -2,6 +2,7 @@ package by.kiselevich.periodicals.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Subscription implements Serializable {
 
@@ -12,17 +13,19 @@ public class Subscription implements Serializable {
     private LocalDateTime subscriptionStartDate;
     private LocalDateTime subscriptionEndDate;
     private int userId;
+    private boolean isPaid;
 
     public Subscription() {
 
     }
 
-    public Subscription(int id, int editionId, LocalDateTime subscriptionStartDate, LocalDateTime subscriptionEndDate, int userId) {
+    public Subscription(int id, int editionId, LocalDateTime subscriptionStartDate, LocalDateTime subscriptionEndDate, int userId, boolean isPaid) {
         this.id = id;
         this.editionId = editionId;
         this.subscriptionStartDate = subscriptionStartDate;
         this.subscriptionEndDate = subscriptionEndDate;
         this.userId = userId;
+        this.isPaid = isPaid;
     }
 
     public int getId() {
@@ -65,6 +68,14 @@ public class Subscription implements Serializable {
         this.userId = userId;
     }
 
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,9 +86,10 @@ public class Subscription implements Serializable {
         if (id != that.id) return false;
         if (editionId != that.editionId) return false;
         if (userId != that.userId) return false;
-        if (subscriptionStartDate != null ? !subscriptionStartDate.equals(that.subscriptionStartDate) : that.subscriptionStartDate != null)
+        if (isPaid != that.isPaid) return false;
+        if (!Objects.equals(subscriptionStartDate, that.subscriptionStartDate))
             return false;
-        return subscriptionEndDate != null ? subscriptionEndDate.equals(that.subscriptionEndDate) : that.subscriptionEndDate == null;
+        return Objects.equals(subscriptionEndDate, that.subscriptionEndDate);
     }
 
     @Override
@@ -87,6 +99,7 @@ public class Subscription implements Serializable {
         result = 31 * result + (subscriptionStartDate != null ? subscriptionStartDate.hashCode() : 0);
         result = 31 * result + (subscriptionEndDate != null ? subscriptionEndDate.hashCode() : 0);
         result = 31 * result + userId;
+        result = 31 * result + (isPaid ? 1 : 0);
         return result;
     }
 
@@ -98,6 +111,7 @@ public class Subscription implements Serializable {
                 ", subscriptionStartDate=" + subscriptionStartDate +
                 ", subscriptionEndDate=" + subscriptionEndDate +
                 ", userId=" + userId +
+                ", isPaid=" + isPaid +
                 '}';
     }
 }
