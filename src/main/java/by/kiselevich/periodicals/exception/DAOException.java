@@ -2,6 +2,8 @@ package by.kiselevich.periodicals.exception;
 
 public class DAOException extends Exception {
 
+    private static final long serialVersionUID = 3490419745673442774L;
+
     public DAOException() {
     }
 

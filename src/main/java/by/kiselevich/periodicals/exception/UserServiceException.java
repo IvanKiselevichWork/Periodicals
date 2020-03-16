@@ -2,6 +2,8 @@ package by.kiselevich.periodicals.exception;
 
 public class UserServiceException extends Exception {
 
+    private static final long serialVersionUID = -2486542462517825478L;
+
     public UserServiceException() {
     }
 

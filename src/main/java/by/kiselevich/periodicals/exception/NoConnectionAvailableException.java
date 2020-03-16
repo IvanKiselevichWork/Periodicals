@@ -2,6 +2,8 @@ package by.kiselevich.periodicals.exception;
 
 public class NoConnectionAvailableException extends Exception {
 
+    private static final long serialVersionUID = -1584318799152459652L;
+
     public NoConnectionAvailableException() {
     }
 

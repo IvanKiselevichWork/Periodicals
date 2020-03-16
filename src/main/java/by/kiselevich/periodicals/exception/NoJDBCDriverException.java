@@ -2,6 +2,8 @@ package by.kiselevich.periodicals.exception;
 
 public class NoJDBCDriverException extends Exception {
 
+    private static final long serialVersionUID = -1612934132634728180L;
+
     public NoJDBCDriverException() {
     }
 

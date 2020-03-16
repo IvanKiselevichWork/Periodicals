@@ -22,6 +22,7 @@ public class ControllerServlet extends HttpServlet {
 
     private static final Logger LOG = LogManager.getLogger(ControllerServlet.class);
     private static final CommandProvider commandProvider = new CommandProvider();
+    private static final long serialVersionUID = 2992999480268151300L;
 
     @Override
     public void init() {
