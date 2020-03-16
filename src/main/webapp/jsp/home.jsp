@@ -16,7 +16,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>
-            <fmt:message key="xml_parser"/>
+            <fmt:message key="periodicals"/>
         </title>
         <!-- Font Awesome -->
         <link rel="stylesheet" href="${root}/css/all.css">
@@ -34,7 +34,7 @@
     <!-- Navbar -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar flex-column flex-md-row">
         <a class="navbar-brand mr-0 mr-md-2" style="color: white">
-            <strong><fmt:message key="xml_parser"/></strong>
+            <strong><fmt:message key="periodicals"/></strong>
         </a>
         <div class="navbar-nav-scroll">
             <ul class="navbar-nav bd-navbar-nav flex-row">
@@ -106,11 +106,11 @@
                 </c:if>
                 <c:if test="${sessionScope.userRole == 'USER'}">
                     <h1 class="mb-4">
-                        <strong><fmt:message key="xml_parser"/></strong>
+                        <strong><fmt:message key="periodicals"/></strong>
                     </h1>
 
                     <a href="./?command=XML_UPLOAD_FORM" class="btn btn-outline-white btn-lg">
-                        <fmt:message key="parse_xml"/>
+                        <fmt:message key="periodicals_wip"/>
                     </a>
                 </c:if>
             </div>

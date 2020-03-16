@@ -35,7 +35,7 @@
     <!-- Navbar -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar flex-column flex-md-row">
         <a class="navbar-brand mr-0 mr-md-2" style="color: white">
-            <strong><fmt:message key="xml_parser"/></strong>
+            <strong><fmt:message key="periodicals"/></strong>
         </a>
         <div class="navbar-nav-scroll">
             <ul class="navbar-nav bd-navbar-nav flex-row">

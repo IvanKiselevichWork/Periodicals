@@ -5,9 +5,9 @@ import by.kiselevich.periodicals.repository.Repository;
 
 import java.util.List;
 
-public class FindUserByLogin implements UserSpecification {
+public class FindUserByLoginAndPassword implements UserSpecification {
 
-    public FindUserByLogin(String login) {
+    public FindUserByLoginAndPassword(String login, char[] password) {
         //todo
     }
 
