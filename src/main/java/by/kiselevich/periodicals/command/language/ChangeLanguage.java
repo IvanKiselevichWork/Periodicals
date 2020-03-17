@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class ChangeLanguage implements Command {
 
-    private static final Set<String> LANGUAGES = new HashSet<>(Arrays.asList("ru_RU", "en_US"));
+    private static final Set<String> LANGUAGES = new HashSet<>(Arrays.asList("ru", "en"));
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {

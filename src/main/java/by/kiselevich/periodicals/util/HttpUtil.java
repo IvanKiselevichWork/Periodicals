@@ -18,12 +18,7 @@ public class HttpUtil {
     private static final String TEXT_CONTENT_TYPE = "text/plain";
     private static final String UTF_8_ENCODING = "UTF-8";
     private static final String RESOURCE_NAME = "pagecontent";
-    private static final Locale DEFAULT_LOCALE = new Locale("en", "US");
-
-    private static final int LANGUAGE_BEGIN_INDEX = 0;
-    private static final int LANGUAGE_END_INDEX = 2;
-    private static final int TERRITORY_BEGIN_INDEX = 3;
-    private static final int TERRITORY_END_INDEX = 5;
+    private static final Locale DEFAULT_LOCALE = new Locale("en");
 
     private HttpUtil() {
 
@@ -44,8 +39,7 @@ public class HttpUtil {
         String language = (String) session.getAttribute(Attribute.LANGUAGE.getValue());
         Locale locale;
         if (language != null) {
-            // language has next syntax: "en_US", or "ru_RU", but we need, for example: new Locale("ru", "RU"), so we use substring
-            locale = new Locale(language.substring(LANGUAGE_BEGIN_INDEX, LANGUAGE_END_INDEX), language.substring(TERRITORY_BEGIN_INDEX, TERRITORY_END_INDEX));
+            locale = new Locale(language);
         } else {
             locale = DEFAULT_LOCALE;
         }

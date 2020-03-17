@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:if test="${empty sessionScope.language}">
-    <fmt:setLocale value="en_US"/>
+    <fmt:setLocale value="en"/>
 </c:if>
 <c:if test="${not empty sessionScope.language}">
     <fmt:setLocale value="${sessionScope.language}"/>
@@ -52,10 +52,10 @@
                     <fmt:message key="change_language"/>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="./?command=CHANGE_LANGUAGE&targetLanguage=en_US">
+                    <a class="dropdown-item" href="./?command=CHANGE_LANGUAGE&targetLanguage=en">
                         <fmt:message key="english"/>
                     </a>
-                    <a class="dropdown-item" href="./?command=CHANGE_LANGUAGE&targetLanguage=ru_RU">
+                    <a class="dropdown-item" href="./?command=CHANGE_LANGUAGE&targetLanguage=ru">
                         <fmt:message key="russian"/>
                     </a>
                 </div>
