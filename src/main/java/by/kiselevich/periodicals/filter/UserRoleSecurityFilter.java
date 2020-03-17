@@ -6,12 +6,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = "/*")
 public class UserRoleSecurityFilter implements Filter {
 
     private static final Logger LOG = LogManager.getLogger(UserRoleSecurityFilter.class);
