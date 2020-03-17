@@ -24,8 +24,6 @@ public enum ConnectionPool {
     private static final Logger LOG = LogManager.getLogger(ConnectionPool.class);
 
     private static final int POOL_CAPACITY = 15;
-    private static final long DEFAULT_WAITING_DURATION_IN_SECONDS = 60;
-    private static final TimeUnit DEFAULT_TIME_UNIT = TimeUnit.SECONDS;
     private static final String DATABASE_PROPERTIES_FILENAME = "database.properties";
     private static final String DATABASE_URL_PROPERTY = "url";
 
@@ -73,8 +71,16 @@ public enum ConnectionPool {
      *
      * @return Connection ready to use
      */
-    public ConnectionProxy getConnection() throws NoConnectionAvailableException {
-        return getConnection(DEFAULT_WAITING_DURATION_IN_SECONDS, DEFAULT_TIME_UNIT);
+    public ConnectionProxy getConnection() {
+        ConnectionProxy connection = null;
+        try {
+            connection = availableConnections.take();
+            unavailableConnections.add(connection);
+        } catch (InterruptedException e) {
+            LOG.warn(e);
+            Thread.currentThread().interrupt();
+        }
+        return connection;
     }
 
     /**
