@@ -18,7 +18,6 @@ import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public enum ConnectionPool {
     INSTANCE;
@@ -31,20 +30,21 @@ public enum ConnectionPool {
 
     private BlockingQueue<ConnectionProxy> availableConnections;
     private Deque<ConnectionProxy> unavailableConnections;
-    private AtomicBoolean isPoolAlreadyInitiated;
+    private boolean isPoolAlreadyInitiated;
 
     ConnectionPool() {
         availableConnections = new LinkedBlockingQueue<>();
         unavailableConnections = new ArrayDeque<>();
-        isPoolAlreadyInitiated = new AtomicBoolean(false);
+        isPoolAlreadyInitiated = false;
     }
 
     /**
      * @throws NoJDBCDriverException     while no driver
      * @throws NoJDBCPropertiesException while no properties file
      */
-    public void initPool() throws NoJDBCDriverException, NoJDBCPropertiesException {
-        if (!isPoolAlreadyInitiated.get()) {
+    public synchronized void initPool() throws NoJDBCDriverException, NoJDBCPropertiesException {
+        if (!isPoolAlreadyInitiated) {
+            LOG.trace("init pool started");
             Properties databaseProperties = new Properties();
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(DATABASE_PROPERTIES_FILENAME);
             if (inputStream == null) {
@@ -59,7 +59,7 @@ public enum ConnectionPool {
                 for (int i = 0; i < POOL_CAPACITY; i++) {
                     availableConnections.add(new ConnectionProxy(DriverManager.getConnection(url, databaseProperties)));
                 }
-                isPoolAlreadyInitiated.set(true);
+                isPoolAlreadyInitiated = true;
             } catch (IOException e) {
                 throw new NoJDBCPropertiesException(e);
             } catch (SQLException e) {
@@ -125,7 +125,8 @@ public enum ConnectionPool {
      *
      */
     public void deInitPool() {
-        if (isPoolAlreadyInitiated.get()) {
+        if (isPoolAlreadyInitiated) {
+            LOG.trace("deInit pool started");
             try {
                 for (int i = 0; i < POOL_CAPACITY; i++) {
                     availableConnections.take().closeWhileDeInitPool();
@@ -138,7 +139,7 @@ public enum ConnectionPool {
             }
             deregisterDrivers();
 
-            isPoolAlreadyInitiated.set(false);
+            isPoolAlreadyInitiated = false;
         }
     }
 
