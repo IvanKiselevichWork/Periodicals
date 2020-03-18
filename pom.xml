@@ -57,6 +57,7 @@
                                 <include>**/*.jsp</include>
                                 <include>**/*.xml</include>
                                 <include>**/*.class</include>
+                                <include>**/*.jar</include>
                             </includes>
                             <followSymlinks>false</followSymlinks>
                         </fileset>
