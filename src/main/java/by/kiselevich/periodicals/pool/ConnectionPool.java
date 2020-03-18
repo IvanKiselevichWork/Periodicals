@@ -3,7 +3,7 @@ package by.kiselevich.periodicals.pool;
 import by.kiselevich.periodicals.exception.NoConnectionAvailableException;
 import by.kiselevich.periodicals.exception.NoJDBCDriverException;
 import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
-import com.mysql.jdbc.Driver;
+import com.mysql.cj.jdbc.Driver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Enumeration;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -39,8 +40,7 @@ public enum ConnectionPool {
     }
 
     /**
-     *
-     * @throws NoJDBCDriverException while no driver
+     * @throws NoJDBCDriverException     while no driver
      * @throws NoJDBCPropertiesException while no properties file
      */
     public void initPool() throws NoJDBCDriverException, NoJDBCPropertiesException {
@@ -69,7 +69,6 @@ public enum ConnectionPool {
     }
 
     /**
-     *
      * @return Connection ready to use
      */
     public ConnectionProxy getConnection() {
@@ -85,9 +84,8 @@ public enum ConnectionPool {
     }
 
     /**
-     *
      * @param waitingDuration duration for waiting in units timeUnit
-     * @param timeUnit units for waiting duration
+     * @param timeUnit        units for waiting duration
      * @return connection ready to use
      * @throws NoConnectionAvailableException if waiting timed out and no connection
      */
@@ -107,7 +105,6 @@ public enum ConnectionPool {
     }
 
     /**
-     *
      * @param connection Connection to return
      */
     public void returnConnection(ConnectionProxy connection) {
@@ -139,10 +136,20 @@ public enum ConnectionPool {
                 LOG.warn(e);
                 Thread.currentThread().interrupt();
             }
+            deregisterDrivers();
 
             isPoolAlreadyInitiated.set(false);
         }
     }
 
-
+    private void deregisterDrivers() {
+        Enumeration<java.sql.Driver> drivers = DriverManager.getDrivers();
+        while (drivers.hasMoreElements()) {
+            try {
+                DriverManager.deregisterDriver(drivers.nextElement());
+            } catch (SQLException e) {
+                LOG.warn("Cant deregister driver", e);
+            }
+        }
+    }
 }
