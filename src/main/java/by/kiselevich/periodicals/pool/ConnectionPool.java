@@ -3,6 +3,7 @@ package by.kiselevich.periodicals.pool;
 import by.kiselevich.periodicals.exception.NoConnectionAvailableException;
 import by.kiselevich.periodicals.exception.NoJDBCDriverException;
 import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
+import com.mysql.jdbc.Driver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -53,7 +54,7 @@ public enum ConnectionPool {
                 databaseProperties.load(inputStream);
                 String url = databaseProperties.getProperty(DATABASE_URL_PROPERTY);
 
-                DriverManager.registerDriver(DriverManager.getDriver(url));
+                DriverManager.registerDriver(new Driver());
 
                 for (int i = 0; i < POOL_CAPACITY; i++) {
                     availableConnections.add(new ConnectionProxy(DriverManager.getConnection(url, databaseProperties)));
