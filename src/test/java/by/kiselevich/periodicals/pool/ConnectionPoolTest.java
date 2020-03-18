@@ -1,6 +1,5 @@
 package by.kiselevich.periodicals.pool;
 
-import by.kiselevich.periodicals.exception.NoConnectionAvailableException;
 import by.kiselevich.periodicals.exception.NoJDBCDriverException;
 import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
 import org.junit.After;
@@ -22,7 +21,7 @@ public class ConnectionPoolTest {
     }
 
     @Test
-    public void ConnectionPoolTest1() throws SQLException, NoConnectionAvailableException {
+    public void ConnectionPoolTest1() throws SQLException {
         try (Connection connection = connectionPool.getConnection()) {
             Assert.assertNotNull(connection);
         }
