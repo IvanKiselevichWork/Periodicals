@@ -5,6 +5,9 @@ import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.CommandProvider;
 import by.kiselevich.periodicals.command.Page;
 import by.kiselevich.periodicals.command.Parameter;
+import by.kiselevich.periodicals.exception.NoJDBCDriverException;
+import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
+import by.kiselevich.periodicals.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(urlPatterns = {""})
-@MultipartConfig(maxFileSize=1024*1024*5)
+@MultipartConfig(maxFileSize = 1024 * 1024 * 5)
 public class ControllerServlet extends HttpServlet {
 
     private static final Logger LOG = LogManager.getLogger(ControllerServlet.class);
@@ -27,21 +30,26 @@ public class ControllerServlet extends HttpServlet {
     @Override
     public void init() {
         LOG.trace("ControllerServlet init");
+        try {
+            ConnectionPool.INSTANCE.initPool();
+        } catch (NoJDBCPropertiesException | NoJDBCDriverException e) {
+            LOG.error(e);
+        }
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         LOG.trace("ControllerServlet doGet");
         processRequest(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         LOG.trace("ControllerServlet doPost");
         processRequest(req, resp);
     }
 
-    private void processRequest(HttpServletRequest req, HttpServletResponse resp) {
+    private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
             String commandParameter = req.getParameter(Parameter.COMMAND.getValue());
             Command command = commandProvider.getCommand(commandParameter);
@@ -50,8 +58,15 @@ public class ControllerServlet extends HttpServlet {
             if (page != Page.EMPTY_PAGE) {
                 req.getRequestDispatcher(page.getPath()).forward(req, resp);
             }
-        } catch (IOException | ServletException e) {
+        } catch (RuntimeException e) {
             LOG.error(e);
+            req.getRequestDispatcher(Page.WRONG_REQUEST.getPath()).forward(req, resp);
         }
+    }
+
+    @Override
+    public void destroy() {
+        LOG.trace("ControllerServlet destroy");
+        ConnectionPool.INSTANCE.deInitPool();
     }
 }
