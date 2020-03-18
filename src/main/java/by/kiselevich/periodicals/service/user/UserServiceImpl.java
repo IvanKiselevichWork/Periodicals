@@ -1,19 +1,25 @@
 package by.kiselevich.periodicals.service.user;
 
 import by.kiselevich.periodicals.entity.User;
+import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.exception.UserServiceException;
 import by.kiselevich.periodicals.factory.UserRepositoryFactory;
 import by.kiselevich.periodicals.repository.user.UserRepository;
 import by.kiselevich.periodicals.specification.user.FindUserByLogin;
 import by.kiselevich.periodicals.specification.user.FindUserByLoginAndPassword;
 import by.kiselevich.periodicals.validator.UserValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UserServiceImpl implements UserService {
+
+    private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
 
     private static final String USER_NOT_FOUND_KEY = "user_not_found";
     private static final String LOGIN_IN_USE_KEY = "login_in_use";
     private static final String INVALID_LOGIN_KEY = "invalid_login";
     private static final String INVALID_PASSWORD_KEY = "invalid_password";
+    private static final String INTERNAL_ERROR = "internal_error";
 
     private UserRepository userRepository;
     private UserValidator userValidator;
@@ -27,22 +33,32 @@ public class UserServiceImpl implements UserService {
     public void singUp(String login, String password) throws UserServiceException {
         checkUserCredentials(login, password);
 
-        if (!userRepository.query(new FindUserByLogin(login)).isEmpty()) {
-            throw new UserServiceException(LOGIN_IN_USE_KEY);
-        }
+        try {
+            if (!userRepository.query(new FindUserByLogin(login)).isEmpty()) {
+                throw new UserServiceException(LOGIN_IN_USE_KEY);
+            }
 
-        User user = new User();
-        user.setLogin(login);
-        user.setPassword(password.toCharArray());
-        userRepository.add(user);
+            User user = new User();
+            user.setLogin(login);
+            user.setPassword(password.toCharArray());
+            userRepository.add(user);
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new UserServiceException(INTERNAL_ERROR);
+        }
     }
 
     @Override
     public void singIn(String login, String password) throws UserServiceException {
         checkUserCredentials(login, password);
 
-        if (userRepository.query(new FindUserByLoginAndPassword(login, password.toCharArray())).isEmpty()) {
-            throw new UserServiceException(USER_NOT_FOUND_KEY);
+        try {
+            if (userRepository.query(new FindUserByLoginAndPassword(login, password.toCharArray())).isEmpty()) {
+                throw new UserServiceException(USER_NOT_FOUND_KEY);
+            }
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new UserServiceException(INTERNAL_ERROR);
         }
     }
 
