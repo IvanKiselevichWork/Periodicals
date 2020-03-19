@@ -22,8 +22,8 @@ public class SignIn implements Command {
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
 
-        String login = req.getParameter(Parameter.LOGIN.getValue());
-        String passwordString = req.getParameter(Parameter.PASSWORD.getValue());
+        String login = req.getParameter(JspParameter.LOGIN.getValue());
+        String passwordString = req.getParameter(JspParameter.PASSWORD.getValue());
         try {
             userService.singIn(login, passwordString);
             req.getSession().setAttribute(Attribute.USER_ROLE.getValue(), UserRole.USER);

@@ -3,7 +3,7 @@ package by.kiselevich.periodicals.command.language;
 import by.kiselevich.periodicals.command.Attribute;
 import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.Page;
-import by.kiselevich.periodicals.command.Parameter;
+import by.kiselevich.periodicals.command.JspParameter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +17,7 @@ public class ChangeLanguage implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-        String targetLanguage = req.getParameter(Parameter.TARGET_LANGUAGE.getValue());
+        String targetLanguage = req.getParameter(JspParameter.TARGET_LANGUAGE.getValue());
         if (targetLanguage != null && LANGUAGES.contains(targetLanguage)) {
             req.getSession().setAttribute(Attribute.LANGUAGE.getValue(), targetLanguage);
             return Page.HOME;

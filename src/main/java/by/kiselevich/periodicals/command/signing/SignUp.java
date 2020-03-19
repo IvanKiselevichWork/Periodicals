@@ -25,10 +25,10 @@ public class SignUp implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-        String login = req.getParameter(Parameter.LOGIN.getValue());
-        String password = req.getParameter(Parameter.PASSWORD.getValue());
-        String fullName = req.getParameter(Parameter.FULL_NAME.getValue());
-        String email = req.getParameter(Parameter.EMAIL.getValue());
+        String login = req.getParameter(JspParameter.LOGIN.getValue());
+        String password = req.getParameter(JspParameter.PASSWORD.getValue());
+        String fullName = req.getParameter(JspParameter.FULL_NAME.getValue());
+        String email = req.getParameter(JspParameter.EMAIL.getValue());
         try {
             userValidator.checkUserCredentials(login, password, fullName, email);
             userService.singUp(login, password.toCharArray(), fullName, email);

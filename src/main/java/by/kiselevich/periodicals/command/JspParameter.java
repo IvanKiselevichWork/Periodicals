@@ -1,6 +1,6 @@
 package by.kiselevich.periodicals.command;
 
-public enum Parameter {
+public enum JspParameter {
     COMMAND("command"),
     LOGIN("login"),
     PASSWORD("password"),
@@ -10,7 +10,7 @@ public enum Parameter {
 
     private String value;
 
-    Parameter(String value) {
+    JspParameter(String value) {
         this.value = value;
     }
 

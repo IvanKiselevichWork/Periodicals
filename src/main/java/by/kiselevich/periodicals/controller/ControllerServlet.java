@@ -4,7 +4,7 @@ package by.kiselevich.periodicals.controller;
 import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.CommandProvider;
 import by.kiselevich.periodicals.command.Page;
-import by.kiselevich.periodicals.command.Parameter;
+import by.kiselevich.periodicals.command.JspParameter;
 import by.kiselevich.periodicals.exception.NoJDBCDriverException;
 import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
 import by.kiselevich.periodicals.pool.ConnectionPool;
@@ -51,7 +51,7 @@ public class ControllerServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
-            String commandParameter = req.getParameter(Parameter.COMMAND.getValue());
+            String commandParameter = req.getParameter(JspParameter.COMMAND.getValue());
             Command command = commandProvider.getCommand(commandParameter);
             LOG.info("Executing command: {}", command);
             Page page = command.execute(req, resp);
