@@ -12,6 +12,7 @@ import by.kiselevich.periodicals.util.RepositoryUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     private static final String ADD_USER = "insert into user (" +
             "login, password, full_name, email, money, role_id, is_available) VALUES (" +
-            "?, ?, ?, ?, ?, 2, 1";
+            "?, ?, ?, ?, ?, 2, 1)";
 
     private static final String USER_DIDNT_ADD_MESSAGE = "User didnt add";
 
@@ -27,7 +28,7 @@ public class UserRepositoryImpl implements UserRepository {
     public void add(User user) throws RepositoryException {
         ResultSet generatedId = null;
         try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(ADD_USER);
+            PreparedStatement statement = connection.prepareStatement(ADD_USER, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getLogin());
             statement.setString(2, HashUtil.getHash(user.getPassword(), user.getLogin()));
             statement.setString(3, user.getFullName());
