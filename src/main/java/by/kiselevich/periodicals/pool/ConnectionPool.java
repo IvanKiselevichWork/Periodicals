@@ -1,5 +1,6 @@
 package by.kiselevich.periodicals.pool;
 
+import by.kiselevich.periodicals.exception.ConnectionPoolRuntimeException;
 import by.kiselevich.periodicals.exception.NoConnectionAvailableException;
 import by.kiselevich.periodicals.exception.NoJDBCDriverException;
 import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
@@ -23,6 +24,8 @@ public enum ConnectionPool {
     INSTANCE;
 
     private static final Logger LOG = LogManager.getLogger(ConnectionPool.class);
+
+    private static final String POOL_NOT_INITIALIZED = "Pool not initialized";
 
     private static final int POOL_CAPACITY = 15;
     private static final String DATABASE_PROPERTIES_FILENAME = "database.properties";
@@ -60,18 +63,23 @@ public enum ConnectionPool {
                     availableConnections.add(new ConnectionProxy(DriverManager.getConnection(url, databaseProperties)));
                 }
                 isPoolAlreadyInitiated = true;
+                LOG.trace("pool initialized");
             } catch (IOException e) {
                 throw new NoJDBCPropertiesException(e);
             } catch (SQLException e) {
                 throw new NoJDBCDriverException(e);
             }
         }
+        LOG.trace("init pool ended");
     }
 
     /**
      * @return Connection ready to use
      */
     public ConnectionProxy getConnection() {
+        if (!isPoolAlreadyInitiated) {
+            throw new ConnectionPoolRuntimeException(POOL_NOT_INITIALIZED);
+        }
         ConnectionProxy connection = null;
         try {
             connection = availableConnections.take();
@@ -90,6 +98,9 @@ public enum ConnectionPool {
      * @throws NoConnectionAvailableException if waiting timed out and no connection
      */
     public ConnectionProxy getConnection(long waitingDuration, TimeUnit timeUnit) throws NoConnectionAvailableException {
+        if (!isPoolAlreadyInitiated) {
+            throw new ConnectionPoolRuntimeException(POOL_NOT_INITIALIZED);
+        }
         ConnectionProxy connection = null;
         try {
             connection = availableConnections.poll(waitingDuration, timeUnit);
@@ -140,7 +151,9 @@ public enum ConnectionPool {
             deregisterDrivers();
 
             isPoolAlreadyInitiated = false;
+            LOG.trace("pool deinitialized");
         }
+        LOG.trace("deInit pool ended");
     }
 
     private void deregisterDrivers() {
