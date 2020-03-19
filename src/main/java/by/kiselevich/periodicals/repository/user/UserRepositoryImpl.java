@@ -18,9 +18,12 @@ import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
 
+    private static final String USER_ROLE_ID = "2";
+    private static final String USER_IS_AVAILABLE = "1";
+
     private static final String ADD_USER = "insert into user (" +
             "login, password, full_name, email, money, role_id, is_available) VALUES (" +
-            "?, ?, ?, ?, ?, 2, 1)";
+            "?, ?, ?, ?, ?, " + USER_ROLE_ID + ", " + USER_IS_AVAILABLE + ")";
 
     private static final String USER_DIDNT_ADD_MESSAGE = "User didnt add";
 
