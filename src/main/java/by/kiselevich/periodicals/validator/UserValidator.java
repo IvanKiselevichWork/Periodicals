@@ -1,5 +1,8 @@
 package by.kiselevich.periodicals.validator;
 
+import by.kiselevich.periodicals.command.ResourceBundleMessages;
+import by.kiselevich.periodicals.exception.UserValidatorException;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,6 +15,21 @@ public class UserValidator {
 
     private Pattern pattern;
     private Matcher matcher;
+
+    public void checkUserCredentials(String login, String password, String fullName, String email) throws UserValidatorException {
+        if (!isLoginValid(login)) {
+            throw new UserValidatorException(ResourceBundleMessages.INVALID_LOGIN.getKey());
+        }
+        if (!isPasswordValid(password)) {
+            throw new UserValidatorException(ResourceBundleMessages.INVALID_PASSWORD.getKey());
+        }
+        if (!isFullNameValid(fullName)) {
+            throw new UserValidatorException(ResourceBundleMessages.INVALID_FULL_NAME.getKey());
+        }
+        if (!isEmailValid(email)) {
+            throw new UserValidatorException(ResourceBundleMessages.INVALID_EMAIL.getKey());
+        }
+    }
 
     public boolean isLoginValid(String login) {
         pattern = Pattern.compile(LOGIN_REGEX);
