@@ -1,5 +1,6 @@
 package by.kiselevich.periodicals.service.user;
 
+import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.exception.UserServiceException;
@@ -7,67 +8,50 @@ import by.kiselevich.periodicals.factory.UserRepositoryFactory;
 import by.kiselevich.periodicals.repository.user.UserRepository;
 import by.kiselevich.periodicals.specification.user.FindUserByLogin;
 import by.kiselevich.periodicals.specification.user.FindUserByLoginAndPassword;
-import by.kiselevich.periodicals.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.math.BigDecimal;
 
 public class UserServiceImpl implements UserService {
 
     private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
 
-    private static final String USER_NOT_FOUND_KEY = "user_not_found";
-    private static final String LOGIN_IN_USE_KEY = "login_in_use";
-    private static final String INVALID_LOGIN_KEY = "invalid_login";
-    private static final String INVALID_PASSWORD_KEY = "invalid_password";
-    private static final String INTERNAL_ERROR = "internal_error";
-
     private UserRepository userRepository;
-    private UserValidator userValidator;
 
     public UserServiceImpl() {
         userRepository = UserRepositoryFactory.getInstance().getUserRepository();
-        userValidator = new UserValidator();
     }
 
     @Override
-    public void singUp(String login, String password) throws UserServiceException {
-        checkUserCredentials(login, password);
-
+    public void singUp(String login, char[] password, String fullName, String email) throws UserServiceException {
         try {
             if (!userRepository.query(new FindUserByLogin(login)).isEmpty()) {
-                throw new UserServiceException(LOGIN_IN_USE_KEY);
+                throw new UserServiceException(ResourceBundleMessages.LOGIN_IN_USE_KEY.getKey());
             }
 
             User user = new User();
             user.setLogin(login);
-            user.setPassword(password.toCharArray());
+            user.setPassword(password);
+            user.setFullName(fullName);
+            user.setEmail(email);
+            user.setMoney(BigDecimal.valueOf(0));
             userRepository.add(user);
         } catch (RepositoryException e) {
             LOG.warn(e);
-            throw new UserServiceException(INTERNAL_ERROR);
+            throw new UserServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
     }
 
     @Override
     public void singIn(String login, String password) throws UserServiceException {
-        checkUserCredentials(login, password);
-
         try {
             if (userRepository.query(new FindUserByLoginAndPassword(login, password.toCharArray())).isEmpty()) {
-                throw new UserServiceException(USER_NOT_FOUND_KEY);
+                throw new UserServiceException(ResourceBundleMessages.USER_NOT_FOUND_KEY.getKey());
             }
         } catch (RepositoryException e) {
             LOG.warn(e);
-            throw new UserServiceException(INTERNAL_ERROR);
-        }
-    }
-
-    private void checkUserCredentials(String login, String password) throws UserServiceException {
-        if (!userValidator.isStringValid(login)) {
-            throw new UserServiceException(INVALID_LOGIN_KEY);
-        }
-        if (!userValidator.isStringValid(password)) {
-            throw new UserServiceException(INVALID_PASSWORD_KEY);
+            throw new UserServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
     }
 }
