@@ -39,11 +39,12 @@ public class ConnectionPoolTest {
     //todo delete this test on release
     //@Test
     public void ConnectionPoolThreadsTest() {
+        int threadsNumber = 5;
         LOG.trace("threads test started");
-        Thread[] threadsInit = new Thread[10];
-        Thread[] threadsDeInit = new Thread[10];
+        Thread[] threadsInit = new Thread[threadsNumber];
+        Thread[] threadsDeInit = new Thread[threadsNumber];
         Thread thread;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < threadsNumber; i++) {
             thread = new PoolTesterInit();
             thread.start();
             threadsInit[i] = thread;
