@@ -74,6 +74,14 @@ public enum ConnectionPool {
     }
 
     /**
+     *
+     * @return is pool initiated
+     */
+    public boolean isPoolInitiated() {
+        return isPoolAlreadyInitiated;
+    }
+
+    /**
      * @return Connection ready to use
      */
     public ConnectionProxy getConnection() {
