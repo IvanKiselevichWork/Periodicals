@@ -52,10 +52,10 @@
                     <fmt:message key="change_language"/>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="./?command=CHANGE_LANGUAGE&targetLanguage=en">
+                    <a class="dropdown-item" href="./?command=CHANGE_LANGUAGE&target_language=en">
                         <fmt:message key="english"/>
                     </a>
-                    <a class="dropdown-item" href="./?command=CHANGE_LANGUAGE&targetLanguage=ru">
+                    <a class="dropdown-item" href="./?command=CHANGE_LANGUAGE&target_language=ru">
                         <fmt:message key="russian"/>
                     </a>
                 </div>
@@ -109,7 +109,7 @@
                         <strong><fmt:message key="periodicals"/></strong>
                     </h1>
 
-                    <a href="./?command=XML_UPLOAD_FORM" class="btn btn-outline-white btn-lg">
+                    <a class="btn btn-outline-white btn-lg">
                         <fmt:message key="periodicals_wip"/>
                     </a>
                 </c:if>
@@ -200,6 +200,16 @@
                                     <input type="password" class="form-control" id="password-label-register"
                                            name="password" placeholder="<fmt:message key="enter_password"/>">
                                 </div>
+                                <div class="form-group">
+                                    <label for="full-name-label-register"><fmt:message key="full_name"/></label>
+                                    <input type="text" class="form-control" id="full-name-label-register"
+                                           name="full_name" placeholder="<fmt:message key="enter_full_name"/>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email-label-register"><fmt:message key="email"/></label>
+                                    <input type="email" class="form-control" id="email-label-register"
+                                           name="email" placeholder="<fmt:message key="enter_email"/>">
+                                </div>
                                 <div id="sign_up_div" class="alert alert-danger" role="alert"></div>
                             </form>
                             <button id="sign_up_button" class="btn btn-primary"><fmt:message key="sign_up"/></button>
@@ -228,16 +238,18 @@
     </script>
 
     <script>
-        $(document).on("click", "#sign_up_button", function () {
+        $(document).on('click', '#sign_up_button', function () {
             var data = {
-                command: "SIGN_UP",
-                login: $("#user-name-label-register").val(),
-                password: $("#password-label-register").val()
+                command: 'SIGN_UP',
+                login: $('#user-name-label-register').val(),
+                password: $('#password-label-register').val(),
+                full_name: $('#full-name-label-register').val(),
+                email: $('#email-label-register').val()
             };
 
-            $.post("./", $.param(data), function (responseText) {
+            $.post('./', $.param(data), function (responseText) {
                 if (responseText.length < 50) {
-                    $("#sign_up_div").text(responseText);
+                    $('#sign_up_div').text(responseText);
                 } else {
                     document.open();
                     document.write(responseText);
@@ -248,16 +260,16 @@
     </script>
 
     <script>
-        $(document).on("click", "#sign_in_button", function () {
+        $(document).on('click', '#sign_in_button', function () {
             var data = {
-                command: "SIGN_IN",
-                login: $("#user-name-label").val(),
-                password: $("#password-label").val()
+                command: 'SIGN_IN',
+                login: $('#user-name-label').val(),
+                password: $('#password-label').val()
             };
 
-            $.post("./", $.param(data), function (responseText) {
+            $.post('./', $.param(data), function (responseText) {
                 if (responseText.length < 50) {
-                    $("#sign_in_div").text(responseText);
+                    $('#sign_in_div').text(responseText);
                 } else {
                     document.open();
                     document.write(responseText);

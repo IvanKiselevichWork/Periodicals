@@ -4,7 +4,9 @@ public enum Parameter {
     COMMAND("command"),
     LOGIN("login"),
     PASSWORD("password"),
-    TARGET_LANGUAGE("targetLanguage");
+    FULL_NAME("full_name"),
+    EMAIL("email"),
+    TARGET_LANGUAGE("target_language");
 
     private String value;
 
