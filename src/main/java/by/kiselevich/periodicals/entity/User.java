@@ -58,11 +58,11 @@ public class User implements Serializable {
     }
 
     public char[] getPassword() {
-        return password;
+        return Arrays.copyOf(password, password.length);
     }
 
     public void setPassword(char[] password) {
-        this.password = password;
+        this.password = Arrays.copyOf(password, password.length);
     }
 
     public String getFullName() {
