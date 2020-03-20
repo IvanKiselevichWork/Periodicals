@@ -15,7 +15,7 @@ public class UserValidator {
     private static final String FULL_NAME_REGEX = ".{1,200}";
     private static final String EMAIL_REGEX = "[a-zA-z0-9_-]{1,40}@[a-zA-z0-9_-]{2,40}\\.[a-z]{2,10}";
 
-    public void checkUserCredentials(User user) throws UserValidatorException {
+    public void checkUserCredentialsOnSignUp(User user) throws UserValidatorException {
         if (user == null) {
             throw new UserValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
@@ -24,6 +24,15 @@ public class UserValidator {
         checkPassword(user.getPassword());
         checkFullName(user.getFullName());
         checkEmail(user.getEmail());
+    }
+
+    public void checkUserCredentialsOnSignIn(User user) throws UserValidatorException {
+        if (user == null) {
+            throw new UserValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+
+        checkLogin(user.getLogin());
+        checkPassword(user.getPassword());
     }
 
     private void checkLogin(String login) throws UserValidatorException {

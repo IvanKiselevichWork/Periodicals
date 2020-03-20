@@ -37,29 +37,35 @@ public class UserServiceImpl implements UserService {
             user.setMoney(BigDecimal.valueOf(0));
             user.setAvailable(true);
 
-            userValidator.checkUserCredentials(user);
+            userValidator.checkUserCredentialsOnSignUp(user);
 
             if (!userRepository.query(new FindUserByLogin(user.getLogin())).isEmpty()) {
                 throw new UserServiceException(ResourceBundleMessages.LOGIN_IN_USE_KEY.getKey());
             }
 
             userRepository.add(user);
-        } catch (RepositoryException | UserValidatorException e) {
+        } catch (RepositoryException e) {
             LOG.warn(e);
             throw new UserServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        } catch (UserValidatorException e) {
+            LOG.info(e);
+            throw new UserServiceException(e.getMessage());
         }
     }
 
     @Override
     public void singIn(User user) throws UserServiceException {
         try {
-            //todo validation
+            userValidator.checkUserCredentialsOnSignIn(user);
             if (userRepository.query(new FindUserByLoginAndPassword(user.getLogin(), user.getPassword())).isEmpty()) {
                 throw new UserServiceException(ResourceBundleMessages.USER_NOT_FOUND_KEY.getKey());
             }
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new UserServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }  catch (UserValidatorException e) {
+            LOG.info(e);
+            throw new UserServiceException(e.getMessage());
         }
     }
 }
