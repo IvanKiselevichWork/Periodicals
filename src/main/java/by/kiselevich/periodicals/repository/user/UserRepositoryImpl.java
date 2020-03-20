@@ -13,7 +13,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
@@ -67,7 +66,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> query(Specification<User, Repository<User>> specification) {
-        return new ArrayList<>(); //todo
+    public List<User> query(Specification<User, Repository<User>> specification) throws RepositoryException {
+        return specification.query(this);
     }
 }
