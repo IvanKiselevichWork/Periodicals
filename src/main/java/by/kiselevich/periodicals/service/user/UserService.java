@@ -1,9 +1,10 @@
 package by.kiselevich.periodicals.service.user;
 
+import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.UserServiceException;
 
 public interface UserService {
-    void singUp(String login, char[] password, String fullName, String email) throws UserServiceException;
+    void singUp(User user) throws UserServiceException;
 
-    void singIn(String login, String password) throws UserServiceException;
+    void singIn(User user) throws UserServiceException;
 }

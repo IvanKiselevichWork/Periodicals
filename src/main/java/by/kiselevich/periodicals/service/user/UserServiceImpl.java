@@ -4,10 +4,12 @@ import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.exception.UserServiceException;
+import by.kiselevich.periodicals.exception.UserValidatorException;
 import by.kiselevich.periodicals.factory.UserRepositoryFactory;
 import by.kiselevich.periodicals.repository.user.UserRepository;
 import by.kiselevich.periodicals.specification.user.FindUserByLogin;
 import by.kiselevich.periodicals.specification.user.FindUserByLoginAndPassword;
+import by.kiselevich.periodicals.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,35 +20,41 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
 
     private UserRepository userRepository;
+    private UserValidator userValidator;
 
     public UserServiceImpl() {
         userRepository = UserRepositoryFactory.getInstance().getUserRepository();
+        userValidator = new UserValidator();
     }
 
     @Override
-    public void singUp(String login, char[] password, String fullName, String email) throws UserServiceException {
+    public void singUp(User user) throws UserServiceException {
         try {
-            if (!userRepository.query(new FindUserByLogin(login)).isEmpty()) {
+            if (user == null) {
+                throw new UserServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+            }
+
+            user.setMoney(BigDecimal.valueOf(0));
+            user.setAvailable(true);
+
+            userValidator.checkUserCredentials(user);
+
+            if (!userRepository.query(new FindUserByLogin(user.getLogin())).isEmpty()) {
                 throw new UserServiceException(ResourceBundleMessages.LOGIN_IN_USE_KEY.getKey());
             }
 
-            User user = new User();
-            user.setLogin(login);
-            user.setPassword(password);
-            user.setFullName(fullName);
-            user.setEmail(email);
-            user.setMoney(BigDecimal.valueOf(0));
             userRepository.add(user);
-        } catch (RepositoryException e) {
+        } catch (RepositoryException | UserValidatorException e) {
             LOG.warn(e);
             throw new UserServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
     }
 
     @Override
-    public void singIn(String login, String password) throws UserServiceException {
+    public void singIn(User user) throws UserServiceException {
         try {
-            if (userRepository.query(new FindUserByLoginAndPassword(login, password.toCharArray())).isEmpty()) {
+            //todo validation
+            if (userRepository.query(new FindUserByLoginAndPassword(user.getLogin(), user.getPassword())).isEmpty()) {
                 throw new UserServiceException(ResourceBundleMessages.USER_NOT_FOUND_KEY.getKey());
             }
         } catch (RepositoryException e) {

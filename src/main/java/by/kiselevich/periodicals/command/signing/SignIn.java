@@ -1,6 +1,7 @@
 package by.kiselevich.periodicals.command.signing;
 
 import by.kiselevich.periodicals.command.*;
+import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.UserServiceException;
 import by.kiselevich.periodicals.factory.UserServiceFactory;
 import by.kiselevich.periodicals.service.user.UserService;
@@ -23,9 +24,13 @@ public class SignIn implements Command {
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
 
         String login = req.getParameter(JspParameter.LOGIN.getValue());
-        String passwordString = req.getParameter(JspParameter.PASSWORD.getValue());
+        String password = req.getParameter(JspParameter.PASSWORD.getValue());
         try {
-            userService.singIn(login, passwordString);
+            User user = new User();
+            user.setLogin(login);
+            user.setPassword(password.toCharArray());
+            password = null;
+            userService.singIn(user);
             req.getSession().setAttribute(Attribute.USER_ROLE.getValue(), UserRole.USER);
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
             return Page.HOME;

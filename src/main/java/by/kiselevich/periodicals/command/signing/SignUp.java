@@ -1,6 +1,7 @@
 package by.kiselevich.periodicals.command.signing;
 
 import by.kiselevich.periodicals.command.*;
+import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.UserServiceException;
 import by.kiselevich.periodicals.exception.UserValidatorException;
 import by.kiselevich.periodicals.factory.UserServiceFactory;
@@ -16,11 +17,9 @@ import static by.kiselevich.periodicals.util.HttpUtil.writeMessageToResponse;
 public class SignUp implements Command {
 
     private UserService userService;
-    private UserValidator userValidator;
 
     public SignUp() {
         userService = UserServiceFactory.getInstance().getUserService();
-        userValidator = new UserValidator();
     }
 
     @Override
@@ -30,12 +29,18 @@ public class SignUp implements Command {
         String fullName = req.getParameter(JspParameter.FULL_NAME.getValue());
         String email = req.getParameter(JspParameter.EMAIL.getValue());
         try {
-            userValidator.checkUserCredentials(login, password, fullName, email);
-            userService.singUp(login, password.toCharArray(), fullName, email);
+
+            User user = new User();
+            user.setLogin(login);
+            user.setPassword(password.toCharArray());
+            password = null;
+            user.setFullName(fullName);
+            user.setEmail(email);
+            userService.singUp(user);
             req.getSession().setAttribute(Attribute.USER_ROLE.getValue(), UserRole.USER);
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
             return Page.HOME;
-        } catch (UserServiceException | UserValidatorException e) {
+        } catch (UserServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
             writeMessageToResponse(resp, message);
             return Page.EMPTY_PAGE;
