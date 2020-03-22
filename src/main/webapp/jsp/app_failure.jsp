@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="crt" uri="customtags" %>
 <c:if test="${empty sessionScope.language}">
     <fmt:setLocale value="en"/>
 </c:if>
@@ -64,7 +65,7 @@
 
         <!--Copyright-->
         <div class="footer-copyright py-3">
-            <fmt:message key="copyright"/>
+            <crt:copyright/>
         </div>
         <!--/.Copyright-->
 

@@ -8,6 +8,9 @@ public enum ResourceBundleMessages {
     INVALID_EMAIL("invalid_email"),
     USER_NOT_FOUND_KEY("user_not_found"),
     LOGIN_IN_USE_KEY("login_in_use"),
+
+    COPYRIGHT("copyright"),
+
     INTERNAL_ERROR("internal_error");
 
     private String key;
