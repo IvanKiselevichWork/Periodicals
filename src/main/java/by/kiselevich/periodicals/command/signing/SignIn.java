@@ -30,7 +30,7 @@ public class SignIn implements Command {
             user.setLogin(login);
             user.setPassword(password.toCharArray());
             password = null;
-            userService.singIn(user);
+            userService.signIn(user);
             req.getSession().setAttribute(Attribute.USER_ROLE.getValue(), UserRole.USER);
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
             return Page.HOME;

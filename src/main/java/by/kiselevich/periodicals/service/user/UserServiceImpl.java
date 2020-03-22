@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void singUp(User user) throws UserServiceException {
+    public void signUp(User user) throws UserServiceException {
         try {
             if (user == null) {
                 throw new UserServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void singIn(User user) throws UserServiceException {
+    public void signIn(User user) throws UserServiceException {
         try {
             userValidator.checkUserCredentialsOnSignIn(user);
             if (userRepository.query(new FindUserByLoginAndPassword(user.getLogin(), user.getPassword())).isEmpty()) {

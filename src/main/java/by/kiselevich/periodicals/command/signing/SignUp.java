@@ -3,10 +3,8 @@ package by.kiselevich.periodicals.command.signing;
 import by.kiselevich.periodicals.command.*;
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.UserServiceException;
-import by.kiselevich.periodicals.exception.UserValidatorException;
 import by.kiselevich.periodicals.factory.UserServiceFactory;
 import by.kiselevich.periodicals.service.user.UserService;
-import by.kiselevich.periodicals.validator.UserValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +34,7 @@ public class SignUp implements Command {
             password = null;
             user.setFullName(fullName);
             user.setEmail(email);
-            userService.singUp(user);
+            userService.signUp(user);
             req.getSession().setAttribute(Attribute.USER_ROLE.getValue(), UserRole.USER);
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
             return Page.HOME;

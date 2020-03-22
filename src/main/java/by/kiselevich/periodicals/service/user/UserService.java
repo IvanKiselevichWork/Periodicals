@@ -4,7 +4,7 @@ import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.UserServiceException;
 
 public interface UserService {
-    void singUp(User user) throws UserServiceException;
+    void signUp(User user) throws UserServiceException;
 
-    void singIn(User user) throws UserServiceException;
+    void signIn(User user) throws UserServiceException;
 }
