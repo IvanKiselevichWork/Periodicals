@@ -9,7 +9,6 @@
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>Periodicals Project</name>
-    <url>http://localhost::8080/${project.artifactId}</url>
 
     <properties>
         <maven.compiler.version>3.8.1</maven.compiler.version>
@@ -23,7 +22,10 @@
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jstl.version>1.2</jstl.version>
         <jsp-api.version>2.2</jsp-api.version>
-        <webapp.directory>C:\Tomcat\webapps\${project.artifactId}\</webapp.directory>
+        <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
+        <server.name>tomcat9server</server.name>
+        <server.username>3</server.username>
+        <server.password>3</server.password>
     </properties>
 
     <build>
@@ -39,30 +41,13 @@
             </plugin>
 
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${maven-war-plugin.version}</version>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>${tomcat7-maven-plugin.version}</version>
                 <configuration>
-                    <webappDirectory>${webapp.directory}</webappDirectory>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>${maven-clean-plugin.version}</version>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${webapp.directory}</directory>
-                            <includes>
-                                <include>**/*.jsp</include>
-                                <include>**/*.xml</include>
-                                <include>**/*.class</include>
-                                <include>**/*.jar</include>
-                            </includes>
-                            <followSymlinks>false</followSymlinks>
-                        </fileset>
-                    </filesets>
+                    <server>${server.name}</server>
+                    <username>${server.username}</username>
+                    <password>${server.password}</password>
                 </configuration>
             </plugin>
         </plugins>
