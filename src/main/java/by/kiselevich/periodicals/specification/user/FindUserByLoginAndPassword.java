@@ -4,9 +4,7 @@ import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.ConnectionPool;
 import by.kiselevich.periodicals.pool.ConnectionProxy;
-import by.kiselevich.periodicals.repository.Repository;
 import by.kiselevich.periodicals.util.HashUtil;
-import by.kiselevich.periodicals.util.RepositoryUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-public class FindUserByLoginAndPassword implements UserSpecification {
+public class FindUserByLoginAndPassword extends AbstractUserSpecification implements UserSpecification {
 
     private static final String FIND_USERS_BY_LOGIN_AND_PASSWORD = "select id, login, password, full_name, email, money, role_id, is_available from user where login = ? and password = ?";
 
@@ -36,11 +34,11 @@ public class FindUserByLoginAndPassword implements UserSpecification {
             statement.setString(1, login);
             statement.setString(2, password);
             resultSet = statement.executeQuery();
-            users = RepositoryUtil.getUsersFromResultSet(resultSet);
+            users = getUsersFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new RepositoryException(e);
         } finally {
-            RepositoryUtil.closeResultSet(resultSet);
+            closeResultSet(resultSet);
         }
         return users;
     }

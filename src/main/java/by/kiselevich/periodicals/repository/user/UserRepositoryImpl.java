@@ -4,10 +4,10 @@ import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.ConnectionPool;
 import by.kiselevich.periodicals.pool.ConnectionProxy;
-import by.kiselevich.periodicals.repository.Repository;
 import by.kiselevich.periodicals.specification.Specification;
 import by.kiselevich.periodicals.util.HashUtil;
-import by.kiselevich.periodicals.util.RepositoryUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +16,8 @@ import java.sql.Statement;
 import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
+
+    private static final Logger LOG = LogManager.getLogger(UserRepositoryImpl.class);
 
     private static final String USER_ROLE_ID = "2";
     private static final String USER_IS_AVAILABLE = "1";
@@ -51,7 +53,7 @@ public class UserRepositoryImpl implements UserRepository {
         } catch (SQLException e) {
             throw new RepositoryException(e);
         } finally {
-            RepositoryUtil.closeResultSet(generatedId);
+            closeResultSet(generatedId);
         }
     }
 
@@ -68,5 +70,17 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> query(Specification<User> specification) throws RepositoryException {
         return specification.query();
+    }
+
+    private void closeResultSet(ResultSet resultSet) {
+        if (resultSet != null) {
+            try {
+                if (!resultSet.isClosed()) {
+                    resultSet.close();
+                }
+            } catch (SQLException e) {
+                LOG.warn(e);
+            }
+        }
     }
 }
