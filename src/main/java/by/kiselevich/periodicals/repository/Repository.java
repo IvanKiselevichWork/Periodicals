@@ -13,5 +13,5 @@ public interface Repository<T> {
 
     void update(T t) throws RepositoryException;
 
-    List<T> query(Specification<T, Repository<T>> specification) throws RepositoryException;
+    List<T> query(Specification<T> specification) throws RepositoryException;
 }

@@ -23,7 +23,7 @@ public class FindUserByLogin implements UserSpecification {
     }
 
     @Override
-    public List<User> query(Repository<User> repository) throws RepositoryException {
+    public List<User> query() throws RepositoryException {
         ResultSet resultSet = null;
         List<User> users;
         try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {

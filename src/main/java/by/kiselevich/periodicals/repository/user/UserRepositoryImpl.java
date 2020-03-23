@@ -66,7 +66,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> query(Specification<User, Repository<User>> specification) throws RepositoryException {
-        return specification.query(this);
+    public List<User> query(Specification<User> specification) throws RepositoryException {
+        return specification.query();
     }
 }
