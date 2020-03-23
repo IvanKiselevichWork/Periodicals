@@ -1,8 +1,10 @@
 package by.kiselevich.periodicals.pool;
 
+import by.kiselevich.periodicals.exception.ConnectionPoolRuntimeException;
 import by.kiselevich.periodicals.exception.NoConnectionAvailableException;
 import by.kiselevich.periodicals.exception.NoJDBCDriverException;
 import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
+import com.mysql.cj.jdbc.Driver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,40 +14,40 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Enumeration;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public enum ConnectionPool {
     INSTANCE;
 
     private static final Logger LOG = LogManager.getLogger(ConnectionPool.class);
 
+    private static final String POOL_NOT_INITIALIZED = "Pool not initialized";
+
     private static final int POOL_CAPACITY = 15;
-    private static final long DEFAULT_WAITING_DURATION_IN_SECONDS = 60;
-    private static final TimeUnit DEFAULT_TIME_UNIT = TimeUnit.SECONDS;
     private static final String DATABASE_PROPERTIES_FILENAME = "database.properties";
     private static final String DATABASE_URL_PROPERTY = "url";
 
     private BlockingQueue<ConnectionProxy> availableConnections;
     private Deque<ConnectionProxy> unavailableConnections;
-    private AtomicBoolean isPoolAlreadyInitiated;
+    private boolean isPoolAlreadyInitiated;
 
     ConnectionPool() {
         availableConnections = new LinkedBlockingQueue<>();
         unavailableConnections = new ArrayDeque<>();
-        isPoolAlreadyInitiated = new AtomicBoolean(false);
+        isPoolAlreadyInitiated = false;
     }
 
     /**
-     *
-     * @throws NoJDBCDriverException while no driver
+     * @throws NoJDBCDriverException     while no driver
      * @throws NoJDBCPropertiesException while no properties file
      */
-    public void initPool() throws NoJDBCDriverException, NoJDBCPropertiesException {
-        if (!isPoolAlreadyInitiated.get()) {
+    public synchronized void initPool() throws NoJDBCDriverException, NoJDBCPropertiesException {
+        if (!isPoolAlreadyInitiated) {
+            LOG.trace("init pool started");
             Properties databaseProperties = new Properties();
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(DATABASE_PROPERTIES_FILENAME);
             if (inputStream == null) {
@@ -55,36 +57,58 @@ public enum ConnectionPool {
                 databaseProperties.load(inputStream);
                 String url = databaseProperties.getProperty(DATABASE_URL_PROPERTY);
 
-                DriverManager.registerDriver(DriverManager.getDriver(url));
+                DriverManager.registerDriver(new Driver());
 
                 for (int i = 0; i < POOL_CAPACITY; i++) {
                     availableConnections.add(new ConnectionProxy(DriverManager.getConnection(url, databaseProperties)));
                 }
-                isPoolAlreadyInitiated.set(true);
+                isPoolAlreadyInitiated = true;
+                LOG.trace("pool initialized");
             } catch (IOException e) {
                 throw new NoJDBCPropertiesException(e);
             } catch (SQLException e) {
                 throw new NoJDBCDriverException(e);
             }
         }
+        LOG.trace("init pool ended");
     }
 
     /**
      *
+     * @return is pool initiated
+     */
+    public boolean isPoolInitiated() {
+        return isPoolAlreadyInitiated;
+    }
+
+    /**
      * @return Connection ready to use
      */
-    public ConnectionProxy getConnection() throws NoConnectionAvailableException {
-        return getConnection(DEFAULT_WAITING_DURATION_IN_SECONDS, DEFAULT_TIME_UNIT);
+    public ConnectionProxy getConnection() {
+        if (!isPoolAlreadyInitiated) {
+            throw new ConnectionPoolRuntimeException(POOL_NOT_INITIALIZED);
+        }
+        ConnectionProxy connection = null;
+        try {
+            connection = availableConnections.take();
+            unavailableConnections.add(connection);
+        } catch (InterruptedException e) {
+            LOG.warn(e);
+            Thread.currentThread().interrupt();
+        }
+        return connection;
     }
 
     /**
-     *
      * @param waitingDuration duration for waiting in units timeUnit
-     * @param timeUnit units for waiting duration
+     * @param timeUnit        units for waiting duration
      * @return connection ready to use
      * @throws NoConnectionAvailableException if waiting timed out and no connection
      */
     public ConnectionProxy getConnection(long waitingDuration, TimeUnit timeUnit) throws NoConnectionAvailableException {
+        if (!isPoolAlreadyInitiated) {
+            throw new ConnectionPoolRuntimeException(POOL_NOT_INITIALIZED);
+        }
         ConnectionProxy connection = null;
         try {
             connection = availableConnections.poll(waitingDuration, timeUnit);
@@ -100,7 +124,6 @@ public enum ConnectionPool {
     }
 
     /**
-     *
      * @param connection Connection to return
      */
     public void returnConnection(ConnectionProxy connection) {
@@ -121,7 +144,8 @@ public enum ConnectionPool {
      *
      */
     public void deInitPool() {
-        if (isPoolAlreadyInitiated.get()) {
+        if (isPoolAlreadyInitiated) {
+            LOG.trace("deInit pool started");
             try {
                 for (int i = 0; i < POOL_CAPACITY; i++) {
                     availableConnections.take().closeWhileDeInitPool();
@@ -132,10 +156,22 @@ public enum ConnectionPool {
                 LOG.warn(e);
                 Thread.currentThread().interrupt();
             }
+            deregisterDrivers();
 
-            isPoolAlreadyInitiated.set(false);
+            isPoolAlreadyInitiated = false;
+            LOG.trace("pool deinitialized");
         }
+        LOG.trace("deInit pool ended");
     }
 
-
+    private void deregisterDrivers() {
+        Enumeration<java.sql.Driver> drivers = DriverManager.getDrivers();
+        while (drivers.hasMoreElements()) {
+            try {
+                DriverManager.deregisterDriver(drivers.nextElement());
+            } catch (SQLException e) {
+                LOG.warn("Cant deregister driver", e);
+            }
+        }
+    }
 }

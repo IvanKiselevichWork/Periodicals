@@ -2,6 +2,7 @@ package by.kiselevich.periodicals.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Edition implements Serializable {
 
@@ -96,9 +97,9 @@ public class Edition implements Serializable {
         if (themeId != edition.themeId) return false;
         if (periodicityPerYear != edition.periodicityPerYear) return false;
         if (minimumSubscriptionPeriodInMonths != edition.minimumSubscriptionPeriodInMonths) return false;
-        if (name != null ? !name.equals(edition.name) : edition.name != null) return false;
-        if (type != null ? !type.equals(edition.type) : edition.type != null) return false;
-        return priceForMinimumSubscriptionPeriod != null ? priceForMinimumSubscriptionPeriod.equals(edition.priceForMinimumSubscriptionPeriod) : edition.priceForMinimumSubscriptionPeriod == null;
+        if (!Objects.equals(name, edition.name)) return false;
+        if (!Objects.equals(type, edition.type)) return false;
+        return Objects.equals(priceForMinimumSubscriptionPeriod, edition.priceForMinimumSubscriptionPeriod);
     }
 
     @Override

@@ -2,6 +2,8 @@ package by.kiselevich.periodicals.exception;
 
 public class NoJDBCPropertiesException extends Exception {
 
+    private static final long serialVersionUID = 4277209190713084422L;
+
     public NoJDBCPropertiesException() {
     }
 

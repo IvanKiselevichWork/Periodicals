@@ -3,6 +3,7 @@ package by.kiselevich.periodicals.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Payment implements Serializable {
 
@@ -86,9 +87,9 @@ public class Payment implements Serializable {
         if (id != payment.id) return false;
         if (userId != payment.userId) return false;
         if (typeId != payment.typeId) return false;
-        if (date != null ? !date.equals(payment.date) : payment.date != null) return false;
-        if (amount != null ? !amount.equals(payment.amount) : payment.amount != null) return false;
-        return subscriptionId != null ? subscriptionId.equals(payment.subscriptionId) : payment.subscriptionId == null;
+        if (!Objects.equals(date, payment.date)) return false;
+        if (!Objects.equals(amount, payment.amount)) return false;
+        return Objects.equals(subscriptionId, payment.subscriptionId);
     }
 
     @Override
