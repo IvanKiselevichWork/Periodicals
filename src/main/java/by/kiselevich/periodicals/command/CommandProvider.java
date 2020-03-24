@@ -1,5 +1,6 @@
 package by.kiselevich.periodicals.command;
 
+import by.kiselevich.periodicals.command.admin.ShowAdminPage;
 import by.kiselevich.periodicals.command.home.ShowHomePage;
 import by.kiselevich.periodicals.command.language.ChangeLanguage;
 import by.kiselevich.periodicals.command.signing.*;
@@ -23,6 +24,7 @@ public class CommandProvider {
         commandMap.put(CommandName.HOME, new ShowHomePage());
         commandMap.put(CommandName.WRONG_REQUEST, new ShowWrongRequestPage());
         commandMap.put(CommandName.CHANGE_LANGUAGE, new ChangeLanguage());
+        commandMap.put(CommandName.ADMIN, new ShowAdminPage());
     }
 
     public Command getCommand(String commandNameString) {

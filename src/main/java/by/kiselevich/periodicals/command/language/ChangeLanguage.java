@@ -1,9 +1,6 @@
 package by.kiselevich.periodicals.command.language;
 
-import by.kiselevich.periodicals.command.Attribute;
-import by.kiselevich.periodicals.command.Command;
-import by.kiselevich.periodicals.command.Page;
-import by.kiselevich.periodicals.command.JspParameter;
+import by.kiselevich.periodicals.command.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +18,8 @@ public class ChangeLanguage implements Command {
         String targetLanguage = req.getParameter(JspParameter.TARGET_LANGUAGE.getValue());
         if (targetLanguage != null && LANGUAGES.contains(targetLanguage)) {
             req.getSession().setAttribute(Attribute.LANGUAGE.getValue(), targetLanguage);
-            return Page.HOME;
+            UserRole role = (UserRole) req.getSession().getAttribute(Attribute.USER_ROLE.getValue());
+            return role == UserRole.ADMIN ? Page.ADMIN_PAGE : Page.HOME_PAGE;
         }
         return Page.WRONG_REQUEST;
     }

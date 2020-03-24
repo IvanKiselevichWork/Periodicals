@@ -31,9 +31,9 @@ public class SignIn implements Command {
             user.setPassword(password.toCharArray());
             password = null;
             userService.signIn(user);
-            req.getSession().setAttribute(Attribute.USER_ROLE.getValue(), UserRole.USER);
+            req.getSession().setAttribute(Attribute.USER_ROLE.getValue(), UserRole.getUserRoleById(user.getRoleId()));
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
-            return Page.HOME;
+            return Page.HOME_PAGE;
         } catch (UserServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
             writeMessageToResponse(resp, message);

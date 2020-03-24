@@ -32,6 +32,14 @@ public class CommandMatchingToUserRoleFilter implements Filter {
             CHANGE_LANGUAGE
     );
 
+    private static final Set<CommandName> adminCommands = EnumSet.of(
+            WRONG_REQUEST,
+            HOME,
+            SIGN_OUT,
+            CHANGE_LANGUAGE,
+            ADMIN
+    );
+
     private static final Set<CommandName> emptySet = new HashSet<>();
 
     @Override
@@ -56,6 +64,9 @@ public class CommandMatchingToUserRoleFilter implements Filter {
                     break;
                 case GUEST:
                     commandNames = guestCommands;
+                    break;
+                case ADMIN:
+                    commandNames = adminCommands;
                     break;
                 default:
                     commandNames = emptySet;

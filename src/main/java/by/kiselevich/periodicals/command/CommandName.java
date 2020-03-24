@@ -7,4 +7,5 @@ public enum CommandName {
     SIGN_UP,
     SIGN_OUT,
     CHANGE_LANGUAGE,
+    ADMIN,
 }

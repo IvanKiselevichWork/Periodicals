@@ -37,7 +37,7 @@ public class SignUp implements Command {
             userService.signUp(user);
             req.getSession().setAttribute(Attribute.USER_ROLE.getValue(), UserRole.USER);
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
-            return Page.HOME;
+            return Page.HOME_PAGE;
         } catch (UserServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
             writeMessageToResponse(resp, message);

@@ -14,6 +14,6 @@ public class SignOut implements Command {
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
         req.getSession().setAttribute(Attribute.USER_ROLE.getValue(), UserRole.GUEST);
         req.getSession().setAttribute(Attribute.LOGIN.getValue(), null);
-        return Page.HOME;
+        return Page.HOME_PAGE;
     }
 }
