@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-public class FindUserByLoginAndPassword extends AbstractUserSpecification implements UserSpecification {
+public class FindUserByLoginAndPassword implements UserSpecification {
 
     private static final String FIND_USERS_BY_LOGIN_AND_PASSWORD = "select id, login, password, full_name, email, money, role_id, is_available from user where login = ? and password = ?";
 
