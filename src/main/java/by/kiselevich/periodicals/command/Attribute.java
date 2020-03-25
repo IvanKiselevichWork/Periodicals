@@ -6,7 +6,10 @@ public enum Attribute {
     LOGIN("login"),
     LANGUAGE("language"),
     ADMIN_PAGE_OPTION("adminPageOption"),
-    USERS("users");
+    USERS("users"),
+    USERS_COUNT("usersCount"),
+    EDITIONS_COUNT("editionsCount"),
+    PAYMENTS_COUNT("paymentsCount");
 
     private String value;
 

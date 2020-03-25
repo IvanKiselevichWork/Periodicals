@@ -135,6 +135,9 @@
 
                             <c:choose>
                                 <c:when test="${empty adminPageOption or adminPageOption.toString() == 'MAIN'}">
+                                    <c:if test="${not empty message}">
+                                        <div id="users_div" class="alert alert-danger" role="alert">${message}</div>
+                                    </c:if>
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
                                         <a class="list-group-item list-group-item-action waves-effect">
