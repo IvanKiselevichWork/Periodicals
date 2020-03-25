@@ -2,7 +2,7 @@ package by.kiselevich.periodicals.command.signing;
 
 import by.kiselevich.periodicals.command.*;
 import by.kiselevich.periodicals.entity.User;
-import by.kiselevich.periodicals.exception.UserServiceException;
+import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.UserServiceFactory;
 import by.kiselevich.periodicals.service.user.UserService;
 
@@ -34,7 +34,7 @@ public class SignIn implements Command {
             req.getSession().setAttribute(Attribute.USER_ROLE.getValue(), UserRole.getUserRoleById(user.getRoleId()));
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
             return Page.HOME_PAGE;
-        } catch (UserServiceException e) {
+        } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
             writeMessageToResponse(resp, message);
             return Page.EMPTY_PAGE;

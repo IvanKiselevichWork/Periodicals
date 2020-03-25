@@ -4,7 +4,7 @@ import by.kiselevich.periodicals.command.Attribute;
 import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.Page;
 import by.kiselevich.periodicals.entity.User;
-import by.kiselevich.periodicals.exception.UserServiceException;
+import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.UserServiceFactory;
 import by.kiselevich.periodicals.service.user.UserService;
 
@@ -28,7 +28,7 @@ public class ShowUsers implements Command {
         try {
             List<User> userList = userService.getAllUsers();
             req.setAttribute(Attribute.USERS.getValue(), userList);
-        } catch (UserServiceException e) {
+        } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
             req.setAttribute(Attribute.USERS.getValue(), null);
             req.setAttribute(Attribute.MESSAGE.getValue(), message);
