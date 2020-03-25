@@ -41,9 +41,12 @@
             <div class="container-fluid">
 
                 <!-- Brand -->
-                <a class="navbar-brand waves-effect" href="#">
+                <a class="navbar-brand waves-effect" href="./?command=ADMIN">
                     <strong class="blue-text"><fmt:message key="periodicals"/></strong>
+                    <span>/</span>
+                    <span><fmt:message key="dashboard"/></span>
                 </a>
+
 
                 <!-- Collapse -->
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -118,24 +121,8 @@
     <main class="pt-4 mx-lg-0" style="min-height: 100%">
         <div class="container-fluid mt-5">
 
-            <!-- Heading -->
-            <div class="card mb-4 wow fadeIn">
-
-                <!--Card content-->
-                <div class="card-body d-sm-flex justify-content-between">
-                    <h4 class="mb-2 mb-sm-0 pt-1">
-                        <a href="./?command=ADMIN"><fmt:message key="periodicals"/></a>
-                        <span>/</span>
-                        <span><fmt:message key="dashboard"/></span>
-                    </h4>
-                </div>
-
-            </div>
-            <!-- Heading -->
-
             <!--Grid row-->
             <div class="row wow fadeIn">
-
 
                 <!--Grid column-->
                 <div class="col-md-12 mb-4">
