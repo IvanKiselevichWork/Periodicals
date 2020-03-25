@@ -91,6 +91,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public void remove(int id) throws RepositoryException {
+        //todo
+    }
+
+    @Override
     public void update(User user) {
         //todo
     }

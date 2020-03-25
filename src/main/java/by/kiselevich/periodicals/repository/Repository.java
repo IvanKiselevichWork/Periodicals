@@ -9,9 +9,7 @@ public interface Repository<T> {
 
     void add(T t) throws RepositoryException;
 
-    void block(int id) throws RepositoryException;
-
-    void unblock(int id) throws RepositoryException;
+    void remove(int id) throws RepositoryException;
 
     void update(T t) throws RepositoryException;
 
