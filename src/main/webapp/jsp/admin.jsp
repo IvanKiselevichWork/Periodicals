@@ -159,6 +159,7 @@
                                     <!-- List group links -->
                                 </c:when>
                                 <c:when test="${adminPageOption.toString() == 'USERS'}">
+                                    <div id="users_div" class="alert alert-danger" role="alert"></div>
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
                                         <c:if test="${empty users}">
@@ -186,14 +187,14 @@
                                                         <td><c:out value="${ user.fullName }" /></td>
                                                         <td><c:out value="${ user.available }" /></td>
                                                         <td>
-                                                            <button type="button" onclick="userBlockUnblock()">
+                                                            <button type="button" id="user${user.id}" onclick="userBlockUnblock(this)">
                                                                 <input type="hidden" name="id" value="${user.id}"/>
                                                                 <c:if test="${user.available}">
-                                                                    <input type="hidden" name="action" value="block"/>
+                                                                    <input type="hidden" name="command" value="BLOCK_USER"/>
                                                                     <fmt:message key="block"/>
                                                                 </c:if>
                                                                 <c:if test="${not user.available}">
-                                                                    <input type="hidden" name="action" value="unblock"/>
+                                                                    <input type="hidden" name="command" value="UNBLOCK_USER"/>
                                                                     <fmt:message key="unblock"/>
                                                                 </c:if>
                                                             </button>
@@ -280,8 +281,24 @@
 
     <script type="text/javascript">
         // user block/unblock
-        function userBlockUnblock() {
-            //todo ajax post
+        function userBlockUnblock(buttonElement) {
+            $(buttonElement).prop('disabled', true);
+            var data = {
+                command: $(buttonElement).find('input[name="command"]').val(),
+                id: $(buttonElement).find('input[name="id"]').val()
+            };
+
+            $.post('./', $.param(data), function (responseText) {
+                console.log(responseText);
+                if (responseText.length < 50) {
+                    $('#users_div').text(responseText);
+                    $(buttonElement).prop('disabled', false);
+                } else {
+                    document.open();
+                    document.write(responseText);
+                    document.close();
+                }
+            });
         }
     </script>
 

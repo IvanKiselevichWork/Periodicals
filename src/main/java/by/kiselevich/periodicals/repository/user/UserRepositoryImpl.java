@@ -26,7 +26,12 @@ public class UserRepositoryImpl implements UserRepository {
             "login, password, full_name, email, money, role_id, is_available) VALUES (" +
             "?, ?, ?, ?, ?, " + USER_ROLE_ID + ", " + USER_IS_AVAILABLE + ")";
 
-    private static final String USER_DIDNT_ADD_MESSAGE = "User didnt add";
+    private static final String BLOCK_USER = "update user set is_available = 0 where id = ?";
+    private static final String UNBLOCK_USER = "update user set is_available = 1 where id = ?";
+
+    private static final String USER_NOT_ADDED_MESSAGE = "User has not been added";
+    private static final String USER_NOT_BLOCKED_MESSAGE = "User was not blocked";
+    private static final String USER_NOT_UNBLOCKED_MESSAGE = "User was not unblocked";
 
     @Override
     public void add(User user) throws RepositoryException {
@@ -50,7 +55,7 @@ public class UserRepositoryImpl implements UserRepository {
                 }
             }
             if (!isUserAdded) {
-                throw new RepositoryException(USER_DIDNT_ADD_MESSAGE);
+                throw new RepositoryException(USER_NOT_ADDED_MESSAGE);
             }
         } catch (SQLException e) {
             throw new RepositoryException(e);
@@ -59,9 +64,30 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-    @Override
-    public void remove(int id) {
-        //todo
+    public void block(int id) throws RepositoryException {
+        try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(BLOCK_USER);
+            statement.setInt(1, id);
+            int updatedRowCount = statement.executeUpdate();
+            if (updatedRowCount != 1) {
+                throw new RepositoryException(USER_NOT_BLOCKED_MESSAGE);
+            }
+        } catch (SQLException e) {
+            throw new RepositoryException(e);
+        }
+    }
+
+    public void unblock(int id) throws RepositoryException {
+        try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(UNBLOCK_USER);
+            statement.setInt(1, id);
+            int updatedRowCount = statement.executeUpdate();
+            if (updatedRowCount != 1) {
+                throw new RepositoryException(USER_NOT_UNBLOCKED_MESSAGE);
+            }
+        } catch (SQLException e) {
+            throw new RepositoryException(e);
+        }
     }
 
     @Override

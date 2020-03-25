@@ -11,4 +11,8 @@ public interface UserService {
     void signIn(User user) throws UserServiceException;
 
     List<User> getAllUsers() throws UserServiceException;
+
+    void blockUser(int id) throws UserServiceException;
+
+    void unblockUser(int id) throws UserServiceException;
 }

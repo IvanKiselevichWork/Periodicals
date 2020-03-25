@@ -84,4 +84,24 @@ public class UserServiceImpl implements UserService {
             throw new UserServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
     }
+
+    @Override
+    public void blockUser(int id) throws UserServiceException {
+        try {
+            userRepository.block(id);
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new UserServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
+
+    @Override
+    public void unblockUser(int id) throws UserServiceException {
+        try {
+            userRepository.unblock(id);
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new UserServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
 }

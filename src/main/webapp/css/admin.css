@@ -38,6 +38,10 @@
     max-height: 50px;
 }
 
+div:empty {
+    display: none
+}
+
 @media (min-width: 1200px) {
     .navbar,
     .page-footer,

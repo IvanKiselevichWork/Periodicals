@@ -10,5 +10,7 @@ public enum CommandName {
     ADMIN,
     SHOW_USERS,
     SHOW_EDITIONS,
-    SHOW_PAYMENTS
+    SHOW_PAYMENTS,
+    BLOCK_USER,
+    UNBLOCK_USER
 }

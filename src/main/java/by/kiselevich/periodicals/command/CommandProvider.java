@@ -1,9 +1,6 @@
 package by.kiselevich.periodicals.command;
 
-import by.kiselevich.periodicals.command.admin.ShowAdminPage;
-import by.kiselevich.periodicals.command.admin.ShowEditions;
-import by.kiselevich.periodicals.command.admin.ShowPayments;
-import by.kiselevich.periodicals.command.admin.ShowUsers;
+import by.kiselevich.periodicals.command.admin.*;
 import by.kiselevich.periodicals.command.home.ShowHomePage;
 import by.kiselevich.periodicals.command.language.ChangeLanguage;
 import by.kiselevich.periodicals.command.signing.*;
@@ -31,6 +28,8 @@ public class CommandProvider {
         commandMap.put(CommandName.SHOW_USERS, new ShowUsers());
         commandMap.put(CommandName.SHOW_EDITIONS, new ShowEditions());
         commandMap.put(CommandName.SHOW_PAYMENTS, new ShowPayments());
+        commandMap.put(CommandName.BLOCK_USER, new BlockUser());
+        commandMap.put(CommandName.UNBLOCK_USER, new UnblockUser());
     }
 
     public Command getCommand(String commandNameString) {

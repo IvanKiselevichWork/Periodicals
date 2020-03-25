@@ -1,6 +1,7 @@
 package by.kiselevich.periodicals.filter;
 
 import by.kiselevich.periodicals.command.*;
+import by.kiselevich.periodicals.command.admin.BlockUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,7 +41,9 @@ public class CommandMatchingToUserRoleFilter implements Filter {
             ADMIN,
             SHOW_USERS,
             SHOW_EDITIONS,
-            SHOW_PAYMENTS
+            SHOW_PAYMENTS,
+            BLOCK_USER,
+            UNBLOCK_USER
     );
 
     private static final Set<CommandName> emptySet = new HashSet<>();
