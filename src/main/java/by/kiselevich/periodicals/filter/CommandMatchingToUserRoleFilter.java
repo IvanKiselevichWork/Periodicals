@@ -37,7 +37,10 @@ public class CommandMatchingToUserRoleFilter implements Filter {
             HOME,
             SIGN_OUT,
             CHANGE_LANGUAGE,
-            ADMIN
+            ADMIN,
+            SHOW_USERS,
+            SHOW_EDITIONS,
+            SHOW_PAYMENTS
     );
 
     private static final Set<CommandName> emptySet = new HashSet<>();

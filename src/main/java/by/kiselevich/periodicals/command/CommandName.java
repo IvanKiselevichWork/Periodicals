@@ -8,4 +8,7 @@ public enum CommandName {
     SIGN_OUT,
     CHANGE_LANGUAGE,
     ADMIN,
+    SHOW_USERS,
+    SHOW_EDITIONS,
+    SHOW_PAYMENTS
 }

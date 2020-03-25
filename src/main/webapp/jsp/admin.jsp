@@ -100,12 +100,12 @@
             </a>
 
             <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action waves-effect">
-                    <i class="fas fa-user mr-3"></i><fmt:message key="users"/></a>
-                <a href="#" class="list-group-item list-group-item-action waves-effect">
-                    <i class="fas fa-book mr-3"></i><fmt:message key="editions"/></a>
-                <a href="#" class="list-group-item list-group-item-action waves-effect">
-                    <i class="fas fa-money-bill-alt mr-3"></i><fmt:message key="payments"/></a>
+                <a href="./?command=SHOW_USERS" class="list-group-item list-group-item-action waves-effect">
+                    <em class="fas fa-user mr-3"></em><fmt:message key="users"/></a>
+                <a href="./?command=SHOW_EDITIONS" class="list-group-item list-group-item-action waves-effect">
+                    <em class="fas fa-book mr-3"></em><fmt:message key="editions"/></a>
+                <a href="./?command=SHOW_PAYMENTS" class="list-group-item list-group-item-action waves-effect">
+                    <em class="fas fa-money-bill-alt mr-3"></em><fmt:message key="payments"/></a>
             </div>
 
         </div>
@@ -115,7 +115,7 @@
     <!--Main Navigation-->
 
     <!--Main layout-->
-    <main class="pt-5 mx-lg-5" style="height: 100%">
+    <main class="pt-4 mx-lg-0" style="height: 100%">
         <div class="container-fluid mt-5">
 
             <!-- Heading -->
@@ -124,7 +124,7 @@
                 <!--Card content-->
                 <div class="card-body d-sm-flex justify-content-between">
                     <h4 class="mb-2 mb-sm-0 pt-1">
-                        <a href="#"><fmt:message key="periodicals"/></a>
+                        <a href="./?command=ADMIN"><fmt:message key="periodicals"/></a>
                         <span>/</span>
                         <span><fmt:message key="dashboard"/></span>
                     </h4>
@@ -146,28 +146,68 @@
                         <!--Card content-->
                         <div class="card-body">
 
-                            <!-- List group links -->
-                            <div class="list-group list-group-flush">
-                                <a class="list-group-item list-group-item-action waves-effect">
-                                    <fmt:message key="users"/>
-                                    <span class="badge badge-success badge-pill pull-right">
-                                        ${usersCount}<em class="fas fa-user ml-1"></em>
-                                    </span>
-                                </a>
-                                <a class="list-group-item list-group-item-action waves-effect">
-                                    <fmt:message key="editions"/>
-                                    <span class="badge badge-danger badge-pill pull-right">
-                                        ${editionsCount}<em class="fas fa-book ml-1"></em>
-                                    </span>
-                                </a>
-                                <a class="list-group-item list-group-item-action waves-effect">
-                                    <fmt:message key="payments"/>
-                                    <span class="badge badge-primary badge-pill pull-right">
-                                        ${paymentsCount}<em class="fas fa-money-bill ml-1"></em>
-                                    </span>
-                                </a>
-                            </div>
-                            <!-- List group links -->
+                            <c:choose>
+                                <c:when test="${empty adminPageOption or adminPageOption.toString() == 'MAIN'}">
+                                    <!-- List group links -->
+                                    <div class="list-group list-group-flush">
+                                        <a class="list-group-item list-group-item-action waves-effect">
+                                            <fmt:message key="users"/>
+                                            <span class="badge badge-success badge-pill pull-right">
+                                                ${usersCount}<em class="fas fa-user ml-1"></em>
+                                            </span>
+                                        </a>
+                                        <a class="list-group-item list-group-item-action waves-effect">
+                                            <fmt:message key="editions"/>
+                                            <span class="badge badge-danger badge-pill pull-right">
+                                                ${editionsCount}<em class="fas fa-book ml-1"></em>
+                                            </span>
+                                        </a>
+                                        <a class="list-group-item list-group-item-action waves-effect">
+                                            <fmt:message key="payments"/>
+                                            <span class="badge badge-primary badge-pill pull-right">
+                                                ${paymentsCount}<em class="fas fa-money-bill ml-1"></em>
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <!-- List group links -->
+                                </c:when>
+                                <c:when test="${adminPageOption.toString() == 'USERS'}">
+                                    <!-- List group links -->
+                                    <div class="list-group list-group-flush">
+                                        <table class="table-bordered w-100">
+                                            <c:forEach var="user" items="${users}" varStatus="status">
+                                                <tr>
+                                                    <td><c:out value="${ user.id }" /></td>
+                                                    <td><c:out value="${ user.fullName }" /></td>
+                                                    <td><c:out value="${ user.available }" /></td>
+                                                </tr>
+                                            </c:forEach>
+                                        </table>
+                                    </div>
+                                </c:when>
+                                <c:when test="${adminPageOption.toString() == 'EDITIONS'}">
+                                    <!-- List group links -->
+                                    <div class="list-group list-group-flush">
+                                        <a class="list-group-item list-group-item-action waves-effect">
+                                            <fmt:message key="editions"/>
+                                            <span class="badge badge-danger badge-pill pull-right">
+                                                ${editionsCount}<em class="fas fa-book ml-1"></em>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </c:when>
+                                <c:when test="${adminPageOption.toString() == 'PAYMENTS'}">
+                                    <!-- List group links -->
+                                    <div class="list-group list-group-flush">
+                                        <a class="list-group-item list-group-item-action waves-effect">
+                                            <fmt:message key="payments"/>
+                                            <span class="badge badge-primary badge-pill pull-right">
+                                                ${paymentsCount}<em class="fas fa-money-bill ml-1"></em>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </c:when>
+                            </c:choose>
 
                         </div>
 

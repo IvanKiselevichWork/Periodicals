@@ -4,7 +4,9 @@ public enum Attribute {
     MESSAGE("message"),
     USER_ROLE("userRole"),
     LOGIN("login"),
-    LANGUAGE("language");
+    LANGUAGE("language"),
+    ADMIN_PAGE_OPTION("adminPageOption"),
+    USERS("users");
 
     private String value;
 

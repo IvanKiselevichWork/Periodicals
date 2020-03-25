@@ -7,11 +7,11 @@ import by.kiselevich.periodicals.command.Page;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ShowAdminPage implements Command {
+public class ShowPayments implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), AdminPageOption.MAIN);
+        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), AdminPageOption.PAYMENTS);
         return Page.ADMIN_PAGE;
     }
 }
