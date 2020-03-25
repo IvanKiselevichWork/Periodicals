@@ -7,6 +7,7 @@ import by.kiselevich.periodicals.exception.UserServiceException;
 import by.kiselevich.periodicals.exception.UserValidatorException;
 import by.kiselevich.periodicals.factory.UserRepositoryFactory;
 import by.kiselevich.periodicals.repository.user.UserRepository;
+import by.kiselevich.periodicals.specification.user.FindAllUsers;
 import by.kiselevich.periodicals.specification.user.FindUserByLogin;
 import by.kiselevich.periodicals.specification.user.FindUserByLoginAndPassword;
 import by.kiselevich.periodicals.validator.UserValidator;
@@ -71,6 +72,16 @@ public class UserServiceImpl implements UserService {
         }  catch (UserValidatorException e) {
             LOG.info(e);
             throw new UserServiceException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<User> getAllUsers() throws UserServiceException {
+        try {
+            return userRepository.query(new FindAllUsers());
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new UserServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
     }
 }

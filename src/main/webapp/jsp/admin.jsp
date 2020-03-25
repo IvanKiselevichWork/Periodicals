@@ -115,7 +115,7 @@
     <!--Main Navigation-->
 
     <!--Main layout-->
-    <main class="pt-4 mx-lg-0" style="height: 100%">
+    <main class="pt-4 mx-lg-0" style="min-height: 100%">
         <div class="container-fluid mt-5">
 
             <!-- Heading -->
@@ -174,15 +174,48 @@
                                 <c:when test="${adminPageOption.toString() == 'USERS'}">
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
-                                        <table class="table-bordered w-100">
-                                            <c:forEach var="user" items="${users}" varStatus="status">
+                                        <c:if test="${empty users}">
+                                            ${message}
+                                        </c:if>
+                                        <c:if test="${not empty users}">
+                                        <!-- MDBootstrap table -->
+                                            <table id="dtMaterialDesignExample" class="table table-striped w-100" cellspacing="0">
+                                                <thead>
                                                 <tr>
-                                                    <td><c:out value="${ user.id }" /></td>
-                                                    <td><c:out value="${ user.fullName }" /></td>
-                                                    <td><c:out value="${ user.available }" /></td>
+                                                    <th class="th-sm">Id
+                                                    </th>
+                                                    <th class="th-sm">Full name
+                                                    </th>
+                                                    <th class="th-sm">Is active
+                                                    </th>
+                                                    <th class="th-sm">Block
+                                                    </th>
                                                 </tr>
-                                            </c:forEach>
-                                        </table>
+                                                </thead>
+                                                <tbody>
+                                                <c:forEach var="user" items="${users}" varStatus="status">
+                                                    <tr>
+                                                        <td><c:out value="${ user.id }" /></td>
+                                                        <td><c:out value="${ user.fullName }" /></td>
+                                                        <td><c:out value="${ user.available }" /></td>
+                                                        <td>
+                                                            <button type="button" onclick="userBlockUnblock()">
+                                                                <input type="hidden" name="id" value="${user.id}"/>
+                                                                <c:if test="${user.available}">
+                                                                    <input type="hidden" name="action" value="block"/>
+                                                                    <fmt:message key="block"/>
+                                                                </c:if>
+                                                                <c:if test="${not user.available}">
+                                                                    <input type="hidden" name="action" value="unblock"/>
+                                                                    <fmt:message key="unblock"/>
+                                                                </c:if>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </c:if>
                                     </div>
                                 </c:when>
                                 <c:when test="${adminPageOption.toString() == 'EDITIONS'}">
@@ -210,6 +243,7 @@
                             </c:choose>
 
                         </div>
+                        <!--/.Card content-->
 
                     </div>
                     <!--/.Card-->
@@ -243,10 +277,25 @@
     <script type="text/javascript" src="${root}/js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="${root}/js/mdb.min.js"></script>
+    <!-- DataTables CSS -->
+    <link href="${root}/css/addons/datatables.min.css" rel="stylesheet">
+    <!-- DataTables JS -->
+    <script src="${root}/js/addons/datatables.min.js" type="text/javascript"></script>
+    <!-- DataTables Select CSS -->
+    <link href="${root}/css/addons/datatables-select.min.css" rel="stylesheet">
+    <!-- DataTables Select JS -->
+    <script src="${root}/js/addons/datatables-select.min.js" type="text/javascript"></script>
     <!-- Initializations -->
     <script type="text/javascript">
         // Animations initialization
         new WOW().init();
+    </script>
+
+    <script type="text/javascript">
+        // user block/unblock
+        function userBlockUnblock() {
+            //todo ajax post
+        }
     </script>
 
     </body>

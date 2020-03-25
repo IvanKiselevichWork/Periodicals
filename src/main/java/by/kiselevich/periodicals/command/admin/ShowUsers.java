@@ -4,21 +4,38 @@ import by.kiselevich.periodicals.command.Attribute;
 import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.Page;
 import by.kiselevich.periodicals.entity.User;
+import by.kiselevich.periodicals.exception.UserServiceException;
+import by.kiselevich.periodicals.factory.UserServiceFactory;
+import by.kiselevich.periodicals.service.user.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
+import static by.kiselevich.periodicals.util.HttpUtil.writeMessageToResponse;
+
 public class ShowUsers implements Command {
+
+    private UserService userService;
+
+    public ShowUsers() {
+        userService = UserServiceFactory.getInstance().getUserService();
+    }
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
         req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), AdminPageOption.USERS);
-        List<User> userList = new ArrayList<>();
-        User user = new User(1, 1, "login1", new char[] {'1'}, "full name1", "", null, true);
-        userList.add(user);
-        req.setAttribute(Attribute.USERS.getValue(), userList);
+        try {
+            List<User> userList = userService.getAllUsers();
+            req.setAttribute(Attribute.USERS.getValue(), userList);
+        } catch (UserServiceException e) {
+            String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
+            //writeMessageToResponse(resp, message);
+            req.setAttribute(Attribute.USERS.getValue(), null);
+            req.setAttribute(Attribute.MESSAGE.getValue(), message);
+        }
         return Page.ADMIN_PAGE;
     }
 }
