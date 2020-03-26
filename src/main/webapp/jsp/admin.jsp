@@ -190,7 +190,7 @@
                                                         <td><c:out value="${ user.fullName }" /></td>
                                                         <td><c:out value="${ user.available }" /></td>
                                                         <td>
-                                                            <button type="button" id="user${user.id}" onclick="userBlockUnblock(this)">
+                                                            <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0" type="button" id="user${user.id}" onclick="userBlockUnblock(this)">
                                                                 <input type="hidden" name="id" value="${user.id}"/>
                                                                 <c:if test="${user.available}">
                                                                     <input type="hidden" name="command" value="BLOCK_USER"/>

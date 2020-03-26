@@ -1,8 +1,6 @@
 package by.kiselevich.periodicals.command.admin;
 
-import by.kiselevich.periodicals.command.Command;
-import by.kiselevich.periodicals.command.JspParameter;
-import by.kiselevich.periodicals.command.Page;
+import by.kiselevich.periodicals.command.*;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.UserServiceFactory;
 import by.kiselevich.periodicals.service.user.UserService;
@@ -15,13 +13,10 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 
 public class UnblockUser implements Command {
 
-    //todo mb command provider
-    private Command showUsers;
     private UserService userService;
 
     public UnblockUser() {
         userService = UserServiceFactory.getInstance().getUserService();
-        showUsers = new ShowUsers();
     }
 
     @Override
@@ -29,6 +24,7 @@ public class UnblockUser implements Command {
         try {
             int id = Integer.parseInt(req.getParameter(JspParameter.ID.getValue()));
             userService.unblockUser(id);
+            Command showUsers = CommandProvider.getInstance().getCommand(CommandName.SHOW_USERS);
             return showUsers.execute(req, resp);
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());

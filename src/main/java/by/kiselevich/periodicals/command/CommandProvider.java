@@ -57,4 +57,8 @@ public class CommandProvider {
         }
         return command;
     }
+
+    public Command getCommand(CommandName commandName) {
+        return commandMap.get(commandName);
+    }
 }
