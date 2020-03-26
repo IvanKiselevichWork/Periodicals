@@ -5,7 +5,7 @@ import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.Page;
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.ServiceException;
-import by.kiselevich.periodicals.factory.UserServiceFactory;
+import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.user.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ public class ShowUsers implements Command {
     private UserService userService;
 
     public ShowUsers() {
-        userService = UserServiceFactory.getInstance().getUserService();
+        userService = ServiceFactory.getInstance().getUserService();
     }
 
     @Override

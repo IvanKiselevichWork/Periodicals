@@ -5,7 +5,7 @@ import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.Page;
 import by.kiselevich.periodicals.entity.Payment;
 import by.kiselevich.periodicals.exception.ServiceException;
-import by.kiselevich.periodicals.factory.PaymentServiceFactory;
+import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.payment.PaymentService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ public class ShowPayments implements Command {
     private PaymentService paymentService;
 
     public ShowPayments() {
-        paymentService = PaymentServiceFactory.getInstance().getPaymentService();
+        paymentService = ServiceFactory.getInstance().getPaymentService();
     }
 
     @Override

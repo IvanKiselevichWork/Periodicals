@@ -5,7 +5,7 @@ import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.Page;
 import by.kiselevich.periodicals.entity.Edition;
 import by.kiselevich.periodicals.exception.ServiceException;
-import by.kiselevich.periodicals.factory.EditionServiceFactory;
+import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.edition.EditionService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ public class ShowEditions implements Command {
     private EditionService editionService;
 
     public ShowEditions() {
-        editionService = EditionServiceFactory.getInstance().getEditionService();
+        editionService = ServiceFactory.getInstance().getEditionService();
     }
 
     @Override

@@ -2,7 +2,7 @@ package by.kiselevich.periodicals.command.admin;
 
 import by.kiselevich.periodicals.command.*;
 import by.kiselevich.periodicals.exception.ServiceException;
-import by.kiselevich.periodicals.factory.UserServiceFactory;
+import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.user.UserService;
 import by.kiselevich.periodicals.util.HttpUtil;
 
@@ -16,7 +16,7 @@ public class UnblockUser implements Command {
     private UserService userService;
 
     public UnblockUser() {
-        userService = UserServiceFactory.getInstance().getUserService();
+        userService = ServiceFactory.getInstance().getUserService();
     }
 
     @Override

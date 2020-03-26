@@ -4,9 +4,7 @@ import by.kiselevich.periodicals.command.Attribute;
 import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.Page;
 import by.kiselevich.periodicals.exception.ServiceException;
-import by.kiselevich.periodicals.factory.EditionServiceFactory;
-import by.kiselevich.periodicals.factory.PaymentServiceFactory;
-import by.kiselevich.periodicals.factory.UserServiceFactory;
+import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.edition.EditionService;
 import by.kiselevich.periodicals.service.payment.PaymentService;
 import by.kiselevich.periodicals.service.user.UserService;
@@ -23,9 +21,9 @@ public class ShowAdminPage implements Command {
     private PaymentService paymentService;
 
     public ShowAdminPage() {
-        userService = UserServiceFactory.getInstance().getUserService();
-        editionService = EditionServiceFactory.getInstance().getEditionService();
-        paymentService = PaymentServiceFactory.getInstance().getPaymentService();
+        userService = ServiceFactory.getInstance().getUserService();
+        editionService = ServiceFactory.getInstance().getEditionService();
+        paymentService = ServiceFactory.getInstance().getPaymentService();
     }
 
     @Override
