@@ -171,6 +171,7 @@
                                 </c:when>
                                 <c:when test="${adminPageOption.toString() == 'USERS'}">
                                     <div id="users_div" class="alert alert-danger" role="alert"></div>
+                                    <h4><fmt:message key="users"/></h4>
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
                                         <c:if test="${empty users}">
@@ -223,6 +224,7 @@
                                 </c:when>
                                 <c:when test="${adminPageOption.toString() == 'EDITIONS'}">
                                     <div id="editions_div" class="alert alert-danger" role="alert"></div>
+                                    <h4><fmt:message key="editions"/></h4>
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
                                         <c:if test="${empty editions}">
@@ -263,6 +265,7 @@
                                 </c:when>
                                 <c:when test="${adminPageOption.toString() == 'PAYMENTS'}">
                                     <div id="payments_div" class="alert alert-danger" role="alert"></div>
+                                    <h4><fmt:message key="payments"/></h4>
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
                                         <c:if test="${empty payments}">
@@ -311,6 +314,7 @@
                                 </c:when>
                                 <c:when test="${adminPageOption.toString() == 'SUBSCRIPTIONS'}">
                                     <div id="subscriptions_div" class="alert alert-danger" role="alert"></div>
+                                    <h4><fmt:message key="subscriptions"/></h4>
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
                                         <c:if test="${empty subscriptions}">
