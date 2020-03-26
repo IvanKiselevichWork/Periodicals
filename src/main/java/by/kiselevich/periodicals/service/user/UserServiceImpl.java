@@ -5,7 +5,7 @@ import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.exception.UserValidatorException;
-import by.kiselevich.periodicals.factory.UserRepositoryFactory;
+import by.kiselevich.periodicals.factory.RepositoryFactory;
 import by.kiselevich.periodicals.repository.user.UserRepository;
 import by.kiselevich.periodicals.specification.user.FindAllUsers;
 import by.kiselevich.periodicals.specification.user.FindUserByLogin;
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     private UserValidator userValidator;
 
     public UserServiceImpl() {
-        userRepository = UserRepositoryFactory.getInstance().getUserRepository();
+        userRepository = RepositoryFactory.getInstance().getUserRepository();
         userValidator = new UserValidator();
     }
 

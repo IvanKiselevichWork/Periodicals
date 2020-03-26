@@ -4,7 +4,7 @@ import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.entity.Payment;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.exception.ServiceException;
-import by.kiselevich.periodicals.factory.PaymentRepositoryFactory;
+import by.kiselevich.periodicals.factory.RepositoryFactory;
 import by.kiselevich.periodicals.repository.payment.PaymentRepository;
 import by.kiselevich.periodicals.specification.payment.FindAllPayments;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +19,7 @@ public class PaymentServiceImpl implements PaymentService {
     private PaymentRepository paymentRepository;
 
     public PaymentServiceImpl() {
-        paymentRepository = PaymentRepositoryFactory.getInstance().getPaymentRepository();
+        paymentRepository = RepositoryFactory.getInstance().getPaymentRepository();
     }
 
     @Override

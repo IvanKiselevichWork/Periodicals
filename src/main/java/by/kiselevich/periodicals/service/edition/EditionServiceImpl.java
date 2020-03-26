@@ -4,7 +4,7 @@ import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.entity.Edition;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.exception.ServiceException;
-import by.kiselevich.periodicals.factory.EditionRepositoryFactory;
+import by.kiselevich.periodicals.factory.RepositoryFactory;
 import by.kiselevich.periodicals.repository.edition.EditionRepository;
 import by.kiselevich.periodicals.specification.edition.FindAllEditions;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +19,7 @@ public class EditionServiceImpl implements EditionService {
     private EditionRepository editionRepository;
 
     public EditionServiceImpl() {
-        editionRepository = EditionRepositoryFactory.getInstance().getEditionRepository();
+        editionRepository = RepositoryFactory.getInstance().getEditionRepository();
     }
 
     @Override
