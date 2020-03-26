@@ -28,6 +28,7 @@ public class ShowEditions implements Command {
         try {
             List<Edition> editionList = editionService.getAllEditions();
             req.setAttribute(Attribute.EDITIONS.getValue(), editionList);
+            req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
             req.setAttribute(Attribute.EDITIONS.getValue(), null);

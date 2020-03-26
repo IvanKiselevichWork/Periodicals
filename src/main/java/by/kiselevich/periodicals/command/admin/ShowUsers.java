@@ -28,6 +28,7 @@ public class ShowUsers implements Command {
         try {
             List<User> userList = userService.getAllUsers();
             req.setAttribute(Attribute.USERS.getValue(), userList);
+            req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
             req.setAttribute(Attribute.USERS.getValue(), null);

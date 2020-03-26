@@ -28,6 +28,7 @@ public class ShowPayments implements Command {
         try {
             List<Payment> paymentList = paymentService.getAllPayments();
             req.setAttribute(Attribute.PAYMENTS.getValue(), paymentList);
+            req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
             req.setAttribute(Attribute.PAYMENTS.getValue(), null);
