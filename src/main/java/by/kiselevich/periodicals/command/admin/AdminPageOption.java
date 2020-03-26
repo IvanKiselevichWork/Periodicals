@@ -4,5 +4,6 @@ public enum AdminPageOption {
     MAIN,
     USERS,
     EDITIONS,
-    PAYMENTS
+    PAYMENTS,
+    SUBSCRIPTIONS
 }

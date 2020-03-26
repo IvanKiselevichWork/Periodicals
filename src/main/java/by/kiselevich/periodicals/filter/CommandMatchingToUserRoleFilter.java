@@ -42,6 +42,7 @@ public class CommandMatchingToUserRoleFilter implements Filter {
             SHOW_USERS,
             SHOW_EDITIONS,
             SHOW_PAYMENTS,
+            SHOW_SUBSCRIPTIONS,
             BLOCK_USER,
             UNBLOCK_USER
     );

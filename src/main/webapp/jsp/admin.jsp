@@ -109,7 +109,7 @@
                     <em class="fas fa-book mr-3"></em><fmt:message key="editions"/></a>
                 <a href="./?command=SHOW_PAYMENTS" class="list-group-item list-group-item-action waves-effect">
                     <em class="fas fa-money-bill-alt mr-3"></em><fmt:message key="payments"/></a>
-                <a href="#" class="list-group-item list-group-item-action waves-effect">
+                <a href="./?command=SHOW_SUBSCRIPTIONS" class="list-group-item list-group-item-action waves-effect">
                     <em class="fas fa-check-square mr-3"></em><fmt:message key="subscriptions"/></a>
             </div>
 
@@ -309,14 +309,14 @@
                                         </c:if>
                                     </div>
                                 </c:when>
-                                <c:when test="${adminPageOption.toString() == 'SUBCRIPTIONS'}">
-                                    <div id="payments_div" class="alert alert-danger" role="alert"></div>
+                                <c:when test="${adminPageOption.toString() == 'SUBSCRIPTIONS'}">
+                                    <div id="subscriptions_div" class="alert alert-danger" role="alert"></div>
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
-                                        <c:if test="${empty payments}">
+                                        <c:if test="${empty subscriptions}">
                                             ${message}
                                         </c:if>
-                                        <c:if test="${not empty payments}">
+                                        <c:if test="${not empty subscriptions}">
                                             <!-- MDBootstrap table -->
                                             <table id="dtMaterialDesignExample" class="table table-striped w-100" cellspacing="0">
                                                 <thead>
@@ -325,31 +325,31 @@
                                                         <fmt:message key="id"/>
                                                     </th>
                                                     <th class="th-sm">
+                                                        <fmt:message key="edition_id"/>
+                                                    </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="subscription_start_date"/>
+                                                    </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="subscription_end_date"/>
+                                                    </th>
+                                                    <th class="th-sm">
                                                         <fmt:message key="user_id"/>
                                                     </th>
                                                     <th class="th-sm">
-                                                        <fmt:message key="type_id"/>
-                                                    </th>
-                                                    <th class="th-sm">
-                                                        <fmt:message key="date"/>
-                                                    </th>
-                                                    <th class="th-sm">
-                                                        <fmt:message key="amount"/>
-                                                    </th>
-                                                    <th class="th-sm">
-                                                        <fmt:message key="subscription_id"/>
+                                                        <fmt:message key="is_paid"/>
                                                     </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <c:forEach var="payment" items="${payments}" varStatus="status">
+                                                <c:forEach var="subscription" items="${subscriptions}" varStatus="status">
                                                     <tr>
-                                                        <td><c:out value="${ payment.id }" /></td>
-                                                        <td><c:out value="${ payment.userId }" /></td>
-                                                        <td><c:out value="${ payment.typeId }" /></td>
-                                                        <td><c:out value="${ payment.date }" /></td>
-                                                        <td><c:out value="${ payment.amount }" /></td>
-                                                        <td><c:out value="${ payment.subscriptionId }" /></td>
+                                                        <td><c:out value="${ subscription.id }" /></td>
+                                                        <td><c:out value="${ subscription.editionId }" /></td>
+                                                        <td><c:out value="${ subscription.subscriptionStartDate }" /></td>
+                                                        <td><c:out value="${ subscription.subscriptionEndDate }" /></td>
+                                                        <td><c:out value="${ subscription.userId }" /></td>
+                                                        <td><c:out value="${ subscription.paid }" /></td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
