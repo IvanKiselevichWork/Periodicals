@@ -10,6 +10,7 @@ public enum Attribute {
     USERS_COUNT("usersCount"),
     EDITIONS("editions"),
     EDITIONS_COUNT("editionsCount"),
+    PAYMENTS("payments"),
     PAYMENTS_COUNT("paymentsCount");
 
     private String value;

@@ -214,7 +214,7 @@
                                     </div>
                                 </c:when>
                                 <c:when test="${adminPageOption.toString() == 'EDITIONS'}">
-                                    <div id="users_div" class="alert alert-danger" role="alert"></div>
+                                    <div id="editions_div" class="alert alert-danger" role="alert"></div>
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
                                         <c:if test="${empty editions}">
@@ -254,14 +254,51 @@
                                     </div>
                                 </c:when>
                                 <c:when test="${adminPageOption.toString() == 'PAYMENTS'}">
+                                    <div id="payments_div" class="alert alert-danger" role="alert"></div>
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
-                                        <a class="list-group-item list-group-item-action waves-effect">
-                                            <fmt:message key="payments"/>
-                                            <span class="badge badge-primary badge-pill pull-right">
-                                                ${paymentsCount}<em class="fas fa-money-bill ml-1"></em>
-                                            </span>
-                                        </a>
+                                        <c:if test="${empty payments}">
+                                            ${message}
+                                        </c:if>
+                                        <c:if test="${not empty payments}">
+                                            <!-- MDBootstrap table -->
+                                            <table id="dtMaterialDesignExample" class="table table-striped w-100" cellspacing="0">
+                                                <thead>
+                                                <tr>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="id"/>
+                                                    </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="user_id"/>
+                                                    </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="type_id"/>
+                                                    </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="date"/>
+                                                    </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="amount"/>
+                                                    </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="subscription_id"/>
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:forEach var="payment" items="${payments}" varStatus="status">
+                                                    <tr>
+                                                        <td><c:out value="${ payment.id }" /></td>
+                                                        <td><c:out value="${ payment.userId }" /></td>
+                                                        <td><c:out value="${ payment.typeId }" /></td>
+                                                        <td><c:out value="${ payment.date }" /></td>
+                                                        <td><c:out value="${ payment.amount }" /></td>
+                                                        <td><c:out value="${ payment.subscriptionId }" /></td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </c:if>
                                     </div>
                                 </c:when>
                             </c:choose>
