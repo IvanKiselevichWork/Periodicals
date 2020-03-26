@@ -214,14 +214,43 @@
                                     </div>
                                 </c:when>
                                 <c:when test="${adminPageOption.toString() == 'EDITIONS'}">
+                                    <div id="users_div" class="alert alert-danger" role="alert"></div>
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
-                                        <a class="list-group-item list-group-item-action waves-effect">
-                                            <fmt:message key="editions"/>
-                                            <span class="badge badge-danger badge-pill pull-right">
-                                                ${editionsCount}<em class="fas fa-book ml-1"></em>
-                                            </span>
-                                        </a>
+                                        <c:if test="${empty editions}">
+                                            ${message}
+                                        </c:if>
+                                        <c:if test="${not empty editions}">
+                                            <!-- MDBootstrap table -->
+                                            <table id="dtMaterialDesignExample" class="table table-striped w-100" cellspacing="0">
+                                                <thead>
+                                                <tr>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="id"/>
+                                                    </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="title"/>
+                                                    </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="type"/>
+                                                    </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="theme_id"/>
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:forEach var="edition" items="${editions}" varStatus="status">
+                                                    <tr>
+                                                        <td><c:out value="${ edition.id }" /></td>
+                                                        <td><c:out value="${ edition.name }" /></td>
+                                                        <td><c:out value="${ edition.type }" /></td>
+                                                        <td><c:out value="${ edition.themeId }" /></td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </c:if>
                                     </div>
                                 </c:when>
                                 <c:when test="${adminPageOption.toString() == 'PAYMENTS'}">

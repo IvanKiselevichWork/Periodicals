@@ -8,6 +8,7 @@ public enum Attribute {
     ADMIN_PAGE_OPTION("adminPageOption"),
     USERS("users"),
     USERS_COUNT("usersCount"),
+    EDITIONS("editions"),
     EDITIONS_COUNT("editionsCount"),
     PAYMENTS_COUNT("paymentsCount");
 
