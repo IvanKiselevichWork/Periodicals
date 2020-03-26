@@ -17,7 +17,7 @@ public class CommandProvider {
 
     private final Map<CommandName, Command> commandMap = new EnumMap<>(CommandName.class);
 
-    public CommandProvider() {
+    private CommandProvider() {
         commandMap.put(CommandName.SIGN_IN, new SignIn());
         commandMap.put(CommandName.SIGN_UP, new SignUp());
         commandMap.put(CommandName.SIGN_OUT, new SignOut());
@@ -30,6 +30,14 @@ public class CommandProvider {
         commandMap.put(CommandName.SHOW_PAYMENTS, new ShowPayments());
         commandMap.put(CommandName.BLOCK_USER, new BlockUser());
         commandMap.put(CommandName.UNBLOCK_USER, new UnblockUser());
+    }
+
+    private static final class CommandProviderHolder {
+        private static final CommandProvider INSTANCE = new CommandProvider();
+    }
+
+    public static CommandProvider getInstance() {
+        return CommandProviderHolder.INSTANCE;
     }
 
     public Command getCommand(String commandNameString) {
