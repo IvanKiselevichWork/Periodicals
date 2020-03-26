@@ -17,6 +17,7 @@ public interface PaymentSpecification extends Specification<Payment> {
     String AMOUNT = "amount";
     String SUBSCRIPTION_ID = "subscription_id";
 
+    //todo time
     default List<Payment> getPaymentsFromResultSet(ResultSet resultSet) throws SQLException {
         List<Payment> payments = new ArrayList<>();
         while (resultSet.next()) {
