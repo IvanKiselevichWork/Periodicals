@@ -41,7 +41,7 @@
             <div class="container-fluid">
 
                 <!-- Brand -->
-                <a class="navbar-brand waves-effect" href="./?command=ADMIN">
+                <a class="navbar-brand waves-effect" href="./?command=ADMIN" style="font-size: 1.0rem">
                     <strong class="blue-text"><fmt:message key="periodicals"/></strong>
                     <span>/</span>
                     <span><fmt:message key="dashboard"/></span>
@@ -173,13 +173,17 @@
                                             <table id="dtMaterialDesignExample" class="table table-striped w-100" cellspacing="0">
                                                 <thead>
                                                 <tr>
-                                                    <th class="th-sm">Id
+                                                    <th class="th-sm">
+                                                        <fmt:message key="id"/>
                                                     </th>
-                                                    <th class="th-sm">Full name
+                                                    <th class="th-sm">
+                                                        <fmt:message key="full_name"/>
                                                     </th>
-                                                    <th class="th-sm">Is active
+                                                    <th class="th-sm">
+                                                        <fmt:message key="is_active"/>
                                                     </th>
-                                                    <th class="th-sm">Block
+                                                    <th class="th-sm">
+                                                        <fmt:message key="block_unblock"/>
                                                     </th>
                                                 </tr>
                                                 </thead>
