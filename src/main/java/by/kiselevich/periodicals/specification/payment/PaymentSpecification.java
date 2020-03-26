@@ -24,7 +24,7 @@ public interface PaymentSpecification extends Specification<Payment> {
                     resultSet.getInt(ID),
                     resultSet.getInt(USER_ID),
                     resultSet.getInt(TYPE_ID),
-                    resultSet.getDate(DATE).toLocalDate().atStartOfDay(),
+                    resultSet.getDate(DATE).toLocalDate(),
                     resultSet.getBigDecimal(AMOUNT),
                     resultSet.getInt(SUBSCRIPTION_ID)
             ));
