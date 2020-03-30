@@ -39,7 +39,7 @@ public class UserRepositoryImpl implements UserRepository {
         try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(ADD_USER, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getLogin());
-            String hash = HashUtil.getHash(user.getPassword(), user.getLogin());
+            String hash = HashUtil.getHash(user.getPassword().toCharArray(), user.getLogin());
             statement.setString(2, hash);
             statement.setString(3, user.getFullName());
             statement.setString(4, user.getEmail());
@@ -50,7 +50,7 @@ public class UserRepositoryImpl implements UserRepository {
                 generatedId = statement.getGeneratedKeys();
                 if (generatedId.next()) {
                     user.setId(generatedId.getInt(1));
-                    user.setPassword(hash.toCharArray());
+                    user.setPassword(hash);
                     isUserAdded = true;
                 }
             }
@@ -65,25 +65,20 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     public void block(int id) throws RepositoryException {
-        try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(BLOCK_USER);
-            statement.setInt(1, id);
-            int updatedRowCount = statement.executeUpdate();
-            if (updatedRowCount != 1) {
-                throw new RepositoryException(USER_NOT_BLOCKED_MESSAGE);
-            }
-        } catch (SQLException e) {
-            throw new RepositoryException(e);
-        }
+        updateUserById(id, BLOCK_USER, USER_NOT_BLOCKED_MESSAGE);
     }
 
     public void unblock(int id) throws RepositoryException {
+        updateUserById(id, UNBLOCK_USER, USER_NOT_UNBLOCKED_MESSAGE);
+    }
+
+    private void updateUserById(int id, String updateSqlQuery, String exceptionMessage) throws RepositoryException {
         try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(UNBLOCK_USER);
+            PreparedStatement statement = connection.prepareStatement(updateSqlQuery);
             statement.setInt(1, id);
             int updatedRowCount = statement.executeUpdate();
             if (updatedRowCount != 1) {
-                throw new RepositoryException(USER_NOT_UNBLOCKED_MESSAGE);
+                throw new RepositoryException(exceptionMessage);
             }
         } catch (SQLException e) {
             throw new RepositoryException(e);
@@ -103,17 +98,5 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> query(Specification<User> specification) throws RepositoryException {
         return specification.query();
-    }
-
-    private void closeResultSet(ResultSet resultSet) {
-        if (resultSet != null) {
-            try {
-                if (!resultSet.isClosed()) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                LOG.warn(e);
-            }
-        }
     }
 }

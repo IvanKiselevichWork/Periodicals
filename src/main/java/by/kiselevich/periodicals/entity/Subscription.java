@@ -1,7 +1,7 @@
 package by.kiselevich.periodicals.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Subscription implements Serializable {
@@ -10,8 +10,8 @@ public class Subscription implements Serializable {
 
     private int id;
     private int editionId;
-    private LocalDateTime subscriptionStartDate;
-    private LocalDateTime subscriptionEndDate;
+    private Timestamp subscriptionStartDate;
+    private Timestamp subscriptionEndDate;
     private int userId;
     private boolean isPaid;
 
@@ -19,7 +19,7 @@ public class Subscription implements Serializable {
 
     }
 
-    public Subscription(int id, int editionId, LocalDateTime subscriptionStartDate, LocalDateTime subscriptionEndDate, int userId, boolean isPaid) {
+    public Subscription(int id, int editionId, Timestamp subscriptionStartDate, Timestamp subscriptionEndDate, int userId, boolean isPaid) {
         this.id = id;
         this.editionId = editionId;
         this.subscriptionStartDate = subscriptionStartDate;
@@ -44,19 +44,19 @@ public class Subscription implements Serializable {
         this.editionId = editionId;
     }
 
-    public LocalDateTime getSubscriptionStartDate() {
+    public Timestamp getSubscriptionStartDate() {
         return subscriptionStartDate;
     }
 
-    public void setSubscriptionStartDate(LocalDateTime subscriptionStartDate) {
+    public void setSubscriptionStartDate(Timestamp subscriptionStartDate) {
         this.subscriptionStartDate = subscriptionStartDate;
     }
 
-    public LocalDateTime getSubscriptionEndDate() {
+    public Timestamp getSubscriptionEndDate() {
         return subscriptionEndDate;
     }
 
-    public void setSubscriptionEndDate(LocalDateTime subscriptionEndDate) {
+    public void setSubscriptionEndDate(Timestamp subscriptionEndDate) {
         this.subscriptionEndDate = subscriptionEndDate;
     }
 

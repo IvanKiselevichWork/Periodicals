@@ -30,8 +30,7 @@ public class SignUp implements Command {
 
             User user = new User();
             user.setLogin(login);
-            user.setPassword(password.toCharArray());
-            password = null;
+            user.setPassword(password);
             user.setFullName(fullName);
             user.setEmail(email);
             userService.signUp(user);

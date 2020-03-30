@@ -12,7 +12,7 @@ import java.util.List;
 
 public class FindAllEditions implements EditionSpecification {
 
-    private static final String FIND_ALL_EDITIONS = "select id, name, type, theme_id, periodicity_per_year, minimum_subscription_period_in_months, price_for_minimum_subscription_period from edition";
+    private static final String FIND_ALL_EDITIONS = "select id, name, type_id, theme_id, periodicity_per_year, minimum_subscription_period_in_months, price_for_minimum_subscription_period from edition";
 
     @Override
     public List<Edition> query() throws RepositoryException {

@@ -26,7 +26,7 @@ public interface UserSpecification extends Specification<User> {
                     resultSet.getInt(ID),
                     resultSet.getInt(ROLE_ID),
                     resultSet.getString(LOGIN),
-                    resultSet.getString(PASSWORD).toCharArray(),
+                    resultSet.getString(PASSWORD),
                     resultSet.getString(FULL_NAME),
                     resultSet.getString(EMAIL),
                     resultSet.getBigDecimal(MONEY),

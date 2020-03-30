@@ -9,7 +9,6 @@ import by.kiselevich.periodicals.util.HashUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 public class FindUserByLoginAndPassword implements UserSpecification {
@@ -19,10 +18,9 @@ public class FindUserByLoginAndPassword implements UserSpecification {
     private String login;
     private String password;
 
-    public FindUserByLoginAndPassword(String login, char[] password) {
+    public FindUserByLoginAndPassword(String login, String password) {
         this.login = login;
-        this.password = HashUtil.getHash(password, login);
-        Arrays.fill(password, '0');
+        this.password = HashUtil.getHash(password.toCharArray(), login);
     }
 
     @Override

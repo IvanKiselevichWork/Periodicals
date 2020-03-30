@@ -12,7 +12,7 @@ public interface EditionSpecification extends Specification<Edition> {
 
     String ID = "id";
     String NAME = "name";
-    String TYPE = "type";
+    String TYPE_ID = "type_id";
     String THEME_ID = "theme_id";
     String PERIODICITY_PER_YEAR = "periodicity_per_year";
     String MINIMUM_SUBSCRIPTION_PERIOD_IN_MONTHS = "minimum_subscription_period_in_months";
@@ -25,7 +25,7 @@ public interface EditionSpecification extends Specification<Edition> {
             editions.add(new Edition(
                     resultSet.getInt(ID),
                     resultSet.getString(NAME),
-                    resultSet.getString(TYPE),
+                    resultSet.getInt(TYPE_ID),
                     resultSet.getInt(THEME_ID),
                     resultSet.getInt(PERIODICITY_PER_YEAR),
                     resultSet.getInt(MINIMUM_SUBSCRIPTION_PERIOD_IN_MONTHS),

@@ -4,7 +4,6 @@ import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.UserValidatorException;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,17 +40,9 @@ public class UserValidator {
         }
     }
 
-    private void checkPassword(char[] password) throws UserValidatorException {
-        if (password == null) {
+    private void checkPassword(String password) throws UserValidatorException {
+        if (password == null || !isStringMatchesRegex(password, PASSWORD_REGEX)) {
             throw new UserValidatorException(ResourceBundleMessages.INVALID_PASSWORD.getKey());
-        }
-        try {
-            String passwordString = String.valueOf(password);
-            if (!isStringMatchesRegex(passwordString, PASSWORD_REGEX)) {
-                throw new UserValidatorException(ResourceBundleMessages.INVALID_PASSWORD.getKey());
-            }
-        } finally {
-            Arrays.fill(password, '0');
         }
     }
 
