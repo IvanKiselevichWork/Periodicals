@@ -39,7 +39,7 @@ public class UserRepositoryImpl implements UserRepository {
         try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(ADD_USER, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getLogin());
-            String hash = HashUtil.getHash(user.getPassword(), user.getLogin());
+            String hash = HashUtil.getHash(user.getPassword().toCharArray(), user.getLogin());
             statement.setString(2, hash);
             statement.setString(3, user.getFullName());
             statement.setString(4, user.getEmail());
@@ -50,7 +50,7 @@ public class UserRepositoryImpl implements UserRepository {
                 generatedId = statement.getGeneratedKeys();
                 if (generatedId.next()) {
                     user.setId(generatedId.getInt(1));
-                    user.setPassword(hash.toCharArray());
+                    user.setPassword(hash);
                     isUserAdded = true;
                 }
             }

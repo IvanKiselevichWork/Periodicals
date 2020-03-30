@@ -28,8 +28,7 @@ public class SignIn implements Command {
         try {
             User user = new User();
             user.setLogin(login);
-            user.setPassword(password.toCharArray());
-            password = null;
+            user.setPassword(password);
             userService.signIn(user);
             req.getSession().setAttribute(Attribute.USER_ROLE.getValue(), UserRole.getUserRoleById(user.getRoleId()));
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);

@@ -2,27 +2,29 @@ package by.kiselevich.periodicals.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class User implements Serializable {
 
     private static final long serialVersionUID = -3056882988523044542L;
 
+    private static final BigDecimal DEFAULT_MONEY = BigDecimal.valueOf(0);
+    private static final boolean DEFAULT_AVAILABILITY = true;
+
     private int id;
     private int roleId;
     private String login;
-    private char[] password;
+    private String password;
     private String fullName;
     private String email;
-    private BigDecimal money;
-    private boolean isAvailable;
+    private BigDecimal money = DEFAULT_MONEY;
+    private boolean isAvailable = DEFAULT_AVAILABILITY;
 
     public User() {
 
     }
 
-    public User(int id, int roleId, String login, char[] password, String fullName, String email, BigDecimal money, boolean isAvailable) {
+    public User(int id, int roleId, String login, String password, String fullName, String email, BigDecimal money, boolean isAvailable) {
         this.id = id;
         this.roleId = roleId;
         this.login = login;
@@ -57,12 +59,12 @@ public class User implements Serializable {
         this.login = login;
     }
 
-    public char[] getPassword() {
-        return Arrays.copyOf(password, password.length);
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassword(char[] password) {
-        this.password = Arrays.copyOf(password, password.length);
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFullName() {
@@ -108,7 +110,7 @@ public class User implements Serializable {
         if (roleId != user.roleId) return false;
         if (isAvailable != user.isAvailable) return false;
         if (!Objects.equals(login, user.login)) return false;
-        if (!Arrays.equals(password, user.password)) return false;
+        if (!Objects.equals(password, user.password)) return false;
         if (!Objects.equals(fullName, user.fullName)) return false;
         if (!Objects.equals(email, user.email)) return false;
         return Objects.equals(money, user.money);
@@ -119,7 +121,7 @@ public class User implements Serializable {
         int result = id;
         result = 31 * result + roleId;
         result = 31 * result + (login != null ? login.hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(password);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (money != null ? money.hashCode() : 0);
@@ -133,7 +135,6 @@ public class User implements Serializable {
                 "id=" + id +
                 ", roleId=" + roleId +
                 ", login='" + login + '\'' +
-                ", password=" + Arrays.toString(password) +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", money=" + money +

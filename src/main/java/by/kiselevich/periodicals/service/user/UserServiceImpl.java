@@ -14,7 +14,6 @@ import by.kiselevich.periodicals.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -32,13 +31,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void signUp(User user) throws ServiceException {
         try {
-            if (user == null) {
-                throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
-            }
-
-            user.setMoney(BigDecimal.valueOf(0));
-            user.setAvailable(true);
-
             userValidator.checkUserCredentialsOnSignUp(user);
 
             if (!userRepository.query(new FindUserByLogin(user.getLogin())).isEmpty()) {
@@ -58,8 +50,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void signIn(User user) throws ServiceException {
         try {
-            //todo null check
             userValidator.checkUserCredentialsOnSignIn(user);
+
             List<User> userList = userRepository.query(new FindUserByLoginAndPassword(user.getLogin(), user.getPassword()));
             if (userList.isEmpty()) {
                 throw new ServiceException(ResourceBundleMessages.USER_NOT_FOUND_KEY.getKey());
