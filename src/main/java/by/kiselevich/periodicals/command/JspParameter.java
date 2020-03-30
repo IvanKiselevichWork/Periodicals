@@ -6,7 +6,8 @@ public enum JspParameter {
     PASSWORD("password"),
     FULL_NAME("full_name"),
     EMAIL("email"),
-    TARGET_LANGUAGE("target_language");
+    TARGET_LANGUAGE("target_language"),
+    ID("id");
 
     private String value;
 

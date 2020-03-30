@@ -4,7 +4,16 @@ public enum Attribute {
     MESSAGE("message"),
     USER_ROLE("userRole"),
     LOGIN("login"),
-    LANGUAGE("language");
+    LANGUAGE("language"),
+    ADMIN_PAGE_OPTION("adminPageOption"),
+    USERS("users"),
+    USERS_COUNT("usersCount"),
+    EDITIONS("editions"),
+    EDITIONS_COUNT("editionsCount"),
+    PAYMENTS("payments"),
+    PAYMENTS_COUNT("paymentsCount"),
+    SUBSCRIPTIONS("subscriptions"),
+    SUBSCRIPTIONS_COUNT("subscriptionsCount");
 
     private String value;
 

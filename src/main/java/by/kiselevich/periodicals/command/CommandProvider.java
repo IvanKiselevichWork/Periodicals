@@ -1,5 +1,6 @@
 package by.kiselevich.periodicals.command;
 
+import by.kiselevich.periodicals.command.admin.*;
 import by.kiselevich.periodicals.command.home.ShowHomePage;
 import by.kiselevich.periodicals.command.language.ChangeLanguage;
 import by.kiselevich.periodicals.command.signing.*;
@@ -16,13 +17,28 @@ public class CommandProvider {
 
     private final Map<CommandName, Command> commandMap = new EnumMap<>(CommandName.class);
 
-    public CommandProvider() {
+    private CommandProvider() {
         commandMap.put(CommandName.SIGN_IN, new SignIn());
         commandMap.put(CommandName.SIGN_UP, new SignUp());
         commandMap.put(CommandName.SIGN_OUT, new SignOut());
         commandMap.put(CommandName.HOME, new ShowHomePage());
         commandMap.put(CommandName.WRONG_REQUEST, new ShowWrongRequestPage());
         commandMap.put(CommandName.CHANGE_LANGUAGE, new ChangeLanguage());
+        commandMap.put(CommandName.ADMIN, new ShowAdminPage());
+        commandMap.put(CommandName.SHOW_USERS, new ShowUsers());
+        commandMap.put(CommandName.SHOW_EDITIONS, new ShowEditions());
+        commandMap.put(CommandName.SHOW_PAYMENTS, new ShowPayments());
+        commandMap.put(CommandName.SHOW_SUBSCRIPTIONS, new ShowSubscriptions());
+        commandMap.put(CommandName.BLOCK_USER, new BlockUser());
+        commandMap.put(CommandName.UNBLOCK_USER, new UnblockUser());
+    }
+
+    private static final class CommandProviderHolder {
+        private static final CommandProvider INSTANCE = new CommandProvider();
+    }
+
+    public static CommandProvider getInstance() {
+        return CommandProviderHolder.INSTANCE;
     }
 
     public Command getCommand(String commandNameString) {
@@ -41,5 +57,9 @@ public class CommandProvider {
             command = commandMap.get(CommandName.WRONG_REQUEST);
         }
         return command;
+    }
+
+    public Command getCommand(CommandName commandName) {
+        return commandMap.get(commandName);
     }
 }

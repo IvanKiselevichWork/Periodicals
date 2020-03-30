@@ -2,8 +2,8 @@ package by.kiselevich.periodicals.command.signing;
 
 import by.kiselevich.periodicals.command.*;
 import by.kiselevich.periodicals.entity.User;
-import by.kiselevich.periodicals.exception.UserServiceException;
-import by.kiselevich.periodicals.factory.UserServiceFactory;
+import by.kiselevich.periodicals.exception.ServiceException;
+import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.user.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +17,7 @@ public class SignUp implements Command {
     private UserService userService;
 
     public SignUp() {
-        userService = UserServiceFactory.getInstance().getUserService();
+        userService = ServiceFactory.getInstance().getUserService();
     }
 
     @Override
@@ -37,8 +37,8 @@ public class SignUp implements Command {
             userService.signUp(user);
             req.getSession().setAttribute(Attribute.USER_ROLE.getValue(), UserRole.USER);
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
-            return Page.HOME;
-        } catch (UserServiceException e) {
+            return Page.HOME_PAGE;
+        } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
             writeMessageToResponse(resp, message);
             return Page.EMPTY_PAGE;

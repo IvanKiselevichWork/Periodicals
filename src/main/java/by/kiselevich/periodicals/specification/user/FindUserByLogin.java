@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class FindUserByLogin extends AbstractUserSpecification implements UserSpecification {
+public class FindUserByLogin implements UserSpecification {
 
     private static final String FIND_USERS_BY_LOGIN = "select id, login, password, full_name, email, money, role_id, is_available from user where login = ?";
 

@@ -7,4 +7,11 @@ public enum CommandName {
     SIGN_UP,
     SIGN_OUT,
     CHANGE_LANGUAGE,
+    ADMIN,
+    SHOW_USERS,
+    SHOW_EDITIONS,
+    SHOW_PAYMENTS,
+    SHOW_SUBSCRIPTIONS,
+    BLOCK_USER,
+    UNBLOCK_USER
 }

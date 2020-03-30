@@ -75,7 +75,7 @@
                     </button>
                 </li>
             </c:if>
-            <c:if test="${sessionScope.userRole == 'USER'}">
+            <c:if test="${sessionScope.userRole != 'GUEST'}">
                 <li class="nav-item" style="max-width: 50%">
                     <a class="nav-link">
                             ${sessionScope.login}
@@ -96,10 +96,11 @@
          style="background-image: url(${root}/img/background.jpg); background-repeat: no-repeat; background-size: cover;">
 
         <!-- Mask & flexbox options-->
-        <div class="mask rgba-black-light d-flex justify-content-center align-items-center" style="min-width: available">
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center"
+             style="min-width: available">
 
             <!-- Content -->
-            <div id="initial_width" class="text-center white-text mx-5 wow fadeIn">
+            <div id="initial_width" class="container-fluid text-center white-text mx-5 wow fadeIn">
                 <c:if test="${sessionScope.userRole == 'GUEST'}">
                     <h1 class="mb-4">
                         <strong><fmt:message key="guest_message"/></strong>
@@ -110,9 +111,62 @@
                         <strong><fmt:message key="periodicals"/></strong>
                     </h1>
 
-                    <a class="btn btn-outline-white btn-lg">
-                        <fmt:message key="periodicals_wip"/>
-                    </a>
+                    <div class="container-fluid mt-5">
+                        <!--Grid row-->
+                        <div class="row wow fadeIn flex-center">
+                            <!--Grid column-->
+                            <div class="col-md-4 mb-4">
+                                <!--Card-->
+                                <div class="card mb-4" style="background-color: transparent">
+                                    <!--Card content-->
+                                    <div class="card-body">
+                                        <div class="list-group list-group-flush">
+                                            <a href="#" class="list-group-item list-group-item-action waves-effect">
+                                                <em class="fas fa-user mr-3"></em>
+                                                <fmt:message key="profile"/>
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action waves-effect">
+                                                <em class="fas fa-book mr-3"></em>
+                                                <fmt:message key="find_edition"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/.Card-->
+                            </div>
+                            <!--Grid column-->
+                        </div>
+                        <!--Grid row-->
+                    </div>
+                </c:if>
+                <c:if test="${sessionScope.userRole == 'ADMIN'}">
+                    <h1 class="mb-4">
+                        <strong><fmt:message key="periodicals"/></strong>
+                    </h1>
+
+                    <div class="container-fluid mt-5">
+                        <!--Grid row-->
+                        <div class="row wow fadeIn flex-center">
+                            <!--Grid column-->
+                            <div class="col-md-4 mb-4">
+                                <!--Card-->
+                                <div class="card mb-4" style="background-color: transparent">
+                                    <!--Card content-->
+                                    <div class="card-body">
+                                        <div class="list-group list-group-flush">
+                                            <a href="./?command=ADMIN" class="list-group-item active waves-effect">
+                                                <em class="fas fa-chart-pie mr-3"></em>
+                                                <fmt:message key="dashboard"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/.Card-->
+                            </div>
+                            <!--Grid column-->
+                        </div>
+                        <!--Grid row-->
+                    </div>
                 </c:if>
             </div>
             <!-- Content -->

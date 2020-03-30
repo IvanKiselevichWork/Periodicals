@@ -10,6 +10,6 @@ public class ShowHomePage implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-        return Page.HOME;
+        return Page.HOME_PAGE;
     }
 }
