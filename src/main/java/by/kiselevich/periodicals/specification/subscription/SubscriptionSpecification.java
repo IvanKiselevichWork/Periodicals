@@ -24,8 +24,8 @@ public interface SubscriptionSpecification extends Specification<Subscription> {
             subscriptions.add(new Subscription(
                     resultSet.getInt(ID),
                     resultSet.getInt(EDITION_ID),
-                    resultSet.getDate(SUBSCRIPTION_START_DATE).toLocalDate().atStartOfDay(),
-                    resultSet.getDate(SUBSCRIPTION_END_DATE).toLocalDate().atStartOfDay(),
+                    resultSet.getTimestamp(SUBSCRIPTION_START_DATE),
+                    resultSet.getTimestamp(SUBSCRIPTION_END_DATE),
                     resultSet.getInt(USER_ID),
                     resultSet.getBoolean(IS_PAID)
             ));
