@@ -99,16 +99,4 @@ public class UserRepositoryImpl implements UserRepository {
     public List<User> query(Specification<User> specification) throws RepositoryException {
         return specification.query();
     }
-
-    private void closeResultSet(ResultSet resultSet) {
-        if (resultSet != null) {
-            try {
-                if (!resultSet.isClosed()) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                LOG.warn(e);
-            }
-        }
-    }
 }
