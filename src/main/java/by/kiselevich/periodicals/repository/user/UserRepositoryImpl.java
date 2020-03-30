@@ -65,25 +65,20 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     public void block(int id) throws RepositoryException {
-        try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(BLOCK_USER);
-            statement.setInt(1, id);
-            int updatedRowCount = statement.executeUpdate();
-            if (updatedRowCount != 1) {
-                throw new RepositoryException(USER_NOT_BLOCKED_MESSAGE);
-            }
-        } catch (SQLException e) {
-            throw new RepositoryException(e);
-        }
+        updateUserById(id, BLOCK_USER, USER_NOT_BLOCKED_MESSAGE);
     }
 
     public void unblock(int id) throws RepositoryException {
+        updateUserById(id, UNBLOCK_USER, USER_NOT_UNBLOCKED_MESSAGE);
+    }
+
+    private void updateUserById(int id, String updateSqlQuery, String exceptionMessage) throws RepositoryException {
         try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(UNBLOCK_USER);
+            PreparedStatement statement = connection.prepareStatement(updateSqlQuery);
             statement.setInt(1, id);
             int updatedRowCount = statement.executeUpdate();
             if (updatedRowCount != 1) {
-                throw new RepositoryException(USER_NOT_UNBLOCKED_MESSAGE);
+                throw new RepositoryException(exceptionMessage);
             }
         } catch (SQLException e) {
             throw new RepositoryException(e);
