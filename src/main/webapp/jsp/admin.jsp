@@ -242,7 +242,7 @@
                                                         <fmt:message key="title"/>
                                                     </th>
                                                     <th class="th-sm">
-                                                        <fmt:message key="type"/>
+                                                        <fmt:message key="type_id"/>
                                                     </th>
                                                     <th class="th-sm">
                                                         <fmt:message key="theme_id"/>
@@ -254,7 +254,7 @@
                                                     <tr>
                                                         <td><c:out value="${ edition.id }" /></td>
                                                         <td><c:out value="${ edition.name }" /></td>
-                                                        <td><c:out value="${ edition.type }" /></td>
+                                                        <td><c:out value="${ edition.typeId }" /></td>
                                                         <td><c:out value="${ edition.themeId }" /></td>
                                                     </tr>
                                                 </c:forEach>

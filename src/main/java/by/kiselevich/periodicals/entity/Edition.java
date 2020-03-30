@@ -10,7 +10,7 @@ public class Edition implements Serializable {
 
     private int id;
     private String name;
-    private String type;
+    private int typeId;
     private int themeId;
     private int periodicityPerYear;
     private int minimumSubscriptionPeriodInMonths;
@@ -20,10 +20,10 @@ public class Edition implements Serializable {
 
     }
 
-    public Edition(int id, String name, String type, int themeId, int periodicityPerYear, int minimumSubscriptionPeriodInMonths, BigDecimal priceForMinimumSubscriptionPeriod) {
+    public Edition(int id, String name, int typeId, int themeId, int periodicityPerYear, int minimumSubscriptionPeriodInMonths, BigDecimal priceForMinimumSubscriptionPeriod) {
         this.id = id;
         this.name = name;
-        this.type = type;
+        this.typeId = typeId;
         this.themeId = themeId;
         this.periodicityPerYear = periodicityPerYear;
         this.minimumSubscriptionPeriodInMonths = minimumSubscriptionPeriodInMonths;
@@ -46,12 +46,12 @@ public class Edition implements Serializable {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public int getTypeId() {
+        return typeId;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
     }
 
     public int getThemeId() {
@@ -94,11 +94,11 @@ public class Edition implements Serializable {
         Edition edition = (Edition) o;
 
         if (id != edition.id) return false;
+        if (typeId != edition.typeId) return false;
         if (themeId != edition.themeId) return false;
         if (periodicityPerYear != edition.periodicityPerYear) return false;
         if (minimumSubscriptionPeriodInMonths != edition.minimumSubscriptionPeriodInMonths) return false;
         if (!Objects.equals(name, edition.name)) return false;
-        if (!Objects.equals(type, edition.type)) return false;
         return Objects.equals(priceForMinimumSubscriptionPeriod, edition.priceForMinimumSubscriptionPeriod);
     }
 
@@ -106,7 +106,7 @@ public class Edition implements Serializable {
     public int hashCode() {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + typeId;
         result = 31 * result + themeId;
         result = 31 * result + periodicityPerYear;
         result = 31 * result + minimumSubscriptionPeriodInMonths;
@@ -119,7 +119,7 @@ public class Edition implements Serializable {
         return "Edition{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
+                ", type='" + typeId + '\'' +
                 ", themeId=" + themeId +
                 ", periodicityPerYear=" + periodicityPerYear +
                 ", minimumSubscriptionPeriodInMonths=" + minimumSubscriptionPeriodInMonths +
