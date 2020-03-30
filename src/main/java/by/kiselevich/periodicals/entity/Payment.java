@@ -2,8 +2,7 @@ package by.kiselevich.periodicals.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Payment implements Serializable {
@@ -13,7 +12,7 @@ public class Payment implements Serializable {
     private int id;
     private int userId;
     private int typeId;
-    private LocalDate date;
+    private Timestamp date;
     private BigDecimal amount;
     private Integer subscriptionId;
 
@@ -21,7 +20,7 @@ public class Payment implements Serializable {
 
     }
 
-    public Payment(int id, int userId, int typeId, LocalDate date, BigDecimal amount, Integer subscriptionId) {
+    public Payment(int id, int userId, int typeId, Timestamp date, BigDecimal amount, Integer subscriptionId) {
         this.id = id;
         this.userId = userId;
         this.typeId = typeId;
@@ -54,11 +53,11 @@ public class Payment implements Serializable {
         this.typeId = typeId;
     }
 
-    public LocalDate getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
