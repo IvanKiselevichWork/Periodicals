@@ -178,8 +178,9 @@
                                             ${message}
                                         </c:if>
                                         <c:if test="${not empty users}">
-                                        <!-- MDBootstrap table -->
-                                            <table id="dtMaterialDesignExample" class="table table-striped w-100" cellspacing="0">
+                                            <!-- MDBootstrap table -->
+                                            <table id="dtMaterialDesignExample" class="table table-striped w-100"
+                                                   cellspacing="0">
                                                 <thead>
                                                 <tr>
                                                     <th class="th-sm">
@@ -199,18 +200,22 @@
                                                 <tbody>
                                                 <c:forEach var="user" items="${users}" varStatus="status">
                                                     <tr>
-                                                        <td><c:out value="${ user.id }" /></td>
-                                                        <td><c:out value="${ user.fullName }" /></td>
-                                                        <td><c:out value="${ user.available }" /></td>
+                                                        <td><c:out value="${ user.id }"/></td>
+                                                        <td><c:out value="${ user.fullName }"/></td>
+                                                        <td><c:out value="${ user.available }"/></td>
                                                         <td>
-                                                            <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0" type="button" id="user${user.id}" onclick="userBlockUnblock(this)">
+                                                            <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0"
+                                                                    type="button" id="user${user.id}"
+                                                                    onclick="userBlockUnblock(this)">
                                                                 <input type="hidden" name="id" value="${user.id}"/>
                                                                 <c:if test="${user.available}">
-                                                                    <input type="hidden" name="command" value="BLOCK_USER"/>
+                                                                    <input type="hidden" name="command"
+                                                                           value="BLOCK_USER"/>
                                                                     <fmt:message key="block"/>
                                                                 </c:if>
                                                                 <c:if test="${not user.available}">
-                                                                    <input type="hidden" name="command" value="UNBLOCK_USER"/>
+                                                                    <input type="hidden" name="command"
+                                                                           value="UNBLOCK_USER"/>
                                                                     <fmt:message key="unblock"/>
                                                                 </c:if>
                                                             </button>
@@ -224,7 +229,18 @@
                                 </c:when>
                                 <c:when test="${adminPageOption.toString() == 'EDITIONS'}">
                                     <div id="editions_div" class="alert alert-danger" role="alert"></div>
-                                    <h4><fmt:message key="editions"/></h4>
+                                    <div class="d-flex">
+                                        <div class="p-0">
+                                            <h4><fmt:message key="editions"/></h4>
+                                        </div>
+                                        <div class="ml-auto p-0">
+                                            <button type="button" class="btn btn-outline-primary waves-effect"
+                                                    data-toggle="modal" data-target="#modalNewEdition">
+                                                <fmt:message key="add_new_edition"/>
+                                            </button>
+                                        </div>
+                                    </div>
+
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
                                         <c:if test="${empty editions}">
@@ -232,7 +248,8 @@
                                         </c:if>
                                         <c:if test="${not empty editions}">
                                             <!-- MDBootstrap table -->
-                                            <table id="dtMaterialDesignExample" class="table table-striped w-100" cellspacing="0">
+                                            <table id="dtMaterialDesignExample" class="table table-striped w-100"
+                                                   cellspacing="0">
                                                 <thead>
                                                 <tr>
                                                     <th class="th-sm">
@@ -273,7 +290,8 @@
                                         </c:if>
                                         <c:if test="${not empty payments}">
                                             <!-- MDBootstrap table -->
-                                            <table id="dtMaterialDesignExample" class="table table-striped w-100" cellspacing="0">
+                                            <table id="dtMaterialDesignExample" class="table table-striped w-100"
+                                                   cellspacing="0">
                                                 <thead>
                                                 <tr>
                                                     <th class="th-sm">
@@ -299,12 +317,12 @@
                                                 <tbody>
                                                 <c:forEach var="payment" items="${payments}" varStatus="status">
                                                     <tr>
-                                                        <td><c:out value="${ payment.id }" /></td>
-                                                        <td><c:out value="${ payment.userId }" /></td>
-                                                        <td><c:out value="${ payment.typeId }" /></td>
-                                                        <td><c:out value="${ payment.date }" /></td>
-                                                        <td><c:out value="${ payment.amount }" /></td>
-                                                        <td><c:out value="${ payment.subscriptionId }" /></td>
+                                                        <td><c:out value="${ payment.id }"/></td>
+                                                        <td><c:out value="${ payment.userId }"/></td>
+                                                        <td><c:out value="${ payment.typeId }"/></td>
+                                                        <td><c:out value="${ payment.date }"/></td>
+                                                        <td><c:out value="${ payment.amount }"/></td>
+                                                        <td><c:out value="${ payment.subscriptionId }"/></td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -322,7 +340,8 @@
                                         </c:if>
                                         <c:if test="${not empty subscriptions}">
                                             <!-- MDBootstrap table -->
-                                            <table id="dtMaterialDesignExample" class="table table-striped w-100" cellspacing="0">
+                                            <table id="dtMaterialDesignExample" class="table table-striped w-100"
+                                                   cellspacing="0">
                                                 <thead>
                                                 <tr>
                                                     <th class="th-sm">
@@ -346,14 +365,16 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <c:forEach var="subscription" items="${subscriptions}" varStatus="status">
+                                                <c:forEach var="subscription" items="${subscriptions}"
+                                                           varStatus="status">
                                                     <tr>
-                                                        <td><c:out value="${ subscription.id }" /></td>
-                                                        <td><c:out value="${ subscription.editionId }" /></td>
-                                                        <td><c:out value="${ subscription.subscriptionStartDate }" /></td>
-                                                        <td><c:out value="${ subscription.subscriptionEndDate }" /></td>
-                                                        <td><c:out value="${ subscription.userId }" /></td>
-                                                        <td><c:out value="${ subscription.paid }" /></td>
+                                                        <td><c:out value="${ subscription.id }"/></td>
+                                                        <td><c:out value="${ subscription.editionId }"/></td>
+                                                        <td><c:out
+                                                                value="${ subscription.subscriptionStartDate }"/></td>
+                                                        <td><c:out value="${ subscription.subscriptionEndDate }"/></td>
+                                                        <td><c:out value="${ subscription.userId }"/></td>
+                                                        <td><c:out value="${ subscription.paid }"/></td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -388,6 +409,71 @@
         <!--/.Copyright-->
     </footer>
     <!--/.Footer-->
+
+
+    <section>
+        <!--Modal: Add new edition -->
+        <div class="modal fade" id="modalNewEdition" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog w-50" role="document" style="max-width: 1000px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newEditionHeader"><fmt:message key="add_new_edition"/></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="mx-auto">
+                            <div class="form-group">
+                                <label for="edition-title-label"><fmt:message key="title"/></label>
+                                <input type="text" class="form-control" id="edition-title-label" name="title"
+                                       placeholder="<fmt:message key="enter_title"/>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-type-label"><fmt:message key="type_id"/></label>
+                                <input type="text" class="form-control" id="edition-type-label" name="type_id"
+                                       placeholder="<fmt:message key="enter_type"/>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-theme-label"><fmt:message key="theme_id"/></label>
+                                <input type="text" class="form-control" id="edition-theme-label" name="theme_id"
+                                       placeholder="<fmt:message key="enter_theme_id"/>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-periodicity-label"><fmt:message key="periodicity"/></label>
+                                <input type="text" class="form-control" id="edition-periodicity-label"
+                                       name="periodicity"
+                                       placeholder="<fmt:message key="enter_periodicity"/>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-min-period-label"><fmt:message key="min-period"/></label>
+                                <input type="text" class="form-control" id="edition-min-period-label" name="min-period"
+                                       placeholder="<fmt:message key="enter_min_period"/>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-price-label"><fmt:message key="price"/></label>
+                                <input type="text" class="form-control" id="edition-price-label" name="price"
+                                       placeholder="<fmt:message key="enter_price"/>">
+                            </div>
+
+                            <div id="add-new-edition-message" class="alert alert-danger" role="alert"></div>
+
+                        </form>
+                        <button id="add-new-edition-button" class="btn btn-primary"><fmt:message key="add"/></button>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal: Add new edition -->
+
+    </section>
 
     <!-- SCRIPTS -->
     <!-- JQuery -->
@@ -433,6 +519,30 @@
                 }
             });
         }
+    </script>
+
+    <script>
+        $(document).on('click', '#add-new-edition-button', function () {
+            var data = {
+                command: 'ADD_EDITION',
+                title: $('#edition-title-label').val(),
+                type_id: $('#edition-type-label').val(),
+                theme_id: $('#edition-theme-label').val(),
+                periodicity_per_year: $('#edition-periodicity-label').val(),
+                minimum_subscription_period: $('#edition-min-period-label').val(),
+                price_for_minimum_subscription_period: $('#edition-price-label').val()
+            };
+
+            $.post('./', $.param(data), function (responseText) {
+                if (responseText.length < 50) {
+                    $('#add-new-edition-message').text(responseText);
+                } else {
+                    document.open();
+                    document.write(responseText);
+                    document.close();
+                }
+            });
+        });
     </script>
 
     </body>

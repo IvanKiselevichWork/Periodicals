@@ -1,7 +1,6 @@
 package by.kiselevich.periodicals.filter;
 
 import by.kiselevich.periodicals.command.*;
-import by.kiselevich.periodicals.command.admin.BlockUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,7 +43,8 @@ public class CommandMatchingToUserRoleFilter implements Filter {
             SHOW_PAYMENTS,
             SHOW_SUBSCRIPTIONS,
             BLOCK_USER,
-            UNBLOCK_USER
+            UNBLOCK_USER,
+            ADD_EDITION
     );
 
     private static final Set<CommandName> emptySet = new HashSet<>();
@@ -54,7 +54,7 @@ public class CommandMatchingToUserRoleFilter implements Filter {
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 
-        CommandName commandName = null;
+        CommandName commandName;
         String commandString = httpServletRequest.getParameter(JspParameter.COMMAND.getValue());
 
         try {
@@ -64,7 +64,7 @@ public class CommandMatchingToUserRoleFilter implements Filter {
                 commandName = HOME;
             }
 
-            Set<CommandName> commandNames = null;
+            Set<CommandName> commandNames;
             switch ((UserRole) httpServletRequest.getSession().getAttribute(Attribute.USER_ROLE.getValue())) {
                 case USER:
                     commandNames = userCommands;
