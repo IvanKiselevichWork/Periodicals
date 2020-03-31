@@ -8,7 +8,7 @@ public enum JspParameter {
     EMAIL("email"),
     TARGET_LANGUAGE("target_language"),
     ID("id"),
-    TITLE("title"),
+    NAME("name"),
     TYPE_ID("type_id"),
     THEME_ID("theme_id"),
     PERIODICITY_PER_YEAR("periodicity_per_year"),

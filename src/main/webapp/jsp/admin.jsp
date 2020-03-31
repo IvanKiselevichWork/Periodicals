@@ -256,7 +256,7 @@
                                                         <fmt:message key="id"/>
                                                     </th>
                                                     <th class="th-sm">
-                                                        <fmt:message key="title"/>
+                                                        <fmt:message key="name"/>
                                                     </th>
                                                     <th class="th-sm">
                                                         <fmt:message key="type_id"/>
@@ -370,8 +370,7 @@
                                                     <tr>
                                                         <td><c:out value="${ subscription.id }"/></td>
                                                         <td><c:out value="${ subscription.editionId }"/></td>
-                                                        <td><c:out
-                                                                value="${ subscription.subscriptionStartDate }"/></td>
+                                                        <td><c:out value="${ subscription.subscriptionStartDate }"/></td>
                                                         <td><c:out value="${ subscription.subscriptionEndDate }"/></td>
                                                         <td><c:out value="${ subscription.userId }"/></td>
                                                         <td><c:out value="${ subscription.paid }"/></td>
@@ -426,9 +425,9 @@
                     <div class="modal-body">
                         <form class="mx-auto">
                             <div class="form-group">
-                                <label for="edition-title-label"><fmt:message key="title"/></label>
-                                <input type="text" class="form-control" id="edition-title-label" name="title"
-                                       placeholder="<fmt:message key="enter_title"/>">
+                                <label for="edition-name-label"><fmt:message key="name"/></label>
+                                <input type="text" class="form-control" id="edition-name-label" name="name"
+                                       placeholder="<fmt:message key="enter_name"/>">
                             </div>
 
                             <div class="form-group">
@@ -525,7 +524,7 @@
         $(document).on('click', '#add-new-edition-button', function () {
             var data = {
                 command: 'ADD_EDITION',
-                title: $('#edition-title-label').val(),
+                name: $('#edition-name-label').val(),
                 type_id: $('#edition-type-label').val(),
                 theme_id: $('#edition-theme-label').val(),
                 periodicity_per_year: $('#edition-periodicity-label').val(),

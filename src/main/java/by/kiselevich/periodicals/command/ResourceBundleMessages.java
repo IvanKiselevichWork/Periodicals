@@ -9,7 +9,7 @@ public enum ResourceBundleMessages {
     USER_NOT_FOUND_KEY("user_not_found"),
     LOGIN_IN_USE_KEY("login_in_use"),
 
-    INVALID_TITLE("invalid_title"),
+    INVALID_NAME("invalid_name"),
     INVALID_TYPE_ID("invalid_type_id"),
     INVALID_THEME_ID("invalid_theme_id"),
     INVALID_PERIODICITY_PER_YEAR("invalid_periodicity_per_year"),

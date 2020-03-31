@@ -28,7 +28,7 @@ public class AddEdition implements Command {
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            String name = req.getParameter(JspParameter.TITLE.getValue());
+            String name = req.getParameter(JspParameter.NAME.getValue());
             int type = Integer.parseInt(req.getParameter(JspParameter.TYPE_ID.getValue()));
             int themeId = Integer.parseInt(req.getParameter(JspParameter.THEME_ID.getValue()));
             int periodicityPerYear = Integer.parseInt(req.getParameter(JspParameter.PERIODICITY_PER_YEAR.getValue()));

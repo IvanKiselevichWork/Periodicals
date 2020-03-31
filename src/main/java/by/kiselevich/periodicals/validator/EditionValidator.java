@@ -29,7 +29,7 @@ public class EditionValidator {
 
     private void checkName(String name) throws EditionValidatorException {
         if (name == null || !isStringMatchesRegex(name, NAME_REGEX)) {
-            throw new EditionValidatorException(ResourceBundleMessages.INVALID_TITLE.getKey());
+            throw new EditionValidatorException(ResourceBundleMessages.INVALID_NAME.getKey());
         }
     }
 
