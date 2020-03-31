@@ -163,7 +163,7 @@
                                         <a class="list-group-item list-group-item-action waves-effect">
                                             <fmt:message key="subscriptions"/>
                                             <span class="badge badge-warning badge-pill pull-right">
-                                                ${subscriptionsCount}<em class="fas fa-money-bill ml-1"></em>
+                                                ${subscriptionsCount}<em class="fas fa-check-square ml-1"></em>
                                             </span>
                                         </a>
                                     </div>
