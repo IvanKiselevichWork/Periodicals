@@ -14,7 +14,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.Enumeration;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -34,6 +33,7 @@ public enum ConnectionPool {
     private BlockingQueue<ConnectionProxy> availableConnections;
     private Deque<ConnectionProxy> unavailableConnections;
     private boolean isPoolAlreadyInitiated;
+    private String url;
 
     ConnectionPool() {
         availableConnections = new LinkedBlockingQueue<>();
@@ -55,7 +55,7 @@ public enum ConnectionPool {
             }
             try {
                 databaseProperties.load(inputStream);
-                String url = databaseProperties.getProperty(DATABASE_URL_PROPERTY);
+                url = databaseProperties.getProperty(DATABASE_URL_PROPERTY);
 
                 DriverManager.registerDriver(new Driver());
 
@@ -74,7 +74,6 @@ public enum ConnectionPool {
     }
 
     /**
-     *
      * @return is pool initiated
      */
     public boolean isPoolInitiated() {
@@ -156,7 +155,7 @@ public enum ConnectionPool {
                 LOG.warn(e);
                 Thread.currentThread().interrupt();
             }
-            deregisterDrivers();
+            deregisterDriver();
 
             isPoolAlreadyInitiated = false;
             LOG.trace("pool deinitialized");
@@ -164,14 +163,12 @@ public enum ConnectionPool {
         LOG.trace("deInit pool ended");
     }
 
-    private void deregisterDrivers() {
-        Enumeration<java.sql.Driver> drivers = DriverManager.getDrivers();
-        while (drivers.hasMoreElements()) {
-            try {
-                DriverManager.deregisterDriver(drivers.nextElement());
-            } catch (SQLException e) {
-                LOG.warn("Cant deregister driver", e);
-            }
+    private void deregisterDriver() {
+        try {
+            DriverManager.deregisterDriver(DriverManager.getDriver(url));
+        } catch (SQLException e) {
+            LOG.warn("Cant deregister driver", e);
         }
+
     }
 }
