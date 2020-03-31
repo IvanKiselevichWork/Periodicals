@@ -29,20 +29,20 @@ public class AddEdition implements Command {
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
         try {
             String name = req.getParameter(JspParameter.NAME.getValue());
-            int type = Integer.parseInt(req.getParameter(JspParameter.TYPE_ID.getValue()));
+            int typeId = Integer.parseInt(req.getParameter(JspParameter.TYPE_ID.getValue()));
             int themeId = Integer.parseInt(req.getParameter(JspParameter.THEME_ID.getValue()));
             int periodicityPerYear = Integer.parseInt(req.getParameter(JspParameter.PERIODICITY_PER_YEAR.getValue()));
             int minimumSubscriptionPeriodInMonths = Integer.parseInt(req.getParameter(JspParameter.MINIMUM_SUBSCRIPTION_PERIOD.getValue()));
             BigDecimal priceForMinimumSubscriptionPeriod = BigDecimal.valueOf(Double.parseDouble(req.getParameter(JspParameter.PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD.getValue())));
 
-            //todo edition builder
-            Edition edition = new Edition();
-            edition.setName(name);
-            edition.setTypeId(type);
-            edition.setThemeId(themeId);
-            edition.setPeriodicityPerYear(periodicityPerYear);
-            edition.setMinimumSubscriptionPeriodInMonths(minimumSubscriptionPeriodInMonths);
-            edition.setPriceForMinimumSubscriptionPeriod(priceForMinimumSubscriptionPeriod);
+            Edition edition = new Edition.EditionBuilder()
+                    .name(name)
+                    .typeId(typeId)
+                    .themeId(themeId)
+                    .periodicityPerYear(periodicityPerYear)
+                    .minimumSubscriptionPeriodInMonths(minimumSubscriptionPeriodInMonths)
+                    .priceForMinimumSubscriptionPeriod(priceForMinimumSubscriptionPeriod)
+                    .build();
             editionService.add(edition);
             return CommandProvider.getInstance().getCommand(CommandName.SHOW_EDITIONS).execute(req,resp);
         } catch (NumberFormatException e) {
