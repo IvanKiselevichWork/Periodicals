@@ -31,6 +31,7 @@ public class CommandProvider {
         commandMap.put(CommandName.SHOW_SUBSCRIPTIONS, new ShowSubscriptions());
         commandMap.put(CommandName.BLOCK_USER, new BlockUser());
         commandMap.put(CommandName.UNBLOCK_USER, new UnblockUser());
+        commandMap.put(CommandName.ADD_EDITION, new AddEdition());
     }
 
     private static final class CommandProviderHolder {

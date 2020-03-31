@@ -7,7 +7,13 @@ public enum JspParameter {
     FULL_NAME("full_name"),
     EMAIL("email"),
     TARGET_LANGUAGE("target_language"),
-    ID("id");
+    ID("id"),
+    NAME("name"),
+    TYPE_ID("type_id"),
+    THEME_ID("theme_id"),
+    PERIODICITY_PER_YEAR("periodicity_per_year"),
+    MINIMUM_SUBSCRIPTION_PERIOD("minimum_subscription_period"),
+    PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD("price_for_minimum_subscription_period");
 
     private String value;
 

@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface EditionService {
 
+    Edition add(Edition edition) throws ServiceException;
+
     List<Edition> getAllEditions() throws ServiceException;
 }

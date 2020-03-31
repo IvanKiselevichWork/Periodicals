@@ -22,15 +22,16 @@ public interface EditionSpecification extends Specification<Edition> {
     default List<Edition> getEditionFromResultSet(ResultSet resultSet) throws SQLException {
         List<Edition> editions = new ArrayList<>();
         while (resultSet.next()) {
-            editions.add(new Edition(
-                    resultSet.getInt(ID),
-                    resultSet.getString(NAME),
-                    resultSet.getInt(TYPE_ID),
-                    resultSet.getInt(THEME_ID),
-                    resultSet.getInt(PERIODICITY_PER_YEAR),
-                    resultSet.getInt(MINIMUM_SUBSCRIPTION_PERIOD_IN_MONTHS),
-                    resultSet.getBigDecimal(PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD)
-            ));
+            editions.add(new Edition.EditionBuilder()
+                    .id(resultSet.getInt(ID))
+                    .name(resultSet.getString(NAME))
+                    .typeId(resultSet.getInt(TYPE_ID))
+                    .themeId(resultSet.getInt(THEME_ID))
+                    .periodicityPerYear(resultSet.getInt(PERIODICITY_PER_YEAR))
+                    .minimumSubscriptionPeriodInMonths(resultSet.getInt(MINIMUM_SUBSCRIPTION_PERIOD_IN_MONTHS))
+                    .priceForMinimumSubscriptionPeriod(resultSet.getBigDecimal(PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD))
+                    .build()
+            );
         }
         return editions;
     }
