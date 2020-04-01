@@ -8,4 +8,6 @@ import java.util.List;
 public interface EditionTypeService {
 
     List<EditionType> getAllEditionsTypes() throws ServiceException;
+
+    List<EditionType> getEditionTypeById(int id) throws ServiceException;
 }
