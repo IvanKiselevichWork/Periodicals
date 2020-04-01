@@ -269,10 +269,10 @@
                                                 <tbody>
                                                 <c:forEach var="edition" items="${editionMap}" varStatus="status">
                                                     <tr>
-                                                        <td><c:out value="${ edition.key.id }" /></td>
-                                                        <td><c:out value="${ edition.key.name }" /></td>
-                                                        <td><c:out value="${ edition.value.value.type }" /></td>
-                                                        <td><c:out value="${ edition.value.key.title }" /></td>
+                                                        <td><c:out value="${ edition.key.id }"/></td>
+                                                        <td><c:out value="${ edition.key.name }"/></td>
+                                                        <td><c:out value="${ edition.value.value.type }"/></td>
+                                                        <td><c:out value="${ edition.value.key.title }"/></td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -370,7 +370,8 @@
                                                     <tr>
                                                         <td><c:out value="${ subscription.id }"/></td>
                                                         <td><c:out value="${ subscription.editionId }"/></td>
-                                                        <td><c:out value="${ subscription.subscriptionStartDate }"/></td>
+                                                        <td><c:out
+                                                                value="${ subscription.subscriptionStartDate }"/></td>
                                                         <td><c:out value="${ subscription.subscriptionEndDate }"/></td>
                                                         <td><c:out value="${ subscription.userId }"/></td>
                                                         <td><c:out value="${ subscription.paid }"/></td>
@@ -431,15 +432,23 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="edition-type-label"><fmt:message key="type_id"/></label>
-                                <input type="text" class="form-control" id="edition-type-label" name="type_id"
-                                       placeholder="<fmt:message key="enter_type"/>">
+                                <label for="edition-type-label"><fmt:message key="type"/></label>
+                                <select class="browser-default custom-select" id="edition-type-label">
+                                    <option value="" disabled selected><fmt:message key="enter_type"/></option>
+                                    <c:forEach var="type" items="${editionsTypes}">
+                                        <option value="${type.id}">${type.type}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="edition-theme-label"><fmt:message key="theme_id"/></label>
-                                <input type="text" class="form-control" id="edition-theme-label" name="theme_id"
-                                       placeholder="<fmt:message key="enter_theme_id"/>">
+                                <label for="edition-theme-label"><fmt:message key="theme"/></label>
+                                <select class="browser-default custom-select" id="edition-theme-label">
+                                    <option value="" disabled selected><fmt:message key="enter_theme"/></option>
+                                    <c:forEach var="theme" items="${editionsThemes}">
+                                        <option value="${theme.id}">${theme.title}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
 
                             <div class="form-group">
