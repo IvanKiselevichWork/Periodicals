@@ -531,25 +531,81 @@
 
     <script>
         $(document).on('click', '#add-new-edition-button', function () {
-            var data = {
+
+            const nameInput = $('#edition-name-label');
+            const typeInput = $('#edition-type-label');
+            const themeInput = $('#edition-theme-label');
+            const periodicityInput = $('#edition-periodicity-label');
+            const minPeriodInput = $('#edition-min-period-label');
+            const priceInput = $('#edition-price-label');
+
+            const data = {
                 command: 'ADD_EDITION',
-                name: $('#edition-name-label').val(),
-                type_id: $('#edition-type-label').val(),
-                theme_id: $('#edition-theme-label').val(),
-                periodicity_per_year: $('#edition-periodicity-label').val(),
-                minimum_subscription_period: $('#edition-min-period-label').val(),
-                price_for_minimum_subscription_period: $('#edition-price-label').val()
+                name: nameInput.val(),
+                type_id: typeInput.val(),
+                theme_id: themeInput.val(),
+                periodicity_per_year: periodicityInput.val(),
+                minimum_subscription_period: minPeriodInput.val(),
+                price_for_minimum_subscription_period: priceInput.val()
             };
 
-            $.post('./', $.param(data), function (responseText) {
-                if (responseText.length < 50) {
-                    $('#add-new-edition-message').text(responseText);
-                } else {
-                    document.open();
-                    document.write(responseText);
-                    document.close();
-                }
-            });
+            const regexAny = RegExp(/^.{1,200}$/i);
+            const regexInt = RegExp(/^[1-9]\d*$/i);
+            const regexDouble = RegExp(/^[0-9]\d*[.\d+]?$/i);
+            let isValid = true;
+            if (!regexAny.test(data.name)) {
+                nameInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                nameInput.css('border-color', '');
+            }
+
+            if (data.type_id == null || !regexInt.test(data.type_id)) {
+                typeInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                typeInput.css('border-color', '');
+            }
+
+            if (data.theme_id == null || !regexInt.test(data.theme_id)) {
+                themeInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                themeInput.css('border-color', '');
+            }
+
+            if (!regexInt.test(data.periodicity_per_year)) {
+                periodicityInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                periodicityInput.css('border-color', '');
+            }
+
+            if (!regexInt.test(data.minimum_subscription_period)) {
+                minPeriodInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                minPeriodInput.css('border-color', '');
+            }
+
+            if (!regexDouble.test(data.price_for_minimum_subscription_period)) {
+                priceInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                priceInput.css('border-color', '');
+            }
+
+            if (isValid) {
+                $.post('./', $.param(data), function (responseText) {
+                    if (responseText.length < 50) {
+                        $('#add-new-edition-message').text(responseText);
+                    } else {
+                        document.open();
+                        document.write(responseText);
+                        document.close();
+                    }
+                });
+            }
         });
     </script>
 
