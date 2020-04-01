@@ -2,6 +2,8 @@ package by.kiselevich.periodicals.factory;
 
 import by.kiselevich.periodicals.service.edition.EditionService;
 import by.kiselevich.periodicals.service.edition.EditionServiceImpl;
+import by.kiselevich.periodicals.service.editiontype.EditionTypeService;
+import by.kiselevich.periodicals.service.editiontype.EditionTypeServiceImpl;
 import by.kiselevich.periodicals.service.payment.PaymentService;
 import by.kiselevich.periodicals.service.payment.PaymentServiceImpl;
 import by.kiselevich.periodicals.service.subscription.SubscriptionService;
@@ -18,6 +20,7 @@ public class ServiceFactory {
     private PaymentService paymentService;
     private SubscriptionService subscriptionService;
     private ThemeService themeService;
+    private EditionTypeService editionTypeService;
 
     private ServiceFactory(){
         userService = new UserServiceImpl();
@@ -25,6 +28,7 @@ public class ServiceFactory {
         paymentService = new PaymentServiceImpl();
         subscriptionService = new SubscriptionServiceImpl();
         themeService = new ThemeServiceImpl();
+        editionTypeService = new EditionTypeServiceImpl();
     }
 
     private static class ServiceFactoryHolder {
@@ -53,5 +57,9 @@ public class ServiceFactory {
 
     public ThemeService getThemeService() {
         return themeService;
+    }
+
+    public EditionTypeService getEditionTypeService() {
+        return editionTypeService;
     }
 }
