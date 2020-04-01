@@ -6,6 +6,8 @@ import by.kiselevich.periodicals.repository.payment.PaymentRepository;
 import by.kiselevich.periodicals.repository.payment.PaymentRepositoryImpl;
 import by.kiselevich.periodicals.repository.subscription.SubscriptionRepository;
 import by.kiselevich.periodicals.repository.subscription.SubscriptionRepositoryImpl;
+import by.kiselevich.periodicals.repository.theme.ThemeRepository;
+import by.kiselevich.periodicals.repository.theme.ThemeRepositoryImpl;
 import by.kiselevich.periodicals.repository.user.UserRepository;
 import by.kiselevich.periodicals.repository.user.UserRepositoryImpl;
 
@@ -15,12 +17,14 @@ public class RepositoryFactory {
     private EditionRepository editionRepository;
     private PaymentRepository paymentRepository;
     private SubscriptionRepository subscriptionRepository;
+    private ThemeRepository themeRepository;
 
     private RepositoryFactory(){
         userRepository = new UserRepositoryImpl();
         editionRepository = new EditionRepositoryImpl();
         paymentRepository = new PaymentRepositoryImpl();
         subscriptionRepository = new SubscriptionRepositoryImpl();
+        themeRepository = new ThemeRepositoryImpl();
     }
 
     private static class RepositoryFactoryHolder {
@@ -45,5 +49,9 @@ public class RepositoryFactory {
 
     public SubscriptionRepository getSubscriptionRepository() {
         return subscriptionRepository;
+    }
+
+    public ThemeRepository getThemeRepository() {
+        return themeRepository;
     }
 }

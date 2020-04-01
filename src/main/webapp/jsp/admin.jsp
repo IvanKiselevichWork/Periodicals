@@ -243,10 +243,10 @@
 
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
-                                        <c:if test="${empty editions}">
+                                        <c:if test="${empty editionAndThemeMap}">
                                             ${message}
                                         </c:if>
-                                        <c:if test="${not empty editions}">
+                                        <c:if test="${not empty editionAndThemeMap}">
                                             <!-- MDBootstrap table -->
                                             <table id="dtMaterialDesignExample" class="table table-striped w-100"
                                                    cellspacing="0">
@@ -262,17 +262,17 @@
                                                         <fmt:message key="type_id"/>
                                                     </th>
                                                     <th class="th-sm">
-                                                        <fmt:message key="theme_id"/>
+                                                        <fmt:message key="theme"/>
                                                     </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <c:forEach var="edition" items="${editions}" varStatus="status">
+                                                <c:forEach var="editionAndTheme" items="${editionAndThemeMap}" varStatus="status">
                                                     <tr>
-                                                        <td><c:out value="${ edition.id }" /></td>
-                                                        <td><c:out value="${ edition.name }" /></td>
-                                                        <td><c:out value="${ edition.typeId }" /></td>
-                                                        <td><c:out value="${ edition.themeId }" /></td>
+                                                        <td><c:out value="${ editionAndTheme.key.id }" /></td>
+                                                        <td><c:out value="${ editionAndTheme.key.name }" /></td>
+                                                        <td><c:out value="${ editionAndTheme.key.typeId }" /></td>
+                                                        <td><c:out value="${ editionAndTheme.value.title }" /></td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>

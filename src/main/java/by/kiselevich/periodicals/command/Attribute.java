@@ -8,7 +8,7 @@ public enum Attribute {
     ADMIN_PAGE_OPTION("adminPageOption"),
     USERS("users"),
     USERS_COUNT("usersCount"),
-    EDITIONS("editions"),
+    EDITION_AND_THEME_MAP("editionAndThemeMap"),
     EDITIONS_COUNT("editionsCount"),
     PAYMENTS("payments"),
     PAYMENTS_COUNT("paymentsCount"),
