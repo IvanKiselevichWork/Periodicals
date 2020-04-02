@@ -7,6 +7,7 @@ import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.RepositoryFactory;
 import by.kiselevich.periodicals.repository.editiontype.EditionTypeRepository;
 import by.kiselevich.periodicals.specification.editiontype.FindAllEditionsTypes;
+import by.kiselevich.periodicals.specification.editiontype.FindEditionTypeById;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,6 +27,16 @@ public class EditionTypeServiceImpl implements EditionTypeService {
     public List<EditionType> getAllEditionsTypes() throws ServiceException {
         try {
             return editionTypeRepository.query(new FindAllEditionsTypes());
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
+
+    @Override
+    public List<EditionType> getEditionTypeById(int id) throws ServiceException {
+        try {
+            return editionTypeRepository.query(new FindEditionTypeById(id));
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());

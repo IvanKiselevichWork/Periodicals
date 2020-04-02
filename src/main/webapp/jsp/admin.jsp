@@ -269,10 +269,10 @@
                                                 <tbody>
                                                 <c:forEach var="edition" items="${editionMap}" varStatus="status">
                                                     <tr>
-                                                        <td><c:out value="${ edition.key.id }" /></td>
-                                                        <td><c:out value="${ edition.key.name }" /></td>
-                                                        <td><c:out value="${ edition.value.value.type }" /></td>
-                                                        <td><c:out value="${ edition.value.key.title }" /></td>
+                                                        <td><c:out value="${ edition.key.id }"/></td>
+                                                        <td><c:out value="${ edition.key.name }"/></td>
+                                                        <td><c:out value="${ edition.value.value.type }"/></td>
+                                                        <td><c:out value="${ edition.value.key.title }"/></td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -370,7 +370,8 @@
                                                     <tr>
                                                         <td><c:out value="${ subscription.id }"/></td>
                                                         <td><c:out value="${ subscription.editionId }"/></td>
-                                                        <td><c:out value="${ subscription.subscriptionStartDate }"/></td>
+                                                        <td><c:out
+                                                                value="${ subscription.subscriptionStartDate }"/></td>
                                                         <td><c:out value="${ subscription.subscriptionEndDate }"/></td>
                                                         <td><c:out value="${ subscription.userId }"/></td>
                                                         <td><c:out value="${ subscription.paid }"/></td>
@@ -431,15 +432,23 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="edition-type-label"><fmt:message key="type_id"/></label>
-                                <input type="text" class="form-control" id="edition-type-label" name="type_id"
-                                       placeholder="<fmt:message key="enter_type"/>">
+                                <label for="edition-type-label"><fmt:message key="type"/></label>
+                                <select class="browser-default custom-select" id="edition-type-label">
+                                    <option value="" disabled selected><fmt:message key="enter_type"/></option>
+                                    <c:forEach var="type" items="${editionsTypes}">
+                                        <option value="${type.id}">${type.type}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="edition-theme-label"><fmt:message key="theme_id"/></label>
-                                <input type="text" class="form-control" id="edition-theme-label" name="theme_id"
-                                       placeholder="<fmt:message key="enter_theme_id"/>">
+                                <label for="edition-theme-label"><fmt:message key="theme"/></label>
+                                <select class="browser-default custom-select" id="edition-theme-label">
+                                    <option value="" disabled selected><fmt:message key="enter_theme"/></option>
+                                    <c:forEach var="theme" items="${editionsThemes}">
+                                        <option value="${theme.id}">${theme.title}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
 
                             <div class="form-group">
@@ -522,25 +531,81 @@
 
     <script>
         $(document).on('click', '#add-new-edition-button', function () {
-            var data = {
+
+            const nameInput = $('#edition-name-label');
+            const typeInput = $('#edition-type-label');
+            const themeInput = $('#edition-theme-label');
+            const periodicityInput = $('#edition-periodicity-label');
+            const minPeriodInput = $('#edition-min-period-label');
+            const priceInput = $('#edition-price-label');
+
+            const data = {
                 command: 'ADD_EDITION',
-                name: $('#edition-name-label').val(),
-                type_id: $('#edition-type-label').val(),
-                theme_id: $('#edition-theme-label').val(),
-                periodicity_per_year: $('#edition-periodicity-label').val(),
-                minimum_subscription_period: $('#edition-min-period-label').val(),
-                price_for_minimum_subscription_period: $('#edition-price-label').val()
+                name: nameInput.val(),
+                type_id: typeInput.val(),
+                theme_id: themeInput.val(),
+                periodicity_per_year: periodicityInput.val(),
+                minimum_subscription_period: minPeriodInput.val(),
+                price_for_minimum_subscription_period: priceInput.val()
             };
 
-            $.post('./', $.param(data), function (responseText) {
-                if (responseText.length < 50) {
-                    $('#add-new-edition-message').text(responseText);
-                } else {
-                    document.open();
-                    document.write(responseText);
-                    document.close();
-                }
-            });
+            const regexAny = RegExp(/^.{1,200}$/i);
+            const regexInt = RegExp(/^[1-9]\d*$/i);
+            const regexDouble = RegExp(/^[0-9]\d*[.\d+]?$/i);
+            let isValid = true;
+            if (!regexAny.test(data.name)) {
+                nameInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                nameInput.css('border-color', '');
+            }
+
+            if (data.type_id == null || !regexInt.test(data.type_id)) {
+                typeInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                typeInput.css('border-color', '');
+            }
+
+            if (data.theme_id == null || !regexInt.test(data.theme_id)) {
+                themeInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                themeInput.css('border-color', '');
+            }
+
+            if (!regexInt.test(data.periodicity_per_year)) {
+                periodicityInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                periodicityInput.css('border-color', '');
+            }
+
+            if (!regexInt.test(data.minimum_subscription_period)) {
+                minPeriodInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                minPeriodInput.css('border-color', '');
+            }
+
+            if (!regexDouble.test(data.price_for_minimum_subscription_period)) {
+                priceInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                priceInput.css('border-color', '');
+            }
+
+            if (isValid) {
+                $.post('./', $.param(data), function (responseText) {
+                    if (responseText.length < 50) {
+                        $('#add-new-edition-message').text(responseText);
+                    } else {
+                        document.open();
+                        document.write(responseText);
+                        document.close();
+                    }
+                });
+            }
         });
     </script>
 

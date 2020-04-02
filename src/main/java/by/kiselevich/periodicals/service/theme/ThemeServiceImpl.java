@@ -7,6 +7,7 @@ import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.RepositoryFactory;
 import by.kiselevich.periodicals.repository.theme.ThemeRepository;
 import by.kiselevich.periodicals.specification.theme.FindAllThemes;
+import by.kiselevich.periodicals.specification.theme.FindThemeById;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,6 +27,16 @@ public class ThemeServiceImpl implements ThemeService {
     public List<Theme> getAllThemes() throws ServiceException {
         try {
             return themeRepository.query(new FindAllThemes());
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
+
+    @Override
+    public List<Theme> getThemeById(int id) throws ServiceException {
+        try {
+            return themeRepository.query(new FindThemeById(id));
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());

@@ -8,4 +8,6 @@ import java.util.List;
 public interface ThemeService {
 
     List<Theme> getAllThemes() throws ServiceException;
+
+    List<Theme> getThemeById(int id) throws ServiceException;
 }

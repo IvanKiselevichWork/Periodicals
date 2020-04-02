@@ -3,6 +3,10 @@ package by.kiselevich.periodicals.validator;
 import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.entity.Edition;
 import by.kiselevich.periodicals.exception.EditionValidatorException;
+import by.kiselevich.periodicals.exception.ServiceException;
+import by.kiselevich.periodicals.factory.ServiceFactory;
+import by.kiselevich.periodicals.service.editiontype.EditionTypeService;
+import by.kiselevich.periodicals.service.theme.ThemeService;
 
 import java.math.BigDecimal;
 import java.util.regex.Matcher;
@@ -33,11 +37,25 @@ public class EditionValidator {
     }
 
     private void checkTypeId(int typeId) throws EditionValidatorException {
-        //todo get from type service list of type ids and check if contains
+        try {
+            EditionTypeService editionTypeService = ServiceFactory.getInstance().getEditionTypeService();
+            if (editionTypeService.getEditionTypeById(typeId).isEmpty()) {
+                throw new EditionValidatorException(ResourceBundleMessages.INVALID_TYPE.getKey());
+            }
+        } catch (ServiceException e) {
+            throw new EditionValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
     }
 
     private void checkThemeId(int themeId) throws EditionValidatorException {
-        //todo get from theme service list of theme ids and check if contains
+        try {
+            ThemeService themeService = ServiceFactory.getInstance().getThemeService();
+            if (themeService.getThemeById(themeId).isEmpty()) {
+                throw new EditionValidatorException(ResourceBundleMessages.INVALID_THEME.getKey());
+            }
+        } catch (ServiceException e) {
+            throw new EditionValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
     }
 
     private void checkPeriodicityPerYear(int periodicityPerYear) throws EditionValidatorException {

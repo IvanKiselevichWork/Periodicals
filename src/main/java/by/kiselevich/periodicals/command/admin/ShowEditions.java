@@ -43,7 +43,10 @@ public class ShowEditions implements Command {
             Map<Edition, Map.Entry<Theme, EditionType>> editionThemeTypeMap = EntityMapsFactory.getInstance()
                     .getEditionAndThemeAndTypeMap(editionList, themeList, editionTypeList);
 
+
             req.setAttribute(Attribute.EDITION_MAP.getValue(), editionThemeTypeMap);
+            req.setAttribute(Attribute.EDITIONS_THEMES.getValue(), themeList);
+            req.setAttribute(Attribute.EDITIONS_TYPES.getValue(), editionTypeList);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());

@@ -13,7 +13,9 @@ public enum Attribute {
     PAYMENTS("payments"),
     PAYMENTS_COUNT("paymentsCount"),
     SUBSCRIPTIONS("subscriptions"),
-    SUBSCRIPTIONS_COUNT("subscriptionsCount");
+    SUBSCRIPTIONS_COUNT("subscriptionsCount"),
+    EDITIONS_THEMES("editionsThemes"),
+    EDITIONS_TYPES("editionsTypes");
 
     private String value;
 
