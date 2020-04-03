@@ -1,8 +1,8 @@
 package by.kiselevich.periodicals.factory;
 
 import by.kiselevich.periodicals.entity.Edition;
+import by.kiselevich.periodicals.entity.EditionTheme;
 import by.kiselevich.periodicals.entity.EditionType;
-import by.kiselevich.periodicals.entity.Theme;
 
 import java.util.HashMap;
 import java.util.List;
@@ -49,15 +49,15 @@ public class EntityMapsFactory {
         }
     }
 
-    public Map<Edition, Map.Entry<Theme, EditionType>> getEditionAndThemeAndTypeMap(List<Edition> editions, List<Theme> themes, List<EditionType> types) {
-        Map<Edition, Map.Entry<Theme, EditionType>> map = new HashMap<>();
-        Map.Entry<Theme, EditionType> entry;
-        Theme foundTheme = null;
+    public Map<Edition, Map.Entry<EditionTheme, EditionType>> getEditionAndThemeAndTypeMap(List<Edition> editions, List<EditionTheme> editionThemes, List<EditionType> types) {
+        Map<Edition, Map.Entry<EditionTheme, EditionType>> map = new HashMap<>();
+        Map.Entry<EditionTheme, EditionType> entry;
+        EditionTheme foundEditionTheme = null;
         EditionType foundType = null;
         for (Edition edition : editions) {
-            for (Theme theme : themes) {
-                if (edition.getThemeId() == theme.getId()) {
-                    foundTheme = theme;
+            for (EditionTheme editionTheme : editionThemes) {
+                if (edition.getThemeId() == editionTheme.getId()) {
+                    foundEditionTheme = editionTheme;
                     break;
                 }
             }
@@ -67,7 +67,7 @@ public class EntityMapsFactory {
                     break;
                 }
             }
-            entry = new EntityEntry<>(foundTheme, foundType);
+            entry = new EntityEntry<>(foundEditionTheme, foundType);
             map.put(edition, entry);
         }
         return map;

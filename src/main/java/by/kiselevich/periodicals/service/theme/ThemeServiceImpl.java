@@ -1,7 +1,7 @@
 package by.kiselevich.periodicals.service.theme;
 
 import by.kiselevich.periodicals.command.ResourceBundleMessages;
-import by.kiselevich.periodicals.entity.Theme;
+import by.kiselevich.periodicals.entity.EditionTheme;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.RepositoryFactory;
@@ -24,7 +24,7 @@ public class ThemeServiceImpl implements ThemeService {
     }
 
     @Override
-    public List<Theme> getAllThemes() throws ServiceException {
+    public List<EditionTheme> getAllThemes() throws ServiceException {
         try {
             return themeRepository.query(new FindAllThemes());
         } catch (RepositoryException e) {
@@ -34,7 +34,7 @@ public class ThemeServiceImpl implements ThemeService {
     }
 
     @Override
-    public List<Theme> getThemeById(int id) throws ServiceException {
+    public List<EditionTheme> getThemeById(int id) throws ServiceException {
         try {
             return themeRepository.query(new FindThemeById(id));
         } catch (RepositoryException e) {

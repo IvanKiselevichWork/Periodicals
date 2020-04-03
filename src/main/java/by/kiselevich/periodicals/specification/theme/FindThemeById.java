@@ -1,6 +1,6 @@
 package by.kiselevich.periodicals.specification.theme;
 
-import by.kiselevich.periodicals.entity.Theme;
+import by.kiselevich.periodicals.entity.EditionTheme;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.ConnectionPool;
 import by.kiselevich.periodicals.pool.ConnectionProxy;
@@ -21,19 +21,19 @@ public class FindThemeById implements ThemeSpecification {
     }
 
     @Override
-    public List<Theme> query() throws RepositoryException {
+    public List<EditionTheme> query() throws RepositoryException {
         ResultSet resultSet = null;
-        List<Theme> themes;
+        List<EditionTheme> editionThemes;
         try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(FIND_THEME_BY_ID);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
-            themes = getThemeFromResultSet(resultSet);
+            editionThemes = getThemeFromResultSet(resultSet);
         } catch (SQLException e) {
             throw new RepositoryException(e);
         } finally {
             closeResultSet(resultSet);
         }
-        return themes;
+        return editionThemes;
     }
 }

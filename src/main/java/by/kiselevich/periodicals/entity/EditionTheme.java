@@ -3,36 +3,36 @@ package by.kiselevich.periodicals.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Theme implements Serializable {
+public class EditionTheme implements Serializable {
 
     private int id;
     private String title;
 
-    public Theme() {
+    public EditionTheme() {
 
     }
 
-    public Theme(int id, String title) {
+    public EditionTheme(int id, String title) {
         this.id = id;
         this.title = title;
     }
 
-    public static class ThemeBuilder {
+    public static class EditionThemeBuilder {
         private int id;
         private String title;
 
-        public ThemeBuilder id(int id) {
+        public EditionThemeBuilder id(int id) {
             this.id = id;
             return this;
         }
 
-        public ThemeBuilder title(String title) {
+        public EditionThemeBuilder title(String title) {
             this.title = title;
             return this;
         }
 
-        public Theme build() {
-            return new Theme(id, title);
+        public EditionTheme build() {
+            return new EditionTheme(id, title);
         }
     }
 
@@ -57,10 +57,10 @@ public class Theme implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Theme theme = (Theme) o;
+        EditionTheme editionTheme = (EditionTheme) o;
 
-        if (id != theme.id) return false;
-        return Objects.equals(title, theme.title);
+        if (id != editionTheme.id) return false;
+        return Objects.equals(title, editionTheme.title);
     }
 
     @Override
