@@ -31,6 +31,7 @@ public class EditionServiceImpl implements EditionService {
         try {
             editionValidator.checkEdition(edition);
             editionRepository.add(edition);
+
             return edition;
         } catch (RepositoryException e) {
             LOG.warn(e);

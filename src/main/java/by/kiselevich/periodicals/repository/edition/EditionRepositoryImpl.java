@@ -28,8 +28,8 @@ public class EditionRepositoryImpl implements EditionRepository {
         try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(ADD_EDITION, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, edition.getName());
-            statement.setInt(2, edition.getTypeId());
-            statement.setInt(3, edition.getThemeId());
+            statement.setInt(2, edition.getEditionType().getId());
+            statement.setInt(3, edition.getEditionTheme().getId());
             statement.setInt(4, edition.getPeriodicityPerYear());
             statement.setInt(5, edition.getMinimumSubscriptionPeriodInMonths());
             statement.setBigDecimal(6, edition.getPriceForMinimumSubscriptionPeriod());

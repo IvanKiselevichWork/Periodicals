@@ -2,6 +2,8 @@ package by.kiselevich.periodicals.command.admin;
 
 import by.kiselevich.periodicals.command.*;
 import by.kiselevich.periodicals.entity.Edition;
+import by.kiselevich.periodicals.entity.EditionTheme;
+import by.kiselevich.periodicals.entity.EditionType;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.edition.EditionService;
@@ -37,8 +39,12 @@ public class AddEdition implements Command {
 
             Edition edition = new Edition.EditionBuilder()
                     .name(name)
-                    .typeId(typeId)
-                    .themeId(themeId)
+                    .editionType(new EditionType.EditionTypeBuilder()
+                            .id(typeId)
+                            .build())
+                    .editionTheme(new EditionTheme.EditionThemeBuilder()
+                            .id(themeId)
+                            .build())
                     .periodicityPerYear(periodicityPerYear)
                     .minimumSubscriptionPeriodInMonths(minimumSubscriptionPeriodInMonths)
                     .priceForMinimumSubscriptionPeriod(priceForMinimumSubscriptionPeriod)
