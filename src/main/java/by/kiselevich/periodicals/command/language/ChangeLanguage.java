@@ -18,8 +18,8 @@ public class ChangeLanguage implements Command {
         String targetLanguage = req.getParameter(JspParameter.TARGET_LANGUAGE.getValue());
         if (targetLanguage != null && LANGUAGES.contains(targetLanguage)) {
             req.getSession().setAttribute(Attribute.LANGUAGE.getValue(), targetLanguage);
-            UserRole role = (UserRole) req.getSession().getAttribute(Attribute.USER_ROLE.getValue());
-            return role == UserRole.ADMIN ? Page.ADMIN_PAGE : Page.HOME_PAGE;
+            UserType type = (UserType) req.getSession().getAttribute(Attribute.USER_TYPE.getValue());
+            return type == UserType.ADMIN ? Page.ADMIN_PAGE : Page.HOME_PAGE;
         }
         return Page.WRONG_REQUEST;
     }

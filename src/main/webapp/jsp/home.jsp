@@ -61,7 +61,7 @@
                     </a>
                 </div>
             </li>
-            <c:if test="${sessionScope.userRole == 'GUEST'}">
+            <c:if test="${sessionScope.userType == 'GUEST'}">
                 <li class="nav-item mr-4">
                     <button type="button" class="btn btn-outline-white waves-effect"
                             data-toggle="modal" data-target="#modalLogin">
@@ -75,7 +75,7 @@
                     </button>
                 </li>
             </c:if>
-            <c:if test="${sessionScope.userRole != 'GUEST'}">
+            <c:if test="${sessionScope.userType != 'GUEST'}">
                 <li class="nav-item" style="max-width: 50%">
                     <a class="nav-link">
                             ${sessionScope.login}
@@ -101,12 +101,12 @@
 
             <!-- Content -->
             <div id="initial_width" class="container-fluid text-center white-text mx-5 wow fadeIn">
-                <c:if test="${sessionScope.userRole == 'GUEST'}">
+                <c:if test="${sessionScope.userType == 'GUEST'}">
                     <h1 class="mb-4">
                         <strong><fmt:message key="guest_message"/></strong>
                     </h1>
                 </c:if>
-                <c:if test="${sessionScope.userRole == 'USER'}">
+                <c:if test="${sessionScope.userType == 'USER'}">
                     <h1 class="mb-4">
                         <strong><fmt:message key="periodicals"/></strong>
                     </h1>
@@ -139,7 +139,7 @@
                         <!--Grid row-->
                     </div>
                 </c:if>
-                <c:if test="${sessionScope.userRole == 'ADMIN'}">
+                <c:if test="${sessionScope.userType == 'ADMIN'}">
                     <h1 class="mb-4">
                         <strong><fmt:message key="periodicals"/></strong>
                     </h1>
@@ -189,7 +189,7 @@
     </footer>
     <!--/.Footer-->
 
-    <c:if test="${sessionScope.userRole == 'GUEST'}">
+    <c:if test="${sessionScope.userType == 'GUEST'}">
         <section>
             <!--Modal: Login -->
             <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
