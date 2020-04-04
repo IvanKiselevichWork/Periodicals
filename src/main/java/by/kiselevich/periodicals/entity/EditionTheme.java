@@ -5,6 +5,8 @@ import java.util.Objects;
 
 public class EditionTheme implements Serializable {
 
+    private static final long serialVersionUID = 5438421720708516488L;
+
     private int id;
     private String title;
 

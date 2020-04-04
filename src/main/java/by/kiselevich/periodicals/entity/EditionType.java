@@ -1,8 +1,11 @@
 package by.kiselevich.periodicals.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class EditionType {
+public class EditionType implements Serializable {
+
+    private static final long serialVersionUID = -4941478345701599265L;
 
     int id;
     String type;
