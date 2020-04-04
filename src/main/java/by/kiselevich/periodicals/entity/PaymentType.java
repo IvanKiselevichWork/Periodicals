@@ -29,7 +29,7 @@ public class PaymentType implements Serializable {
             return this;
         }
 
-        public PaymentTypeBuilder id(String type) {
+        public PaymentTypeBuilder type(String type) {
             this.type = type;
             return this;
         }

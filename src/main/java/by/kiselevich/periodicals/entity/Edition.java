@@ -10,8 +10,8 @@ public class Edition implements Serializable {
 
     private int id;
     private String name;
-    private int typeId;
-    private int themeId;
+    private EditionType editionType;
+    private EditionTheme editionTheme;
     private int periodicityPerYear;
     private int minimumSubscriptionPeriodInMonths;
     private BigDecimal priceForMinimumSubscriptionPeriod;
@@ -20,11 +20,11 @@ public class Edition implements Serializable {
 
     }
 
-    public Edition(int id, String name, int typeId, int themeId, int periodicityPerYear, int minimumSubscriptionPeriodInMonths, BigDecimal priceForMinimumSubscriptionPeriod) {
+    public Edition(int id, String name, EditionType editionType, EditionTheme editionTheme, int periodicityPerYear, int minimumSubscriptionPeriodInMonths, BigDecimal priceForMinimumSubscriptionPeriod) {
         this.id = id;
         this.name = name;
-        this.typeId = typeId;
-        this.themeId = themeId;
+        this.editionType = editionType;
+        this.editionTheme = editionTheme;
         this.periodicityPerYear = periodicityPerYear;
         this.minimumSubscriptionPeriodInMonths = minimumSubscriptionPeriodInMonths;
         this.priceForMinimumSubscriptionPeriod = priceForMinimumSubscriptionPeriod;
@@ -33,8 +33,8 @@ public class Edition implements Serializable {
     public static class EditionBuilder {
         private int id;
         private String name;
-        private int typeId;
-        private int themeId;
+        private EditionType editionType;
+        private EditionTheme editionTheme;
         private int periodicityPerYear;
         private int minimumSubscriptionPeriodInMonths;
         private BigDecimal priceForMinimumSubscriptionPeriod;
@@ -49,13 +49,13 @@ public class Edition implements Serializable {
             return this;
         }
 
-        public EditionBuilder typeId(int typeId) {
-            this.typeId = typeId;
+        public EditionBuilder editionType(EditionType editionType) {
+            this.editionType = editionType;
             return this;
         }
 
-        public EditionBuilder themeId(int themeId) {
-            this.themeId = themeId;
+        public EditionBuilder editionTheme(EditionTheme editionTheme) {
+            this.editionTheme = editionTheme;
             return this;
         }
 
@@ -75,7 +75,7 @@ public class Edition implements Serializable {
         }
 
         public Edition build() {
-            return new Edition(id, name, typeId, themeId, periodicityPerYear, minimumSubscriptionPeriodInMonths, priceForMinimumSubscriptionPeriod);
+            return new Edition(id, name, editionType, editionTheme, periodicityPerYear, minimumSubscriptionPeriodInMonths, priceForMinimumSubscriptionPeriod);
         }
     }
 
@@ -95,20 +95,20 @@ public class Edition implements Serializable {
         this.name = name;
     }
 
-    public int getTypeId() {
-        return typeId;
+    public EditionType getEditionType() {
+        return editionType;
     }
 
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
+    public void setEditionType(EditionType editionType) {
+        this.editionType = editionType;
     }
 
-    public int getThemeId() {
-        return themeId;
+    public EditionTheme getEditionTheme() {
+        return editionTheme;
     }
 
-    public void setThemeId(int themeId) {
-        this.themeId = themeId;
+    public void setEditionTheme(EditionTheme editionTheme) {
+        this.editionTheme = editionTheme;
     }
 
     public int getPeriodicityPerYear() {
@@ -143,11 +143,12 @@ public class Edition implements Serializable {
         Edition edition = (Edition) o;
 
         if (id != edition.id) return false;
-        if (typeId != edition.typeId) return false;
-        if (themeId != edition.themeId) return false;
         if (periodicityPerYear != edition.periodicityPerYear) return false;
         if (minimumSubscriptionPeriodInMonths != edition.minimumSubscriptionPeriodInMonths) return false;
         if (!Objects.equals(name, edition.name)) return false;
+        if (!Objects.equals(editionType, edition.editionType)) return false;
+        if (!Objects.equals(editionTheme, edition.editionTheme))
+            return false;
         return Objects.equals(priceForMinimumSubscriptionPeriod, edition.priceForMinimumSubscriptionPeriod);
     }
 
@@ -155,8 +156,8 @@ public class Edition implements Serializable {
     public int hashCode() {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + typeId;
-        result = 31 * result + themeId;
+        result = 31 * result + (editionType != null ? editionType.hashCode() : 0);
+        result = 31 * result + (editionTheme != null ? editionTheme.hashCode() : 0);
         result = 31 * result + periodicityPerYear;
         result = 31 * result + minimumSubscriptionPeriodInMonths;
         result = 31 * result + (priceForMinimumSubscriptionPeriod != null ? priceForMinimumSubscriptionPeriod.hashCode() : 0);
@@ -168,8 +169,8 @@ public class Edition implements Serializable {
         return "Edition{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", type='" + typeId + '\'' +
-                ", themeId=" + themeId +
+                ", editionType=" + editionType +
+                ", editionTheme=" + editionTheme +
                 ", periodicityPerYear=" + periodicityPerYear +
                 ", minimumSubscriptionPeriodInMonths=" + minimumSubscriptionPeriodInMonths +
                 ", priceForMinimumSubscriptionPeriod=" + priceForMinimumSubscriptionPeriod +
