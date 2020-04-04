@@ -57,6 +57,10 @@ public class UserServiceImpl implements UserService {
                 throw new ServiceException(ResourceBundleMessages.USER_NOT_FOUND_KEY.getKey());
             }
 
+            if (!userList.get(0).isAvailable()) {
+                throw new ServiceException(ResourceBundleMessages.USER_BLOCKED.getKey());
+            }
+
             user.setRole(userList.get(0).getRole());
         } catch (RepositoryException e) {
             LOG.warn(e);

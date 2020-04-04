@@ -7,6 +7,7 @@ public enum ResourceBundleMessages {
     INVALID_FULL_NAME("invalid_full_name"),
     INVALID_EMAIL("invalid_email"),
     USER_NOT_FOUND_KEY("user_not_found"),
+    USER_BLOCKED("user_blocked"),
     LOGIN_IN_USE_KEY("login_in_use"),
 
     INVALID_NAME("invalid_name"),
