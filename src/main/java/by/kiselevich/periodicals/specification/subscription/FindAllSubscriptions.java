@@ -4,24 +4,28 @@ import by.kiselevich.periodicals.entity.Subscription;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.ConnectionPool;
 import by.kiselevich.periodicals.pool.ConnectionProxy;
+import by.kiselevich.periodicals.specification.SpecificationUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class FindAllSubscriptions implements SubscriptionSpecification {
+public class FindAllSubscriptions extends SpecificationUtil implements SubscriptionSpecification {
 
-    private static final String FIND_ALL_SUBSCRIPTION = "select id, edition_id, subscription_start_date, subscription_end_date, user_id, is_paid from subscription";
+    private static final String FIND_ALL_SUBSCRIPTION = "select * from subscription inner join edition on subscription.edition_id = edition.id inner  join edition_type on edition.type_id = edition_type.id inner join edition_theme on edition.theme_id = edition_theme.id inner join user on subscription.user_id = user.id inner join user_role on user.role_id = user_role.id";
 
     @Override
     public List<Subscription> query() throws RepositoryException {
         ResultSet resultSet = null;
-        List<Subscription> subscriptions;
+        List<Subscription> subscriptions = new ArrayList<>();
         try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(FIND_ALL_SUBSCRIPTION);
             resultSet = statement.executeQuery();
-            subscriptions = getSubscriptionFromResultSet(resultSet);
+            while (resultSet.next()) {
+                subscriptions.add(getSubscriptionFromResultSet(resultSet));
+            }
         } catch (SQLException e) {
             throw new RepositoryException(e);
         } finally {

@@ -4,24 +4,28 @@ import by.kiselevich.periodicals.entity.Edition;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.ConnectionPool;
 import by.kiselevich.periodicals.pool.ConnectionProxy;
+import by.kiselevich.periodicals.specification.SpecificationUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class FindAllEditions implements EditionSpecification {
+public class FindAllEditions extends SpecificationUtil implements EditionSpecification {
 
-    private static final String FIND_ALL_EDITIONS = "select id, name, type_id, theme_id, periodicity_per_year, minimum_subscription_period_in_months, price_for_minimum_subscription_period from edition";
+    private static final String FIND_ALL_EDITIONS = "select * from edition inner join edition_theme on edition.theme_id = edition_theme.id inner join edition_type on edition.type_id = edition_type.id";
 
     @Override
     public List<Edition> query() throws RepositoryException {
         ResultSet resultSet = null;
-        List<Edition> editions;
+        List<Edition> editions = new ArrayList<>();
         try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(FIND_ALL_EDITIONS);
             resultSet = statement.executeQuery();
-            editions = getEditionFromResultSet(resultSet);
+            while (resultSet.next()) {
+                editions.add(getEditionFromResultSet(resultSet));
+            }
         } catch (SQLException e) {
             throw new RepositoryException(e);
         } finally {
