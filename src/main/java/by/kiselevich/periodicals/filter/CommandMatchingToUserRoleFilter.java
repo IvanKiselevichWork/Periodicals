@@ -65,7 +65,7 @@ public class CommandMatchingToUserRoleFilter implements Filter {
             }
 
             Set<CommandName> commandNames;
-            switch ((UserRole) httpServletRequest.getSession().getAttribute(Attribute.USER_ROLE.getValue())) {
+            switch ((UserType) httpServletRequest.getSession().getAttribute(Attribute.USER_TYPE.getValue())) {
                 case USER:
                     commandNames = userCommands;
                     break;

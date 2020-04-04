@@ -56,8 +56,8 @@ public class UserServiceImpl implements UserService {
             if (userList.isEmpty()) {
                 throw new ServiceException(ResourceBundleMessages.USER_NOT_FOUND_KEY.getKey());
             }
-            //todo builder
-            user.setRoleId(userList.get(0).getRoleId());
+
+            user.setRole(userList.get(0).getRole());
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());

@@ -4,15 +4,17 @@ import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.ConnectionPool;
 import by.kiselevich.periodicals.pool.ConnectionProxy;
+import by.kiselevich.periodicals.specification.SpecificationUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class FindUserByLogin implements UserSpecification {
+public class FindUserByLogin extends SpecificationUtil implements UserSpecification {
 
-    private static final String FIND_USERS_BY_LOGIN = "select id, login, password, full_name, email, money, role_id, is_available from user where login = ?";
+    private static final String FIND_USERS_BY_LOGIN = "select * from user inner join user_role on user.role_id = user_role.id where login = ?";
 
     private String login;
 
@@ -23,12 +25,14 @@ public class FindUserByLogin implements UserSpecification {
     @Override
     public List<User> query() throws RepositoryException {
         ResultSet resultSet = null;
-        List<User> users;
+        List<User> users = new ArrayList<>();
         try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(FIND_USERS_BY_LOGIN);
             statement.setString(1, login);
             resultSet = statement.executeQuery();
-            users = getUsersFromResultSet(resultSet);
+            while (resultSet.next()) {
+                users.add(getUserFromResultSet(resultSet));
+            }
         } catch (SQLException e) {
             throw new RepositoryException(e);
         } finally {

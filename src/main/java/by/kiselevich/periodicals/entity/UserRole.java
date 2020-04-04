@@ -29,7 +29,7 @@ public class UserRole implements Serializable {
             return this;
         }
 
-        public UserRoleBuilder id(String role) {
+        public UserRoleBuilder role(String role) {
             this.role = role;
             return this;
         }

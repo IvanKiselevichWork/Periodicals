@@ -1,7 +1,7 @@
 package by.kiselevich.periodicals.filter;
 
 import by.kiselevich.periodicals.command.Attribute;
-import by.kiselevich.periodicals.command.UserRole;
+import by.kiselevich.periodicals.command.UserType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,10 +20,10 @@ public class UserRoleSecurityFilter implements Filter {
 
         HttpSession httpSession = httpServletRequest.getSession();
 
-        Object userRoleObject = httpSession.getAttribute(Attribute.USER_ROLE.getValue());
+        Object userRoleObject = httpSession.getAttribute(Attribute.USER_TYPE.getValue());
 
         if (userRoleObject == null) {
-            httpSession.setAttribute(Attribute.USER_ROLE.getValue(), UserRole.GUEST);
+            httpSession.setAttribute(Attribute.USER_TYPE.getValue(), UserType.GUEST);
             LOG.trace("Set role to guest");
         }
 

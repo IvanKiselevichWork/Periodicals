@@ -12,27 +12,83 @@ public class User implements Serializable {
     private static final boolean DEFAULT_AVAILABILITY = true;
 
     private int id;
-    private int roleId;
+    private UserRole userRole;
     private String login;
     private String password;
     private String fullName;
     private String email;
     private BigDecimal money = DEFAULT_MONEY;
-    private boolean isAvailable = DEFAULT_AVAILABILITY;
+    private boolean available = DEFAULT_AVAILABILITY;
 
     public User() {
 
     }
 
-    public User(int id, int roleId, String login, String password, String fullName, String email, BigDecimal money, boolean isAvailable) {
+    public User(int id, UserRole userRole, String login, String password, String fullName, String email, BigDecimal money, boolean available) {
         this.id = id;
-        this.roleId = roleId;
+        this.userRole = userRole;
         this.login = login;
         this.password = password;
         this.fullName = fullName;
         this.email = email;
         this.money = money;
-        this.isAvailable = isAvailable;
+        this.available = available;
+    }
+
+    public static class UserBuilder {
+
+        private int id;
+        private UserRole userRole;
+        private String login;
+        private String password;
+        private String fullName;
+        private String email;
+        private BigDecimal money = DEFAULT_MONEY;
+        private boolean available = DEFAULT_AVAILABILITY;
+
+        public UserBuilder id(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public UserBuilder userRole(UserRole userRole) {
+            this.userRole = userRole;
+            return this;
+        }
+
+        public UserBuilder login(String login) {
+            this.login = login;
+            return this;
+        }
+
+        public UserBuilder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserBuilder fullName(String fullName) {
+            this.fullName = fullName;
+            return this;
+        }
+
+        public UserBuilder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public UserBuilder money(BigDecimal money) {
+            this.money = money;
+            return this;
+        }
+
+        public UserBuilder available(boolean available) {
+            this.available = available;
+            return this;
+        }
+
+        public User build() {
+            return new User(id, userRole, login, password, fullName, email, money, available);
+        }
     }
 
     public int getId() {
@@ -43,12 +99,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public UserRole getRole() {
+        return userRole;
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
     public String getLogin() {
@@ -92,11 +148,11 @@ public class User implements Serializable {
     }
 
     public boolean isAvailable() {
-        return isAvailable;
+        return available;
     }
 
     public void setAvailable(boolean available) {
-        isAvailable = available;
+        this.available = available;
     }
 
     @Override
@@ -107,8 +163,8 @@ public class User implements Serializable {
         User user = (User) o;
 
         if (id != user.id) return false;
-        if (roleId != user.roleId) return false;
-        if (isAvailable != user.isAvailable) return false;
+        if (!Objects.equals(userRole, user.userRole)) return false;
+        if (available != user.available) return false;
         if (!Objects.equals(login, user.login)) return false;
         if (!Objects.equals(password, user.password)) return false;
         if (!Objects.equals(fullName, user.fullName)) return false;
@@ -119,13 +175,13 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + roleId;
+        result = 31 * result + (userRole != null ? userRole.hashCode() : 0);
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (money != null ? money.hashCode() : 0);
-        result = 31 * result + (isAvailable ? 1 : 0);
+        result = 31 * result + (available ? 1 : 0);
         return result;
     }
 
@@ -133,12 +189,12 @@ public class User implements Serializable {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", roleId=" + roleId +
+                ", roleId=" + userRole +
                 ", login='" + login + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", money=" + money +
-                ", isAvailable=" + isAvailable +
+                ", isAvailable=" + available +
                 '}';
     }
 }

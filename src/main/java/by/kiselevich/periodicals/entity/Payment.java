@@ -10,23 +10,66 @@ public class Payment implements Serializable {
     private static final long serialVersionUID = -719674600971588113L;
 
     private int id;
-    private int userId;
-    private int typeId;
+    private User user;
+    private PaymentType paymentType;
     private Timestamp date;
     private BigDecimal amount;
-    private Integer subscriptionId;
+    private Subscription subscription;
 
     public Payment() {
 
     }
 
-    public Payment(int id, int userId, int typeId, Timestamp date, BigDecimal amount, Integer subscriptionId) {
+    public Payment(int id, User user, PaymentType paymentType, Timestamp date, BigDecimal amount, Subscription subscription) {
         this.id = id;
-        this.userId = userId;
-        this.typeId = typeId;
+        this.user = user;
+        this.paymentType = paymentType;
         this.date = date;
         this.amount = amount;
-        this.subscriptionId = subscriptionId;
+        this.subscription = subscription;
+    }
+
+    public static class PaymentBuilder {
+        private int id;
+        private User user;
+        private PaymentType paymentType;
+        private Timestamp date;
+        private BigDecimal amount;
+        private Subscription subscription;
+
+        public PaymentBuilder id(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public PaymentBuilder user(User user) {
+            this.user = user;
+            return this;
+        }
+
+        public PaymentBuilder paymentType(PaymentType paymentType) {
+            this.paymentType = paymentType;
+            return this;
+        }
+
+        public PaymentBuilder date(Timestamp date) {
+            this.date = date;
+            return this;
+        }
+
+        public PaymentBuilder amount(BigDecimal amount) {
+            this.amount = amount;
+            return this;
+        }
+
+        public PaymentBuilder subscription(Subscription subscription) {
+            this.subscription = subscription;
+            return this;
+        }
+
+        public Payment build() {
+            return new Payment(id, user, paymentType, date, amount, subscription);
+        }
     }
 
     public int getId() {
@@ -37,20 +80,20 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getTypeId() {
-        return typeId;
+    public PaymentType getPaymentType() {
+        return paymentType;
     }
 
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
     }
 
     public Timestamp getDate() {
@@ -69,12 +112,12 @@ public class Payment implements Serializable {
         this.amount = amount;
     }
 
-    public Integer getSubscriptionId() {
-        return subscriptionId;
+    public Subscription getSubscription() {
+        return subscription;
     }
 
-    public void setSubscriptionId(Integer subscriptionId) {
-        this.subscriptionId = subscriptionId;
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
     }
 
     @Override
@@ -85,21 +128,21 @@ public class Payment implements Serializable {
         Payment payment = (Payment) o;
 
         if (id != payment.id) return false;
-        if (userId != payment.userId) return false;
-        if (typeId != payment.typeId) return false;
+        if (!Objects.equals(user, payment.user)) return false;
+        if (!Objects.equals(paymentType, payment.paymentType)) return false;
         if (!Objects.equals(date, payment.date)) return false;
         if (!Objects.equals(amount, payment.amount)) return false;
-        return Objects.equals(subscriptionId, payment.subscriptionId);
+        return Objects.equals(subscription, payment.subscription);
     }
 
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + userId;
-        result = 31 * result + typeId;
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (paymentType != null ? paymentType.hashCode() : 0);
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (amount != null ? amount.hashCode() : 0);
-        result = 31 * result + (subscriptionId != null ? subscriptionId.hashCode() : 0);
+        result = 31 * result + (subscription != null ? subscription.hashCode() : 0);
         return result;
     }
 
@@ -107,11 +150,11 @@ public class Payment implements Serializable {
     public String toString() {
         return "Payment{" +
                 "id=" + id +
-                ", userId=" + userId +
-                ", typeId=" + typeId +
+                ", user=" + user +
+                ", paymentType=" + paymentType +
                 ", date=" + date +
                 ", amount=" + amount +
-                ", subscriptionId=" + subscriptionId +
+                ", subscription=" + subscription +
                 '}';
     }
 }

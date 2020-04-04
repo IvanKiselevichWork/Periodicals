@@ -243,10 +243,10 @@
 
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
-                                        <c:if test="${empty editionMap}">
+                                        <c:if test="${empty editions}">
                                             ${message}
                                         </c:if>
-                                        <c:if test="${not empty editionMap}">
+                                        <c:if test="${not empty editions}">
                                             <!-- MDBootstrap table -->
                                             <table id="dtMaterialDesignExample" class="table table-striped w-100"
                                                    cellspacing="0">
@@ -267,12 +267,12 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <c:forEach var="edition" items="${editionMap}" varStatus="status">
+                                                <c:forEach var="edition" items="${editions}" varStatus="status">
                                                     <tr>
-                                                        <td><c:out value="${ edition.key.id }"/></td>
-                                                        <td><c:out value="${ edition.key.name }"/></td>
-                                                        <td><c:out value="${ edition.value.value.type }"/></td>
-                                                        <td><c:out value="${ edition.value.key.title }"/></td>
+                                                        <td><c:out value="${ edition.id }"/></td>
+                                                        <td><c:out value="${ edition.name }"/></td>
+                                                        <td><c:out value="${ edition.editionType.type }"/></td>
+                                                        <td><c:out value="${ edition.editionTheme.title }"/></td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -298,10 +298,10 @@
                                                         <fmt:message key="id"/>
                                                     </th>
                                                     <th class="th-sm">
-                                                        <fmt:message key="user_id"/>
+                                                        <fmt:message key="user"/>
                                                     </th>
                                                     <th class="th-sm">
-                                                        <fmt:message key="type_id"/>
+                                                        <fmt:message key="type"/>
                                                     </th>
                                                     <th class="th-sm">
                                                         <fmt:message key="date"/>
@@ -309,20 +309,16 @@
                                                     <th class="th-sm">
                                                         <fmt:message key="amount"/>
                                                     </th>
-                                                    <th class="th-sm">
-                                                        <fmt:message key="subscription_id"/>
-                                                    </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <c:forEach var="payment" items="${payments}" varStatus="status">
                                                     <tr>
                                                         <td><c:out value="${ payment.id }"/></td>
-                                                        <td><c:out value="${ payment.userId }"/></td>
-                                                        <td><c:out value="${ payment.typeId }"/></td>
+                                                        <td><c:out value="${ payment.user.fullName }"/></td>
+                                                        <td><c:out value="${ payment.paymentType.type }"/></td>
                                                         <td><c:out value="${ payment.date }"/></td>
                                                         <td><c:out value="${ payment.amount }"/></td>
-                                                        <td><c:out value="${ payment.subscriptionId }"/></td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -348,7 +344,7 @@
                                                         <fmt:message key="id"/>
                                                     </th>
                                                     <th class="th-sm">
-                                                        <fmt:message key="edition_id"/>
+                                                        <fmt:message key="edition"/>
                                                     </th>
                                                     <th class="th-sm">
                                                         <fmt:message key="subscription_start_date"/>
@@ -357,7 +353,7 @@
                                                         <fmt:message key="subscription_end_date"/>
                                                     </th>
                                                     <th class="th-sm">
-                                                        <fmt:message key="user_id"/>
+                                                        <fmt:message key="user"/>
                                                     </th>
                                                     <th class="th-sm">
                                                         <fmt:message key="is_paid"/>
@@ -369,11 +365,10 @@
                                                            varStatus="status">
                                                     <tr>
                                                         <td><c:out value="${ subscription.id }"/></td>
-                                                        <td><c:out value="${ subscription.editionId }"/></td>
-                                                        <td><c:out
-                                                                value="${ subscription.subscriptionStartDate }"/></td>
+                                                        <td><c:out value="${ subscription.edition.name }"/></td>
+                                                        <td><c:out value="${ subscription.subscriptionStartDate }"/></td>
                                                         <td><c:out value="${ subscription.subscriptionEndDate }"/></td>
-                                                        <td><c:out value="${ subscription.userId }"/></td>
+                                                        <td><c:out value="${ subscription.user.fullName }"/></td>
                                                         <td><c:out value="${ subscription.paid }"/></td>
                                                     </tr>
                                                 </c:forEach>

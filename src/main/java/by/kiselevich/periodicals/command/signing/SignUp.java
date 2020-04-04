@@ -34,7 +34,7 @@ public class SignUp implements Command {
             user.setFullName(fullName);
             user.setEmail(email);
             userService.signUp(user);
-            req.getSession().setAttribute(Attribute.USER_ROLE.getValue(), UserRole.USER);
+            req.getSession().setAttribute(Attribute.USER_TYPE.getValue(), UserType.USER);
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
             return Page.HOME_PAGE;
         } catch (ServiceException e) {

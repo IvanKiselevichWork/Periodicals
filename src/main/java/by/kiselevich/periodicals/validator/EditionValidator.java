@@ -2,6 +2,8 @@ package by.kiselevich.periodicals.validator;
 
 import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.entity.Edition;
+import by.kiselevich.periodicals.entity.EditionTheme;
+import by.kiselevich.periodicals.entity.EditionType;
 import by.kiselevich.periodicals.exception.EditionValidatorException;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
@@ -22,8 +24,8 @@ public class EditionValidator {
         }
 
         checkName(edition.getName());
-        checkTypeId(edition.getTypeId());
-        checkThemeId(edition.getThemeId());
+        checkEditionType(edition.getEditionType());
+        checkEditionTheme(edition.getEditionTheme());
         checkPeriodicityPerYear(edition.getPeriodicityPerYear());
         checkMinimumSubscriptionPeriodInMonths(edition.getMinimumSubscriptionPeriodInMonths());
         checkPriceForMinimumSubscriptionPeriod(edition.getPriceForMinimumSubscriptionPeriod());
@@ -36,10 +38,10 @@ public class EditionValidator {
         }
     }
 
-    private void checkTypeId(int typeId) throws EditionValidatorException {
+    private void checkEditionType(EditionType editionType) throws EditionValidatorException {
         try {
             EditionTypeService editionTypeService = ServiceFactory.getInstance().getEditionTypeService();
-            if (editionTypeService.getEditionTypeById(typeId).isEmpty()) {
+            if (editionTypeService.getEditionTypeById(editionType.getId()).isEmpty()) {
                 throw new EditionValidatorException(ResourceBundleMessages.INVALID_TYPE.getKey());
             }
         } catch (ServiceException e) {
@@ -47,10 +49,10 @@ public class EditionValidator {
         }
     }
 
-    private void checkThemeId(int themeId) throws EditionValidatorException {
+    private void checkEditionTheme(EditionTheme editionTheme) throws EditionValidatorException {
         try {
             ThemeService themeService = ServiceFactory.getInstance().getThemeService();
-            if (themeService.getThemeById(themeId).isEmpty()) {
+            if (themeService.getThemeById(editionTheme.getId()).isEmpty()) {
                 throw new EditionValidatorException(ResourceBundleMessages.INVALID_THEME.getKey());
             }
         } catch (ServiceException e) {

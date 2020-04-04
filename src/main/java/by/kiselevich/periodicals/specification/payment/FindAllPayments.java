@@ -4,24 +4,28 @@ import by.kiselevich.periodicals.entity.Payment;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.ConnectionPool;
 import by.kiselevich.periodicals.pool.ConnectionProxy;
+import by.kiselevich.periodicals.specification.SpecificationUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class FindAllPayments implements PaymentSpecification {
+public class FindAllPayments extends SpecificationUtil implements PaymentSpecification {
 
-    private static final String FIND_ALL_PAYMENTS = "select id, user_id, type_id, date, amount, subscription_id from payment";
+    private static final String FIND_ALL_PAYMENTS = "select * from payment inner join payment_type on payment.type_id = payment_type.id left join subscription on payment.subscription_id = subscription.id left join edition on subscription.edition_id = edition.id inner join user on payment.user_id = user.id left join edition_theme on edition.theme_id = edition_theme.id left join edition_type on edition.type_id = edition_type.id inner join user_role on user.role_id = user_role.id";
 
     @Override
     public List<Payment> query() throws RepositoryException {
         ResultSet resultSet = null;
-        List<Payment> payments;
+        List<Payment> payments = new ArrayList<>();
         try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(FIND_ALL_PAYMENTS);
             resultSet = statement.executeQuery();
-            payments = getPaymentsFromResultSet(resultSet);
+            while (resultSet.next()) {
+                payments.add(getPaymentFromResultSet(resultSet));
+            }
         } catch (SQLException e) {
             throw new RepositoryException(e);
         } finally {
