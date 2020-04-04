@@ -4,11 +4,14 @@ import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.ServiceException;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     void signUp(User user) throws ServiceException;
 
     void signIn(User user) throws ServiceException;
+
+    Optional<User> getUserByLogin(String login) throws ServiceException;
 
     List<User> getAllUsers() throws ServiceException;
 

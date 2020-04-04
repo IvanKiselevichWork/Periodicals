@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 
@@ -57,6 +58,10 @@ public class UserServiceImpl implements UserService {
                 throw new ServiceException(ResourceBundleMessages.USER_NOT_FOUND_KEY.getKey());
             }
 
+            if (!userList.get(0).isAvailable()) {
+                throw new ServiceException(ResourceBundleMessages.USER_BLOCKED.getKey());
+            }
+
             user.setRole(userList.get(0).getRole());
         } catch (RepositoryException e) {
             LOG.warn(e);
@@ -64,6 +69,20 @@ public class UserServiceImpl implements UserService {
         }  catch (UserValidatorException e) {
             LOG.info(e);
             throw new ServiceException(e.getMessage());
+        }
+    }
+
+    @Override
+    public Optional<User> getUserByLogin(String login) throws ServiceException {
+        try {
+            List<User> users = userRepository.query(new FindUserByLogin(login));
+            if (!users.isEmpty()) {
+                return Optional.of(users.get(0));
+            }
+            return Optional.empty();
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
     }
 
