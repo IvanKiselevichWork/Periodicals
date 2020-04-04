@@ -10,6 +10,7 @@ import by.kiselevich.periodicals.service.subscription.SubscriptionService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Comparator;
 import java.util.List;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
@@ -27,6 +28,7 @@ public class ShowSubscriptions implements Command {
         req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), AdminPageOption.SUBSCRIPTIONS);
         try {
             List<Subscription> subscriptionList = subscriptionService.getAllSubscriptions();
+            subscriptionList.sort(Comparator.comparing(Subscription::getId));
             req.setAttribute(Attribute.SUBSCRIPTIONS.getValue(), subscriptionList);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
