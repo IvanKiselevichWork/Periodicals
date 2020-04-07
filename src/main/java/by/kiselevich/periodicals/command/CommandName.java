@@ -14,5 +14,6 @@ public enum CommandName {
     SHOW_SUBSCRIPTIONS,
     BLOCK_USER,
     UNBLOCK_USER,
-    ADD_EDITION
+    ADD_EDITION,
+    USER
 }

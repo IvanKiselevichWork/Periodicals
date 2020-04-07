@@ -4,6 +4,7 @@ import by.kiselevich.periodicals.command.admin.*;
 import by.kiselevich.periodicals.command.home.ShowHomePage;
 import by.kiselevich.periodicals.command.language.ChangeLanguage;
 import by.kiselevich.periodicals.command.signing.*;
+import by.kiselevich.periodicals.command.user.ShowUserPage;
 import by.kiselevich.periodicals.command.wrongrequest.ShowWrongRequestPage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,6 +33,7 @@ public class CommandProvider {
         commandMap.put(CommandName.BLOCK_USER, new BlockUser());
         commandMap.put(CommandName.UNBLOCK_USER, new UnblockUser());
         commandMap.put(CommandName.ADD_EDITION, new AddEdition());
+        commandMap.put(CommandName.USER, new ShowUserPage());
     }
 
     private static final class CommandProviderHolder {
