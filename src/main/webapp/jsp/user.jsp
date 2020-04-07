@@ -107,7 +107,8 @@
                     <em class="fas fa-book mr-3"></em><fmt:message key="editions"/></a>
                 <a href="./?command=SHOW_USER_PAYMENTS" class="list-group-item list-group-item-action waves-effect">
                     <em class="fas fa-money-bill-alt mr-3"></em><fmt:message key="payments"/></a>
-                <a href="./?command=SHOW_USER_SUBSCRIPTIONS" class="list-group-item list-group-item-action waves-effect">
+                <a href="./?command=SHOW_USER_SUBSCRIPTIONS"
+                   class="list-group-item list-group-item-action waves-effect">
                     <em class="fas fa-check-square mr-3"></em><fmt:message key="subscriptions"/></a>
             </div>
 
@@ -223,12 +224,6 @@
                                                 <thead>
                                                 <tr>
                                                     <th class="th-sm">
-                                                        <fmt:message key="id"/>
-                                                    </th>
-                                                    <th class="th-sm">
-                                                        <fmt:message key="user"/>
-                                                    </th>
-                                                    <th class="th-sm">
                                                         <fmt:message key="type"/>
                                                     </th>
                                                     <th class="th-sm">
@@ -242,9 +237,29 @@
                                                 <tbody>
                                                 <c:forEach var="payment" items="${payments}" varStatus="status">
                                                     <tr>
-                                                        <td><c:out value="${ payment.id }"/></td>
-                                                        <td><c:out value="${ payment.user.fullName }"/></td>
-                                                        <td><c:out value="${ payment.paymentType.type }"/></td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${ payment.paymentType.type eq 'refill'}">
+                                                                    <span class="badge badge-success badge-pill pull-right">
+                                                                        <c:out value="${ payment.paymentType.type }"/>
+                                                                        <em class="fas fa-arrow-up ml-1"></em>
+                                                                    </span>
+                                                                </c:when>
+                                                                <c:when test="${ payment.paymentType.type eq 'refund'}">
+                                                                    <span class="badge badge-warning badge-pill pull-right">
+                                                                        <c:out value="${ payment.paymentType.type }"/>
+                                                                        <em class="fas fa-arrow-up ml-1"></em>
+                                                                    </span>
+                                                                </c:when>
+                                                                <c:when test="${ payment.paymentType.type eq 'payment'}">
+                                                                    <span class="badge badge-danger badge-pill pull-right">
+                                                                        <c:out value="${ payment.paymentType.type }"/>
+                                                                        <em class="fas fa-arrow-down ml-1"></em>
+                                                                    </span>
+                                                                </c:when>
+                                                            </c:choose>
+
+                                                        </td>
                                                         <td><c:out value="${ payment.date }"/></td>
                                                         <td><c:out value="${ payment.amount }"/></td>
                                                     </tr>
@@ -294,7 +309,8 @@
                                                     <tr>
                                                         <td><c:out value="${ subscription.id }"/></td>
                                                         <td><c:out value="${ subscription.edition.name }"/></td>
-                                                        <td><c:out value="${ subscription.subscriptionStartDate }"/></td>
+                                                        <td><c:out
+                                                                value="${ subscription.subscriptionStartDate }"/></td>
                                                         <td><c:out value="${ subscription.subscriptionEndDate }"/></td>
                                                         <td><c:out value="${ subscription.user.fullName }"/></td>
                                                         <td><c:out value="${ subscription.paid }"/></td>

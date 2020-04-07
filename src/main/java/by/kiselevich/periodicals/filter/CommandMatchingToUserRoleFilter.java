@@ -30,7 +30,8 @@ public class CommandMatchingToUserRoleFilter implements Filter {
             HOME,
             SIGN_OUT,
             CHANGE_LANGUAGE,
-            USER
+            USER,
+            SHOW_USER_PAYMENTS
     );
 
     private static final Set<CommandName> adminCommands = EnumSet.of(
