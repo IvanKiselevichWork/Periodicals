@@ -4,6 +4,7 @@ import by.kiselevich.periodicals.command.admin.*;
 import by.kiselevich.periodicals.command.home.ShowHomePage;
 import by.kiselevich.periodicals.command.language.ChangeLanguage;
 import by.kiselevich.periodicals.command.signing.*;
+import by.kiselevich.periodicals.command.user.ShowEditionSearchForm;
 import by.kiselevich.periodicals.command.user.ShowUserPage;
 import by.kiselevich.periodicals.command.user.ShowUserPayments;
 import by.kiselevich.periodicals.command.user.ShowUserSubscriptions;
@@ -38,6 +39,7 @@ public class CommandProvider {
         commandMap.put(CommandName.USER, new ShowUserPage());
         commandMap.put(CommandName.SHOW_USER_PAYMENTS, new ShowUserPayments());
         commandMap.put(CommandName.SHOW_USER_SUBSCRIPTIONS, new ShowUserSubscriptions());
+        commandMap.put(CommandName.SHOW_EDITION_SEARCH_FORM, new ShowEditionSearchForm());
     }
 
     private static final class CommandProviderHolder {

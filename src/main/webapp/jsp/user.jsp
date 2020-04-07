@@ -103,7 +103,8 @@
             </a>
 
             <div class="list-group list-group-flush">
-                <a href="./?command=SHOW_FIND_EDITION_FORM" class="list-group-item list-group-item-action waves-effect">
+                <a href="./?command=SHOW_EDITION_SEARCH_FORM"
+                   class="list-group-item list-group-item-action waves-effect">
                     <em class="fas fa-book mr-3"></em><fmt:message key="editions"/></a>
                 <a href="./?command=SHOW_USER_PAYMENTS" class="list-group-item list-group-item-action waves-effect">
                     <em class="fas fa-money-bill-alt mr-3"></em><fmt:message key="payments"/></a>
@@ -160,12 +161,46 @@
                                     <div id="editions_div" class="alert alert-danger" role="alert"></div>
                                     <div class="d-flex">
                                         <div class="p-0">
-                                            <h4><fmt:message key="editions"/></h4>
+                                            <h4><fmt:message key="find_editions"/></h4>
                                         </div>
-                                        <div class="ml-auto p-0">
+                                    </div>
+
+                                    <div class="d-flex">
+                                        <div class="p-0 pt-3">
+                                            <label for="edition-name-label"><fmt:message key="name"/></label>
+                                            <input type="text" class="form-control" id="edition-name-label" name="name"
+                                                   placeholder="<fmt:message key="enter_name"/>">
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="p-0 pt-3">
+                                            <label for="edition-type-label"><fmt:message key="type"/></label>
+                                            <select class="browser-default custom-select" id="edition-type-label">
+                                                <option value="" disabled selected><fmt:message
+                                                        key="enter_type"/></option>
+                                                <c:forEach var="type" items="${editionsTypes}">
+                                                    <option value="${type.id}">${type.type}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="p-0 pt-3">
+                                            <label for="edition-theme-label"><fmt:message key="theme"/></label>
+                                            <select class="browser-default custom-select" id="edition-theme-label">
+                                                <option value="" disabled selected><fmt:message
+                                                        key="enter_theme"/></option>
+                                                <c:forEach var="theme" items="${editionsThemes}">
+                                                    <option value="${theme.id}">${theme.title}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="p-0 pt-3">
                                             <button type="button" class="btn btn-outline-primary waves-effect"
-                                                    data-toggle="modal" data-target="#modalNewEdition">
-                                                <fmt:message key="add_new_edition"/>
+                                                    id="searchEditions">
+                                                <fmt:message key="search_editions"/>
                                             </button>
                                         </div>
                                     </div>
@@ -302,7 +337,8 @@
                                                            varStatus="status">
                                                     <tr>
                                                         <td><c:out value="${ subscription.edition.name }"/></td>
-                                                        <td><c:out value="${ subscription.subscriptionStartDate }"/></td>
+                                                        <td><c:out
+                                                                value="${ subscription.subscriptionStartDate }"/></td>
                                                         <td><c:out value="${ subscription.subscriptionEndDate }"/></td>
                                                         <td>
                                                             <c:choose>
