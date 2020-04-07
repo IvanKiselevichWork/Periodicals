@@ -1,6 +1,6 @@
 package by.kiselevich.periodicals.command.admin;
 
-public enum AdminPageOption {
+public enum DashboardPageOption {
     MAIN,
     USERS,
     EDITIONS,

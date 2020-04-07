@@ -25,7 +25,7 @@ public class ShowPayments implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), AdminPageOption.PAYMENTS);
+        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), DashboardPageOption.PAYMENTS);
         try {
             List<Payment> paymentList = paymentService.getAllPayments();
             paymentList.sort(Comparator.comparing(Payment::getId));

@@ -3,7 +3,7 @@ package by.kiselevich.periodicals.command.user;
 import by.kiselevich.periodicals.command.Attribute;
 import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.Page;
-import by.kiselevich.periodicals.command.admin.AdminPageOption;
+import by.kiselevich.periodicals.command.admin.DashboardPageOption;
 import by.kiselevich.periodicals.entity.Payment;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
@@ -25,7 +25,7 @@ public class ShowUserPayments implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute(Attribute.USER_PAGE_OPTION.getValue(), AdminPageOption.PAYMENTS);
+        req.setAttribute(Attribute.USER_PAGE_OPTION.getValue(), DashboardPageOption.PAYMENTS);
         try {
             String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
             List<Payment> paymentList = paymentService.getPaymentsByLogin(login);

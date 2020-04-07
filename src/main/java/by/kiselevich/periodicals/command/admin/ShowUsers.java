@@ -24,7 +24,7 @@ public class ShowUsers implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), AdminPageOption.USERS);
+        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), DashboardPageOption.USERS);
         try {
             List<User> userList = userService.getAllUsers();
             req.setAttribute(Attribute.USERS.getValue(), userList);

@@ -25,7 +25,7 @@ public class ShowSubscriptions implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), AdminPageOption.SUBSCRIPTIONS);
+        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), DashboardPageOption.SUBSCRIPTIONS);
         try {
             List<Subscription> subscriptionList = subscriptionService.getAllSubscriptions();
             subscriptionList.sort(Comparator.comparing(Subscription::getId));

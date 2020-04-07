@@ -31,7 +31,7 @@ public class ShowAdminPage implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), AdminPageOption.MAIN);
+        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), DashboardPageOption.MAIN);
 
         try {
             int usersCount = userService.getAllUsers().size();

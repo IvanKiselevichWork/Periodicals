@@ -14,7 +14,6 @@ import by.kiselevich.periodicals.service.theme.ThemeService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class ShowEditions implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), AdminPageOption.EDITIONS);
+        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), DashboardPageOption.EDITIONS);
         try {
             List<Edition> editionList = editionService.getAllEditions();
             List<EditionTheme> editionThemeList = themeService.getAllThemes();
