@@ -7,6 +7,7 @@ import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.RepositoryFactory;
 import by.kiselevich.periodicals.repository.subscription.SubscriptionRepository;
 import by.kiselevich.periodicals.specification.subscription.FindAllSubscriptions;
+import by.kiselevich.periodicals.specification.subscription.FindAllSubscriptionsByUserLogin;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,6 +27,16 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public List<Subscription> getAllSubscriptions() throws ServiceException {
         try {
             return subscriptionRepository.query(new FindAllSubscriptions());
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
+
+    @Override
+    public List<Subscription> getAllSubscriptionsByUserLogin(String userLogin) throws ServiceException {
+        try {
+            return subscriptionRepository.query(new FindAllSubscriptionsByUserLogin(userLogin));
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
