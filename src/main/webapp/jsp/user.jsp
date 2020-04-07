@@ -284,9 +284,6 @@
                                                 <thead>
                                                 <tr>
                                                     <th class="th-sm">
-                                                        <fmt:message key="id"/>
-                                                    </th>
-                                                    <th class="th-sm">
                                                         <fmt:message key="edition"/>
                                                     </th>
                                                     <th class="th-sm">
@@ -294,9 +291,6 @@
                                                     </th>
                                                     <th class="th-sm">
                                                         <fmt:message key="subscription_end_date"/>
-                                                    </th>
-                                                    <th class="th-sm">
-                                                        <fmt:message key="user"/>
                                                     </th>
                                                     <th class="th-sm">
                                                         <fmt:message key="is_paid"/>
@@ -307,13 +301,23 @@
                                                 <c:forEach var="subscription" items="${subscriptions}"
                                                            varStatus="status">
                                                     <tr>
-                                                        <td><c:out value="${ subscription.id }"/></td>
                                                         <td><c:out value="${ subscription.edition.name }"/></td>
-                                                        <td><c:out
-                                                                value="${ subscription.subscriptionStartDate }"/></td>
+                                                        <td><c:out value="${ subscription.subscriptionStartDate }"/></td>
                                                         <td><c:out value="${ subscription.subscriptionEndDate }"/></td>
-                                                        <td><c:out value="${ subscription.user.fullName }"/></td>
-                                                        <td><c:out value="${ subscription.paid }"/></td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${ subscription.paid eq true}">
+                                                                    <span class="badge badge-success badge-pill pull-right">
+                                                                        <c:out value="${ subscription.paid }"/>
+                                                                    </span>
+                                                                </c:when>
+                                                                <c:when test="${ subscription.paid eq false}">
+                                                                    <span class="badge badge-danger badge-pill pull-right">
+                                                                        <c:out value="${ subscription.paid }"/>
+                                                                    </span>
+                                                                </c:when>
+                                                            </c:choose>
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
