@@ -5,6 +5,7 @@ public enum Page {
     WRONG_REQUEST("/jsp/wrong_request.jsp"),
     APP_FAILURE("/jsp/app_failure.jsp"),
     ADMIN_PAGE("/jsp/admin.jsp"),
+    USER_PAGE("/jsp/user.jsp"),
     EMPTY_PAGE("");
 
     private String path;

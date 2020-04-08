@@ -6,6 +6,8 @@ public enum Attribute {
     LOGIN("login"),
     LANGUAGE("language"),
     ADMIN_PAGE_OPTION("adminPageOption"),
+    USER_PAGE_OPTION("userPageOption"),
+    USER_BALANCE("userBalance"),
     USERS("users"),
     USERS_COUNT("usersCount"),
     EDITIONS("editions"),

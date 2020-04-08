@@ -121,13 +121,9 @@
                                     <!--Card content-->
                                     <div class="card-body">
                                         <div class="list-group list-group-flush">
-                                            <a href="#" class="list-group-item list-group-item-action waves-effect">
-                                                <em class="fas fa-user mr-3"></em>
-                                                <fmt:message key="profile"/>
-                                            </a>
-                                            <a href="#" class="list-group-item list-group-item-action waves-effect">
-                                                <em class="fas fa-book mr-3"></em>
-                                                <fmt:message key="find_edition"/>
+                                            <a href="./?command=USER" class="list-group-item active waves-effect">
+                                                <em class="fas fa-chart-pie mr-3"></em>
+                                                <fmt:message key="my_account"/>
                                             </a>
                                         </div>
                                     </div>

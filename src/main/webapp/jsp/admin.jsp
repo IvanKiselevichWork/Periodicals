@@ -28,7 +28,7 @@
         <!-- Your custom styles (optional) -->
         <link href="${root}/css/style.min.css" rel="stylesheet">
         <!-- My custom css -->
-        <link href="${root}/css/admin.css" rel="stylesheet">
+        <link href="${root}/css/dashboard.css" rel="stylesheet">
     </head>
 
     <body class="grey lighten-3">

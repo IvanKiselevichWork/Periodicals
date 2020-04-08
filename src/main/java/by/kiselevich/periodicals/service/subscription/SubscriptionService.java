@@ -8,4 +8,6 @@ import java.util.List;
 public interface SubscriptionService {
 
     List<Subscription> getAllSubscriptions() throws ServiceException;
+
+    List<Subscription> getAllSubscriptionsByUserLogin(String userLogin) throws ServiceException;
 }
