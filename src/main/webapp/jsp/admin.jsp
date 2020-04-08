@@ -454,7 +454,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="edition-min-period-label"><fmt:message key="min-period"/></label>
+                                <label for="edition-min-period-label"><fmt:message key="min_period"/></label>
                                 <input type="text" class="form-control" id="edition-min-period-label" name="min-period"
                                        placeholder="<fmt:message key="enter_min_period"/>">
                             </div>
