@@ -105,7 +105,7 @@
             <div class="list-group list-group-flush">
                 <a href="./?command=SHOW_EDITION_SEARCH_FORM"
                    class="list-group-item list-group-item-action waves-effect">
-                    <em class="fas fa-book mr-3"></em><fmt:message key="editions"/></a>
+                    <em class="fas fa-book mr-3"></em><fmt:message key="editions_search"/></a>
                 <a href="./?command=SHOW_USER_PAYMENTS" class="list-group-item list-group-item-action waves-effect">
                     <em class="fas fa-money-bill-alt mr-3"></em><fmt:message key="payments"/></a>
                 <a href="./?command=SHOW_USER_SUBSCRIPTIONS"
@@ -161,7 +161,7 @@
                                     <div id="editions_div" class="alert alert-danger" role="alert"></div>
                                     <div class="d-flex">
                                         <div class="p-0">
-                                            <h4><fmt:message key="find_editions"/></h4>
+                                            <h4><fmt:message key="editions_search"/></h4>
                                         </div>
                                     </div>
 
@@ -200,7 +200,7 @@
                                         <div class="p-0 pt-3">
                                             <button type="button" class="btn btn-outline-primary waves-effect"
                                                     id="searchEditions">
-                                                <fmt:message key="search_editions"/>
+                                                <fmt:message key="find_editions"/>
                                             </button>
                                         </div>
                                     </div>
