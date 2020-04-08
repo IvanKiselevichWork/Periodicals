@@ -8,8 +8,8 @@ import by.kiselevich.periodicals.service.payment.PaymentService;
 import by.kiselevich.periodicals.service.payment.PaymentServiceImpl;
 import by.kiselevich.periodicals.service.subscription.SubscriptionService;
 import by.kiselevich.periodicals.service.subscription.SubscriptionServiceImpl;
-import by.kiselevich.periodicals.service.theme.ThemeService;
-import by.kiselevich.periodicals.service.theme.ThemeServiceImpl;
+import by.kiselevich.periodicals.service.editiontheme.EditionThemeService;
+import by.kiselevich.periodicals.service.editiontheme.EditionThemeServiceImpl;
 import by.kiselevich.periodicals.service.user.UserService;
 import by.kiselevich.periodicals.service.user.UserServiceImpl;
 
@@ -19,7 +19,7 @@ public class ServiceFactory {
     private EditionService editionService;
     private PaymentService paymentService;
     private SubscriptionService subscriptionService;
-    private ThemeService themeService;
+    private EditionThemeService editionThemeService;
     private EditionTypeService editionTypeService;
 
     private ServiceFactory(){
@@ -27,7 +27,7 @@ public class ServiceFactory {
         editionService = new EditionServiceImpl();
         paymentService = new PaymentServiceImpl();
         subscriptionService = new SubscriptionServiceImpl();
-        themeService = new ThemeServiceImpl();
+        editionThemeService = new EditionThemeServiceImpl();
         editionTypeService = new EditionTypeServiceImpl();
     }
 
@@ -55,8 +55,8 @@ public class ServiceFactory {
         return subscriptionService;
     }
 
-    public ThemeService getThemeService() {
-        return themeService;
+    public EditionThemeService getEditionThemeService() {
+        return editionThemeService;
     }
 
     public EditionTypeService getEditionTypeService() {

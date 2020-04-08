@@ -8,7 +8,7 @@ import by.kiselevich.periodicals.exception.EditionValidatorException;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.editiontype.EditionTypeService;
-import by.kiselevich.periodicals.service.theme.ThemeService;
+import by.kiselevich.periodicals.service.editiontheme.EditionThemeService;
 
 import java.math.BigDecimal;
 import java.util.regex.Matcher;
@@ -51,8 +51,8 @@ public class EditionValidator {
 
     private void checkEditionTheme(EditionTheme editionTheme) throws EditionValidatorException {
         try {
-            ThemeService themeService = ServiceFactory.getInstance().getThemeService();
-            if (themeService.getThemeById(editionTheme.getId()).isEmpty()) {
+            EditionThemeService editionThemeService = ServiceFactory.getInstance().getEditionThemeService();
+            if (editionThemeService.getThemeById(editionTheme.getId()).isEmpty()) {
                 throw new EditionValidatorException(ResourceBundleMessages.INVALID_THEME.getKey());
             }
         } catch (ServiceException e) {

@@ -10,7 +10,7 @@ import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.edition.EditionService;
 import by.kiselevich.periodicals.service.editiontype.EditionTypeService;
-import by.kiselevich.periodicals.service.theme.ThemeService;
+import by.kiselevich.periodicals.service.editiontheme.EditionThemeService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,12 +22,12 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 public class ShowEditions implements Command {
 
     private EditionService editionService;
-    private ThemeService themeService;
+    private EditionThemeService editionThemeService;
     private EditionTypeService editionTypeService;
 
     public ShowEditions() {
         editionService = ServiceFactory.getInstance().getEditionService();
-        themeService = ServiceFactory.getInstance().getThemeService();
+        editionThemeService = ServiceFactory.getInstance().getEditionThemeService();
         editionTypeService = ServiceFactory.getInstance().getEditionTypeService();
     }
 
@@ -36,7 +36,7 @@ public class ShowEditions implements Command {
         req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), DashboardPageOption.EDITIONS);
         try {
             List<Edition> editionList = editionService.getAllEditions();
-            List<EditionTheme> editionThemeList = themeService.getAllThemes();
+            List<EditionTheme> editionThemeList = editionThemeService.getAllThemes();
             List<EditionType> editionTypeList = editionTypeService.getAllEditionsTypes();
 
             editionList.sort(Comparator.comparing(Edition::getId).reversed());

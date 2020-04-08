@@ -9,7 +9,7 @@ import by.kiselevich.periodicals.entity.EditionType;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.editiontype.EditionTypeService;
-import by.kiselevich.periodicals.service.theme.ThemeService;
+import by.kiselevich.periodicals.service.editiontheme.EditionThemeService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,18 +20,18 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 public class ShowEditionSearchForm implements Command {
 
     private EditionTypeService editionTypeService;
-    private ThemeService themeService;
+    private EditionThemeService editionThemeService;
 
     public ShowEditionSearchForm() {
         editionTypeService = ServiceFactory.getInstance().getEditionTypeService();
-        themeService = ServiceFactory.getInstance().getThemeService();
+        editionThemeService = ServiceFactory.getInstance().getEditionThemeService();
     }
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
         req.setAttribute(Attribute.USER_PAGE_OPTION.getValue(), DashboardPageOption.EDITIONS);
         try {
-            List<EditionTheme> editionThemeList = themeService.getAllThemes();
+            List<EditionTheme> editionThemeList = editionThemeService.getAllThemes();
             List<EditionType> editionTypeList = editionTypeService.getAllEditionsTypes();
             req.setAttribute(Attribute.EDITIONS_THEMES.getValue(), editionThemeList);
             req.setAttribute(Attribute.EDITIONS_TYPES.getValue(), editionTypeList);

@@ -1,4 +1,4 @@
-package by.kiselevich.periodicals.service.theme;
+package by.kiselevich.periodicals.service.editiontheme;
 
 import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.entity.EditionTheme;
@@ -13,13 +13,13 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class ThemeServiceImpl implements ThemeService {
+public class EditionThemeServiceImpl implements EditionThemeService {
 
-    private static final Logger LOG = LogManager.getLogger(ThemeServiceImpl.class);
+    private static final Logger LOG = LogManager.getLogger(EditionThemeServiceImpl.class);
 
     private ThemeRepository themeRepository;
 
-    public ThemeServiceImpl() {
+    public EditionThemeServiceImpl() {
         themeRepository = RepositoryFactory.getInstance().getThemeRepository();
     }
 
