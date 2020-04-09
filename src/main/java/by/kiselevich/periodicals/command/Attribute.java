@@ -17,7 +17,10 @@ public enum Attribute {
     SUBSCRIPTIONS("subscriptions"),
     SUBSCRIPTIONS_COUNT("subscriptionsCount"),
     EDITIONS_THEMES("editionsThemes"),
-    EDITIONS_TYPES("editionsTypes");
+    EDITIONS_TYPES("editionsTypes"),
+    EDITION_NAME_VALUE("editionNameValue"),
+    EDITION_TYPE_ID_VALUE("editionTypeIdValue"),
+    EDITION_THEME_ID_VALUE("editionThemeIdValue");
 
     private String value;
 

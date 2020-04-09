@@ -10,4 +10,12 @@ public interface EditionService {
     Edition add(Edition edition) throws ServiceException;
 
     List<Edition> getAllEditions() throws ServiceException;
+
+    List<Edition> getEditionsByNameAndTypeIdAndThemeId(String name, int typeId, int themeId) throws ServiceException;
+
+    List<Edition> getEditionsByNameAndTypeId(String name, int typeId) throws ServiceException;
+
+    List<Edition> getEditionsByNameAndThemeId(String name, int themeId) throws ServiceException;
+
+    List<Edition> getEditionsByName(String name) throws ServiceException;
 }

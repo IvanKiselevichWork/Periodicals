@@ -7,7 +7,7 @@ import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.RepositoryFactory;
 import by.kiselevich.periodicals.repository.edition.EditionRepository;
-import by.kiselevich.periodicals.specification.edition.FindAllEditions;
+import by.kiselevich.periodicals.specification.edition.*;
 import by.kiselevich.periodicals.validator.EditionValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,6 +46,46 @@ public class EditionServiceImpl implements EditionService {
     public List<Edition> getAllEditions() throws ServiceException {
         try {
             return editionRepository.query(new FindAllEditions());
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
+
+    @Override
+    public List<Edition> getEditionsByNameAndTypeIdAndThemeId(String name, int typeId, int themeId) throws ServiceException {
+        try {
+            return editionRepository.query(new FindEditionsByNameAndTypeIdAndThemeId(name, typeId, themeId));
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
+
+    @Override
+    public List<Edition> getEditionsByNameAndTypeId(String name, int typeId) throws ServiceException {
+        try {
+            return editionRepository.query(new FindEditionsByNameAndTypeId(name, typeId));
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
+
+    @Override
+    public List<Edition> getEditionsByNameAndThemeId(String name, int themeId) throws ServiceException {
+        try {
+            return editionRepository.query(new FindEditionsByNameAndThemeId(name, themeId));
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
+
+    @Override
+    public List<Edition> getEditionsByName(String name) throws ServiceException {
+        try {
+            return editionRepository.query(new FindEditionsByName(name));
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());

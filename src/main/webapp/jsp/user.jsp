@@ -169,15 +169,16 @@
                                         <div class="p-0 pt-3">
                                             <label for="edition-name-label"><fmt:message key="name"/></label>
                                             <input type="text" class="form-control" id="edition-name-label" name="name"
-                                                   placeholder="<fmt:message key="enter_name"/>">
+                                                   placeholder="<fmt:message key="enter_name"/>" value="${editionNameValue}">
                                         </div>
                                     </div>
                                     <div class="d-flex">
                                         <div class="p-0 pt-3">
                                             <label for="edition-type-label"><fmt:message key="type"/></label>
                                             <select class="browser-default custom-select" id="edition-type-label">
-                                                <option value="" disabled selected><fmt:message
-                                                        key="enter_type"/></option>
+                                                <option value="">
+                                                    <fmt:message key="any_type"/>
+                                                </option>
                                                 <c:forEach var="type" items="${editionsTypes}">
                                                     <option value="${type.id}">${type.type}</option>
                                                 </c:forEach>
@@ -188,8 +189,9 @@
                                         <div class="p-0 pt-3">
                                             <label for="edition-theme-label"><fmt:message key="theme"/></label>
                                             <select class="browser-default custom-select" id="edition-theme-label">
-                                                <option value="" disabled selected><fmt:message
-                                                        key="enter_theme"/></option>
+                                                <option value="" selected>
+                                                    <fmt:message key="any_theme"/>
+                                                </option>
                                                 <c:forEach var="theme" items="${editionsThemes}">
                                                     <option value="${theme.id}">${theme.title}</option>
                                                 </c:forEach>
@@ -199,9 +201,14 @@
                                     <div class="d-flex">
                                         <div class="p-0 pt-3">
                                             <button type="button" class="btn btn-outline-primary waves-effect"
-                                                    id="searchEditions">
+                                                    id="findEditions">
                                                 <fmt:message key="find_editions"/>
                                             </button>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="p-0 pt-3">
+                                            <div id="find-editions-message" class="alert alert-danger" role="alert"></div>
                                         </div>
                                     </div>
 
@@ -212,31 +219,30 @@
                                         </c:if>
                                         <c:if test="${not empty editions}">
                                             <!-- MDBootstrap table -->
-                                            <table id="dtMaterialDesignExample" class="table table-striped w-100"
-                                                   cellspacing="0">
+                                            <table id="dtMaterialDesignExample" class="table table-striped w-100" cellspacing="0">
                                                 <thead>
                                                 <tr>
-                                                    <th class="th-sm">
-                                                        <fmt:message key="id"/>
-                                                    </th>
                                                     <th class="th-sm">
                                                         <fmt:message key="name"/>
                                                     </th>
                                                     <th class="th-sm">
-                                                        <fmt:message key="type"/>
+                                                        <fmt:message key="periodicity"/>
                                                     </th>
                                                     <th class="th-sm">
-                                                        <fmt:message key="theme"/>
+                                                        <fmt:message key="min_period_reduced"/>
+                                                    </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="price_reduced"/>
                                                     </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <c:forEach var="edition" items="${editions}" varStatus="status">
                                                     <tr>
-                                                        <td><c:out value="${ edition.id }"/></td>
                                                         <td><c:out value="${ edition.name }"/></td>
-                                                        <td><c:out value="${ edition.editionType.type }"/></td>
-                                                        <td><c:out value="${ edition.editionTheme.title }"/></td>
+                                                        <td><c:out value="${ edition.periodicityPerYear }"/></td>
+                                                        <td><c:out value="${ edition.minimumSubscriptionPeriodInMonths }"/></td>
+                                                        <td><c:out value="${ edition.priceForMinimumSubscriptionPeriod }"/></td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -410,6 +416,46 @@
     <script type="text/javascript">
         // Animations initialization
         new WOW().init();
+    </script>
+
+    <!-- select inputs setting -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            const nameInput = $('#edition-name-label');
+            const typeInput = $('#edition-type-label');
+            const themeInput = $('#edition-theme-label');
+
+            nameInput.val('${editionNameValue}');
+            typeInput.val('${editionTypeIdValue}');
+            themeInput.val('${editionThemeIdValue}');
+        })
+    </script>
+
+    <!-- find editions button -->
+    <script type="text/javascript">
+        $(document).on('click', '#findEditions', function () {
+
+            const nameInput = $('#edition-name-label');
+            const typeInput = $('#edition-type-label');
+            const themeInput = $('#edition-theme-label');
+
+            const data = {
+                command: 'FIND_EDITIONS',
+                name: nameInput.val(),
+                type_id: typeInput.val(),
+                theme_id: themeInput.val(),
+            };
+
+            $.post('./', $.param(data), function (responseText) {
+                if (responseText.length < 50) {
+                    $('#find-editions-message').text(responseText);
+                } else {
+                    document.open();
+                    document.write(responseText);
+                    document.close();
+                }
+            });
+        });
     </script>
 
     </body>
