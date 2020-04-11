@@ -234,15 +234,33 @@
                                                     <th class="th-sm">
                                                         <fmt:message key="price_reduced"/>
                                                     </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="subscribe"/>
+                                                    </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <c:forEach var="edition" items="${editions}" varStatus="status">
                                                     <tr>
-                                                        <td><c:out value="${ edition.name }"/></td>
-                                                        <td><c:out value="${ edition.periodicityPerYear }"/></td>
-                                                        <td><c:out value="${ edition.minimumSubscriptionPeriodInMonths }"/></td>
-                                                        <td><c:out value="${ edition.priceForMinimumSubscriptionPeriod }"/></td>
+                                                        <td><c:out value="${ edition.key.name }"/></td>
+                                                        <td><c:out value="${ edition.key.periodicityPerYear }"/></td>
+                                                        <td><c:out value="${ edition.key.minimumSubscriptionPeriodInMonths }"/></td>
+                                                        <td><c:out value="${ edition.key.priceForMinimumSubscriptionPeriod }"/></td>
+                                                        <td>
+                                                            <c:if test="${edition.value eq true}">
+                                                                <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0 disabled"
+                                                                        type="button">
+                                                                    <fmt:message key="subscribed"/>
+                                                                </button>
+                                                            </c:if>
+                                                            <c:if test="${edition.value eq false}">
+                                                                <button class="btn btn-outline-success waves-effect py-0 px-1 m-0"
+                                                                        type="button" id="edition${edition.key.id}"
+                                                                        onclick="subscribeEdition(this)">
+                                                                    <fmt:message key="subscribe"/>
+                                                                </button>
+                                                            </c:if>
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
