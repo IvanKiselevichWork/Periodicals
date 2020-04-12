@@ -91,4 +91,14 @@ public class EditionServiceImpl implements EditionService {
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
     }
+
+    @Override
+    public List<Edition> getEditionsById(int editionId) throws ServiceException {
+        try {
+            return editionRepository.query(new FindEditionById(editionId));
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
 }
