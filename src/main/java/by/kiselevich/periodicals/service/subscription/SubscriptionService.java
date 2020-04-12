@@ -10,4 +10,6 @@ public interface SubscriptionService {
     List<Subscription> getAllSubscriptions() throws ServiceException;
 
     List<Subscription> getAllSubscriptionsByUserLogin(String userLogin) throws ServiceException;
+
+    Subscription addSubscription(Subscription subscription) throws ServiceException;
 }
