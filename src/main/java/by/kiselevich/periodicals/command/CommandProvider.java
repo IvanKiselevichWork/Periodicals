@@ -38,6 +38,7 @@ public class CommandProvider {
         commandMap.put(CommandName.SHOW_USER_SUBSCRIPTIONS, new ShowUserSubscriptions());
         commandMap.put(CommandName.SHOW_EDITION_SEARCH_FORM, new ShowEditionSearchForm());
         commandMap.put(CommandName.FIND_EDITIONS, new FindEditions());
+        commandMap.put(CommandName.ADD_SUBSCRIPTION, new AddSubscription());
     }
 
     private static final class CommandProviderHolder {
