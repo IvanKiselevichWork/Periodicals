@@ -8,8 +8,12 @@ public class TransactionConnectionProxy extends ConnectionProxy {
         super(connection);
     }
 
+    public ConnectionProxy getInnerConnection() {
+        return (ConnectionProxy) connection;
+    }
+
     @Override
     public void close() {
-        // do nothing
+        // do nothing to prevent auto closing in try-with-resources statement
     }
 }

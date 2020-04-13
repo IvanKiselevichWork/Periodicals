@@ -11,28 +11,25 @@ public class TransactionConnectionPool implements ConnectionPool {
 
     private static final Logger LOG = LogManager.getLogger(TransactionConnectionPool.class);
 
-    private Connection connection;
+    private TransactionConnectionProxy connection;
 
     public TransactionConnectionPool(Connection connection) {
-        this.connection = connection;
-    }
-
-    @Override
-    public Connection getConnection() {
-        return getTransactionConnection();
-    }
-
-    @Override
-    public Connection getConnection(long waitingDuration, TimeUnit timeUnit) {
-        return getTransactionConnection();
-    }
-
-    private TransactionConnectionProxy getTransactionConnection() {
         try {
             connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
         } catch (SQLException e) {
             LOG.warn(e);
         }
-        return new TransactionConnectionProxy(connection);
+        this.connection = new TransactionConnectionProxy(connection);
+    }
+
+    @Override
+    public TransactionConnectionProxy getConnection() {
+        return connection;
+    }
+
+    @Override
+    public TransactionConnectionProxy getConnection(long waitingDuration, TimeUnit timeUnit) {
+        return connection;
     }
 }
