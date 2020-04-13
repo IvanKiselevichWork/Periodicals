@@ -8,7 +8,6 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
 
 import static by.kiselevich.periodicals.command.CommandName.*;
@@ -53,8 +52,6 @@ public class CommandMatchingToUserRoleFilter implements Filter {
             ADD_EDITION
     );
 
-    private static final Set<CommandName> emptySet = new HashSet<>();
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
@@ -75,14 +72,12 @@ public class CommandMatchingToUserRoleFilter implements Filter {
                 case USER:
                     commandNames = userCommands;
                     break;
-                case GUEST:
-                    commandNames = guestCommands;
-                    break;
                 case ADMIN:
                     commandNames = adminCommands;
                     break;
+                case GUEST:
                 default:
-                    commandNames = emptySet;
+                    commandNames = guestCommands;
                     break;
             }
 
