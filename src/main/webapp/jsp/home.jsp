@@ -121,7 +121,7 @@
                                     <!--Card content-->
                                     <div class="card-body">
                                         <div class="list-group list-group-flush">
-                                            <a href="./?command=USER" class="list-group-item active waves-effect">
+                                            <a href="./?command=USER_PAGE" class="list-group-item active waves-effect">
                                                 <em class="fas fa-chart-pie mr-3"></em>
                                                 <fmt:message key="my_account"/>
                                             </a>
@@ -150,7 +150,7 @@
                                     <!--Card content-->
                                     <div class="card-body">
                                         <div class="list-group list-group-flush">
-                                            <a href="./?command=ADMIN" class="list-group-item active waves-effect">
+                                            <a href="./?command=ADMIN_PAGE" class="list-group-item active waves-effect">
                                                 <em class="fas fa-chart-pie mr-3"></em>
                                                 <fmt:message key="dashboard"/>
                                             </a>

@@ -25,7 +25,7 @@ public class CommandProvider {
         commandMap.put(CommandName.HOME, new ShowHomePage());
         commandMap.put(CommandName.WRONG_REQUEST, new ShowWrongRequestPage());
         commandMap.put(CommandName.CHANGE_LANGUAGE, new ChangeLanguage());
-        commandMap.put(CommandName.ADMIN, new ShowAdminPage());
+        commandMap.put(CommandName.ADMIN_PAGE, new ShowAdminPage());
         commandMap.put(CommandName.SHOW_USERS, new ShowUsers());
         commandMap.put(CommandName.SHOW_EDITIONS, new ShowEditions());
         commandMap.put(CommandName.SHOW_PAYMENTS, new ShowPayments());
@@ -33,7 +33,7 @@ public class CommandProvider {
         commandMap.put(CommandName.BLOCK_USER, new BlockUser());
         commandMap.put(CommandName.UNBLOCK_USER, new UnblockUser());
         commandMap.put(CommandName.ADD_EDITION, new AddEdition());
-        commandMap.put(CommandName.USER, new ShowUserPage());
+        commandMap.put(CommandName.USER_PAGE, new ShowUserPage());
         commandMap.put(CommandName.SHOW_USER_PAYMENTS, new ShowUserPayments());
         commandMap.put(CommandName.SHOW_USER_SUBSCRIPTIONS, new ShowUserSubscriptions());
         commandMap.put(CommandName.SHOW_EDITION_SEARCH_FORM, new ShowEditionSearchForm());

@@ -41,7 +41,7 @@
             <div class="container-fluid">
 
                 <!-- Brand -->
-                <a class="navbar-brand waves-effect" href="./?command=USER" style="font-size: 1.0rem">
+                <a class="navbar-brand waves-effect" href="./?command=USER_PAGE" style="font-size: 1.0rem">
                     <strong class="blue-text"><fmt:message key="periodicals"/></strong>
                     <span>/</span>
                     <span><fmt:message key="my_account"/></span>
