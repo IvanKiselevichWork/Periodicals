@@ -23,8 +23,8 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     @Override
     public void add(Payment payment) throws RepositoryException {
         ResultSet generatedId = null;
-        try (Connection connection = connectionPool.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(ADD_PAYMENT, Statement.RETURN_GENERATED_KEYS);
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(ADD_PAYMENT, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, payment.getUser().getId());
             statement.setInt(2, payment.getPaymentType().getId());
             statement.setTimestamp(3, payment.getDate());

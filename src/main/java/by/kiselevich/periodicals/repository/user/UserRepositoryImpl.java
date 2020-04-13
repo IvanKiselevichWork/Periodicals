@@ -41,8 +41,8 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void add(User user) throws RepositoryException {
         ResultSet generatedId = null;
-        try (Connection connection = connectionPool.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(ADD_USER, Statement.RETURN_GENERATED_KEYS);
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(ADD_USER, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getLogin());
             String hash = HashUtil.getHash(user.getPassword().toCharArray(), user.getLogin());
             statement.setString(2, hash);
@@ -78,8 +78,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     private void updateUserById(int id, String updateSqlQuery, String exceptionMessage) throws RepositoryException {
-        try (Connection connection = connectionPool.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(updateSqlQuery);
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(updateSqlQuery)) {
             statement.setInt(1, id);
             int updatedRowCount = statement.executeUpdate();
             if (updatedRowCount != 1) {
@@ -97,8 +97,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void update(User user) throws RepositoryException {
-        try (Connection connection = connectionPool.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(UPDATE_USER);
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_USER)) {
             statement.setInt(1, user.getRole().getId());
             statement.setString(2, user.getLogin());
             statement.setString(3, user.getPassword());

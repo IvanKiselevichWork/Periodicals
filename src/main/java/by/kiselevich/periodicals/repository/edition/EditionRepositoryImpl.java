@@ -27,8 +27,8 @@ public class EditionRepositoryImpl implements EditionRepository {
     @Override
     public void add(Edition edition) throws RepositoryException {
         ResultSet generatedId = null;
-        try (Connection connection = connectionPool.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(ADD_EDITION, Statement.RETURN_GENERATED_KEYS);
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(ADD_EDITION, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, edition.getName());
             statement.setInt(2, edition.getEditionType().getId());
             statement.setInt(3, edition.getEditionTheme().getId());

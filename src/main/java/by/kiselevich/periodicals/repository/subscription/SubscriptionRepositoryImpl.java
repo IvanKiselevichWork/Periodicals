@@ -23,8 +23,8 @@ public class SubscriptionRepositoryImpl implements SubscriptionRepository {
     @Override
     public void add(Subscription subscription) throws RepositoryException {
         ResultSet generatedId = null;
-        try (Connection connection = connectionPool.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(ADD_SUBSCRIPTION, Statement.RETURN_GENERATED_KEYS);
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(ADD_SUBSCRIPTION, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, subscription.getEdition().getId());
             statement.setTimestamp(2, subscription.getSubscriptionStartDate());
             statement.setTimestamp(3, subscription.getSubscriptionEndDate());
