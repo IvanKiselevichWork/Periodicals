@@ -2,7 +2,7 @@ package by.kiselevich.periodicals.specification.editiontype;
 
 import by.kiselevich.periodicals.entity.EditionType;
 import by.kiselevich.periodicals.exception.RepositoryException;
-import by.kiselevich.periodicals.pool.ConnectionPool;
+import by.kiselevich.periodicals.pool.ConnectionPoolImpl;
 import by.kiselevich.periodicals.pool.ConnectionProxy;
 import by.kiselevich.periodicals.specification.SpecificationUtil;
 
@@ -26,7 +26,7 @@ public class FindEditionTypeById extends SpecificationUtil implements EditionTyp
     public List<EditionType> query() throws RepositoryException {
         ResultSet resultSet = null;
         List<EditionType> editionTypes = new ArrayList<>();
-        try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
+        try (ConnectionProxy connection = ConnectionPoolImpl.INSTANCE.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(FIND_EDITION_TYPE_BY_ID);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();

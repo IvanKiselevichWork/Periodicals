@@ -2,7 +2,7 @@ package by.kiselevich.periodicals.specification.user;
 
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;
-import by.kiselevich.periodicals.pool.ConnectionPool;
+import by.kiselevich.periodicals.pool.ConnectionPoolImpl;
 import by.kiselevich.periodicals.pool.ConnectionProxy;
 import by.kiselevich.periodicals.specification.SpecificationUtil;
 
@@ -20,7 +20,7 @@ public class FindAllUsers extends SpecificationUtil implements UserSpecification
     public List<User> query() throws RepositoryException {
         ResultSet resultSet = null;
         List<User> users = new ArrayList<>();
-        try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
+        try (ConnectionProxy connection = ConnectionPoolImpl.INSTANCE.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(FIND_ALL_USERS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {

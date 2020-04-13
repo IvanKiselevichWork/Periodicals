@@ -2,7 +2,7 @@ package by.kiselevich.periodicals.specification.edition;
 
 import by.kiselevich.periodicals.entity.Edition;
 import by.kiselevich.periodicals.exception.RepositoryException;
-import by.kiselevich.periodicals.pool.ConnectionPool;
+import by.kiselevich.periodicals.pool.ConnectionPoolImpl;
 import by.kiselevich.periodicals.pool.ConnectionProxy;
 import by.kiselevich.periodicals.specification.SpecificationUtil;
 
@@ -26,7 +26,7 @@ public class FindEditionById extends SpecificationUtil implements EditionSpecifi
     public List<Edition> query() throws RepositoryException {
         ResultSet resultSet = null;
         List<Edition> editions = new ArrayList<>();
-        try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
+        try (ConnectionProxy connection = ConnectionPoolImpl.INSTANCE.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(FIND_EDITIONS_BY_ID);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();

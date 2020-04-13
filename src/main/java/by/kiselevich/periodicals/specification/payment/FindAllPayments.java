@@ -2,7 +2,7 @@ package by.kiselevich.periodicals.specification.payment;
 
 import by.kiselevich.periodicals.entity.Payment;
 import by.kiselevich.periodicals.exception.RepositoryException;
-import by.kiselevich.periodicals.pool.ConnectionPool;
+import by.kiselevich.periodicals.pool.ConnectionPoolImpl;
 import by.kiselevich.periodicals.pool.ConnectionProxy;
 import by.kiselevich.periodicals.specification.SpecificationUtil;
 
@@ -20,7 +20,7 @@ public class FindAllPayments extends SpecificationUtil implements PaymentSpecifi
     public List<Payment> query() throws RepositoryException {
         ResultSet resultSet = null;
         List<Payment> payments = new ArrayList<>();
-        try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
+        try (ConnectionProxy connection = ConnectionPoolImpl.INSTANCE.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(FIND_ALL_PAYMENTS);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
