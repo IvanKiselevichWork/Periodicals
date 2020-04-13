@@ -3,15 +3,11 @@ package by.kiselevich.periodicals.repository.edition;
 import by.kiselevich.periodicals.entity.Edition;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.ConnectionPool;
-import by.kiselevich.periodicals.pool.ConnectionProxy;
 import by.kiselevich.periodicals.specification.Specification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 public class EditionRepositoryImpl implements EditionRepository {
@@ -22,10 +18,16 @@ public class EditionRepositoryImpl implements EditionRepository {
 
     private static final String EDITION_NOT_ADDED_MESSAGE = "Edition has not been added";
 
+    private ConnectionPool connectionPool;
+
+    public EditionRepositoryImpl(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
+
     @Override
     public void add(Edition edition) throws RepositoryException {
         ResultSet generatedId = null;
-        try (ConnectionProxy connection = ConnectionPool.INSTANCE.getConnection()) {
+        try (Connection connection = connectionPool.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(ADD_EDITION, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, edition.getName());
             statement.setInt(2, edition.getEditionType().getId());
