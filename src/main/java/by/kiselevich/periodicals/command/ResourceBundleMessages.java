@@ -18,6 +18,7 @@ public enum ResourceBundleMessages {
     INVALID_MINIMUM_SUBSCRIPTION_PERIOD("invalid_minimum_subscription_period"),
     INVALID_PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD("invalid_price_for_minimum_subscription_period"),
     INVALID_PERIOD("invalid_period"),
+    INSUFFICIENT_FUNDS("insufficient_funds"),
 
     INVALID_DATA_FORMAT("invalid_data_format"),
 
