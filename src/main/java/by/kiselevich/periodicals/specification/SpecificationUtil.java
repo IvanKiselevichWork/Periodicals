@@ -29,8 +29,6 @@ public class SpecificationUtil {
     private static final String SUBSCRIPTION_ID = "subscription.id";
     private static final String SUBSCRIPTION_START_DATE = "subscription.subscription_start_date";
     private static final String SUBSCRIPTION_END_DATE = "subscription.subscription_end_date";
-    private static final String SUBSCRIPTION_IS_PAID = "subscription.is_paid";
-
 
     private static final String USER_ID = "user.id";
     private static final String USER_LOGIN = "user.login";
@@ -93,7 +91,6 @@ public class SpecificationUtil {
                 .subscriptionStartDate(resultSet.getTimestamp(SUBSCRIPTION_START_DATE))
                 .subscriptionEndDate(resultSet.getTimestamp(SUBSCRIPTION_END_DATE))
                 .user(getUserFromResultSet(resultSet))
-                .paid(resultSet.getBoolean(SUBSCRIPTION_IS_PAID))
                 .build();
     }
 
@@ -116,6 +113,4 @@ public class SpecificationUtil {
                 .role(resultSet.getString(USER_ROLE_ROLE))
                 .build();
     }
-
-
 }

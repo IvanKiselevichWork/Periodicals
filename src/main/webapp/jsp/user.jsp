@@ -247,10 +247,8 @@
                                                     <tr>
                                                         <td><c:out value="${ edition.key.name }"/></td>
                                                         <td><c:out value="${ edition.key.periodicityPerYear }"/></td>
-                                                        <td><c:out
-                                                                value="${ edition.key.minimumSubscriptionPeriodInMonths }"/></td>
-                                                        <td><c:out
-                                                                value="${ edition.key.priceForMinimumSubscriptionPeriod }"/></td>
+                                                        <td><c:out value="${ edition.key.minimumSubscriptionPeriodInMonths }"/></td>
+                                                        <td><c:out value="${ edition.key.priceForMinimumSubscriptionPeriod }"/></td>
                                                         <td>
                                                             <c:if test="${edition.value eq true}">
                                                                 <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0 disabled"
@@ -370,9 +368,6 @@
                                                     <th class="th-sm">
                                                         <fmt:message key="subscription_end_date"/>
                                                     </th>
-                                                    <th class="th-sm">
-                                                        <fmt:message key="is_paid"/>
-                                                    </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -380,23 +375,8 @@
                                                            varStatus="status">
                                                     <tr>
                                                         <td><c:out value="${ subscription.edition.name }"/></td>
-                                                        <td><c:out
-                                                                value="${ subscription.subscriptionStartDate }"/></td>
+                                                        <td><c:out value="${ subscription.subscriptionStartDate }"/></td>
                                                         <td><c:out value="${ subscription.subscriptionEndDate }"/></td>
-                                                        <td>
-                                                            <c:choose>
-                                                                <c:when test="${ subscription.paid eq true}">
-                                                                    <span class="badge badge-success badge-pill pull-right">
-                                                                        <c:out value="${ subscription.paid }"/>
-                                                                    </span>
-                                                                </c:when>
-                                                                <c:when test="${ subscription.paid eq false}">
-                                                                    <span class="badge badge-danger badge-pill pull-right">
-                                                                        <c:out value="${ subscription.paid }"/>
-                                                                    </span>
-                                                                </c:when>
-                                                            </c:choose>
-                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>

@@ -77,7 +77,6 @@ public class AddSubscription implements Command {
                     .subscriptionStartDate(start)
                     .subscriptionEndDate(end)
                     .user(user)
-                    .paid(true) //todo remove this field from database
                     .build();
             subscriptionService.addSubscription(subscription);
             return CommandProvider.getInstance().getCommand(CommandName.SHOW_USER_SUBSCRIPTIONS).execute(req,resp);

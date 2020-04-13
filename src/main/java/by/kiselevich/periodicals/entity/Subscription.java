@@ -13,19 +13,17 @@ public class Subscription implements Serializable {
     private Timestamp subscriptionStartDate;
     private Timestamp subscriptionEndDate;
     private User user;
-    private boolean paid;
 
     public Subscription() {
 
     }
 
-    public Subscription(int id, Edition edition, Timestamp subscriptionStartDate, Timestamp subscriptionEndDate, User user, boolean paid) {
+    public Subscription(int id, Edition edition, Timestamp subscriptionStartDate, Timestamp subscriptionEndDate, User user) {
         this.id = id;
         this.edition = edition;
         this.subscriptionStartDate = subscriptionStartDate;
         this.subscriptionEndDate = subscriptionEndDate;
         this.user = user;
-        this.paid = paid;
     }
 
     public static class SubscriptionBuilder {
@@ -34,7 +32,6 @@ public class Subscription implements Serializable {
         private Timestamp subscriptionStartDate;
         private Timestamp subscriptionEndDate;
         private User user;
-        private boolean paid;
 
         public SubscriptionBuilder id(int id) {
             this.id = id;
@@ -61,13 +58,8 @@ public class Subscription implements Serializable {
             return this;
         }
 
-        public SubscriptionBuilder paid(boolean paid) {
-            this.paid = paid;
-            return this;
-        }
-
         public Subscription build() {
-            return new Subscription(id, edition, subscriptionStartDate, subscriptionEndDate, user, paid);
+            return new Subscription(id, edition, subscriptionStartDate, subscriptionEndDate, user);
         }
     }
 
@@ -111,14 +103,6 @@ public class Subscription implements Serializable {
         this.user = user;
     }
 
-    public boolean isPaid() {
-        return paid;
-    }
-
-    public void setPaid(boolean paid) {
-        this.paid = paid;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -127,7 +111,6 @@ public class Subscription implements Serializable {
         Subscription that = (Subscription) o;
 
         if (id != that.id) return false;
-        if (paid != that.paid) return false;
         if (!Objects.equals(edition, that.edition)) return false;
         if (!Objects.equals(subscriptionStartDate, that.subscriptionStartDate))
             return false;
@@ -143,7 +126,6 @@ public class Subscription implements Serializable {
         result = 31 * result + (subscriptionStartDate != null ? subscriptionStartDate.hashCode() : 0);
         result = 31 * result + (subscriptionEndDate != null ? subscriptionEndDate.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
-        result = 31 * result + (paid ? 1 : 0);
         return result;
     }
 
@@ -155,7 +137,6 @@ public class Subscription implements Serializable {
                 ", subscriptionStartDate=" + subscriptionStartDate +
                 ", subscriptionEndDate=" + subscriptionEndDate +
                 ", user=" + user +
-                ", isPaid=" + paid +
                 '}';
     }
 }

@@ -355,9 +355,6 @@
                                                     <th class="th-sm">
                                                         <fmt:message key="user"/>
                                                     </th>
-                                                    <th class="th-sm">
-                                                        <fmt:message key="is_paid"/>
-                                                    </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -369,7 +366,6 @@
                                                         <td><c:out value="${ subscription.subscriptionStartDate }"/></td>
                                                         <td><c:out value="${ subscription.subscriptionEndDate }"/></td>
                                                         <td><c:out value="${ subscription.user.fullName }"/></td>
-                                                        <td><c:out value="${ subscription.paid }"/></td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
