@@ -5,15 +5,11 @@ import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.ConnectionPool;
 import by.kiselevich.periodicals.specification.Specification;
 import by.kiselevich.periodicals.util.HashUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
-
-    private static final Logger LOG = LogManager.getLogger(UserRepositoryImpl.class);
 
     private static final String USER_ROLE_ID = "2";
     private static final String USER_IS_AVAILABLE = "1";

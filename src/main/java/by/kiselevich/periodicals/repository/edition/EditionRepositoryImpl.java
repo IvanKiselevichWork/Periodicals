@@ -4,15 +4,11 @@ import by.kiselevich.periodicals.entity.Edition;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.ConnectionPool;
 import by.kiselevich.periodicals.specification.Specification;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.List;
 
 public class EditionRepositoryImpl implements EditionRepository {
-
-    private static final Logger LOG = LogManager.getLogger(EditionRepositoryImpl.class);
 
     private static final String ADD_EDITION = "insert into edition (name, type_id, theme_id, periodicity_per_year, minimum_subscription_period_in_months, price_for_minimum_subscription_period) values (?, ?, ?, ?, ?, ?)";
 
