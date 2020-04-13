@@ -4,7 +4,7 @@ import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.exception.ServiceException;
-import by.kiselevich.periodicals.exception.UserValidatorException;
+import by.kiselevich.periodicals.exception.ValidatorException;
 import by.kiselevich.periodicals.factory.RepositoryFactory;
 import by.kiselevich.periodicals.repository.user.UserRepository;
 import by.kiselevich.periodicals.specification.user.FindAllUsers;
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
-        } catch (UserValidatorException e) {
+        } catch (ValidatorException e) {
             LOG.info(e);
             throw new ServiceException(e.getMessage());
         }
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
-        }  catch (UserValidatorException e) {
+        }  catch (ValidatorException e) {
             LOG.info(e);
             throw new ServiceException(e.getMessage());
         }
