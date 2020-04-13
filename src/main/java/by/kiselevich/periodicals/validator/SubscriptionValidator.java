@@ -7,15 +7,13 @@ import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.exception.ValidatorException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.edition.EditionService;
+import by.kiselevich.periodicals.util.DateUtil;
 
 import java.sql.Timestamp;
-import java.time.Period;
 import java.util.List;
 
 public class SubscriptionValidator {
 
-    private static final int MONTH_PER_YEAR = 12;
-    private static final double MONTH_PER_DAY = 0.033;
     private static final int MAXIMUM_SUBSCRIPTION_PERIOD = 12;
 
     public void checkSubscription(Subscription subscription) throws ValidatorException {
@@ -45,8 +43,7 @@ public class SubscriptionValidator {
             if (editionList.isEmpty()) {
                 throw new ValidatorException(ResourceBundleMessages.INVALID_ID.getKey());
             } else {
-                Period period = Period.between(start.toLocalDateTime().toLocalDate(), end.toLocalDateTime().toLocalDate());
-                double periodInMonths = period.getYears() * MONTH_PER_YEAR + period.getMonths() + period.getDays() * MONTH_PER_DAY;
+                int periodInMonths = DateUtil.getIntegerSubscriptionPeriodInMonths(start, end);
                 if (periodInMonths < editionList.get(0).getMinimumSubscriptionPeriodInMonths() || periodInMonths > MAXIMUM_SUBSCRIPTION_PERIOD) {
                     throw new ValidatorException(ResourceBundleMessages.INVALID_PERIOD.getKey());
                 }
