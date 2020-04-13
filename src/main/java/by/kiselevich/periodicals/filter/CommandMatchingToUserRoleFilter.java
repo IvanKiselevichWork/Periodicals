@@ -34,7 +34,8 @@ public class CommandMatchingToUserRoleFilter implements Filter {
             SHOW_USER_PAYMENTS,
             SHOW_USER_SUBSCRIPTIONS,
             SHOW_EDITION_SEARCH_FORM,
-            FIND_EDITIONS
+            FIND_EDITIONS,
+            ADD_SUBSCRIPTION
     );
 
     private static final Set<CommandName> adminCommands = EnumSet.of(

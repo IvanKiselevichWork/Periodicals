@@ -169,7 +169,8 @@
                                         <div class="p-0 pt-3">
                                             <label for="edition-name-label"><fmt:message key="name"/></label>
                                             <input type="text" class="form-control" id="edition-name-label" name="name"
-                                                   placeholder="<fmt:message key="enter_name"/>" value="${editionNameValue}">
+                                                   placeholder="<fmt:message key="enter_name"/>"
+                                                   value="${editionNameValue}">
                                         </div>
                                     </div>
                                     <div class="d-flex">
@@ -208,7 +209,8 @@
                                     </div>
                                     <div class="d-flex">
                                         <div class="p-0 pt-3">
-                                            <div id="find-editions-message" class="alert alert-danger" role="alert"></div>
+                                            <div id="find-editions-message" class="alert alert-danger"
+                                                 role="alert"></div>
                                         </div>
                                     </div>
 
@@ -219,7 +221,8 @@
                                         </c:if>
                                         <c:if test="${not empty editions}">
                                             <!-- MDBootstrap table -->
-                                            <table id="dtMaterialDesignExample" class="table table-striped w-100" cellspacing="0">
+                                            <table id="dtMaterialDesignExample" class="table table-striped w-100"
+                                                   cellspacing="0">
                                                 <thead>
                                                 <tr>
                                                     <th class="th-sm">
@@ -234,15 +237,49 @@
                                                     <th class="th-sm">
                                                         <fmt:message key="price_reduced"/>
                                                     </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="subscribe"/>
+                                                    </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <c:forEach var="edition" items="${editions}" varStatus="status">
                                                     <tr>
-                                                        <td><c:out value="${ edition.name }"/></td>
-                                                        <td><c:out value="${ edition.periodicityPerYear }"/></td>
-                                                        <td><c:out value="${ edition.minimumSubscriptionPeriodInMonths }"/></td>
-                                                        <td><c:out value="${ edition.priceForMinimumSubscriptionPeriod }"/></td>
+                                                        <td><c:out value="${ edition.key.name }"/></td>
+                                                        <td><c:out value="${ edition.key.periodicityPerYear }"/></td>
+                                                        <td><c:out
+                                                                value="${ edition.key.minimumSubscriptionPeriodInMonths }"/></td>
+                                                        <td><c:out
+                                                                value="${ edition.key.priceForMinimumSubscriptionPeriod }"/></td>
+                                                        <td>
+                                                            <c:if test="${edition.value eq true}">
+                                                                <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0 disabled"
+                                                                        type="button">
+                                                                    <fmt:message key="subscribed"/>
+                                                                </button>
+                                                            </c:if>
+                                                            <c:if test="${edition.value eq false}">
+                                                                <button class="btn btn-outline-success waves-effect py-0 px-1 m-0"
+                                                                        type="button" id="edition${edition.key.id}"
+                                                                        onclick="openModalWindowToSubscribeEdition(this)">
+                                                                    <fmt:message key="subscribe"/>
+                                                                    <input type="hidden" name="id"
+                                                                           value="${edition.key.id}"/>
+                                                                    <input type="hidden" name="name"
+                                                                           value="${edition.key.name}"/>
+                                                                    <input type="hidden" name="type"
+                                                                           value="${edition.key.editionType.type}"/>
+                                                                    <input type="hidden" name="theme"
+                                                                           value="${edition.key.editionTheme.title}"/>
+                                                                    <input type="hidden" name="periodicity"
+                                                                           value="${edition.key.periodicityPerYear}"/>
+                                                                    <input type="hidden" name="minPeriod"
+                                                                           value="${edition.key.minimumSubscriptionPeriodInMonths}"/>
+                                                                    <input type="hidden" name="price"
+                                                                           value="${edition.key.priceForMinimumSubscriptionPeriod}"/>
+                                                                </button>
+                                                            </c:if>
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -395,6 +432,87 @@
     </footer>
     <!--/.Footer-->
 
+    <section>
+        <!--Modal: subscribe to editions -->
+        <div class="modal fade" id="modalSubscribe" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog w-50" role="document" style="max-width: 1000px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="subscribeHeader"><fmt:message key="new_subscription"/></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="mx-auto">
+                            <input type="hidden" id="edition-id-label-sub" name="id"
+                                   value="" readonly/>
+                            <div class="form-group">
+                                <label for="edition-name-label-sub"><fmt:message key="name"/></label>
+                                <input type="text" class="form-control" id="edition-name-label-sub" name="name"
+                                       value="" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-type-label-sub"><fmt:message key="type"/></label>
+                                <input type="text" class="form-control" id="edition-type-label-sub" name="type"
+                                       value="" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-theme-label-sub"><fmt:message key="theme"/></label>
+                                <input type="text" class="form-control" id="edition-theme-label-sub" name="theme"
+                                       value="" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-periodicity-label-sub"><fmt:message key="periodicity"/></label>
+                                <input type="text" class="form-control" id="edition-periodicity-label-sub"
+                                       name="periodicity"
+                                       value="" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-min-period-label-sub"><fmt:message key="min_period"/></label>
+                                <input type="text" class="form-control" id="edition-min-period-label-sub"
+                                       name="min-period"
+                                       value="" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-price-label-sub"><fmt:message key="price"/></label>
+                                <input type="text" class="form-control" id="edition-price-label-sub" name="price"
+                                       value="" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-period-label-sub"><fmt:message key="period"/></label>
+                                <input type="number" class="form-control" id="edition-period-label-sub" name="period"
+                                       placeholder="<fmt:message key="enter_subscription_period"/>" min="1" max="12"
+                                       onchange="onPeriodChange()">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-final-price-label-sub"><fmt:message key="final_price"/></label>
+                                <input type="text" class="form-control" id="edition-final-price-label-sub"
+                                       name="finalPrice"
+                                       value="" readonly>
+                            </div>
+
+                            <div id="add-new-subscription-message" class="alert alert-danger" role="alert"></div>
+
+                        </form>
+                        <button id="add-new-subscription-button" class="btn btn-primary"><fmt:message
+                                key="subscribe"/></button>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal: subscribe to editions -->
+    </section>
+
     <!-- SCRIPTS -->
     <!-- JQuery -->
     <script type="text/javascript" src="${root}/js/jquery-3.4.1.min.js"></script>
@@ -456,6 +574,104 @@
                 }
             });
         });
+    </script>
+
+    <!-- open modal window to subscribe edition -->
+    <script type="text/javascript">
+        function openModalWindowToSubscribeEdition(buttonElement) {
+            console.log("pressed button:" + buttonElement);
+            const modalWindow = $('#modalSubscribe');
+
+            const idInput = $('#edition-id-label-sub');
+            const nameInput = $('#edition-name-label-sub');
+            const typeInput = $('#edition-type-label-sub');
+            const themeInput = $('#edition-theme-label-sub');
+            const periodicityInput = $('#edition-periodicity-label-sub');
+            const minPeriodInput = $('#edition-min-period-label-sub');
+            const priceInput = $('#edition-price-label-sub');
+            const periodInput = $('#edition-period-label-sub');
+            const finalPriceInput = $('#edition-final-price-label-sub');
+
+            const id = $(buttonElement).find('input[name="id"]').val();
+            const name = $(buttonElement).find('input[name="name"]').val();
+            const type = $(buttonElement).find('input[name="type"]').val();
+            const theme = $(buttonElement).find('input[name="theme"]').val();
+            const periodicity = $(buttonElement).find('input[name="periodicity"]').val();
+            const minPeriod = $(buttonElement).find('input[name="minPeriod"]').val();
+            const price = $(buttonElement).find('input[name="price"]').val();
+
+            idInput.val(id);
+            nameInput.val(name);
+            typeInput.val(type);
+            themeInput.val(theme);
+            periodicityInput.val(periodicity);
+            minPeriodInput.val(minPeriod);
+            priceInput.val(price);
+            periodInput.val(minPeriod);
+            finalPriceInput.val(price);
+
+            periodInput.attr("min", minPeriod);
+
+            modalWindow.modal('show');
+        }
+    </script>
+
+    <!-- new subscription button -->
+    <script>
+        $(document).on('click', '#add-new-subscription-button', function () {
+
+            const idInput = $('#edition-id-label-sub');
+            const periodInput = $('#edition-period-label-sub');
+
+            const data = {
+                command: 'ADD_SUBSCRIPTION',
+                id: idInput.val(),
+                period: periodInput.val(),
+            };
+
+            const regexInt = RegExp(/^[1-9]\d*$/i);
+            let isValid = true;
+
+            if (!regexInt.test(data.id)) {
+                idInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                idInput.css('border-color', '');
+            }
+
+            if (!regexInt.test(data.period)) {
+                periodInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                periodInput.css('border-color', '');
+            }
+
+            if (isValid) {
+                $.post('./', $.param(data), function (responseText) {
+                    if (responseText.length < 50) {
+                        $('#add-new-subscription-message').text(responseText);
+                    } else {
+                        document.open();
+                        document.write(responseText);
+                        document.close();
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!-- on period change event -->
+    <script type="text/javascript">
+        function onPeriodChange() {
+            const minPeriodInput = $('#edition-min-period-label-sub');
+            const priceInput = $('#edition-price-label-sub');
+            const periodInput = $('#edition-period-label-sub');
+            const finalPriceInput = $('#edition-final-price-label-sub');
+
+            let price = periodInput.val() * priceInput.val() / minPeriodInput.val();
+            price = Math.round((price + Number.EPSILON) * 100) / 100;
+            finalPriceInput.val(price);
+        }
     </script>
 
     </body>

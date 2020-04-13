@@ -10,12 +10,14 @@ public enum ResourceBundleMessages {
     USER_BLOCKED("user_blocked"),
     LOGIN_IN_USE_KEY("login_in_use"),
 
+    INVALID_ID("invalid_id"),
     INVALID_NAME("invalid_name"),
     INVALID_TYPE("invalid_type"),
     INVALID_THEME("invalid_theme"),
     INVALID_PERIODICITY_PER_YEAR("invalid_periodicity_per_year"),
     INVALID_MINIMUM_SUBSCRIPTION_PERIOD("invalid_minimum_subscription_period"),
     INVALID_PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD("invalid_price_for_minimum_subscription_period"),
+    INVALID_PERIOD("invalid_period"),
 
     INVALID_DATA_FORMAT("invalid_data_format"),
 

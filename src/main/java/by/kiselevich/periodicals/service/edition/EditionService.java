@@ -18,4 +18,6 @@ public interface EditionService {
     List<Edition> getEditionsByNameAndThemeId(String name, int themeId) throws ServiceException;
 
     List<Edition> getEditionsByName(String name) throws ServiceException;
+
+    List<Edition> getEditionsById(int editionId) throws ServiceException;
 }
