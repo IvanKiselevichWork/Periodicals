@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TransactionConnectionPool implements ConnectionPool {
 
-    private static final Logger LOG = LogManager.getLogger(TransactionConnectionProxy.class);
+    private static final Logger LOG = LogManager.getLogger(TransactionConnectionPool.class);
 
     private Connection connection;
 
