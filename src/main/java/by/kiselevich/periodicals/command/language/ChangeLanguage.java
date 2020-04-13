@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class ChangeLanguage implements Command {
 
-    private static final Set<String> LANGUAGES = new HashSet<>(Arrays.stream(Language.values()).map(Language::getLanguage).collect(Collectors.toList()));
+    private static final Set<String> LANGUAGES = new HashSet<>(Arrays.stream(Language.values()).map(Language::getValue).collect(Collectors.toList()));
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
