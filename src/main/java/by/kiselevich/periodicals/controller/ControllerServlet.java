@@ -7,7 +7,7 @@ import by.kiselevich.periodicals.command.Page;
 import by.kiselevich.periodicals.command.JspParameter;
 import by.kiselevich.periodicals.exception.NoJDBCDriverException;
 import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
-import by.kiselevich.periodicals.pool.ConnectionPool;
+import by.kiselevich.periodicals.pool.ConnectionPoolImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,7 +31,7 @@ public class ControllerServlet extends HttpServlet {
     public void init() {
         LOG.trace("ControllerServlet init");
         try {
-            ConnectionPool.INSTANCE.initPool();
+            ConnectionPoolImpl.INSTANCE.initPool();
         } catch (NoJDBCPropertiesException | NoJDBCDriverException e) {
             LOG.error(e);
         }
@@ -50,7 +50,7 @@ public class ControllerServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        if (!ConnectionPool.INSTANCE.isPoolInitiated()) {
+        if (!ConnectionPoolImpl.INSTANCE.isPoolInitiated()) {
             req.getRequestDispatcher(Page.APP_FAILURE.getPath()).forward(req, resp);
         } else {
             try {
@@ -71,6 +71,6 @@ public class ControllerServlet extends HttpServlet {
     @Override
     public void destroy() {
         LOG.trace("ControllerServlet destroy");
-        ConnectionPool.INSTANCE.deInitPool();
+        ConnectionPoolImpl.INSTANCE.deInitPool();
     }
 }

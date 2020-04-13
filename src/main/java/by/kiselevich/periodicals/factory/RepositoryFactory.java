@@ -1,5 +1,6 @@
 package by.kiselevich.periodicals.factory;
 
+import by.kiselevich.periodicals.pool.ConnectionPoolImpl;
 import by.kiselevich.periodicals.repository.edition.EditionRepository;
 import by.kiselevich.periodicals.repository.edition.EditionRepositoryImpl;
 import by.kiselevich.periodicals.repository.editiontype.EditionTypeRepository;
@@ -23,12 +24,12 @@ public class RepositoryFactory {
     private EditionTypeRepository editionTypeRepository;
 
     private RepositoryFactory(){
-        userRepository = new UserRepositoryImpl();
-        editionRepository = new EditionRepositoryImpl();
-        paymentRepository = new PaymentRepositoryImpl();
-        subscriptionRepository = new SubscriptionRepositoryImpl();
-        themeRepository = new ThemeRepositoryImpl();
-        editionTypeRepository = new EditionTypeRepositoryImpl();
+        userRepository = new UserRepositoryImpl(ConnectionPoolImpl.INSTANCE);
+        editionRepository = new EditionRepositoryImpl(ConnectionPoolImpl.INSTANCE);
+        paymentRepository = new PaymentRepositoryImpl(ConnectionPoolImpl.INSTANCE);
+        subscriptionRepository = new SubscriptionRepositoryImpl(ConnectionPoolImpl.INSTANCE);
+        themeRepository = new ThemeRepositoryImpl(ConnectionPoolImpl.INSTANCE);
+        editionTypeRepository = new EditionTypeRepositoryImpl(ConnectionPoolImpl.INSTANCE);
     }
 
     private static class RepositoryFactoryHolder {

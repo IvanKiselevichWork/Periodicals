@@ -6,7 +6,9 @@ import by.kiselevich.periodicals.entity.Subscription;
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
+import by.kiselevich.periodicals.service.edition.EditionService;
 import by.kiselevich.periodicals.service.subscription.SubscriptionService;
+import by.kiselevich.periodicals.service.user.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
@@ -25,12 +28,17 @@ public class AddSubscription implements Command {
     private static final Logger LOG = LogManager.getLogger(AddSubscription.class);
 
     private static final String USER_NOT_FOUND = "USER NOT FOUND IN DATABASE WITH LOGIN FROM SESSION";
+    private static final String EDITION_NOT_FOUND = "EDITION NOT FOUND IN DATABASE WITH ID FROM SUBSCRIPTION REQUEST";
     private static final int ADDITIONAL_SECONDS_FOR_SUBSCRIPTION = 1;
 
     private SubscriptionService subscriptionService;
+    private UserService userService;
+    private EditionService editionService;
 
     public AddSubscription() {
         subscriptionService = ServiceFactory.getInstance().getSubscriptionService();
+        userService = ServiceFactory.getInstance().getUserService();
+        editionService = ServiceFactory.getInstance().getEditionService();
     }
 
     @Override
@@ -46,7 +54,7 @@ public class AddSubscription implements Command {
             Timestamp end = new Timestamp(calendar.getTimeInMillis());
 
             String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
-            Optional<User> optionalUser = ServiceFactory.getInstance().getUserService().getUserByLogin(login);
+            Optional<User> optionalUser = userService.getUserByLogin(login);
             User user;
             if (optionalUser.isPresent()) {
                 user = optionalUser.get();
@@ -55,10 +63,17 @@ public class AddSubscription implements Command {
                 throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
             }
 
+            List<Edition> editionList = editionService.getEditionsById(editionId);
+            Edition edition;
+            if (!editionList.isEmpty()) {
+                edition = editionList.get(0);
+            } else {
+                LOG.warn(EDITION_NOT_FOUND);
+                throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+            }
+
             Subscription subscription = new Subscription.SubscriptionBuilder()
-                    .edition(new Edition.EditionBuilder()
-                        .id(editionId)
-                        .build())
+                    .edition(edition)
                     .subscriptionStartDate(start)
                     .subscriptionEndDate(end)
                     .user(user)

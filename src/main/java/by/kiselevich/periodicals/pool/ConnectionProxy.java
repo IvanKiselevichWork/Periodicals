@@ -55,7 +55,7 @@ public class ConnectionProxy implements Connection {
 
     @Override
     public void close() {
-        ConnectionPool.INSTANCE.returnConnection(this);
+        ConnectionPoolImpl.INSTANCE.returnConnection(this);
     }
 
     void closeWhileDeInitPool() throws SQLException {

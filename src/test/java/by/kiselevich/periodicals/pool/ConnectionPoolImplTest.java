@@ -10,25 +10,25 @@ import org.junit.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class ConnectionPoolTest {
+public class ConnectionPoolImplTest {
 
-    private ConnectionPool connectionPool;
+    private ConnectionPoolImpl connectionPoolImpl;
 
     @Before
     public void init() throws NoJDBCDriverException, NoJDBCPropertiesException {
-        connectionPool = ConnectionPool.INSTANCE;
-        connectionPool.initPool();
+        connectionPoolImpl = ConnectionPoolImpl.INSTANCE;
+        connectionPoolImpl.initPool();
     }
 
     @Test
     public void testConnectionPool() throws SQLException {
-        try (Connection connection = connectionPool.getConnection()) {
+        try (Connection connection = connectionPoolImpl.getConnection()) {
             Assert.assertNotNull(connection);
         }
     }
 
     @After
     public void deInit() {
-        connectionPool.deInitPool();
+        connectionPoolImpl.deInitPool();
     }
 }
