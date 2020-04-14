@@ -4,6 +4,7 @@ import by.kiselevich.periodicals.command.*;
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
+import by.kiselevich.periodicals.service.mail.MailService;
 import by.kiselevich.periodicals.service.user.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +16,11 @@ import static by.kiselevich.periodicals.util.HttpUtil.writeMessageToResponse;
 public class SignUpCommand implements Command {
 
     private UserService userService;
+    private MailService mailService;
 
     public SignUpCommand() {
         userService = ServiceFactory.getInstance().getUserService();
+        mailService = ServiceFactory.getInstance().getMailService();
     }
 
     @Override
@@ -34,6 +37,7 @@ public class SignUpCommand implements Command {
             user.setFullName(fullName);
             user.setEmail(email);
             userService.signUp(user);
+            mailService.sendRegistrationLetter(user, req.getSession());
             req.getSession().setAttribute(Attribute.USER_TYPE.getValue(), UserType.USER);
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
             return Page.HOME_PAGE;
