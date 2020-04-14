@@ -24,15 +24,15 @@ public class User implements Serializable {
 
     }
 
-    public User(int id, UserRole userRole, String login, String password, String fullName, String email, BigDecimal money, boolean available) {
-        this.id = id;
-        this.userRole = userRole;
-        this.login = login;
-        this.password = password;
-        this.fullName = fullName;
-        this.email = email;
-        this.money = money;
-        this.available = available;
+    private User(UserBuilder userBuilder) {
+        this.id = userBuilder.id;
+        this.userRole = userBuilder.userRole;
+        this.login = userBuilder.login;
+        this.password = userBuilder.password;
+        this.fullName = userBuilder.fullName;
+        this.email = userBuilder.email;
+        this.money = userBuilder.money;
+        this.available = userBuilder.available;
     }
 
     public static class UserBuilder {
@@ -87,7 +87,7 @@ public class User implements Serializable {
         }
 
         public User build() {
-            return new User(id, userRole, login, password, fullName, email, money, available);
+            return new User(this);
         }
     }
 

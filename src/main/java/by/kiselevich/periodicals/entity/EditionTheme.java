@@ -14,9 +14,9 @@ public class EditionTheme implements Serializable {
 
     }
 
-    public EditionTheme(int id, String title) {
-        this.id = id;
-        this.title = title;
+    private EditionTheme(EditionThemeBuilder editionThemeBuilder) {
+        this.id = editionThemeBuilder.id;
+        this.title = editionThemeBuilder.title;
     }
 
     public static class EditionThemeBuilder {
@@ -34,7 +34,7 @@ public class EditionTheme implements Serializable {
         }
 
         public EditionTheme build() {
-            return new EditionTheme(id, title);
+            return new EditionTheme(this);
         }
     }
 

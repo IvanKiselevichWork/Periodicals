@@ -18,12 +18,12 @@ public class Subscription implements Serializable {
 
     }
 
-    public Subscription(int id, Edition edition, Timestamp subscriptionStartDate, Timestamp subscriptionEndDate, User user) {
-        this.id = id;
-        this.edition = edition;
-        this.subscriptionStartDate = subscriptionStartDate;
-        this.subscriptionEndDate = subscriptionEndDate;
-        this.user = user;
+    private Subscription(SubscriptionBuilder subscriptionBuilder) {
+        this.id = subscriptionBuilder.id;
+        this.edition = subscriptionBuilder.edition;
+        this.subscriptionStartDate = subscriptionBuilder.subscriptionStartDate;
+        this.subscriptionEndDate = subscriptionBuilder.subscriptionEndDate;
+        this.user = subscriptionBuilder.user;
     }
 
     public static class SubscriptionBuilder {
@@ -59,7 +59,7 @@ public class Subscription implements Serializable {
         }
 
         public Subscription build() {
-            return new Subscription(id, edition, subscriptionStartDate, subscriptionEndDate, user);
+            return new Subscription(this);
         }
     }
 

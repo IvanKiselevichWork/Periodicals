@@ -14,9 +14,9 @@ public class EditionType implements Serializable {
 
     }
 
-    public EditionType(int id, String type) {
-        this.id = id;
-        this.type = type;
+    private EditionType(EditionTypeBuilder editionTypeBuilder) {
+        this.id = editionTypeBuilder.id;
+        this.type = editionTypeBuilder.type;
     }
 
     public static class EditionTypeBuilder {
@@ -34,7 +34,7 @@ public class EditionType implements Serializable {
         }
 
         public EditionType build() {
-            return new EditionType(id, type);
+            return new EditionType(this);
         }
     }
 

@@ -20,13 +20,13 @@ public class Payment implements Serializable {
 
     }
 
-    public Payment(int id, User user, PaymentType paymentType, Timestamp date, BigDecimal amount, Subscription subscription) {
-        this.id = id;
-        this.user = user;
-        this.paymentType = paymentType;
-        this.date = date;
-        this.amount = amount;
-        this.subscription = subscription;
+    private Payment(PaymentBuilder paymentBuilder) {
+        this.id = paymentBuilder.id;
+        this.user = paymentBuilder.user;
+        this.paymentType = paymentBuilder.paymentType;
+        this.date = paymentBuilder.date;
+        this.amount = paymentBuilder.amount;
+        this.subscription = paymentBuilder.subscription;
     }
 
     public static class PaymentBuilder {
@@ -68,7 +68,7 @@ public class Payment implements Serializable {
         }
 
         public Payment build() {
-            return new Payment(id, user, paymentType, date, amount, subscription);
+            return new Payment(this);
         }
     }
 
