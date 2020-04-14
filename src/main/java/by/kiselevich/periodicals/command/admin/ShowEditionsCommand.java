@@ -19,13 +19,13 @@ import java.util.List;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 
-public class ShowEditions implements Command {
+public class ShowEditionsCommand implements Command {
 
     private EditionService editionService;
     private EditionThemeService editionThemeService;
     private EditionTypeService editionTypeService;
 
-    public ShowEditions() {
+    public ShowEditionsCommand() {
         editionService = ServiceFactory.getInstance().getEditionService();
         editionThemeService = ServiceFactory.getInstance().getEditionThemeService();
         editionTypeService = ServiceFactory.getInstance().getEditionTypeService();
@@ -33,7 +33,7 @@ public class ShowEditions implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), DashboardPageOption.EDITIONS);
+        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), DashboardPageOptionCommand.EDITIONS);
         try {
             List<Edition> editionList = editionService.getAllEditions();
             List<EditionTheme> editionThemeList = editionThemeService.getAllThemes();

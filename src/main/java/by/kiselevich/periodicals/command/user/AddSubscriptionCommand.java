@@ -23,9 +23,9 @@ import java.util.Optional;
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 import static by.kiselevich.periodicals.util.HttpUtil.writeMessageToResponse;
 
-public class AddSubscription implements Command {
+public class AddSubscriptionCommand implements Command {
 
-    private static final Logger LOG = LogManager.getLogger(AddSubscription.class);
+    private static final Logger LOG = LogManager.getLogger(AddSubscriptionCommand.class);
 
     private static final String USER_NOT_FOUND = "USER NOT FOUND IN DATABASE WITH LOGIN FROM SESSION";
     private static final String EDITION_NOT_FOUND = "EDITION NOT FOUND IN DATABASE WITH ID FROM SUBSCRIPTION REQUEST";
@@ -35,7 +35,7 @@ public class AddSubscription implements Command {
     private UserService userService;
     private EditionService editionService;
 
-    public AddSubscription() {
+    public AddSubscriptionCommand() {
         subscriptionService = ServiceFactory.getInstance().getSubscriptionService();
         userService = ServiceFactory.getInstance().getUserService();
         editionService = ServiceFactory.getInstance().getEditionService();

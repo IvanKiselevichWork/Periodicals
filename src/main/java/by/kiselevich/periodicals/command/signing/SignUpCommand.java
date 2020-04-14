@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 import static by.kiselevich.periodicals.util.HttpUtil.writeMessageToResponse;
 
-public class SignUp implements Command {
+public class SignUpCommand implements Command {
 
     private UserService userService;
 
-    public SignUp() {
+    public SignUpCommand() {
         userService = ServiceFactory.getInstance().getUserService();
     }
 

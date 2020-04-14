@@ -4,7 +4,7 @@ import by.kiselevich.periodicals.command.Attribute;
 import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.JspParameter;
 import by.kiselevich.periodicals.command.Page;
-import by.kiselevich.periodicals.command.admin.DashboardPageOption;
+import by.kiselevich.periodicals.command.admin.DashboardPageOptionCommand;
 import by.kiselevich.periodicals.entity.Edition;
 import by.kiselevich.periodicals.entity.EditionTheme;
 import by.kiselevich.periodicals.entity.EditionType;
@@ -24,7 +24,7 @@ import java.util.List;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 
-public class FindEditions implements Command {
+public class FindEditionsCommand implements Command {
 
     private static final String EDITION_NAME_FORMAT = "%%%s%%";
 
@@ -33,7 +33,7 @@ public class FindEditions implements Command {
     private EditionThemeService editionThemeService;
     private SubscriptionService subscriptionService;
 
-    public FindEditions() {
+    public FindEditionsCommand() {
         editionService = ServiceFactory.getInstance().getEditionService();
         editionTypeService = ServiceFactory.getInstance().getEditionTypeService();
         editionThemeService = ServiceFactory.getInstance().getEditionThemeService();
@@ -42,7 +42,7 @@ public class FindEditions implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute(Attribute.USER_PAGE_OPTION.getValue(), DashboardPageOption.EDITIONS);
+        req.setAttribute(Attribute.USER_PAGE_OPTION.getValue(), DashboardPageOptionCommand.EDITIONS);
         try {
             String name = req.getParameter(JspParameter.NAME.getValue());
             String typeIdString = req.getParameter(JspParameter.TYPE_ID.getValue());

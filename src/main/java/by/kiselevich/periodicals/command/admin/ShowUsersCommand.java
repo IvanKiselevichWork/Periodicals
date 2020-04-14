@@ -3,37 +3,35 @@ package by.kiselevich.periodicals.command.admin;
 import by.kiselevich.periodicals.command.Attribute;
 import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.Page;
-import by.kiselevich.periodicals.entity.Subscription;
+import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
-import by.kiselevich.periodicals.service.subscription.SubscriptionService;
+import by.kiselevich.periodicals.service.user.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Comparator;
 import java.util.List;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 
-public class ShowSubscriptions implements Command {
+public class ShowUsersCommand implements Command {
 
-    private SubscriptionService subscriptionService;
+    private UserService userService;
 
-    public ShowSubscriptions() {
-        subscriptionService = ServiceFactory.getInstance().getSubscriptionService();
+    public ShowUsersCommand() {
+        userService = ServiceFactory.getInstance().getUserService();
     }
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), DashboardPageOption.SUBSCRIPTIONS);
+        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), DashboardPageOptionCommand.USERS);
         try {
-            List<Subscription> subscriptionList = subscriptionService.getAllSubscriptions();
-            subscriptionList.sort(Comparator.comparing(Subscription::getId));
-            req.setAttribute(Attribute.SUBSCRIPTIONS.getValue(), subscriptionList);
+            List<User> userList = userService.getAllUsers();
+            req.setAttribute(Attribute.USERS.getValue(), userList);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
-            req.setAttribute(Attribute.SUBSCRIPTIONS.getValue(), null);
+            req.setAttribute(Attribute.USERS.getValue(), null);
             req.setAttribute(Attribute.MESSAGE.getValue(), message);
         }
         return Page.ADMIN_PAGE;

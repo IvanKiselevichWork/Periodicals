@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ChangeLanguage implements Command {
+public class ChangeLanguageCommand implements Command {
 
     private static final Set<String> LANGUAGES = new HashSet<>(Arrays.stream(Language.values()).map(Language::getValue).collect(Collectors.toList()));
 

@@ -1,11 +1,11 @@
 package by.kiselevich.periodicals.command;
 
 import by.kiselevich.periodicals.command.admin.*;
-import by.kiselevich.periodicals.command.home.ShowHomePage;
-import by.kiselevich.periodicals.command.language.ChangeLanguage;
+import by.kiselevich.periodicals.command.home.ShowHomePageCommand;
+import by.kiselevich.periodicals.command.language.ChangeLanguageCommand;
 import by.kiselevich.periodicals.command.signing.*;
 import by.kiselevich.periodicals.command.user.*;
-import by.kiselevich.periodicals.command.wrongrequest.ShowWrongRequestPage;
+import by.kiselevich.periodicals.command.wrongrequest.ShowWrongRequestPageCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,26 +19,26 @@ public class CommandProvider {
     private final Map<CommandName, Command> commandMap = new EnumMap<>(CommandName.class);
 
     private CommandProvider() {
-        commandMap.put(CommandName.SIGN_IN, new SignIn());
-        commandMap.put(CommandName.SIGN_UP, new SignUp());
-        commandMap.put(CommandName.SIGN_OUT, new SignOut());
-        commandMap.put(CommandName.HOME, new ShowHomePage());
-        commandMap.put(CommandName.WRONG_REQUEST, new ShowWrongRequestPage());
-        commandMap.put(CommandName.CHANGE_LANGUAGE, new ChangeLanguage());
-        commandMap.put(CommandName.ADMIN_PAGE, new ShowAdminPage());
-        commandMap.put(CommandName.SHOW_USERS, new ShowUsers());
-        commandMap.put(CommandName.SHOW_EDITIONS, new ShowEditions());
-        commandMap.put(CommandName.SHOW_PAYMENTS, new ShowPayments());
-        commandMap.put(CommandName.SHOW_SUBSCRIPTIONS, new ShowSubscriptions());
-        commandMap.put(CommandName.BLOCK_USER, new BlockUser());
-        commandMap.put(CommandName.UNBLOCK_USER, new UnblockUser());
-        commandMap.put(CommandName.ADD_EDITION, new AddEdition());
-        commandMap.put(CommandName.USER_PAGE, new ShowUserPage());
-        commandMap.put(CommandName.SHOW_USER_PAYMENTS, new ShowUserPayments());
-        commandMap.put(CommandName.SHOW_USER_SUBSCRIPTIONS, new ShowUserSubscriptions());
-        commandMap.put(CommandName.SHOW_EDITION_SEARCH_FORM, new ShowEditionSearchForm());
-        commandMap.put(CommandName.FIND_EDITIONS, new FindEditions());
-        commandMap.put(CommandName.ADD_SUBSCRIPTION, new AddSubscription());
+        commandMap.put(CommandName.SIGN_IN, new SignInCommand());
+        commandMap.put(CommandName.SIGN_UP, new SignUpCommand());
+        commandMap.put(CommandName.SIGN_OUT, new SignOutCommand());
+        commandMap.put(CommandName.HOME, new ShowHomePageCommand());
+        commandMap.put(CommandName.WRONG_REQUEST, new ShowWrongRequestPageCommand());
+        commandMap.put(CommandName.CHANGE_LANGUAGE, new ChangeLanguageCommand());
+        commandMap.put(CommandName.ADMIN_PAGE, new ShowAdminPageCommand());
+        commandMap.put(CommandName.SHOW_USERS, new ShowUsersCommand());
+        commandMap.put(CommandName.SHOW_EDITIONS, new ShowEditionsCommand());
+        commandMap.put(CommandName.SHOW_PAYMENTS, new ShowPaymentsCommand());
+        commandMap.put(CommandName.SHOW_SUBSCRIPTIONS, new ShowSubscriptionsCommand());
+        commandMap.put(CommandName.BLOCK_USER, new BlockUserCommand());
+        commandMap.put(CommandName.UNBLOCK_USER, new UnblockUserCommand());
+        commandMap.put(CommandName.ADD_EDITION, new AddEditionCommand());
+        commandMap.put(CommandName.USER_PAGE, new ShowUserPageCommand());
+        commandMap.put(CommandName.SHOW_USER_PAYMENTS, new ShowUserPaymentsCommand());
+        commandMap.put(CommandName.SHOW_USER_SUBSCRIPTIONS, new ShowUserSubscriptionsCommand());
+        commandMap.put(CommandName.SHOW_EDITION_SEARCH_FORM, new ShowEditionSearchFormCommand());
+        commandMap.put(CommandName.FIND_EDITIONS, new FindEditionsCommand());
+        commandMap.put(CommandName.ADD_SUBSCRIPTION, new AddSubscriptionCommand());
     }
 
     private static final class CommandProviderHolder {

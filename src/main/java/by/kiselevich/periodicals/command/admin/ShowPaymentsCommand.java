@@ -15,17 +15,17 @@ import java.util.List;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 
-public class ShowPayments implements Command {
+public class ShowPaymentsCommand implements Command {
 
     private PaymentService paymentService;
 
-    public ShowPayments() {
+    public ShowPaymentsCommand() {
         paymentService = ServiceFactory.getInstance().getPaymentService();
     }
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), DashboardPageOption.PAYMENTS);
+        req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), DashboardPageOptionCommand.PAYMENTS);
         try {
             List<Payment> paymentList = paymentService.getAllPayments();
             paymentList.sort(Comparator.comparing(Payment::getId));
