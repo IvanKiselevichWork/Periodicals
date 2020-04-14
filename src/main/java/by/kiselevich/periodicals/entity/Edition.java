@@ -20,14 +20,14 @@ public class Edition implements Serializable {
 
     }
 
-    public Edition(int id, String name, EditionType editionType, EditionTheme editionTheme, int periodicityPerYear, int minimumSubscriptionPeriodInMonths, BigDecimal priceForMinimumSubscriptionPeriod) {
-        this.id = id;
-        this.name = name;
-        this.editionType = editionType;
-        this.editionTheme = editionTheme;
-        this.periodicityPerYear = periodicityPerYear;
-        this.minimumSubscriptionPeriodInMonths = minimumSubscriptionPeriodInMonths;
-        this.priceForMinimumSubscriptionPeriod = priceForMinimumSubscriptionPeriod;
+    private Edition(EditionBuilder editionBuilder) {
+        this.id = editionBuilder.id;
+        this.name = editionBuilder.name;
+        this.editionType = editionBuilder.editionType;
+        this.editionTheme = editionBuilder.editionTheme;
+        this.periodicityPerYear = editionBuilder.periodicityPerYear;
+        this.minimumSubscriptionPeriodInMonths = editionBuilder.minimumSubscriptionPeriodInMonths;
+        this.priceForMinimumSubscriptionPeriod = editionBuilder.priceForMinimumSubscriptionPeriod;
     }
 
     public static class EditionBuilder {
@@ -75,7 +75,7 @@ public class Edition implements Serializable {
         }
 
         public Edition build() {
-            return new Edition(id, name, editionType, editionTheme, periodicityPerYear, minimumSubscriptionPeriodInMonths, priceForMinimumSubscriptionPeriod);
+            return new Edition(this);
         }
     }
 

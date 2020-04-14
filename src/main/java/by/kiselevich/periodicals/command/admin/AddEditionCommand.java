@@ -17,13 +17,13 @@ import java.math.BigDecimal;
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 import static by.kiselevich.periodicals.util.HttpUtil.writeMessageToResponse;
 
-public class AddEdition implements Command {
+public class AddEditionCommand implements Command {
 
-    private static final Logger LOG = LogManager.getLogger(AddEdition.class);
+    private static final Logger LOG = LogManager.getLogger(AddEditionCommand.class);
 
     private EditionService editionService;
 
-    public AddEdition() {
+    public AddEditionCommand() {
         editionService = ServiceFactory.getInstance().getEditionService();
     }
 

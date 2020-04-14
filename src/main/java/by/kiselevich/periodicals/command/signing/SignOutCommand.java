@@ -8,7 +8,7 @@ import by.kiselevich.periodicals.command.UserType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class SignOut implements Command {
+public class SignOutCommand implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {

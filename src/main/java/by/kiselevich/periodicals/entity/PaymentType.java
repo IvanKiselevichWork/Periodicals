@@ -14,9 +14,9 @@ public class PaymentType implements Serializable {
 
     }
 
-    public PaymentType(int id, String type) {
-        this.id = id;
-        this.type = type;
+    private PaymentType(PaymentTypeBuilder paymentTypeBuilder) {
+        this.id = paymentTypeBuilder.id;
+        this.type = paymentTypeBuilder.type;
     }
 
     public static class PaymentTypeBuilder {
@@ -35,7 +35,7 @@ public class PaymentType implements Serializable {
         }
 
         public PaymentType build() {
-            return new PaymentType(id, type);
+            return new PaymentType(this);
         }
     }
 

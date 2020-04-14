@@ -68,7 +68,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                 .divide(new BigDecimal(subscription.getEdition().getMinimumSubscriptionPeriodInMonths()), RoundingMode.UP);
 
             if (subscription.getUser().getMoney().compareTo(subscriptionPrice) < 0) {
-                throw new ServiceException("NOT_ENOUGH_MONEY");
+                throw new ServiceException(ResourceBundleMessages.INSUFFICIENT_FUNDS.getKey());
             }
 
             User user = subscription.getUser();

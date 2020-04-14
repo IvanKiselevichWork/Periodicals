@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 
-public class UnblockUser implements Command {
+public class BlockUserCommand implements Command {
 
     private UserService userService;
 
-    public UnblockUser() {
+    public BlockUserCommand() {
         userService = ServiceFactory.getInstance().getUserService();
     }
 
@@ -23,7 +23,7 @@ public class UnblockUser implements Command {
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
         try {
             int id = Integer.parseInt(req.getParameter(JspParameter.ID.getValue()));
-            userService.unblockUser(id);
+            userService.blockUser(id);
             Command showUsers = CommandProvider.getInstance().getCommand(CommandName.SHOW_USERS);
             return showUsers.execute(req, resp);
         } catch (ServiceException e) {

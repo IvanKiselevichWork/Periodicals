@@ -14,9 +14,9 @@ public class UserRole implements Serializable {
 
     }
 
-    public UserRole(int id, String role) {
-        this.id = id;
-        this.role = role;
+    private UserRole(UserRoleBuilder userRoleBuilder) {
+        this.id = userRoleBuilder.id;
+        this.role = userRoleBuilder.role;
     }
 
     public static class UserRoleBuilder {
@@ -35,7 +35,7 @@ public class UserRole implements Serializable {
         }
 
         public UserRole build() {
-            return new UserRole(id, role);
+            return new UserRole(this);
         }
     }
 

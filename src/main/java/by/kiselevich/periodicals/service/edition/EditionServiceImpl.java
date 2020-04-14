@@ -2,7 +2,7 @@ package by.kiselevich.periodicals.service.edition;
 
 import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.entity.Edition;
-import by.kiselevich.periodicals.exception.EditionValidatorException;
+import by.kiselevich.periodicals.exception.ValidatorException;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.RepositoryFactory;
@@ -36,7 +36,7 @@ public class EditionServiceImpl implements EditionService {
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
-        } catch (EditionValidatorException e) {
+        } catch (ValidatorException e) {
             LOG.info(e);
             throw new ServiceException(e.getMessage());
         }

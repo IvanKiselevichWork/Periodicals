@@ -4,13 +4,13 @@ public enum Language {
     ENGLISH("en"),
     RUSSIAN("ru");
 
-    private String language;
+    private String value;
 
-    Language(String language) {
-        this.language = language;
+    Language(String value) {
+        this.value = value;
     }
 
-    public String getLanguage() {
-        return language;
+    public String getValue() {
+        return value;
     }
 }

@@ -41,7 +41,7 @@
             <div class="container-fluid">
 
                 <!-- Brand -->
-                <a class="navbar-brand waves-effect" href="./?command=ADMIN" style="font-size: 1.0rem">
+                <a class="navbar-brand waves-effect" href="./?command=ADMIN_PAGE" style="font-size: 1.0rem">
                     <strong class="blue-text"><fmt:message key="periodicals"/></strong>
                     <span>/</span>
                     <span><fmt:message key="dashboard"/></span>
@@ -355,9 +355,6 @@
                                                     <th class="th-sm">
                                                         <fmt:message key="user"/>
                                                     </th>
-                                                    <th class="th-sm">
-                                                        <fmt:message key="is_paid"/>
-                                                    </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -369,7 +366,6 @@
                                                         <td><c:out value="${ subscription.subscriptionStartDate }"/></td>
                                                         <td><c:out value="${ subscription.subscriptionEndDate }"/></td>
                                                         <td><c:out value="${ subscription.user.fullName }"/></td>
-                                                        <td><c:out value="${ subscription.paid }"/></td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>

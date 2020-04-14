@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SubscriptionRepositoryImpl implements SubscriptionRepository {
 
-    private static final String ADD_SUBSCRIPTION = "insert into subscription(edition_id, subscription_start_date, subscription_end_date, user_id, is_paid) values (?, ?, ?, ?, ?)";
+    private static final String ADD_SUBSCRIPTION = "insert into subscription(edition_id, subscription_start_date, subscription_end_date, user_id) values (?, ?, ?, ?)";
 
     private static final String SUBSCRIPTION_NOT_ADDED_MESSAGE = "Subscription has not been added";
 
@@ -23,13 +23,12 @@ public class SubscriptionRepositoryImpl implements SubscriptionRepository {
     @Override
     public void add(Subscription subscription) throws RepositoryException {
         ResultSet generatedId = null;
-        try (Connection connection = connectionPool.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(ADD_SUBSCRIPTION, Statement.RETURN_GENERATED_KEYS);
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(ADD_SUBSCRIPTION, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, subscription.getEdition().getId());
             statement.setTimestamp(2, subscription.getSubscriptionStartDate());
             statement.setTimestamp(3, subscription.getSubscriptionEndDate());
             statement.setInt(4, subscription.getUser().getId());
-            statement.setBoolean(5, subscription.isPaid());
             int updatedRowCount = statement.executeUpdate();
             boolean isSubscriptionAdded = false;
             if (updatedRowCount == 1) {

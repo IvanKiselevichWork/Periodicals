@@ -6,7 +6,7 @@ import by.kiselevich.periodicals.command.Page;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ShowWrongRequestPage implements Command {
+public class ShowWrongRequestPageCommand implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {

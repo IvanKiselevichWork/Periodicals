@@ -7,7 +7,7 @@ import java.util.concurrent.Executor;
 
 public class ConnectionProxy implements Connection {
 
-    private Connection connection;
+    protected Connection connection;
 
     public ConnectionProxy(Connection connection) {
         this.connection = connection;

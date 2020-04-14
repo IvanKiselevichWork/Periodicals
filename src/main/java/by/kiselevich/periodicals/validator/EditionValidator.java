@@ -4,7 +4,7 @@ import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.entity.Edition;
 import by.kiselevich.periodicals.entity.EditionTheme;
 import by.kiselevich.periodicals.entity.EditionType;
-import by.kiselevich.periodicals.exception.EditionValidatorException;
+import by.kiselevich.periodicals.exception.ValidatorException;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.editiontype.EditionTypeService;
@@ -18,9 +18,9 @@ public class EditionValidator {
 
     private static final String NAME_REGEX = ".{1,200}";
 
-    public void checkEdition(Edition edition) throws EditionValidatorException {
+    public void checkEdition(Edition edition) throws ValidatorException {
         if (edition == null) {
-            throw new EditionValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+            throw new ValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
 
         checkName(edition.getName());
@@ -32,49 +32,49 @@ public class EditionValidator {
 
     }
 
-    private void checkName(String name) throws EditionValidatorException {
+    private void checkName(String name) throws ValidatorException {
         if (name == null || !isStringMatchesRegex(name)) {
-            throw new EditionValidatorException(ResourceBundleMessages.INVALID_NAME.getKey());
+            throw new ValidatorException(ResourceBundleMessages.INVALID_NAME.getKey());
         }
     }
 
-    private void checkEditionType(EditionType editionType) throws EditionValidatorException {
+    private void checkEditionType(EditionType editionType) throws ValidatorException {
         try {
             EditionTypeService editionTypeService = ServiceFactory.getInstance().getEditionTypeService();
             if (editionTypeService.getEditionTypeById(editionType.getId()).isEmpty()) {
-                throw new EditionValidatorException(ResourceBundleMessages.INVALID_TYPE.getKey());
+                throw new ValidatorException(ResourceBundleMessages.INVALID_TYPE.getKey());
             }
         } catch (ServiceException e) {
-            throw new EditionValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+            throw new ValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
     }
 
-    private void checkEditionTheme(EditionTheme editionTheme) throws EditionValidatorException {
+    private void checkEditionTheme(EditionTheme editionTheme) throws ValidatorException {
         try {
             EditionThemeService editionThemeService = ServiceFactory.getInstance().getEditionThemeService();
             if (editionThemeService.getThemeById(editionTheme.getId()).isEmpty()) {
-                throw new EditionValidatorException(ResourceBundleMessages.INVALID_THEME.getKey());
+                throw new ValidatorException(ResourceBundleMessages.INVALID_THEME.getKey());
             }
         } catch (ServiceException e) {
-            throw new EditionValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+            throw new ValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
     }
 
-    private void checkPeriodicityPerYear(int periodicityPerYear) throws EditionValidatorException {
+    private void checkPeriodicityPerYear(int periodicityPerYear) throws ValidatorException {
         if (periodicityPerYear < 1) {
-            throw new EditionValidatorException(ResourceBundleMessages.INVALID_PERIODICITY_PER_YEAR.getKey());
+            throw new ValidatorException(ResourceBundleMessages.INVALID_PERIODICITY_PER_YEAR.getKey());
         }
     }
 
-    private void checkMinimumSubscriptionPeriodInMonths(int minimumSubscriptionPeriodInMonths) throws EditionValidatorException {
+    private void checkMinimumSubscriptionPeriodInMonths(int minimumSubscriptionPeriodInMonths) throws ValidatorException {
         if (minimumSubscriptionPeriodInMonths < 1) {
-            throw new EditionValidatorException(ResourceBundleMessages.INVALID_MINIMUM_SUBSCRIPTION_PERIOD.getKey());
+            throw new ValidatorException(ResourceBundleMessages.INVALID_MINIMUM_SUBSCRIPTION_PERIOD.getKey());
         }
     }
 
-    private void checkPriceForMinimumSubscriptionPeriod(BigDecimal priceForMinimumSubscriptionPeriod) throws EditionValidatorException {
+    private void checkPriceForMinimumSubscriptionPeriod(BigDecimal priceForMinimumSubscriptionPeriod) throws ValidatorException {
         if (priceForMinimumSubscriptionPeriod == null || priceForMinimumSubscriptionPeriod.compareTo(BigDecimal.valueOf(0)) < 1 ) {
-            throw new EditionValidatorException(ResourceBundleMessages.INVALID_PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD.getKey());
+            throw new ValidatorException(ResourceBundleMessages.INVALID_PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD.getKey());
         }
     }
 

@@ -3,49 +3,33 @@ package by.kiselevich.periodicals.command.user;
 import by.kiselevich.periodicals.command.Attribute;
 import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.Page;
-import by.kiselevich.periodicals.command.admin.DashboardPageOption;
-import by.kiselevich.periodicals.entity.User;
+import by.kiselevich.periodicals.command.admin.DashboardPageOptionCommand;
+import by.kiselevich.periodicals.entity.Subscription;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.subscription.SubscriptionService;
-import by.kiselevich.periodicals.service.user.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.math.BigDecimal;
-import java.util.Optional;
+import java.util.List;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 
-public class ShowUserPage implements Command {
+public class ShowUserSubscriptionsCommand implements Command {
 
-    private static final BigDecimal DEFAULT_BALANCE = BigDecimal.valueOf(0);
-
-    private UserService userService;
     private SubscriptionService subscriptionService;
 
-    public ShowUserPage() {
-        userService = ServiceFactory.getInstance().getUserService();
+    public ShowUserSubscriptionsCommand() {
         subscriptionService = ServiceFactory.getInstance().getSubscriptionService();
     }
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute(Attribute.USER_PAGE_OPTION.getValue(), DashboardPageOption.MAIN);
-
+        req.setAttribute(Attribute.USER_PAGE_OPTION.getValue(), DashboardPageOptionCommand.SUBSCRIPTIONS);
         try {
             String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
-            Optional<User> optionalUser = userService.getUserByLogin(login);
-            BigDecimal userBalance;
-            if (optionalUser.isPresent()) {
-                userBalance = optionalUser.get().getMoney();
-            } else {
-                userBalance = DEFAULT_BALANCE;
-            }
-            int subscriptionsCount = subscriptionService.getAllSubscriptionsByUserLogin(login).size();
-            req.setAttribute(Attribute.USER_BALANCE.getValue(), userBalance);
-            req.setAttribute(Attribute.SUBSCRIPTIONS_COUNT.getValue(), subscriptionsCount);
+            List<Subscription> subscriptionList = subscriptionService.getAllSubscriptionsByUserLogin(login);
+            req.setAttribute(Attribute.SUBSCRIPTIONS.getValue(), subscriptionList);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
