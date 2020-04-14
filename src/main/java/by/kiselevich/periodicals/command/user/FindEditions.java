@@ -16,6 +16,7 @@ import by.kiselevich.periodicals.service.edition.EditionService;
 import by.kiselevich.periodicals.service.editiontheme.EditionThemeService;
 import by.kiselevich.periodicals.service.editiontype.EditionTypeService;
 import by.kiselevich.periodicals.service.subscription.SubscriptionService;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,14 +52,13 @@ public class FindEditions implements Command {
             String sourceName = name;
             name = String.format(EDITION_NAME_FORMAT, name);
 
-            if ((typeIdString == null || typeIdString.equals(""))
-                    && (themeIdString == null || themeIdString.equals(""))) {
+            if (StringUtils.isEmpty(typeIdString) && StringUtils.isEmpty(themeIdString)) {
                 editionList = editionService.getEditionsByName(name);
             } else {
-                if (typeIdString == null || typeIdString.equals("")) {
+                if (StringUtils.isEmpty(typeIdString)) {
                     int themeId = Integer.parseInt(themeIdString);
                     editionList = editionService.getEditionsByNameAndThemeId(name, themeId);
-                } else if (themeIdString == null || themeIdString.equals("")) {
+                } else if (StringUtils.isEmpty(themeIdString)) {
                     int typeId = Integer.parseInt(typeIdString);
                     editionList = editionService.getEditionsByNameAndTypeId(name, typeId);
                 } else {
