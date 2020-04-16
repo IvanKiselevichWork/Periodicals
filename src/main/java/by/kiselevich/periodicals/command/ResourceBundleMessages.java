@@ -2,6 +2,7 @@ package by.kiselevich.periodicals.command;
 
 public enum ResourceBundleMessages {
 
+    INVALID_USER("invalid_user"),
     INVALID_LOGIN("invalid_login"),
     INVALID_PASSWORD("invalid_password"),
     INVALID_FULL_NAME("invalid_full_name"),
@@ -10,7 +11,7 @@ public enum ResourceBundleMessages {
     USER_BLOCKED("user_blocked"),
     LOGIN_IN_USE_KEY("login_in_use"),
 
-    INVALID_ID("invalid_id"),
+    INVALID_EDITION("invalid_edition"),
     INVALID_NAME("invalid_name"),
     INVALID_TYPE("invalid_type"),
     INVALID_THEME("invalid_theme"),

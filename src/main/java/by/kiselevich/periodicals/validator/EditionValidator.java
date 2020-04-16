@@ -11,6 +11,7 @@ import by.kiselevich.periodicals.service.editiontype.EditionTypeService;
 import by.kiselevich.periodicals.service.editiontheme.EditionThemeService;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,7 +42,8 @@ public class EditionValidator {
     private void checkEditionType(EditionType editionType) throws ValidatorException {
         try {
             EditionTypeService editionTypeService = ServiceFactory.getInstance().getEditionTypeService();
-            if (editionTypeService.getEditionTypeById(editionType.getId()).isEmpty()) {
+            List<EditionType> editionTypeList = editionTypeService.getEditionTypeById(editionType.getId());
+            if (editionTypeList.isEmpty() || !editionTypeList.get(0).equals(editionType)) {
                 throw new ValidatorException(ResourceBundleMessages.INVALID_TYPE.getKey());
             }
         } catch (ServiceException e) {
@@ -52,7 +54,8 @@ public class EditionValidator {
     private void checkEditionTheme(EditionTheme editionTheme) throws ValidatorException {
         try {
             EditionThemeService editionThemeService = ServiceFactory.getInstance().getEditionThemeService();
-            if (editionThemeService.getThemeById(editionTheme.getId()).isEmpty()) {
+            List<EditionTheme> editionThemeList = editionThemeService.getThemeById(editionTheme.getId());
+            if (editionThemeList.isEmpty() || !editionThemeList.get(0).equals(editionTheme)) {
                 throw new ValidatorException(ResourceBundleMessages.INVALID_THEME.getKey());
             }
         } catch (ServiceException e) {
