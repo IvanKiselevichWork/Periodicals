@@ -1,5 +1,6 @@
 package by.kiselevich.periodicals.unitofwork;
 
+import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.*;
 import by.kiselevich.periodicals.repository.payment.PaymentRepository;
 import by.kiselevich.periodicals.repository.payment.PaymentRepositoryImpl;
@@ -41,12 +42,12 @@ public class TransactionUnitOfWork {
         return userRepository;
     }
 
-    public void commit() {
+    public void commit() throws RepositoryException {
         TransactionConnectionProxy connection = connectionPool.getConnection();
         try {
             connection.commit();
         } catch (SQLException e) {
-            LOG.warn(e);
+            throw new RepositoryException(e);
         } finally {
             ConnectionPoolImpl.INSTANCE.returnConnection(connection.getInnerConnection());
         }
