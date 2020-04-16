@@ -16,15 +16,17 @@ public class EntityMapsFactory {
 
     public static Map<Edition, Boolean> getEditionAndIfUserSubscribedMap(List<Edition> editionList, List<Subscription> subscriptionList) {
         Map<Edition, Boolean> editionAndIfUserSubscribedMap = new HashMap<>();
-        boolean isSubscribed = false;
+        boolean isSubscribed;
         for (Edition edition : editionList) {
+            isSubscribed = false;
             for (Subscription subscription : subscriptionList) {
                 if (subscription.getEdition().equals(edition) && (subscription.getSubscriptionEndDate().after(new Timestamp(System.currentTimeMillis())))) {
                     isSubscribed = true;
+                    break;
                 }
-                editionAndIfUserSubscribedMap.put(edition, isSubscribed);
+
             }
-            isSubscribed = false;
+            editionAndIfUserSubscribedMap.put(edition, isSubscribed);
         }
         return editionAndIfUserSubscribedMap;
     }
