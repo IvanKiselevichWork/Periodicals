@@ -45,9 +45,10 @@ public class TransactionUnitOfWork {
         TransactionConnectionProxy connection = connectionPool.getConnection();
         try {
             connection.commit();
-            ConnectionPoolImpl.INSTANCE.returnConnection(connection.getInnerConnection());
         } catch (SQLException e) {
             LOG.warn(e);
+        } finally {
+            ConnectionPoolImpl.INSTANCE.returnConnection(connection.getInnerConnection());
         }
     }
 
@@ -55,9 +56,10 @@ public class TransactionUnitOfWork {
         TransactionConnectionProxy connection = connectionPool.getConnection();
         try {
             connection.rollback();
-            ConnectionPoolImpl.INSTANCE.returnConnection(connection.getInnerConnection());
         } catch (SQLException e) {
             LOG.warn(e);
+        } finally {
+            ConnectionPoolImpl.INSTANCE.returnConnection(connection.getInnerConnection());
         }
     }
 }
