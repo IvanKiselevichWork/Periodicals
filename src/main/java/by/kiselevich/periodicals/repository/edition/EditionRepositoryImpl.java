@@ -13,7 +13,7 @@ public class EditionRepositoryImpl implements EditionRepository {
     private static final String ADD_EDITION = "insert into edition (name, type_id, theme_id, periodicity_per_year, minimum_subscription_period_in_months, price_for_minimum_subscription_period) values (?, ?, ?, ?, ?, ?)";
 
     private static final String BLOCK_EDITION = "update edition set is_blocked = 1 where id = ?";
-    private static final String UNBLOCK_EDITION = "update user set is_blocked = 0 where id = ?";
+    private static final String UNBLOCK_EDITION = "update edition set is_blocked = 0 where id = ?";
 
     private static final String EDITION_NOT_ADDED_MESSAGE = "Edition has not been added";
     private static final String EDITION_NOT_BLOCKED_MESSAGE = "Edition was not blocked";
