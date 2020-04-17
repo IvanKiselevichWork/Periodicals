@@ -29,7 +29,6 @@ public class AddSubscriptionCommand implements Command {
 
     private static final String USER_NOT_FOUND = "USER NOT FOUND IN DATABASE WITH LOGIN FROM SESSION";
     private static final String EDITION_NOT_FOUND = "EDITION NOT FOUND OR BLOCKED IN DATABASE WITH ID FROM SUBSCRIPTION REQUEST";
-    private static final int ADDITIONAL_SECONDS_FOR_SUBSCRIPTION = 1;
 
     private SubscriptionService subscriptionService;
     private UserService userService;
@@ -50,7 +49,6 @@ public class AddSubscriptionCommand implements Command {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(start);
             calendar.add(Calendar.MONTH, subscriptionPeriod);
-            calendar.add(Calendar.SECOND, ADDITIONAL_SECONDS_FOR_SUBSCRIPTION);
             Timestamp end = new Timestamp(calendar.getTimeInMillis());
 
             String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
