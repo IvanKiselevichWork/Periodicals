@@ -12,7 +12,12 @@ public class EditionRepositoryImpl implements EditionRepository {
 
     private static final String ADD_EDITION = "insert into edition (name, type_id, theme_id, periodicity_per_year, minimum_subscription_period_in_months, price_for_minimum_subscription_period) values (?, ?, ?, ?, ?, ?)";
 
+    private static final String BLOCK_EDITION = "update edition set is_blocked = 1 where id = ?";
+    private static final String UNBLOCK_EDITION = "update user set is_blocked = 0 where id = ?";
+
     private static final String EDITION_NOT_ADDED_MESSAGE = "Edition has not been added";
+    private static final String EDITION_NOT_BLOCKED_MESSAGE = "Edition was not blocked";
+    private static final String EDITION_NOT_UNBLOCKED_MESSAGE = "Edition was not unblocked";
 
     private ConnectionPool connectionPool;
 
@@ -50,6 +55,14 @@ public class EditionRepositoryImpl implements EditionRepository {
         }
     }
 
+    public void block(int id) throws RepositoryException {
+        updateEditionById(id, BLOCK_EDITION, EDITION_NOT_BLOCKED_MESSAGE);
+    }
+
+    public void unblock(int id) throws RepositoryException {
+        updateEditionById(id, UNBLOCK_EDITION, EDITION_NOT_UNBLOCKED_MESSAGE);
+    }
+
     @Override
     public void remove(int id) throws RepositoryException {
         //todo
@@ -63,5 +76,18 @@ public class EditionRepositoryImpl implements EditionRepository {
     @Override
     public List<Edition> query(Specification<Edition> specification) throws RepositoryException {
         return specification.query();
+    }
+
+    private void updateEditionById(int id, String updateSqlQuery, String exceptionMessage) throws RepositoryException {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(updateSqlQuery)) {
+            statement.setInt(1, id);
+            int updatedRowCount = statement.executeUpdate();
+            if (updatedRowCount != 1) {
+                throw new RepositoryException(exceptionMessage);
+            }
+        } catch (SQLException e) {
+            throw new RepositoryException(e);
+        }
     }
 }
