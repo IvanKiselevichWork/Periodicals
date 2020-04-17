@@ -12,14 +12,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FindEditionsByNameAndTypeId extends SpecificationUtil implements EditionSpecification {
+public class FindNotBlockedEditionsByNameAndTypeId extends SpecificationUtil implements EditionSpecification {
 
-    private static final String FIND_EDITIONS_BY_NAME_AND_TYPE_ID = "select * from edition inner join edition_theme on edition.theme_id = edition_theme.id inner join edition_type on edition.type_id = edition_type.id where name like ? and edition_type.id = ?";
+    private static final String FIND_EDITIONS_BY_NAME_AND_TYPE_ID = "select * from edition inner join edition_theme on edition.theme_id = edition_theme.id inner join edition_type on edition.type_id = edition_type.id where name like ? and edition_type.id = ? and is_blocked = false";
 
     private String name;
     private int typeId;
 
-    public FindEditionsByNameAndTypeId(String name, int typeId) {
+    public FindNotBlockedEditionsByNameAndTypeId(String name, int typeId) {
         this.name = name;
         this.typeId = typeId;
     }

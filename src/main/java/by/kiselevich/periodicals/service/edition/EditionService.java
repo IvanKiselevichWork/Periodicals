@@ -11,13 +11,13 @@ public interface EditionService {
 
     List<Edition> getAllEditions() throws ServiceException;
 
-    List<Edition> getEditionsByNameAndTypeIdAndThemeId(String name, int typeId, int themeId) throws ServiceException;
+    List<Edition> getNotBlockedEditionsByNameAndTypeIdAndThemeId(String name, int typeId, int themeId) throws ServiceException;
 
-    List<Edition> getEditionsByNameAndTypeId(String name, int typeId) throws ServiceException;
+    List<Edition> getNotBlockedEditionsByNameAndTypeId(String name, int typeId) throws ServiceException;
 
-    List<Edition> getEditionsByNameAndThemeId(String name, int themeId) throws ServiceException;
+    List<Edition> getNotBlockedEditionsByNameAndThemeId(String name, int themeId) throws ServiceException;
 
-    List<Edition> getEditionsByName(String name) throws ServiceException;
+    List<Edition> getNotBlockedEditionsByName(String name) throws ServiceException;
 
     List<Edition> getEditionsById(int editionId) throws ServiceException;
 }
