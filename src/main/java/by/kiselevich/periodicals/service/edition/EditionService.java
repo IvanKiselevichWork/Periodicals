@@ -20,4 +20,8 @@ public interface EditionService {
     List<Edition> getNotBlockedEditionsByName(String name) throws ServiceException;
 
     List<Edition> getEditionsById(int editionId) throws ServiceException;
+
+    void blockEdition(int id) throws ServiceException;
+
+    void unblockEdition(int id) throws ServiceException;
 }

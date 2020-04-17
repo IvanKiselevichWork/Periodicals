@@ -101,4 +101,24 @@ public class EditionServiceImpl implements EditionService {
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
     }
+
+    @Override
+    public void blockEdition(int id) throws ServiceException {
+        try {
+            editionRepository.block(id);
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
+
+    @Override
+    public void unblockEdition(int id) throws ServiceException {
+        try {
+            editionRepository.unblock(id);
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
 }
