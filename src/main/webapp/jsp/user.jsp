@@ -264,11 +264,11 @@
                                                                     <input type="hidden" name="id"
                                                                            value="${edition.key.id}"/>
                                                                     <input type="hidden" name="name"
-                                                                           value="${edition.key.name}"/>
+                                                                           value="<c:out value="${ edition.key.name }"/>"/>
                                                                     <input type="hidden" name="type"
-                                                                           value="${edition.key.editionType.type}"/>
+                                                                           value="<c:out value="${ edition.key.editionType.type }"/>"/>
                                                                     <input type="hidden" name="theme"
-                                                                           value="${edition.key.editionTheme.title}"/>
+                                                                           value="<c:out value="${ edition.key.editionTheme.title }"/>"/>
                                                                     <input type="hidden" name="periodicity"
                                                                            value="${edition.key.periodicityPerYear}"/>
                                                                     <input type="hidden" name="minPeriod"
@@ -559,7 +559,6 @@
     <!-- open modal window to subscribe edition -->
     <script type="text/javascript">
         function openModalWindowToSubscribeEdition(buttonElement) {
-            console.log("pressed button:" + buttonElement);
             const modalWindow = $('#modalSubscribe');
 
             const idInput = $('#edition-id-label-sub');

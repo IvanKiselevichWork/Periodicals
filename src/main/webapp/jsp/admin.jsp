@@ -199,7 +199,12 @@
                                                 </thead>
                                                 <tbody>
                                                 <c:forEach var="user" items="${users}" varStatus="status">
-                                                    <tr>
+                                                    <c:if test="${not user.available}">
+                                                        <tr class="table-danger">
+                                                    </c:if>
+                                                    <c:if test="${user.available}">
+                                                        <tr>
+                                                    </c:if>
                                                         <td><c:out value="${ user.id }"/></td>
                                                         <td><c:out value="${ user.fullName }"/></td>
                                                         <td><c:out value="${ user.available }"/></td>
@@ -265,6 +270,9 @@
                                                         <fmt:message key="theme"/>
                                                     </th>
                                                     <th class="th-sm">
+                                                        <fmt:message key="edit"/>
+                                                    </th>
+                                                    <th class="th-sm">
                                                         <fmt:message key="block_unblock"/>
                                                     </th>
                                                 </tr>
@@ -281,6 +289,27 @@
                                                         <td><c:out value="${ edition.name }"/></td>
                                                         <td><c:out value="${ edition.editionType.type }"/></td>
                                                         <td><c:out value="${ edition.editionTheme.title }"/></td>
+                                                        <td>
+                                                            <button class="btn btn-outline-primary waves-effect py-0 px-1 m-0"
+                                                                    type="button" id="edition${edition.id}"
+                                                                    onclick="openModalWindowToEditEdition(this)">
+                                                                <fmt:message key="edit"/>
+                                                                <input type="hidden" name="id"
+                                                                       value="${edition.id}"/>
+                                                                <input type="hidden" name="name"
+                                                                       value="<c:out value="${ edition.name }"/>"/>
+                                                                <input type="hidden" name="type"
+                                                                       value="${edition.editionType.id}"/>
+                                                                <input type="hidden" name="theme"
+                                                                       value="${edition.editionTheme.id}"/>
+                                                                <input type="hidden" name="periodicity"
+                                                                       value="${edition.periodicityPerYear}"/>
+                                                                <input type="hidden" name="minPeriod"
+                                                                       value="${edition.minimumSubscriptionPeriodInMonths}"/>
+                                                                <input type="hidden" name="price"
+                                                                       value="${edition.priceForMinimumSubscriptionPeriod}"/>
+                                                            </button>
+                                                        </td>
                                                         <td>
                                                             <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0"
                                                                     type="button" id="edition${edition.id}"
@@ -497,6 +526,76 @@
         </div>
         <!--Modal: Add new edition -->
 
+        <!--Modal: edit editions -->
+        <div class="modal fade" id="modalEditEdition" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog w-50" role="document" style="max-width: 1000px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editHeader"><fmt:message key="edit_edition"/></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="mx-auto">
+                            <input type="hidden" id="edition-id-label-edit" name="id"
+                                   value="" readonly/>
+                            <div class="form-group">
+                                <label for="edition-name-label-edit"><fmt:message key="name"/></label>
+                                <input type="text" class="form-control" id="edition-name-label-edit" name="name"
+                                       value="">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-type-label-edit"><fmt:message key="type"/></label>
+                                <select class="browser-default custom-select" id="edition-type-label-edit">
+                                    <c:forEach var="type" items="${editionsTypes}">
+                                        <option value="${type.id}">${type.type}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-theme-label-edit"><fmt:message key="theme"/></label>
+                                <select class="browser-default custom-select" id="edition-theme-label-edit">
+                                    <c:forEach var="theme" items="${editionsThemes}">
+                                        <option value="${theme.id}">${theme.title}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-periodicity-label-edit"><fmt:message key="periodicity"/></label>
+                                <input type="text" class="form-control" id="edition-periodicity-label-edit"
+                                       name="periodicity"
+                                       value="">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-min-period-label-edit"><fmt:message key="min_period"/></label>
+                                <input type="text" class="form-control" id="edition-min-period-label-edit"
+                                       name="min-period"
+                                       value="">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edition-price-label-edit"><fmt:message key="price"/></label>
+                                <input type="text" class="form-control" id="edition-price-label-edit" name="price"
+                                       value="">
+                            </div>
+
+                            <div id="edit-edition-message" class="alert alert-danger" role="alert"></div>
+                        </form>
+                        <button id="edit-edition-button" class="btn btn-primary"><fmt:message
+                                key="edit"/></button>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal: subscribe to editions -->
+
     </section>
 
     <!-- SCRIPTS -->
@@ -567,7 +666,7 @@
 
             const regexAny = RegExp(/^.{1,200}$/i);
             const regexInt = RegExp(/^[1-9]\d*$/i);
-            const regexDouble = RegExp(/^[0-9]\d*[.\d+]?$/i);
+            const regexDouble = RegExp(/^[1-9]\d*(\.\d+)?$/i);
             let isValid = true;
             if (!regexAny.test(data.name)) {
                 nameInput.css('border-color', 'red');
@@ -625,9 +724,8 @@
         });
     </script>
 
-
+    <!-- edition block/unblock -->
     <script type="text/javascript">
-        // edition block/unblock
         function editionBlockUnblock(buttonElement) {
             $(buttonElement).prop('disabled', true);
             var data = {
@@ -647,6 +745,121 @@
                 }
             });
         }
+    </script>
+
+    <!-- open modal window to edit edition -->
+    <script type="text/javascript">
+        function openModalWindowToEditEdition(buttonElement) {
+            const modalWindow = $('#modalEditEdition');
+
+            const idInput = $('#edition-id-label-edit');
+            const nameInput = $('#edition-name-label-edit');
+            const typeInput = $('#edition-type-label-edit');
+            const themeInput = $('#edition-theme-label-edit');
+            const periodicityInput = $('#edition-periodicity-label-edit');
+            const minPeriodInput = $('#edition-min-period-label-edit');
+            const priceInput = $('#edition-price-label-edit');
+
+            const id = $(buttonElement).find('input[name="id"]').val();
+            const name = $(buttonElement).find('input[name="name"]').val();
+            const type = $(buttonElement).find('input[name="type"]').val();
+            const theme = $(buttonElement).find('input[name="theme"]').val();
+            const periodicity = $(buttonElement).find('input[name="periodicity"]').val();
+            const minPeriod = $(buttonElement).find('input[name="minPeriod"]').val();
+            const price = $(buttonElement).find('input[name="price"]').val();
+
+            idInput.val(id);
+            nameInput.val(name);
+            typeInput.val(type);
+            themeInput.val(theme);
+            periodicityInput.val(periodicity);
+            minPeriodInput.val(minPeriod);
+            priceInput.val(price);
+
+            modalWindow.modal('show');
+        }
+    </script>
+
+    <script>
+        $(document).on('click', '#edit-edition-button', function () {
+
+            const idInput = $('#edition-id-label-edit');
+            const nameInput = $('#edition-name-label-edit');
+            const typeInput = $('#edition-type-label-edit');
+            const themeInput = $('#edition-theme-label-edit');
+            const periodicityInput = $('#edition-periodicity-label-edit');
+            const minPeriodInput = $('#edition-min-period-label-edit');
+            const priceInput = $('#edition-price-label-edit');
+
+            const data = {
+                command: 'UPDATE_EDITION',
+                id: idInput.val(),
+                name: nameInput.val(),
+                type_id: typeInput.val(),
+                theme_id: themeInput.val(),
+                periodicity_per_year: periodicityInput.val(),
+                minimum_subscription_period: minPeriodInput.val(),
+                price_for_minimum_subscription_period: priceInput.val()
+            };
+
+            const regexAny = RegExp(/^.{1,200}$/i);
+            const regexInt = RegExp(/^[1-9]\d*$/i);
+            const regexDouble = RegExp(/^[1-9]\d*(\.\d+)?$/i);
+            let isValid = true;
+            if (!regexAny.test(data.name)) {
+                nameInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                nameInput.css('border-color', '');
+            }
+
+            if (data.type_id == null || !regexInt.test(data.type_id)) {
+                typeInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                typeInput.css('border-color', '');
+            }
+
+            if (data.theme_id == null || !regexInt.test(data.theme_id)) {
+                themeInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                themeInput.css('border-color', '');
+            }
+
+            if (!regexInt.test(data.periodicity_per_year)) {
+                periodicityInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                periodicityInput.css('border-color', '');
+            }
+
+            if (!regexInt.test(data.minimum_subscription_period)) {
+                minPeriodInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                minPeriodInput.css('border-color', '');
+            }
+
+            if (!regexDouble.test(data.price_for_minimum_subscription_period)) {
+                priceInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                priceInput.css('border-color', '');
+            }
+
+            if (isValid) {
+                $.post('./', $.param(data), function (responseText) {
+                    if (responseText.length < 50) {
+                        $('#edit-edition-message').text(responseText);
+                    } else {
+                        document.open();
+                        document.write(responseText);
+                        document.close();
+                    }
+                });
+            }
+        });
     </script>
 
     </body>
