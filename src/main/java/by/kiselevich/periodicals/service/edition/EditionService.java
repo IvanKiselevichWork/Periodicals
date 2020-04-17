@@ -21,6 +21,8 @@ public interface EditionService {
 
     List<Edition> getEditionsById(int editionId) throws ServiceException;
 
+    List<Edition> getNotBlockedEditionsById(int editionId) throws ServiceException;
+
     void blockEdition(int id) throws ServiceException;
 
     void unblockEdition(int id) throws ServiceException;

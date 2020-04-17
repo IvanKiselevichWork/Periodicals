@@ -103,6 +103,16 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
+    public List<Edition> getNotBlockedEditionsById(int editionId) throws ServiceException {
+        try {
+            return editionRepository.query(new FindNotBlockedEditionById(editionId));
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
+
+    @Override
     public void blockEdition(int id) throws ServiceException {
         try {
             editionRepository.block(id);
