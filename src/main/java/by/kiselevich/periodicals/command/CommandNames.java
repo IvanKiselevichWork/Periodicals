@@ -41,7 +41,8 @@ public enum CommandNames {
             UNBLOCK_USER,
             ADD_EDITION,
             BLOCK_EDITION,
-            UNBLOCK_EDITION
+            UNBLOCK_EDITION,
+            UPDATE_EDITION
         )
     );
 

@@ -11,11 +11,13 @@ import java.util.List;
 public class EditionRepositoryImpl implements EditionRepository {
 
     private static final String ADD_EDITION = "insert into edition (name, type_id, theme_id, periodicity_per_year, minimum_subscription_period_in_months, price_for_minimum_subscription_period) values (?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_EDITION = "update edition set name = ?, type_id = ?, theme_id = ?, periodicity_per_year = ?, minimum_subscription_period_in_months = ?, price_for_minimum_subscription_period = ? where id = ?";
 
     private static final String BLOCK_EDITION = "update edition set is_blocked = 1 where id = ?";
     private static final String UNBLOCK_EDITION = "update edition set is_blocked = 0 where id = ?";
 
     private static final String EDITION_NOT_ADDED_MESSAGE = "Edition has not been added";
+    private static final String EDITION_NOT_UPDATED_MESSAGE = "Edition has not been updated";
     private static final String EDITION_NOT_BLOCKED_MESSAGE = "Edition was not blocked";
     private static final String EDITION_NOT_UNBLOCKED_MESSAGE = "Edition was not unblocked";
 
@@ -70,7 +72,22 @@ public class EditionRepositoryImpl implements EditionRepository {
 
     @Override
     public void update(Edition edition) throws RepositoryException {
-        //todo
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_EDITION)) {
+            statement.setString(1, edition.getName());
+            statement.setInt(2, edition.getEditionType().getId());
+            statement.setInt(3, edition.getEditionTheme().getId());
+            statement.setInt(4, edition.getPeriodicityPerYear());
+            statement.setInt(5, edition.getMinimumSubscriptionPeriodInMonths());
+            statement.setBigDecimal(6, edition.getPriceForMinimumSubscriptionPeriod());
+            statement.setInt(7, edition.getId());
+            int updatedRowCount = statement.executeUpdate();
+            if (updatedRowCount != 1) {
+                throw new RepositoryException(EDITION_NOT_UPDATED_MESSAGE);
+            }
+        } catch (SQLException e) {
+            throw new RepositoryException(e);
+        }
     }
 
     @Override
