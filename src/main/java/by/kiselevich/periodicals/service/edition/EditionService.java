@@ -9,6 +9,8 @@ public interface EditionService {
 
     Edition add(Edition edition) throws ServiceException;
 
+    Edition update(Edition edition) throws ServiceException;
+
     List<Edition> getAllEditions() throws ServiceException;
 
     List<Edition> getNotBlockedEditionsByNameAndTypeIdAndThemeId(String name, int typeId, int themeId) throws ServiceException;

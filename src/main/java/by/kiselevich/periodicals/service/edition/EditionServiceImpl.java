@@ -31,7 +31,21 @@ public class EditionServiceImpl implements EditionService {
         try {
             editionValidator.checkEdition(edition);
             editionRepository.add(edition);
+            return edition;
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        } catch (ValidatorException e) {
+            LOG.info(e);
+            throw new ServiceException(e.getMessage());
+        }
+    }
 
+    @Override
+    public Edition update(Edition edition) throws ServiceException {
+        try {
+            editionValidator.checkEdition(edition);
+            editionRepository.update(edition);
             return edition;
         } catch (RepositoryException e) {
             LOG.warn(e);
