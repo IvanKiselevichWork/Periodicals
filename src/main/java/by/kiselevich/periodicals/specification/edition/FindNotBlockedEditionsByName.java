@@ -12,16 +12,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FindEditionsByNameAndTypeId extends SpecificationUtil implements EditionSpecification {
+public class FindNotBlockedEditionsByName extends SpecificationUtil implements EditionSpecification {
 
-    private static final String FIND_EDITIONS_BY_NAME_AND_TYPE_ID = "select * from edition inner join edition_theme on edition.theme_id = edition_theme.id inner join edition_type on edition.type_id = edition_type.id where name like ? and edition_type.id = ?";
+    private static final String FIND_EDITIONS_BY_NAME = "select * from edition inner join edition_theme on edition.theme_id = edition_theme.id inner join edition_type on edition.type_id = edition_type.id where name like ? and is_blocked = false";
 
     private String name;
-    private int typeId;
 
-    public FindEditionsByNameAndTypeId(String name, int typeId) {
+    public FindNotBlockedEditionsByName(String name) {
         this.name = name;
-        this.typeId = typeId;
     }
 
     @Override
@@ -29,9 +27,8 @@ public class FindEditionsByNameAndTypeId extends SpecificationUtil implements Ed
         ResultSet resultSet = null;
         List<Edition> editions = new ArrayList<>();
         try (ConnectionProxy connection = ConnectionPoolImpl.INSTANCE.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(FIND_EDITIONS_BY_NAME_AND_TYPE_ID);
+            PreparedStatement statement = connection.prepareStatement(FIND_EDITIONS_BY_NAME);
             statement.setString(1, name);
-            statement.setInt(2, typeId);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 editions.add(getEditionFromResultSet(resultSet));

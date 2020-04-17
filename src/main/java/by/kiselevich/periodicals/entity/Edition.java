@@ -8,6 +8,8 @@ public class Edition implements Serializable {
 
     private static final long serialVersionUID = -8443520786551186762L;
 
+    private static final boolean DEFAULT_BLOCKAGE = false;
+
     private int id;
     private String name;
     private EditionType editionType;
@@ -15,6 +17,7 @@ public class Edition implements Serializable {
     private int periodicityPerYear;
     private int minimumSubscriptionPeriodInMonths;
     private BigDecimal priceForMinimumSubscriptionPeriod;
+    private boolean blocked = DEFAULT_BLOCKAGE;
 
     public Edition() {
 
@@ -28,6 +31,7 @@ public class Edition implements Serializable {
         this.periodicityPerYear = editionBuilder.periodicityPerYear;
         this.minimumSubscriptionPeriodInMonths = editionBuilder.minimumSubscriptionPeriodInMonths;
         this.priceForMinimumSubscriptionPeriod = editionBuilder.priceForMinimumSubscriptionPeriod;
+        this.blocked = editionBuilder.blocked;
     }
 
     public static class EditionBuilder {
@@ -38,6 +42,7 @@ public class Edition implements Serializable {
         private int periodicityPerYear;
         private int minimumSubscriptionPeriodInMonths;
         private BigDecimal priceForMinimumSubscriptionPeriod;
+        private boolean blocked = DEFAULT_BLOCKAGE;
 
         public EditionBuilder id(int id) {
             this.id = id;
@@ -71,6 +76,11 @@ public class Edition implements Serializable {
 
         public EditionBuilder priceForMinimumSubscriptionPeriod(BigDecimal priceForMinimumSubscriptionPeriod) {
             this.priceForMinimumSubscriptionPeriod = priceForMinimumSubscriptionPeriod;
+            return this;
+        }
+
+        public EditionBuilder blocked(boolean blocked) {
+            this.blocked = blocked;
             return this;
         }
 
@@ -135,21 +145,27 @@ public class Edition implements Serializable {
         this.priceForMinimumSubscriptionPeriod = priceForMinimumSubscriptionPeriod;
     }
 
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Edition edition = (Edition) o;
-
-        if (id != edition.id) return false;
-        if (periodicityPerYear != edition.periodicityPerYear) return false;
-        if (minimumSubscriptionPeriodInMonths != edition.minimumSubscriptionPeriodInMonths) return false;
-        if (!Objects.equals(name, edition.name)) return false;
-        if (!Objects.equals(editionType, edition.editionType)) return false;
-        if (!Objects.equals(editionTheme, edition.editionTheme))
-            return false;
-        return Objects.equals(priceForMinimumSubscriptionPeriod, edition.priceForMinimumSubscriptionPeriod);
+        return id == edition.id &&
+                periodicityPerYear == edition.periodicityPerYear &&
+                minimumSubscriptionPeriodInMonths == edition.minimumSubscriptionPeriodInMonths &&
+                blocked == edition.blocked &&
+                Objects.equals(name, edition.name) &&
+                Objects.equals(editionType, edition.editionType) &&
+                Objects.equals(editionTheme, edition.editionTheme) &&
+                Objects.equals(priceForMinimumSubscriptionPeriod, edition.priceForMinimumSubscriptionPeriod);
     }
 
     @Override
@@ -161,6 +177,7 @@ public class Edition implements Serializable {
         result = 31 * result + periodicityPerYear;
         result = 31 * result + minimumSubscriptionPeriodInMonths;
         result = 31 * result + (priceForMinimumSubscriptionPeriod != null ? priceForMinimumSubscriptionPeriod.hashCode() : 0);
+        result = 31 * result + (blocked ? 1 : 0);
         return result;
     }
 
@@ -174,6 +191,7 @@ public class Edition implements Serializable {
                 ", periodicityPerYear=" + periodicityPerYear +
                 ", minimumSubscriptionPeriodInMonths=" + minimumSubscriptionPeriodInMonths +
                 ", priceForMinimumSubscriptionPeriod=" + priceForMinimumSubscriptionPeriod +
+                ", isBlocked=" + blocked +
                 '}';
     }
 }

@@ -53,18 +53,18 @@ public class FindEditionsCommand implements Command {
             name = String.format(EDITION_NAME_FORMAT, name);
 
             if (StringUtils.isEmpty(typeIdString) && StringUtils.isEmpty(themeIdString)) {
-                editionList = editionService.getEditionsByName(name);
+                editionList = editionService.getNotBlockedEditionsByName(name);
             } else {
                 if (StringUtils.isEmpty(typeIdString)) {
                     int themeId = Integer.parseInt(themeIdString);
-                    editionList = editionService.getEditionsByNameAndThemeId(name, themeId);
+                    editionList = editionService.getNotBlockedEditionsByNameAndThemeId(name, themeId);
                 } else if (StringUtils.isEmpty(themeIdString)) {
                     int typeId = Integer.parseInt(typeIdString);
-                    editionList = editionService.getEditionsByNameAndTypeId(name, typeId);
+                    editionList = editionService.getNotBlockedEditionsByNameAndTypeId(name, typeId);
                 } else {
                     int typeId = Integer.parseInt(typeIdString);
                     int themeId = Integer.parseInt(themeIdString);
-                    editionList = editionService.getEditionsByNameAndTypeIdAndThemeId(name, typeId, themeId);
+                    editionList = editionService.getNotBlockedEditionsByNameAndTypeIdAndThemeId(name, typeId, themeId);
                 }
             }
 

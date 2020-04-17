@@ -12,6 +12,7 @@ public class SpecificationUtil {
     private static final String EDITION_PERIODICITY_PER_YEAR = "edition.periodicity_per_year";
     private static final String EDITION_MINIMUM_SUBSCRIPTION_PERIOD_IN_MONTHS = "edition.minimum_subscription_period_in_months";
     private static final String EDITION_PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD = "edition.price_for_minimum_subscription_period";
+    private static final String EDITION_IS_BLOCKED = "edition.is_blocked";
 
     private static final String EDITION_TYPE_ID = "edition_type.id";
     private static final String EDITION_TYPE_TYPE = "edition_type.type";
@@ -50,6 +51,7 @@ public class SpecificationUtil {
                 .periodicityPerYear(resultSet.getInt(EDITION_PERIODICITY_PER_YEAR))
                 .minimumSubscriptionPeriodInMonths(resultSet.getInt(EDITION_MINIMUM_SUBSCRIPTION_PERIOD_IN_MONTHS))
                 .priceForMinimumSubscriptionPeriod(resultSet.getBigDecimal(EDITION_PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD))
+                .blocked(resultSet.getBoolean(EDITION_IS_BLOCKED))
                 .build();
     }
 

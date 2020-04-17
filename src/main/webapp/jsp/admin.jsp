@@ -264,15 +264,40 @@
                                                     <th class="th-sm">
                                                         <fmt:message key="theme"/>
                                                     </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="block_unblock"/>
+                                                    </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <c:forEach var="edition" items="${editions}" varStatus="status">
-                                                    <tr>
+                                                    <c:if test="${edition.blocked}">
+                                                        <tr class="table-danger">
+                                                    </c:if>
+                                                    <c:if test="${not edition.blocked}">
+                                                        <tr>
+                                                    </c:if>
                                                         <td><c:out value="${ edition.id }"/></td>
                                                         <td><c:out value="${ edition.name }"/></td>
                                                         <td><c:out value="${ edition.editionType.type }"/></td>
                                                         <td><c:out value="${ edition.editionTheme.title }"/></td>
+                                                        <td>
+                                                            <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0"
+                                                                    type="button" id="edition${edition.id}"
+                                                                    onclick="editionBlockUnblock(this)">
+                                                                <input type="hidden" name="id" value="${edition.id}"/>
+                                                                <c:if test="${not edition.blocked}">
+                                                                    <input type="hidden" name="command"
+                                                                           value="BLOCK_EDITION"/>
+                                                                    <fmt:message key="block"/>
+                                                                </c:if>
+                                                                <c:if test="${edition.blocked}">
+                                                                    <input type="hidden" name="command"
+                                                                           value="UNBLOCK_EDITION"/>
+                                                                    <fmt:message key="unblock"/>
+                                                                </c:if>
+                                                            </button>
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -598,6 +623,30 @@
                 });
             }
         });
+    </script>
+
+
+    <script type="text/javascript">
+        // edition block/unblock
+        function editionBlockUnblock(buttonElement) {
+            $(buttonElement).prop('disabled', true);
+            var data = {
+                command: $(buttonElement).find('input[name="command"]').val(),
+                id: $(buttonElement).find('input[name="id"]').val()
+            };
+
+            $.post('./', $.param(data), function (responseText) {
+                console.log(responseText);
+                if (responseText.length < 50) {
+                    $('#editions_div').text(responseText);
+                    $(buttonElement).prop('disabled', false);
+                } else {
+                    document.open();
+                    document.write(responseText);
+                    document.close();
+                }
+            });
+        }
     </script>
 
     </body>

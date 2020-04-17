@@ -53,9 +53,9 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
-    public List<Edition> getEditionsByNameAndTypeIdAndThemeId(String name, int typeId, int themeId) throws ServiceException {
+    public List<Edition> getNotBlockedEditionsByNameAndTypeIdAndThemeId(String name, int typeId, int themeId) throws ServiceException {
         try {
-            return editionRepository.query(new FindEditionsByNameAndTypeIdAndThemeId(name, typeId, themeId));
+            return editionRepository.query(new FindNotBlockedEditionsByNameAndTypeIdAndThemeId(name, typeId, themeId));
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
@@ -63,9 +63,9 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
-    public List<Edition> getEditionsByNameAndTypeId(String name, int typeId) throws ServiceException {
+    public List<Edition> getNotBlockedEditionsByNameAndTypeId(String name, int typeId) throws ServiceException {
         try {
-            return editionRepository.query(new FindEditionsByNameAndTypeId(name, typeId));
+            return editionRepository.query(new FindNotBlockedEditionsByNameAndTypeId(name, typeId));
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
@@ -73,9 +73,9 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
-    public List<Edition> getEditionsByNameAndThemeId(String name, int themeId) throws ServiceException {
+    public List<Edition> getNotBlockedEditionsByNameAndThemeId(String name, int themeId) throws ServiceException {
         try {
-            return editionRepository.query(new FindEditionsByNameAndThemeId(name, themeId));
+            return editionRepository.query(new FindNotBlockedEditionsByNameAndThemeId(name, themeId));
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
@@ -83,9 +83,9 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
-    public List<Edition> getEditionsByName(String name) throws ServiceException {
+    public List<Edition> getNotBlockedEditionsByName(String name) throws ServiceException {
         try {
-            return editionRepository.query(new FindEditionsByName(name));
+            return editionRepository.query(new FindNotBlockedEditionsByName(name));
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
@@ -96,6 +96,36 @@ public class EditionServiceImpl implements EditionService {
     public List<Edition> getEditionsById(int editionId) throws ServiceException {
         try {
             return editionRepository.query(new FindEditionById(editionId));
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
+
+    @Override
+    public List<Edition> getNotBlockedEditionsById(int editionId) throws ServiceException {
+        try {
+            return editionRepository.query(new FindNotBlockedEditionById(editionId));
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
+
+    @Override
+    public void blockEdition(int id) throws ServiceException {
+        try {
+            editionRepository.block(id);
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
+
+    @Override
+    public void unblockEdition(int id) throws ServiceException {
+        try {
+            editionRepository.unblock(id);
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
