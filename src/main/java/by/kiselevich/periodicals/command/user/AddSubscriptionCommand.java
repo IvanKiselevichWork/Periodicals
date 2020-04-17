@@ -28,7 +28,7 @@ public class AddSubscriptionCommand implements Command {
     private static final Logger LOG = LogManager.getLogger(AddSubscriptionCommand.class);
 
     private static final String USER_NOT_FOUND = "USER NOT FOUND IN DATABASE WITH LOGIN FROM SESSION";
-    private static final String EDITION_NOT_FOUND = "EDITION NOT FOUND IN DATABASE WITH ID FROM SUBSCRIPTION REQUEST";
+    private static final String EDITION_NOT_FOUND = "EDITION NOT FOUND OR BLOCKED IN DATABASE WITH ID FROM SUBSCRIPTION REQUEST";
     private static final int ADDITIONAL_SECONDS_FOR_SUBSCRIPTION = 1;
 
     private SubscriptionService subscriptionService;
@@ -63,7 +63,7 @@ public class AddSubscriptionCommand implements Command {
                 throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
             }
 
-            List<Edition> editionList = editionService.getEditionsById(editionId);
+            List<Edition> editionList = editionService.getNotBlockedEditionsById(editionId);
             Edition edition;
             if (!editionList.isEmpty()) {
                 edition = editionList.get(0);
