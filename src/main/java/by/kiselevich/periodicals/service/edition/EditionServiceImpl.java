@@ -129,6 +129,9 @@ public class EditionServiceImpl implements EditionService {
     @Override
     public void blockEdition(int id) throws ServiceException {
         try {
+            if (editionRepository.query(new FindEditionById(id)).isEmpty()) {
+                throw new ServiceException(ResourceBundleMessages.EDITION_NOT_FOUND.getKey());
+            }
             editionRepository.block(id);
         } catch (RepositoryException e) {
             LOG.warn(e);
@@ -139,6 +142,9 @@ public class EditionServiceImpl implements EditionService {
     @Override
     public void unblockEdition(int id) throws ServiceException {
         try {
+            if (editionRepository.query(new FindEditionById(id)).isEmpty()) {
+                throw new ServiceException(ResourceBundleMessages.EDITION_NOT_FOUND.getKey());
+            }
             editionRepository.unblock(id);
         } catch (RepositoryException e) {
             LOG.warn(e);

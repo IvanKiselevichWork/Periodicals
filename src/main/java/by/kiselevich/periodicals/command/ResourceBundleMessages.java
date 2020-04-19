@@ -11,6 +11,7 @@ public enum ResourceBundleMessages {
     USER_BLOCKED("user_blocked"),
     LOGIN_IN_USE_KEY("login_in_use"),
 
+    EDITION_NOT_FOUND("edition_not_found"),
     INVALID_EDITION("invalid_edition"),
     INVALID_NAME("invalid_name"),
     INVALID_TYPE("invalid_type"),
