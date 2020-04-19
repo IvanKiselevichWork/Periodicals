@@ -649,6 +649,7 @@
                 } else {
                     document.open();
                     document.write(responseText);
+                    location.hash = '#user' + data.id;
                     document.close();
                 }
             });
@@ -752,6 +753,7 @@
                 } else {
                     document.open();
                     document.write(responseText);
+                    location.hash = '#edition' + data.id;
                     document.close();
                 }
             });
@@ -866,6 +868,7 @@
                     } else {
                         document.open();
                         document.write(responseText);
+                        location.hash = '#edition' + data.id;
                         document.close();
                     }
                 });
