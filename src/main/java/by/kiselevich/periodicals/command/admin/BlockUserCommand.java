@@ -24,8 +24,7 @@ public class BlockUserCommand implements Command {
         try {
             int id = Integer.parseInt(req.getParameter(JspParameter.ID.getValue()));
             userService.blockUser(id);
-            Command showUsers = CommandProvider.getInstance().getCommand(CommandName.SHOW_USERS);
-            return showUsers.execute(req, resp);
+            return Page.EMPTY_PAGE;
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
             HttpUtil.writeMessageToResponse(resp, message);

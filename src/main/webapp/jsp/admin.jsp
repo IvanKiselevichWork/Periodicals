@@ -200,30 +200,39 @@
                                                 <tbody>
                                                 <c:forEach var="user" items="${users}" varStatus="status">
                                                     <c:if test="${not user.available}">
-                                                        <tr class="table-danger">
+                                                        <tr id="row${user.id}" class="table-danger">
                                                     </c:if>
                                                     <c:if test="${user.available}">
-                                                        <tr>
+                                                        <tr id="row${user.id}">
                                                     </c:if>
                                                         <td><c:out value="${ user.id }"/></td>
                                                         <td><c:out value="${ user.fullName }"/></td>
                                                         <td><c:out value="${ user.available }"/></td>
                                                         <td>
-                                                            <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0"
-                                                                    type="button" id="user${user.id}"
-                                                                    onclick="userBlockUnblock(this)">
-                                                                <input type="hidden" name="id" value="${user.id}"/>
-                                                                <c:if test="${user.available}">
+                                                                <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0"
+                                                                        type="button" id="blockUser${user.id}"
+                                                                        onclick="blockUser(this)"
+                                                                        <c:if test="${not user.available}">
+                                                                            hidden="hidden"
+                                                                        </c:if>
+                                                                        >
+                                                                    <input type="hidden" name="id" value="${user.id}"/>
                                                                     <input type="hidden" name="command"
                                                                            value="BLOCK_USER"/>
                                                                     <fmt:message key="block"/>
-                                                                </c:if>
-                                                                <c:if test="${not user.available}">
+                                                                </button>
+                                                                <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0"
+                                                                        type="button" id="unblockUser${user.id}"
+                                                                        onclick="unblockUser(this)"
+                                                                        <c:if test="${user.available}">
+                                                                            hidden="hidden"
+                                                                        </c:if>
+                                                                        >
+                                                                    <input type="hidden" name="id" value="${user.id}"/>
                                                                     <input type="hidden" name="command"
                                                                            value="UNBLOCK_USER"/>
                                                                     <fmt:message key="unblock"/>
-                                                                </c:if>
-                                                            </button>
+                                                                </button>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -621,38 +630,81 @@
     <!-- DataTables CSS -->
     <link href="${root}/css/addons/datatables.min.css" rel="stylesheet">
     <!-- DataTables JS -->
-    <script src="${root}/js/addons/datatables.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="${root}/js/addons/datatables.min.js"></script>
     <!-- DataTables Select CSS -->
     <link href="${root}/css/addons/datatables-select.min.css" rel="stylesheet">
     <!-- DataTables Select JS -->
-    <script src="${root}/js/addons/datatables-select.min.js" type="text/javascript"></script>
-    <!-- Initializations -->
-    <script type="text/javascript">
-        // Animations initialization
-        new WOW().init();
-    </script>
+    <script type="text/javascript" src="${root}/js/addons/datatables-select.min.js"></script>
+    <!-- Toast -->
+    <script type="text/javascript" src="${root}/js/toast.min.js"></script>
 
+    <!-- Block user -->
     <script type="text/javascript">
-        // user block/unblock
-        function userBlockUnblock(buttonElement) {
+        function blockUser(buttonElement) {
             $(buttonElement).prop('disabled', true);
-            var data = {
+            const data = {
                 command: $(buttonElement).find('input[name="command"]').val(),
                 id: $(buttonElement).find('input[name="id"]').val()
             };
 
             $.post('./', $.param(data), function (responseText) {
-                console.log(responseText);
-                if (responseText.length < 50) {
-                    $('#users_div').text(responseText);
-                    $(buttonElement).prop('disabled', false);
+                const options = {
+                    style: {
+                        main: {
+                            background: "pink",
+                            color: "black"
+                        }
+                    },
+                    settings: {
+                        duration: 2000
+                    }
+                };
+                if (responseText.length !== 0) {
+                    iqwerty.toast.Toast(responseText, options);
                 } else {
-                    document.open();
-                    document.write(responseText);
-                    location.hash = '#user' + data.id;
-                    document.close();
+                    options.style.main.background = 'lightseagreen';
+                    iqwerty.toast.Toast('OK', options);
+                    $('#row' + data.id).addClass('table-danger');
+                    $(buttonElement).prop('hidden', 'hidden');
+                    $('#unblockUser' + data.id).prop('hidden', '');
                 }
             });
+            $(buttonElement).prop('disabled', false);
+        }
+    </script>
+
+    <!-- Unblock user -->
+    <script type="text/javascript">
+        function unblockUser(buttonElement) {
+            $(buttonElement).prop('disabled', true);
+            const data = {
+                command: $(buttonElement).find('input[name="command"]').val(),
+                id: $(buttonElement).find('input[name="id"]').val()
+            };
+
+            $.post('./', $.param(data), function (responseText) {
+                const options = {
+                    style: {
+                        main: {
+                            background: "pink",
+                            color: "black"
+                        }
+                    },
+                    settings: {
+                        duration: 2000
+                    }
+                };
+                if (responseText.length !== 0) {
+                    iqwerty.toast.Toast(responseText, options);
+                } else {
+                    options.style.main.background = 'lightseagreen';
+                    iqwerty.toast.Toast('OK', options);
+                    $('#row' + data.id).removeClass('table-danger');
+                    $(buttonElement).prop('hidden', 'hidden');
+                    $('#blockUser' + data.id).prop('hidden', '');
+                }
+            });
+            $(buttonElement).prop('disabled', false);
         }
     </script>
 
@@ -740,13 +792,12 @@
     <script type="text/javascript">
         function editionBlockUnblock(buttonElement) {
             $(buttonElement).prop('disabled', true);
-            var data = {
+            const data = {
                 command: $(buttonElement).find('input[name="command"]').val(),
                 id: $(buttonElement).find('input[name="id"]').val()
             };
 
             $.post('./', $.param(data), function (responseText) {
-                console.log(responseText);
                 if (responseText.length < 50) {
                     $('#editions_div').text(responseText);
                     $(buttonElement).prop('disabled', false);
