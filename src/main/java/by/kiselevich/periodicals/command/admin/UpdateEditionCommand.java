@@ -63,7 +63,7 @@ public class UpdateEditionCommand implements Command {
                     .priceForMinimumSubscriptionPeriod(priceForMinimumSubscriptionPeriod)
                     .build();
             editionService.update(edition);
-            return CommandProvider.getInstance().getCommand(CommandName.SHOW_EDITIONS).execute(req,resp);
+            return Page.EMPTY_PAGE;
         } catch (NumberFormatException e) {
             LOG.info(e);
             String message = getLocalizedMessageFromResources(req.getSession(), ResourceBundleMessages.INVALID_DATA_FORMAT.getKey());

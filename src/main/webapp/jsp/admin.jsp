@@ -970,13 +970,23 @@
 
             if (isValid) {
                 $.post('./', $.param(data), function (responseText) {
-                    if (responseText.length < 50) {
+                    if (responseText.length !== 0) {
                         $('#edit-edition-message').text(responseText);
                     } else {
-                        document.open();
-                        document.write(responseText);
-                        location.hash = '#edition' + data.id;
-                        document.close();
+                        const row = $('#row' + data.id);
+                        row.find('td:eq(1)').text(data.name);
+                        row.find('td:eq(2)').text(typeInput.children("option:selected").text());
+                        row.find('td:eq(3)').text(themeInput.children("option:selected").text());
+
+                        let buttonElement = ('#edition' + data.id);
+                        $(buttonElement).find('input[name="name"]').val(data.name);
+                        $(buttonElement).find('input[name="type"]').val(data.type_id);
+                        $(buttonElement).find('input[name="theme"]').val(data.theme_id);
+                        $(buttonElement).find('input[name="periodicity"]').val(data.periodicity_per_year);
+                        $(buttonElement).find('input[name="minPeriod"]').val(data.minimum_subscription_period);
+                        $(buttonElement).find('input[name="price"]').val(data.price_for_minimum_subscription_period);
+
+                        $('#modalEditEdition').modal('hide');
                     }
                 });
             }
