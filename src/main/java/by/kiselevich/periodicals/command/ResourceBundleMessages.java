@@ -24,6 +24,9 @@ public enum ResourceBundleMessages {
     EXPIRED("expired"),
     ACTIVE("active"),
 
+    CANT_BLOCK_ADMIN("cant_block_admin"),
+    CANT_UNBLOCK_ADMIN("cant_unblock_admin"),
+
     INVALID_DATA_FORMAT("invalid_data_format"),
 
     COPYRIGHT("copyright"),
