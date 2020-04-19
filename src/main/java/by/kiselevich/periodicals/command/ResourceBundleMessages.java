@@ -21,6 +21,9 @@ public enum ResourceBundleMessages {
     INVALID_PERIOD("invalid_period"),
     INSUFFICIENT_FUNDS("insufficient_funds"),
 
+    EXPIRED("expired"),
+    ACTIVE("active"),
+
     INVALID_DATA_FORMAT("invalid_data_format"),
 
     COPYRIGHT("copyright"),

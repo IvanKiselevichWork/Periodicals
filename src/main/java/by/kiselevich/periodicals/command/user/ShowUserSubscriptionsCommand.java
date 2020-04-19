@@ -6,12 +6,14 @@ import by.kiselevich.periodicals.command.Page;
 import by.kiselevich.periodicals.command.admin.DashboardPageOptionCommand;
 import by.kiselevich.periodicals.entity.Subscription;
 import by.kiselevich.periodicals.exception.ServiceException;
+import by.kiselevich.periodicals.factory.EntityMapsFactory;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.subscription.SubscriptionService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 
@@ -29,7 +31,8 @@ public class ShowUserSubscriptionsCommand implements Command {
         try {
             String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
             List<Subscription> subscriptionList = subscriptionService.getAllSubscriptionsByUserLogin(login);
-            req.setAttribute(Attribute.SUBSCRIPTIONS.getValue(), subscriptionList);
+            Map<Subscription, String> subscriptionAndStatusMap = EntityMapsFactory.getSubscriptionAndStatusMap(subscriptionList);
+            req.setAttribute(Attribute.SUBSCRIPTIONS.getValue(), subscriptionAndStatusMap);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
