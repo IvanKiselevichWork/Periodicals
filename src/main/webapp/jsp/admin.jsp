@@ -209,30 +209,30 @@
                                                         <td><c:out value="${ user.fullName }"/></td>
                                                         <td><c:out value="${ user.available }"/></td>
                                                         <td>
-                                                                <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0"
-                                                                        type="button" id="blockUser${user.id}"
-                                                                        onclick="blockUser(this)"
-                                                                        <c:if test="${not user.available}">
-                                                                            hidden="hidden"
-                                                                        </c:if>
-                                                                        >
-                                                                    <input type="hidden" name="id" value="${user.id}"/>
-                                                                    <input type="hidden" name="command"
-                                                                           value="BLOCK_USER"/>
-                                                                    <fmt:message key="block"/>
-                                                                </button>
-                                                                <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0"
-                                                                        type="button" id="unblockUser${user.id}"
-                                                                        onclick="unblockUser(this)"
-                                                                        <c:if test="${user.available}">
-                                                                            hidden="hidden"
-                                                                        </c:if>
-                                                                        >
-                                                                    <input type="hidden" name="id" value="${user.id}"/>
-                                                                    <input type="hidden" name="command"
-                                                                           value="UNBLOCK_USER"/>
-                                                                    <fmt:message key="unblock"/>
-                                                                </button>
+                                                            <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0"
+                                                                    type="button" id="blockUser${user.id}"
+                                                                    onclick="blockUser(this)"
+                                                                    <c:if test="${not user.available}">
+                                                                        hidden="hidden"
+                                                                    </c:if>
+                                                                    >
+                                                                <input type="hidden" name="id" value="${user.id}"/>
+                                                                <input type="hidden" name="command"
+                                                                       value="BLOCK_USER"/>
+                                                                <fmt:message key="block"/>
+                                                            </button>
+                                                            <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0"
+                                                                    type="button" id="unblockUser${user.id}"
+                                                                    onclick="unblockUser(this)"
+                                                                    <c:if test="${user.available}">
+                                                                        hidden="hidden"
+                                                                    </c:if>
+                                                                    >
+                                                                <input type="hidden" name="id" value="${user.id}"/>
+                                                                <input type="hidden" name="command"
+                                                                       value="UNBLOCK_USER"/>
+                                                                <fmt:message key="unblock"/>
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -289,10 +289,10 @@
                                                 <tbody>
                                                 <c:forEach var="edition" items="${editions}" varStatus="status">
                                                     <c:if test="${edition.blocked}">
-                                                        <tr class="table-danger">
+                                                        <tr class="table-danger" id="row${edition.id}">
                                                     </c:if>
                                                     <c:if test="${not edition.blocked}">
-                                                        <tr>
+                                                        <tr id="row${edition.id}">
                                                     </c:if>
                                                         <td><c:out value="${ edition.id }"/></td>
                                                         <td><c:out value="${ edition.name }"/></td>
@@ -321,19 +321,28 @@
                                                         </td>
                                                         <td>
                                                             <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0"
-                                                                    type="button" id="edition${edition.id}"
-                                                                    onclick="editionBlockUnblock(this)">
+                                                                    type="button" id="blockEdition${edition.id}"
+                                                                    onclick="blockEdition(this)"
+                                                                    <c:if test="${edition.blocked}">
+                                                                        hidden="hidden"
+                                                                    </c:if>
+                                                            >
                                                                 <input type="hidden" name="id" value="${edition.id}"/>
-                                                                <c:if test="${not edition.blocked}">
-                                                                    <input type="hidden" name="command"
-                                                                           value="BLOCK_EDITION"/>
-                                                                    <fmt:message key="block"/>
-                                                                </c:if>
-                                                                <c:if test="${edition.blocked}">
-                                                                    <input type="hidden" name="command"
-                                                                           value="UNBLOCK_EDITION"/>
-                                                                    <fmt:message key="unblock"/>
-                                                                </c:if>
+                                                                <input type="hidden" name="command"
+                                                                       value="BLOCK_EDITION"/>
+                                                                <fmt:message key="block"/>
+                                                            </button>
+                                                            <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0"
+                                                                    type="button" id="unblockEdition${edition.id}"
+                                                                    onclick="unblockEdition(this)"
+                                                                    <c:if test="${not edition.blocked}">
+                                                                        hidden="hidden"
+                                                                    </c:if>
+                                                            >
+                                                                <input type="hidden" name="id" value="${edition.id}"/>
+                                                                <input type="hidden" name="command"
+                                                                       value="UNBLOCK_EDITION"/>
+                                                                <fmt:message key="unblock"/>
                                                             </button>
                                                         </td>
                                                     </tr>
@@ -788,9 +797,9 @@
         });
     </script>
 
-    <!-- edition block/unblock -->
+    <!-- edition block -->
     <script type="text/javascript">
-        function editionBlockUnblock(buttonElement) {
+        function blockEdition(buttonElement) {
             $(buttonElement).prop('disabled', true);
             const data = {
                 command: $(buttonElement).find('input[name="command"]').val(),
@@ -798,16 +807,63 @@
             };
 
             $.post('./', $.param(data), function (responseText) {
-                if (responseText.length < 50) {
-                    $('#editions_div').text(responseText);
-                    $(buttonElement).prop('disabled', false);
+                const options = {
+                    style: {
+                        main: {
+                            background: "pink",
+                            color: "black"
+                        }
+                    },
+                    settings: {
+                        duration: 2000
+                    }
+                };
+                if (responseText.length !== 0) {
+                    iqwerty.toast.Toast(responseText, options);
                 } else {
-                    document.open();
-                    document.write(responseText);
-                    location.hash = '#edition' + data.id;
-                    document.close();
+                    options.style.main.background = 'lightseagreen';
+                    iqwerty.toast.Toast('OK', options);
+                    $('#row' + data.id).addClass('table-danger');
+                    $(buttonElement).prop('hidden', 'hidden');
+                    $('#unblockEdition' + data.id).prop('hidden', '');
                 }
             });
+            $(buttonElement).prop('disabled', false);
+        }
+    </script>
+
+    <!-- edition unblock -->
+    <script type="text/javascript">
+        function unblockEdition(buttonElement) {
+            $(buttonElement).prop('disabled', true);
+            const data = {
+                command: $(buttonElement).find('input[name="command"]').val(),
+                id: $(buttonElement).find('input[name="id"]').val()
+            };
+
+            $.post('./', $.param(data), function (responseText) {
+                const options = {
+                    style: {
+                        main: {
+                            background: "pink",
+                            color: "black"
+                        }
+                    },
+                    settings: {
+                        duration: 2000
+                    }
+                };
+                if (responseText.length !== 0) {
+                    iqwerty.toast.Toast(responseText, options);
+                } else {
+                    options.style.main.background = 'lightseagreen';
+                    iqwerty.toast.Toast('OK', options);
+                    $('#row' + data.id).removeClass('table-danger');
+                    $(buttonElement).prop('hidden', 'hidden');
+                    $('#blockEdition' + data.id).prop('hidden', '');
+                }
+            });
+            $(buttonElement).prop('disabled', false);
         }
     </script>
 

@@ -24,8 +24,7 @@ public class BlockEditionCommand implements Command {
         try {
             int id = Integer.parseInt(req.getParameter(JspParameter.ID.getValue()));
             editionService.blockEdition(id);
-            Command showEditions = CommandProvider.getInstance().getCommand(CommandName.SHOW_EDITIONS);
-            return showEditions.execute(req, resp);
+            return Page.EMPTY_PAGE;
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
             HttpUtil.writeMessageToResponse(resp, message);
