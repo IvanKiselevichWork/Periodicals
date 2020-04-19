@@ -409,17 +409,28 @@
                                                     <th class="th-sm">
                                                         <fmt:message key="user"/>
                                                     </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="status"/>
+                                                    </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <c:forEach var="subscription" items="${subscriptions}"
                                                            varStatus="status">
-                                                    <tr>
-                                                        <td><c:out value="${ subscription.id }"/></td>
-                                                        <td><c:out value="${ subscription.edition.name }"/></td>
-                                                        <td><c:out value="${ subscription.subscriptionStartDate }"/></td>
-                                                        <td><c:out value="${ subscription.subscriptionEndDate }"/></td>
-                                                        <td><c:out value="${ subscription.user.fullName }"/></td>
+                                                    <c:if test="${subscription.value eq 'active'}">
+                                                        <tr>
+                                                    </c:if>
+                                                    <c:if test="${subscription.value eq 'expired'}">
+                                                        <tr class="table-danger">
+                                                    </c:if>
+                                                        <td><c:out value="${ subscription.key.id }"/></td>
+                                                        <td><c:out value="${ subscription.key.edition.name }"/></td>
+                                                        <td><c:out value="${ subscription.key.subscriptionStartDate }"/></td>
+                                                        <td><c:out value="${ subscription.key.subscriptionEndDate }"/></td>
+                                                        <td><c:out value="${ subscription.key.user.fullName }"/></td>
+                                                        <td>
+                                                            <fmt:message key="${ subscription.value }"/>
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
