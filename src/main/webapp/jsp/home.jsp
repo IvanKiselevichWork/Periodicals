@@ -100,7 +100,7 @@
              style="min-width: available">
 
             <!-- Content -->
-            <div id="initial_width" class="container-fluid text-center white-text mx-5 wow fadeIn">
+            <div id="initial_width" class="container-fluid text-center white-text mx-5">
                 <c:if test="${sessionScope.userType == 'GUEST'}">
                     <h1 class="mb-4">
                         <strong><fmt:message key="guest_message"/></strong>
@@ -113,7 +113,7 @@
 
                     <div class="container-fluid mt-5">
                         <!--Grid row-->
-                        <div class="row wow fadeIn flex-center">
+                        <div class="row flex-center">
                             <!--Grid column-->
                             <div class="col-md-4 mb-4">
                                 <!--Card-->
@@ -142,7 +142,7 @@
 
                     <div class="container-fluid mt-5">
                         <!--Grid row-->
-                        <div class="row wow fadeIn flex-center">
+                        <div class="row flex-center">
                             <!--Grid column-->
                             <div class="col-md-4 mb-4">
                                 <!--Card-->

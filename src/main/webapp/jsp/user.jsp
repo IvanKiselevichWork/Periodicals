@@ -124,7 +124,7 @@
         <div class="container-fluid mt-5">
 
             <!--Grid row-->
-            <div class="row wow fadeIn">
+            <div class="row">
 
                 <!--Grid column-->
                 <div class="col-md-12 mb-4">

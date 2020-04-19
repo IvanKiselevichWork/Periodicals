@@ -49,7 +49,7 @@
         <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
 
             <!-- Content -->
-            <div class="text-center white-text mx-5 wow fadeIn">
+            <div class="text-center white-text mx-5">
                 <h3><fmt:message key="app_failure_message"/></h3>
             </div>
             <!-- Content -->
@@ -61,7 +61,7 @@
     <!-- Full Page Intro -->
 
     <!--Footer-->
-    <footer class="page-footer text-center font-small wow fadeIn">
+    <footer class="page-footer text-center font-small">
 
         <!--Copyright-->
         <div class="footer-copyright py-3">
