@@ -1,10 +1,7 @@
 package by.kiselevich.periodicals.controller;
 
 
-import by.kiselevich.periodicals.command.Command;
-import by.kiselevich.periodicals.command.CommandProvider;
-import by.kiselevich.periodicals.command.Page;
-import by.kiselevich.periodicals.command.JspParameter;
+import by.kiselevich.periodicals.command.*;
 import by.kiselevich.periodicals.exception.NoJDBCDriverException;
 import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
 import by.kiselevich.periodicals.pool.ConnectionPoolImpl;
@@ -58,7 +55,7 @@ public class ControllerServlet extends HttpServlet {
                 Command command = commandProvider.getCommand(commandParameter);
                 LOG.info("Executing command: {}", command);
                 Page page = command.execute(req, resp);
-                if (page != Page.EMPTY_PAGE) {
+                if (page != Page.EMPTY_PAGE && command != commandProvider.getCommand(CommandName.CHANGE_LANGUAGE)) {
                     req.getRequestDispatcher(page.getPath()).forward(req, resp);
                 }
             } catch (RuntimeException e) {
