@@ -387,7 +387,28 @@
                                                     <tr>
                                                         <td><c:out value="${ payment.id }"/></td>
                                                         <td><c:out value="${ payment.user.fullName }"/></td>
-                                                        <td><c:out value="${ payment.paymentType.type }"/></td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${ payment.paymentType.type eq 'refill'}">
+                                                                    <span class="badge badge-success badge-pill pull-right">
+                                                                        <c:out value="${ payment.paymentType.type }"/>
+                                                                        <em class="fas fa-arrow-up ml-1"></em>
+                                                                    </span>
+                                                                </c:when>
+                                                                <c:when test="${ payment.paymentType.type eq 'refund'}">
+                                                                    <span class="badge badge-warning badge-pill pull-right">
+                                                                        <c:out value="${ payment.paymentType.type }"/>
+                                                                        <em class="fas fa-arrow-up ml-1"></em>
+                                                                    </span>
+                                                                </c:when>
+                                                                <c:when test="${ payment.paymentType.type eq 'payment'}">
+                                                                    <span class="badge badge-danger badge-pill pull-right">
+                                                                        <c:out value="${ payment.paymentType.type }"/>
+                                                                        <em class="fas fa-arrow-down ml-1"></em>
+                                                                    </span>
+                                                                </c:when>
+                                                            </c:choose>
+                                                        </td>
                                                         <td><c:out value="${ payment.date }"/></td>
                                                         <td><c:out value="${ payment.amount }"/></td>
                                                     </tr>

@@ -334,7 +334,6 @@
                                                                     </span>
                                                                 </c:when>
                                                             </c:choose>
-
                                                         </td>
                                                         <td><c:out value="${ payment.date }"/></td>
                                                         <td><c:out value="${ payment.amount }"/></td>
