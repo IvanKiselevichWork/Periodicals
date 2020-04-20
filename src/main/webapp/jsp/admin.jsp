@@ -47,7 +47,6 @@
                     <span><fmt:message key="dashboard"/></span>
                 </a>
 
-
                 <!-- Collapse -->
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent"

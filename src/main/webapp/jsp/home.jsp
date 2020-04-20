@@ -34,60 +34,70 @@
     <body>
     <!-- Navbar -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar flex-column flex-md-row">
-        <a class="navbar-brand mr-0 mr-md-2" style="color: white">
-            <strong><fmt:message key="periodicals"/></strong>
-        </a>
-        <div class="navbar-nav-scroll">
-            <ul class="navbar-nav bd-navbar-nav flex-row">
-                <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}">
-                        <fmt:message key="home_page"/>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <ul class="navbar-nav ml-md-auto">
-            <li class="nav-item mr-4 dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">
-                    <fmt:message key="change_language"/>
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="./?command=CHANGE_LANGUAGE&target_language=en">
-                        <fmt:message key="english"/>
-                    </a>
-                    <a class="dropdown-item" href="./?command=CHANGE_LANGUAGE&target_language=ru">
-                        <fmt:message key="russian"/>
-                    </a>
+        <div class="container-fluid">
+            <a class="navbar-brand mr-0 mr-md-2" style="color: white">
+                <strong><fmt:message key="periodicals"/></strong>
+            </a>
+            <!-- Collapse -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="navbar-nav-scroll">
+                    <ul class="navbar-nav bd-navbar-nav flex-row">
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}">
+                                <fmt:message key="home_page"/>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-            </li>
-            <c:if test="${sessionScope.userType == 'GUEST'}">
-                <li class="nav-item mr-4">
-                    <button type="button" class="btn btn-outline-white waves-effect"
-                            data-toggle="modal" data-target="#modalLogin">
-                        <fmt:message key="sign_in"/>
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button type="button" class="btn btn-outline-white waves-effect"
-                            data-toggle="modal" data-target="#modalRegister">
-                        <fmt:message key="sign_up"/>
-                    </button>
-                </li>
-            </c:if>
-            <c:if test="${sessionScope.userType != 'GUEST'}">
-                <li class="nav-item" style="max-width: 50%">
-                    <a class="nav-link">
-                            ${sessionScope.login}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="./?command=SIGN_OUT" class="nav-link border border-light rounded">
-                        <fmt:message key="sign_out"/>
-                    </a>
-                </li>
-            </c:if>
-        </ul>
+                <ul class="navbar-nav ml-md-auto">
+                    <li class="nav-item mr-4 dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            <fmt:message key="change_language"/>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="./?command=CHANGE_LANGUAGE&target_language=en">
+                                <fmt:message key="english"/>
+                            </a>
+                            <a class="dropdown-item" href="./?command=CHANGE_LANGUAGE&target_language=ru">
+                                <fmt:message key="russian"/>
+                            </a>
+                        </div>
+                    </li>
+                    <c:if test="${sessionScope.userType == 'GUEST'}">
+                        <li class="nav-item mr-4">
+                            <button type="button" class="btn btn-outline-white waves-effect"
+                                    data-toggle="modal" data-target="#modalLogin">
+                                <fmt:message key="sign_in"/>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-outline-white waves-effect"
+                                    data-toggle="modal" data-target="#modalRegister">
+                                <fmt:message key="sign_up"/>
+                            </button>
+                        </li>
+                    </c:if>
+                    <c:if test="${sessionScope.userType != 'GUEST'}">
+                        <li class="nav-item" style="max-width: 50%">
+                            <a class="nav-link">
+                                    ${sessionScope.login}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./?command=SIGN_OUT" class="nav-link border border-light rounded">
+                                <fmt:message key="sign_out"/>
+                            </a>
+                        </li>
+                    </c:if>
+                </ul>
+            </div>
+        </div>
     </nav>
     <!-- Navbar -->
 
