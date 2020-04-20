@@ -1,6 +1,7 @@
 package by.kiselevich.periodicals.service.user;
 
 import by.kiselevich.periodicals.command.ResourceBundleMessages;
+import by.kiselevich.periodicals.command.UserType;
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.exception.ServiceException;
@@ -8,6 +9,7 @@ import by.kiselevich.periodicals.exception.ValidatorException;
 import by.kiselevich.periodicals.factory.RepositoryFactory;
 import by.kiselevich.periodicals.repository.user.UserRepository;
 import by.kiselevich.periodicals.specification.user.FindAllUsers;
+import by.kiselevich.periodicals.specification.user.FindUserById;
 import by.kiselevich.periodicals.specification.user.FindUserByLogin;
 import by.kiselevich.periodicals.specification.user.FindUserByLoginAndPassword;
 import by.kiselevich.periodicals.validator.UserValidator;
@@ -99,6 +101,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void blockUser(int id) throws ServiceException {
         try {
+            List<User> userList = userRepository.query(new FindUserById(id));
+            if (userList.isEmpty()) {
+                throw new ServiceException(ResourceBundleMessages.USER_NOT_FOUND_KEY.getKey());
+            }
+            if (UserType.getUserTypeByUser(userList.get(0)) == UserType.ADMIN) {
+                throw new ServiceException(ResourceBundleMessages.CANT_BLOCK_ADMIN.getKey());
+            }
             userRepository.block(id);
         } catch (RepositoryException e) {
             LOG.warn(e);
@@ -109,6 +118,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void unblockUser(int id) throws ServiceException {
         try {
+            List<User> userList = userRepository.query(new FindUserById(id));
+            if (userList.isEmpty()) {
+                throw new ServiceException(ResourceBundleMessages.USER_NOT_FOUND_KEY.getKey());
+            }
+            if (UserType.getUserTypeByUser(userList.get(0)) == UserType.ADMIN) {
+                throw new ServiceException(ResourceBundleMessages.CANT_UNBLOCK_ADMIN.getKey());
+            }
             userRepository.unblock(id);
         } catch (RepositoryException e) {
             LOG.warn(e);

@@ -58,7 +58,7 @@
         <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
 
             <!-- Content -->
-            <div class="text-center white-text mx-5 wow fadeIn">
+            <div class="text-center white-text mx-5">
                 <h3><fmt:message key="wrong_request_message"/></h3>
                 <fmt:message key="wrong_request_go_home"/><br/>
                 <form action="${pageContext.request.contextPath}" method="get">
@@ -74,7 +74,7 @@
     <!-- Full Page Intro -->
 
     <!--Footer-->
-    <footer class="page-footer text-center font-small wow fadeIn">
+    <footer class="page-footer text-center font-small">
 
         <!--Copyright-->
         <div class="footer-copyright py-3">
