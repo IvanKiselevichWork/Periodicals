@@ -84,9 +84,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./?command=SIGN_OUT" class="nav-link border border-light rounded">
-                                <fmt:message key="sign_out"/>
-                            </a>
+                            <form class="mx-auto" action="./" method="post">
+                                <input type="text" name="command" value="SIGN_OUT" hidden="hidden">
+                                <button type="submit" class="btn btn-outline-dark waves-effect">
+                                    <fmt:message key="sign_out"/>
+                                </button>
+                            </form>
                         </li>
                     </ul>
                 </div>
