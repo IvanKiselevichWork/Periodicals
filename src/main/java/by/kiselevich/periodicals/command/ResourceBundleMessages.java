@@ -30,6 +30,8 @@ public enum ResourceBundleMessages {
 
     INVALID_DATA_FORMAT("invalid_data_format"),
 
+    INVALID_REFILL_AMOUNT("invalid_refill_amount"),
+
     COPYRIGHT("copyright"),
 
     INTERNAL_ERROR("internal_error");
