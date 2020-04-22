@@ -24,7 +24,8 @@ public enum CommandNames {
             SHOW_USER_SUBSCRIPTIONS,
             SHOW_EDITION_SEARCH_FORM,
             FIND_EDITIONS,
-            ADD_SUBSCRIPTION
+            ADD_SUBSCRIPTION,
+            REFILL_USER_BALANCE
         )
     ),
     ADMIN(EnumSet.of(

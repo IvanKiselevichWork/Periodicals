@@ -42,6 +42,7 @@ public class CommandProvider {
         commandMap.put(CommandName.BLOCK_EDITION, new BlockEditionCommand());
         commandMap.put(CommandName.UNBLOCK_EDITION, new UnblockEditionCommand());
         commandMap.put(CommandName.UPDATE_EDITION, new UpdateEditionCommand());
+        commandMap.put(CommandName.REFILL_USER_BALANCE, new RefillBalanceCommand());
     }
 
     private static final class CommandProviderHolder {
