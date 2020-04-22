@@ -2,6 +2,8 @@ package by.kiselevich.periodicals.service.user;
 
 import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.command.UserType;
+import by.kiselevich.periodicals.entity.Payment;
+import by.kiselevich.periodicals.entity.PaymentType;
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.exception.ServiceException;
@@ -12,11 +14,13 @@ import by.kiselevich.periodicals.specification.user.FindAllUsers;
 import by.kiselevich.periodicals.specification.user.FindUserById;
 import by.kiselevich.periodicals.specification.user.FindUserByLogin;
 import by.kiselevich.periodicals.specification.user.FindUserByLoginAndPassword;
+import by.kiselevich.periodicals.unitofwork.TransactionUnitOfWork;
 import by.kiselevich.periodicals.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -135,6 +139,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void refillBalance(String login, BigDecimal amount) throws ServiceException {
+        TransactionUnitOfWork transactionUnitOfWork = new TransactionUnitOfWork();
         try {
             if (amount.compareTo(BigDecimal.ZERO) <= 0) {
                 throw new ServiceException(ResourceBundleMessages.INVALID_REFILL_AMOUNT.getKey());
@@ -145,8 +150,20 @@ public class UserServiceImpl implements UserService {
             }
             User user = userList.get(0);
             user.setMoney(user.getMoney().add(amount));
-            userRepository.update(user);
+            Payment payment = new Payment.PaymentBuilder()
+                    .user(user)
+                    .paymentType(new PaymentType.PaymentTypeBuilder()
+                            .id(1)
+                            .type("refill")
+                            .build())
+                    .date(new Timestamp(System.currentTimeMillis()))
+                    .amount(amount)
+                    .build();
+            transactionUnitOfWork.getUserRepository().update(user);
+            transactionUnitOfWork.getPaymentRepository().add(payment);
+            transactionUnitOfWork.commit();
         } catch (RepositoryException e) {
+            transactionUnitOfWork.rollback();
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
