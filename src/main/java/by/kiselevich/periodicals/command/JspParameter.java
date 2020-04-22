@@ -14,7 +14,8 @@ public enum JspParameter {
     PERIODICITY_PER_YEAR("periodicity_per_year"),
     MINIMUM_SUBSCRIPTION_PERIOD("minimum_subscription_period"),
     PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD("price_for_minimum_subscription_period"),
-    PERIOD("period");
+    PERIOD("period"),
+    AMOUNT("amount");
 
     private String value;
 
