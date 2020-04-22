@@ -145,18 +145,35 @@
                                     </c:if>
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
-                                        <a class="list-group-item list-group-item-action waves-effect">
+                                        <div class="list-group-item">
                                             <fmt:message key="subscriptions"/>
                                             <span class="badge badge-warning badge-pill pull-right">
-                                                ${subscriptionsCount}<em class="fas fa-check-square ml-1"></em>
+                                                ${subscriptionsCount}
+                                                <em class="fas fa-check-square ml-1"></em>
                                             </span>
-                                        </a>
-                                        <a class="list-group-item list-group-item-action waves-effect">
+                                        </div>
+                                        <div class="list-group-item">
                                             <fmt:message key="balance"/>
                                             <span class="badge badge-primary badge-pill pull-right">
-                                                ${userBalance}<em class="fas fa-money-bill ml-1"></em>
+                                                <div class="row mx-0">
+                                                    <div class="col-sm px-0" id="userBalance">
+                                                        <fmt:formatNumber type="number"
+                                                                          maxFractionDigits="2"
+                                                                          value = "${userBalance}" />
+                                                    </div>
+                                                    <div class="col-sm px-0">
+                                                        <em class="fas fa-money-bill ml-1"></em>
+                                                    </div>
+                                                </div>
                                             </span>
-                                        </a>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button type="button" class="btn btn-outline-primary waves-effect"
+                                                    id="refillBalance"
+                                                    data-toggle="modal" data-target="#modalRefill">
+                                                <fmt:message key="refill_balance"/>
+                                            </button>
+                                        </div>
                                     </div>
                                     <!-- List group links -->
                                 </c:when>
@@ -503,6 +520,35 @@
             </div>
         </div>
         <!--Modal: subscribe to editions -->
+
+        <!--Modal: refill balance -->
+        <div class="modal fade" id="modalRefill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog w-50" role="document" style="max-width: 1000px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="refillHeader"><fmt:message key="refill_balance"/></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="mx-auto">
+                            <div class="form-group">
+                                <label for="balance-increase-label"><fmt:message key="balance_increase_amount"/></label>
+                                <input type="number" class="form-control" id="balance-increase-label" name="name"
+                                       value="" step="0.01">
+                            </div>
+                            <div id="refill-balance-message" class="alert alert-danger" role="alert"></div>
+                        </form>
+                        <button id="refill-balance-button" class="btn btn-primary"><fmt:message
+                                key="refill_balance"/></button>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal: refill balance -->
     </section>
 
     <!-- SCRIPTS -->
@@ -663,6 +709,47 @@
             price = Math.round((price + Number.EPSILON) * 100) / 100;
             finalPriceInput.val(price);
         }
+    </script>
+
+    <!-- refill balance button -->
+    <script type="text/javascript">
+        $(document).on('click', '#refill-balance-button', function () {
+            const modalWindow = $('#modalRefill');
+            const userBalance = $('#userBalance');
+
+            const buttonElement = $('#refill-balance-button');
+            $(buttonElement).prop('disabled', true);
+
+            const amountInput = $('#balance-increase-label');
+
+            const data = {
+                command: 'REFILL_USER_BALANCE',
+                amount: amountInput.val(),
+            };
+
+            const regexDouble = RegExp(/^[1-9]\d*(\.\d{0,2})?$/i);
+            let isValid = true;
+
+            if (!regexDouble.test(data.amount)) {
+                amountInput.css('border-color', 'red');
+                isValid = false;
+            } else {
+                amountInput.css('border-color', '');
+            }
+
+            if (isValid) {
+                $.post('./', $.param(data), function (responseText) {
+                    if (responseText.length !== 0) {
+                        $('#refill-balance-message').text(responseText);
+                    } else {
+                        userBalance.text(+(userBalance.text()) + +(data.amount));
+                        amountInput.val('0');
+                        modalWindow.modal('hide');
+                    }
+                });
+            }
+            $(buttonElement).prop('disabled', false);
+        });
     </script>
 
     </body>
