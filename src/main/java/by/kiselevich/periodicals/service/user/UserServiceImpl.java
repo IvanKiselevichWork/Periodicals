@@ -16,6 +16,7 @@ import by.kiselevich.periodicals.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -126,6 +127,25 @@ public class UserServiceImpl implements UserService {
                 throw new ServiceException(ResourceBundleMessages.CANT_UNBLOCK_ADMIN.getKey());
             }
             userRepository.unblock(id);
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
+
+    @Override
+    public void refillBalance(String login, BigDecimal amount) throws ServiceException {
+        try {
+            if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+                throw new ServiceException(ResourceBundleMessages.INVALID_REFILL_AMOUNT.getKey());
+            }
+            List<User> userList = userRepository.query(new FindUserByLogin(login));
+            if (userList.isEmpty()) {
+                throw new ServiceException(ResourceBundleMessages.USER_NOT_FOUND_KEY.getKey());
+            }
+            User user = userList.get(0);
+            user.setMoney(user.getMoney().add(amount));
+            userRepository.update(user);
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
