@@ -356,7 +356,11 @@
                                                             </c:choose>
                                                         </td>
                                                         <td><c:out value="${ payment.date }"/></td>
-                                                        <td><c:out value="${ payment.amount }"/></td>
+                                                        <td>
+                                                            <fmt:formatNumber type="number"
+                                                                              maxFractionDigits="2"
+                                                                              value = "${payment.amount}" />
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
