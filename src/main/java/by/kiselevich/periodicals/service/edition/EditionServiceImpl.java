@@ -107,19 +107,9 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
-    public List<Edition> getEditionsById(int editionId) throws ServiceException {
+    public List<Edition> getEditionsById(int editionId, boolean findNotBlockedEditionsOnly) throws ServiceException {
         try {
-            return editionRepository.query(new FindEditionById(editionId));
-        } catch (RepositoryException e) {
-            LOG.warn(e);
-            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
-        }
-    }
-
-    @Override
-    public List<Edition> getNotBlockedEditionsById(int editionId) throws ServiceException {
-        try {
-            return editionRepository.query(new FindNotBlockedEditionById(editionId));
+            return editionRepository.query(new FindEditionById(editionId, findNotBlockedEditionsOnly));
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
@@ -129,7 +119,7 @@ public class EditionServiceImpl implements EditionService {
     @Override
     public void blockEdition(int id) throws ServiceException {
         try {
-            if (editionRepository.query(new FindEditionById(id)).isEmpty()) {
+            if (editionRepository.query(new FindEditionById(id, false)).isEmpty()) {
                 throw new ServiceException(ResourceBundleMessages.EDITION_NOT_FOUND.getKey());
             }
             editionRepository.block(id);
@@ -142,7 +132,7 @@ public class EditionServiceImpl implements EditionService {
     @Override
     public void unblockEdition(int id) throws ServiceException {
         try {
-            if (editionRepository.query(new FindEditionById(id)).isEmpty()) {
+            if (editionRepository.query(new FindEditionById(id, false)).isEmpty()) {
                 throw new ServiceException(ResourceBundleMessages.EDITION_NOT_FOUND.getKey());
             }
             editionRepository.unblock(id);
