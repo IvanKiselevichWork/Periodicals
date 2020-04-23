@@ -11,6 +11,7 @@ import by.kiselevich.periodicals.service.payment.PaymentService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Comparator;
 import java.util.List;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
@@ -29,6 +30,7 @@ public class ShowUserPaymentsCommand implements Command {
         try {
             String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
             List<Payment> paymentList = paymentService.getPaymentsByLogin(login);
+            paymentList.sort(Comparator.comparing(Payment::getDate).reversed());
             req.setAttribute(Attribute.PAYMENTS.getValue(), paymentList);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
