@@ -3,7 +3,6 @@ package by.kiselevich.periodicals.service.user;
 import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.command.UserType;
 import by.kiselevich.periodicals.entity.Payment;
-import by.kiselevich.periodicals.entity.PaymentType;
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.exception.ServiceException;

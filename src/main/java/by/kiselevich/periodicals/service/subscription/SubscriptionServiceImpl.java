@@ -2,7 +2,6 @@ package by.kiselevich.periodicals.service.subscription;
 
 import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.entity.Payment;
-import by.kiselevich.periodicals.entity.PaymentType;
 import by.kiselevich.periodicals.entity.Subscription;
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;

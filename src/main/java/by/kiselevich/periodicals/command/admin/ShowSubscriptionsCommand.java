@@ -11,7 +11,6 @@ import by.kiselevich.periodicals.service.subscription.SubscriptionService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
