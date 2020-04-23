@@ -65,10 +65,12 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    @Override
     public void block(int id) throws RepositoryException {
         updateUserById(id, BLOCK_USER, USER_NOT_BLOCKED_MESSAGE);
     }
 
+    @Override
     public void unblock(int id) throws RepositoryException {
         updateUserById(id, UNBLOCK_USER, USER_NOT_UNBLOCKED_MESSAGE);
     }
@@ -84,11 +86,6 @@ public class UserRepositoryImpl implements UserRepository {
         } catch (SQLException e) {
             throw new RepositoryException(e);
         }
-    }
-
-    @Override
-    public void remove(int id) throws RepositoryException {
-        //todo
     }
 
     @Override

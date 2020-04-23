@@ -49,16 +49,6 @@ public class SubscriptionRepositoryImpl implements SubscriptionRepository {
     }
 
     @Override
-    public void remove(int id) throws RepositoryException {
-        //todo
-    }
-
-    @Override
-    public void update(Subscription subscription) throws RepositoryException {
-        //todo
-    }
-
-    @Override
     public List<Subscription> query(Specification<Subscription> specification) throws RepositoryException {
         return specification.query();
     }

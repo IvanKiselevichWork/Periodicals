@@ -57,17 +57,14 @@ public class EditionRepositoryImpl implements EditionRepository {
         }
     }
 
+    @Override
     public void block(int id) throws RepositoryException {
         updateEditionById(id, BLOCK_EDITION, EDITION_NOT_BLOCKED_MESSAGE);
     }
 
+    @Override
     public void unblock(int id) throws RepositoryException {
         updateEditionById(id, UNBLOCK_EDITION, EDITION_NOT_UNBLOCKED_MESSAGE);
-    }
-
-    @Override
-    public void remove(int id) throws RepositoryException {
-        //todo
     }
 
     @Override

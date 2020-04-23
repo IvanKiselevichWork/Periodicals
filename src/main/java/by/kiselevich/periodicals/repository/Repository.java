@@ -10,14 +10,7 @@ import java.util.List;
 
 public interface Repository<T> {
 
-    void add(T t) throws RepositoryException;
-
-    void remove(int id) throws RepositoryException;
-
-    void update(T t) throws RepositoryException;
-
     List<T> query(Specification<T> specification) throws RepositoryException;
-
 
     default void closeResultSet(ResultSet resultSet) {
         if (resultSet != null) {

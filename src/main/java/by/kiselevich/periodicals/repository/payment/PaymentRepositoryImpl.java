@@ -54,16 +54,6 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     }
 
     @Override
-    public void remove(int id) throws RepositoryException {
-        //todo
-    }
-
-    @Override
-    public void update(Payment payment) throws RepositoryException {
-        //todo
-    }
-
-    @Override
     public List<Payment> query(Specification<Payment> specification) throws RepositoryException {
         return specification.query();
     }
