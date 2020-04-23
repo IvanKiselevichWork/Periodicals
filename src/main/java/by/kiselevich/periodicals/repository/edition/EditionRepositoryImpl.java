@@ -10,7 +10,7 @@ import java.util.List;
 
 public class EditionRepositoryImpl implements EditionRepository {
 
-    private static final String ADD_EDITION = "insert into edition (name, type_id, theme_id, periodicity_per_year, minimum_subscription_period_in_months, price_for_minimum_subscription_period) values (?, ?, ?, ?, ?, ?)";
+    private static final String ADD_EDITION = "insert into edition (name, type_id, theme_id, periodicity_per_year, minimum_subscription_period_in_months, price_for_minimum_subscription_period, is_blocked) values (?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_EDITION = "update edition set name = ?, type_id = ?, theme_id = ?, periodicity_per_year = ?, minimum_subscription_period_in_months = ?, price_for_minimum_subscription_period = ? where id = ?";
 
     private static final String BLOCK_EDITION = "update edition set is_blocked = 1 where id = ?";
@@ -38,6 +38,7 @@ public class EditionRepositoryImpl implements EditionRepository {
             statement.setInt(4, edition.getPeriodicityPerYear());
             statement.setInt(5, edition.getMinimumSubscriptionPeriodInMonths());
             statement.setBigDecimal(6, edition.getPriceForMinimumSubscriptionPeriod());
+            statement.setBoolean(7, edition.isBlocked());
             int updatedRowCount = statement.executeUpdate();
             boolean isEditionAdded = false;
             if (updatedRowCount == 1) {
