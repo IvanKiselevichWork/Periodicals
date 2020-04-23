@@ -48,12 +48,12 @@ public class EditionRepositoryImpl extends RepositoryUtil implements EditionRepo
 
     @Override
     public void block(int id) throws RepositoryException {
-        updateEditionById(id, BLOCK_EDITION, EDITION_NOT_BLOCKED_MESSAGE);
+        updateEntityById(id, BLOCK_EDITION, EDITION_NOT_BLOCKED_MESSAGE, connectionPool);
     }
 
     @Override
     public void unblock(int id) throws RepositoryException {
-        updateEditionById(id, UNBLOCK_EDITION, EDITION_NOT_UNBLOCKED_MESSAGE);
+        updateEntityById(id, UNBLOCK_EDITION, EDITION_NOT_UNBLOCKED_MESSAGE, connectionPool);
     }
 
     @Override
@@ -79,18 +79,5 @@ public class EditionRepositoryImpl extends RepositoryUtil implements EditionRepo
     @Override
     public List<Edition> query(Specification<Edition> specification) throws RepositoryException {
         return specification.query();
-    }
-
-    private void updateEditionById(int id, String updateSqlQuery, String exceptionMessage) throws RepositoryException {
-        try (Connection connection = connectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(updateSqlQuery)) {
-            statement.setInt(1, id);
-            int updatedRowCount = statement.executeUpdate();
-            if (updatedRowCount != 1) {
-                throw new RepositoryException(exceptionMessage);
-            }
-        } catch (SQLException e) {
-            throw new RepositoryException(e);
-        }
     }
 }

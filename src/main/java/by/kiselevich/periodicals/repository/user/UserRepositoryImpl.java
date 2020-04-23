@@ -55,25 +55,12 @@ public class UserRepositoryImpl extends RepositoryUtil implements UserRepository
 
     @Override
     public void block(int id) throws RepositoryException {
-        updateUserById(id, BLOCK_USER, USER_NOT_BLOCKED_MESSAGE);
+        updateEntityById(id, BLOCK_USER, USER_NOT_BLOCKED_MESSAGE, connectionPool);
     }
 
     @Override
     public void unblock(int id) throws RepositoryException {
-        updateUserById(id, UNBLOCK_USER, USER_NOT_UNBLOCKED_MESSAGE);
-    }
-
-    private void updateUserById(int id, String updateSqlQuery, String exceptionMessage) throws RepositoryException {
-        try (Connection connection = connectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(updateSqlQuery)) {
-            statement.setInt(1, id);
-            int updatedRowCount = statement.executeUpdate();
-            if (updatedRowCount != 1) {
-                throw new RepositoryException(exceptionMessage);
-            }
-        } catch (SQLException e) {
-            throw new RepositoryException(e);
-        }
+        updateEntityById(id, UNBLOCK_USER, USER_NOT_UNBLOCKED_MESSAGE, connectionPool);
     }
 
     @Override

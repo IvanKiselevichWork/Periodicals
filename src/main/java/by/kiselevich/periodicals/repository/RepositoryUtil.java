@@ -1,9 +1,11 @@
 package by.kiselevich.periodicals.repository;
 
 import by.kiselevich.periodicals.exception.RepositoryException;
+import by.kiselevich.periodicals.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,6 +44,19 @@ public class RepositoryUtil {
             } catch (SQLException e) {
                 LOG.warn(e);
             }
+        }
+    }
+
+    protected void updateEntityById(int id, String updateSqlQuery, String exceptionMessage, ConnectionPool connectionPool) throws RepositoryException {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(updateSqlQuery)) {
+            statement.setInt(1, id);
+            int updatedRowCount = statement.executeUpdate();
+            if (updatedRowCount != 1) {
+                throw new RepositoryException(exceptionMessage);
+            }
+        } catch (SQLException e) {
+            throw new RepositoryException(e);
         }
     }
 }
