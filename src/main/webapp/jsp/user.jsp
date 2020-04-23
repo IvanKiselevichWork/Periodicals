@@ -332,6 +332,9 @@
                                                     <th class="th-sm">
                                                         <fmt:message key="amount"/>
                                                     </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="purpose"/>
+                                                    </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -364,6 +367,11 @@
                                                             <fmt:formatNumber type="number"
                                                                               maxFractionDigits="2"
                                                                               value = "${payment.amount}" />
+                                                        </td>
+                                                        <td>
+                                                            <c:if test="${not empty payment.subscription}">
+                                                                <c:out value="${ payment.subscription.edition.name }"/>
+                                                            </c:if>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>

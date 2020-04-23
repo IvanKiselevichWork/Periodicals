@@ -318,7 +318,7 @@
                                                                 <input type="hidden" name="minPeriod"
                                                                        value="${edition.minimumSubscriptionPeriodInMonths}"/>
                                                                 <input type="hidden" name="price"
-                                                                       value="${edition.priceForMinimumSubscriptionPeriod}"/>
+                                                                       value="<fmt:formatNumber type="number" maxFractionDigits="2" value = "${ edition.priceForMinimumSubscriptionPeriod }"/>"/>
                                                             </button>
                                                         </td>
                                                         <td>
@@ -413,7 +413,11 @@
                                                             </c:choose>
                                                         </td>
                                                         <td><c:out value="${ payment.date }"/></td>
-                                                        <td><c:out value="${ payment.amount }"/></td>
+                                                        <td>
+                                                            <fmt:formatNumber type="number"
+                                                                              maxFractionDigits="2"
+                                                                              value = "${ payment.amount }" />
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
