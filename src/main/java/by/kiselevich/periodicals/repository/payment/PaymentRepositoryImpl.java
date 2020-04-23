@@ -29,7 +29,11 @@ public class PaymentRepositoryImpl implements PaymentRepository {
             statement.setInt(2, payment.getPaymentType().getId());
             statement.setTimestamp(3, payment.getDate());
             statement.setBigDecimal(4, payment.getAmount());
-            statement.setInt(5, payment.getSubscription().getId());
+            if (payment.getSubscription() != null) {
+                statement.setInt(5, payment.getSubscription().getId());
+            } else {
+                statement.setNull(5, Types.INTEGER);
+            }
             int updatedRowCount = statement.executeUpdate();
             boolean isPaymentAdded = false;
             if (updatedRowCount == 1) {
