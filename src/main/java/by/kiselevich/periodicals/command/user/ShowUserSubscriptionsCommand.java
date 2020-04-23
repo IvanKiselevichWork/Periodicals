@@ -12,8 +12,10 @@ import by.kiselevich.periodicals.service.subscription.SubscriptionService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 
@@ -32,7 +34,9 @@ public class ShowUserSubscriptionsCommand implements Command {
             String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
             List<Subscription> subscriptionList = subscriptionService.getAllSubscriptionsByUserLogin(login);
             Map<Subscription, String> subscriptionAndStatusMap = EntityMapsFactory.getSubscriptionAndStatusMap(subscriptionList);
-            req.setAttribute(Attribute.SUBSCRIPTIONS.getValue(), subscriptionAndStatusMap);
+            Map<Subscription, String> subscriptionAndStatusSortedMap = new TreeMap<>(Comparator.comparing(Subscription::getSubscriptionStartDate).reversed());
+            subscriptionAndStatusSortedMap.putAll(subscriptionAndStatusMap);
+            req.setAttribute(Attribute.SUBSCRIPTIONS.getValue(), subscriptionAndStatusSortedMap);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
