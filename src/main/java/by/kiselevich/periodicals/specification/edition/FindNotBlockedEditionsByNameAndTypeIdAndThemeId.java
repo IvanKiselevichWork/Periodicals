@@ -14,13 +14,15 @@ import java.util.List;
 
 public class FindNotBlockedEditionsByNameAndTypeIdAndThemeId extends SpecificationUtil implements EditionSpecification {
 
-    private static final String FIND_EDITIONS_BY_NAME_AND_TYPE_ID_AND_THEME_ID = "select * from edition inner join edition_theme on edition.theme_id = edition_theme.id inner join edition_type on edition.type_id = edition_type.id where name like ? and edition_type.id = ? and edition_theme.id = ? and is_blocked = false";
+    private static final String FIND_EDITIONS_BY_NAME = "select * from edition inner join edition_theme on edition.theme_id = edition_theme.id inner join edition_type on edition.type_id = edition_type.id where edition.is_blocked = false and edition.name like ?";
+    private static final String AND_TYPE = " and edition_type.id = ?";
+    private static final String AND_THEME = " and edition_theme.id = ?";
 
     private String name;
-    private int typeId;
-    private int themeId;
+    private Integer typeId;
+    private Integer themeId;
 
-    public FindNotBlockedEditionsByNameAndTypeIdAndThemeId(String name, int typeId, int themeId) {
+    public FindNotBlockedEditionsByNameAndTypeIdAndThemeId(String name, Integer typeId, Integer themeId) {
         this.name = name;
         this.typeId = typeId;
         this.themeId = themeId;
@@ -30,11 +32,15 @@ public class FindNotBlockedEditionsByNameAndTypeIdAndThemeId extends Specificati
     public List<Edition> query() throws RepositoryException {
         ResultSet resultSet = null;
         List<Edition> editions = new ArrayList<>();
+        List<Integer> queryParameters = new ArrayList<>();
+        String query = buildSqlQuery(queryParameters);
         try (ConnectionProxy connection = ConnectionPoolImpl.INSTANCE.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(FIND_EDITIONS_BY_NAME_AND_TYPE_ID_AND_THEME_ID);
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
-            statement.setInt(2, typeId);
-            statement.setInt(3, themeId);
+            int index = 2;
+            for (Integer number : queryParameters) {
+                statement.setInt(index++, number);
+            }
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 editions.add(getEditionFromResultSet(resultSet));
@@ -45,5 +51,18 @@ public class FindNotBlockedEditionsByNameAndTypeIdAndThemeId extends Specificati
             closeResultSet(resultSet);
         }
         return editions;
+    }
+
+    private String buildSqlQuery(List<Integer> parameters) {
+        StringBuilder result = new StringBuilder(FIND_EDITIONS_BY_NAME);
+        if (typeId != null) {
+            result.append(AND_TYPE);
+            parameters.add(typeId);
+        }
+        if (themeId != null) {
+            result.append(AND_THEME);
+            parameters.add(themeId);
+        }
+        return result.toString();
     }
 }

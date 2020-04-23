@@ -67,39 +67,9 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
-    public List<Edition> getNotBlockedEditionsByNameAndTypeIdAndThemeId(String name, int typeId, int themeId) throws ServiceException {
+    public List<Edition> getNotBlockedEditionsByNameAndTypeIdAndThemeId(String name, Integer typeId, Integer themeId) throws ServiceException {
         try {
             return editionRepository.query(new FindNotBlockedEditionsByNameAndTypeIdAndThemeId(name, typeId, themeId));
-        } catch (RepositoryException e) {
-            LOG.warn(e);
-            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
-        }
-    }
-
-    @Override
-    public List<Edition> getNotBlockedEditionsByNameAndTypeId(String name, int typeId) throws ServiceException {
-        try {
-            return editionRepository.query(new FindNotBlockedEditionsByNameAndTypeId(name, typeId));
-        } catch (RepositoryException e) {
-            LOG.warn(e);
-            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
-        }
-    }
-
-    @Override
-    public List<Edition> getNotBlockedEditionsByNameAndThemeId(String name, int themeId) throws ServiceException {
-        try {
-            return editionRepository.query(new FindNotBlockedEditionsByNameAndThemeId(name, themeId));
-        } catch (RepositoryException e) {
-            LOG.warn(e);
-            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
-        }
-    }
-
-    @Override
-    public List<Edition> getNotBlockedEditionsByName(String name) throws ServiceException {
-        try {
-            return editionRepository.query(new FindNotBlockedEditionsByName(name));
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
