@@ -34,7 +34,7 @@ public class EditionValidator {
     }
 
     private void checkName(String name) throws ValidatorException {
-        if (name == null || !isStringMatchesRegex(name)) {
+        if (name == null || isStringNotMatchesRegex(name)) {
             throw new ValidatorException(ResourceBundleMessages.INVALID_NAME.getKey());
         }
     }
@@ -81,9 +81,9 @@ public class EditionValidator {
         }
     }
 
-    private boolean isStringMatchesRegex(String string) {
+    private boolean isStringNotMatchesRegex(String string) {
         Pattern pattern = Pattern.compile(EditionValidator.NAME_REGEX);
         Matcher matcher = pattern.matcher(string);
-        return matcher.matches();
+        return !matcher.matches();
     }
 }
