@@ -24,11 +24,10 @@ public class BlockEditionCommand implements Command {
         try {
             int id = Integer.parseInt(req.getParameter(JspParameter.ID.getValue()));
             editionService.blockEdition(id);
-            return Page.EMPTY_PAGE;
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
             HttpUtil.writeMessageToResponse(resp, message);
-            return Page.EMPTY_PAGE;
         }
+        return Page.EMPTY_PAGE;
     }
 }
