@@ -3,13 +3,14 @@ package by.kiselevich.periodicals.repository.user;
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.ConnectionPool;
+import by.kiselevich.periodicals.repository.RepositoryUtil;
 import by.kiselevich.periodicals.specification.Specification;
 import by.kiselevich.periodicals.util.HashUtil;
 
 import java.sql.*;
 import java.util.List;
 
-public class UserRepositoryImpl implements UserRepository {
+public class UserRepositoryImpl extends RepositoryUtil implements UserRepository {
 
     private static final String USER_ROLE_ID = "2";
     private static final String USER_IS_AVAILABLE = "1";
@@ -36,7 +37,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void add(User user) throws RepositoryException {
-        ResultSet generatedId = null;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(ADD_USER, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getLogin());
@@ -45,23 +45,11 @@ public class UserRepositoryImpl implements UserRepository {
             statement.setString(3, user.getFullName());
             statement.setString(4, user.getEmail());
             statement.setBigDecimal(5, user.getMoney());
-            int updatedRowCount = statement.executeUpdate();
-            boolean isUserAdded = false;
-            if (updatedRowCount == 1) {
-                generatedId = statement.getGeneratedKeys();
-                if (generatedId.next()) {
-                    user.setId(generatedId.getInt(1));
-                    user.setPassword(hash);
-                    isUserAdded = true;
-                }
-            }
-            if (!isUserAdded) {
-                throw new RepositoryException(USER_NOT_ADDED_MESSAGE);
-            }
+            int generatedId = executeUpdateOneRowAndGetGeneratedId(statement, USER_NOT_ADDED_MESSAGE);
+            user.setId(generatedId);
+            user.setPassword(hash);
         } catch (SQLException e) {
             throw new RepositoryException(e);
-        } finally {
-            closeResultSet(generatedId);
         }
     }
 

@@ -3,12 +3,13 @@ package by.kiselevich.periodicals.repository.payment;
 import by.kiselevich.periodicals.entity.Payment;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.ConnectionPool;
+import by.kiselevich.periodicals.repository.RepositoryUtil;
 import by.kiselevich.periodicals.specification.Specification;
 
 import java.sql.*;
 import java.util.List;
 
-public class PaymentRepositoryImpl implements PaymentRepository {
+public class PaymentRepositoryImpl extends RepositoryUtil implements PaymentRepository {
 
     private static final String ADD_PAYMENT = "insert into payment(user_id, type_id, date, amount, subscription_id) values(?, ?, ?, ?, ?)";
 
@@ -22,7 +23,6 @@ public class PaymentRepositoryImpl implements PaymentRepository {
 
     @Override
     public void add(Payment payment) throws RepositoryException {
-        ResultSet generatedId = null;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(ADD_PAYMENT, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, payment.getUser().getId());
@@ -34,22 +34,10 @@ public class PaymentRepositoryImpl implements PaymentRepository {
             } else {
                 statement.setNull(5, Types.INTEGER);
             }
-            int updatedRowCount = statement.executeUpdate();
-            boolean isPaymentAdded = false;
-            if (updatedRowCount == 1) {
-                generatedId = statement.getGeneratedKeys();
-                if (generatedId.next()) {
-                    payment.setId(generatedId.getInt(1));
-                    isPaymentAdded = true;
-                }
-            }
-            if (!isPaymentAdded) {
-                throw new RepositoryException(PAYMENT_NOT_ADDED_MESSAGE);
-            }
+            int generatedId = executeUpdateOneRowAndGetGeneratedId(statement, PAYMENT_NOT_ADDED_MESSAGE);
+            payment.setId(generatedId);
         } catch (SQLException e) {
             throw new RepositoryException(e);
-        } finally {
-            closeResultSet(generatedId);
         }
     }
 

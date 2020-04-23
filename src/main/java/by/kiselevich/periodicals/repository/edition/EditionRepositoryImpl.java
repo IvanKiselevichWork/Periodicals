@@ -3,12 +3,13 @@ package by.kiselevich.periodicals.repository.edition;
 import by.kiselevich.periodicals.entity.Edition;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.ConnectionPool;
+import by.kiselevich.periodicals.repository.RepositoryUtil;
 import by.kiselevich.periodicals.specification.Specification;
 
 import java.sql.*;
 import java.util.List;
 
-public class EditionRepositoryImpl implements EditionRepository {
+public class EditionRepositoryImpl extends RepositoryUtil implements EditionRepository {
 
     private static final String ADD_EDITION = "insert into edition (name, type_id, theme_id, periodicity_per_year, minimum_subscription_period_in_months, price_for_minimum_subscription_period, is_blocked) values (?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_EDITION = "update edition set name = ?, type_id = ?, theme_id = ?, periodicity_per_year = ?, minimum_subscription_period_in_months = ?, price_for_minimum_subscription_period = ? where id = ?";
@@ -29,7 +30,6 @@ public class EditionRepositoryImpl implements EditionRepository {
 
     @Override
     public void add(Edition edition) throws RepositoryException {
-        ResultSet generatedId = null;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(ADD_EDITION, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, edition.getName());
@@ -39,22 +39,10 @@ public class EditionRepositoryImpl implements EditionRepository {
             statement.setInt(5, edition.getMinimumSubscriptionPeriodInMonths());
             statement.setBigDecimal(6, edition.getPriceForMinimumSubscriptionPeriod());
             statement.setBoolean(7, edition.isBlocked());
-            int updatedRowCount = statement.executeUpdate();
-            boolean isEditionAdded = false;
-            if (updatedRowCount == 1) {
-                generatedId = statement.getGeneratedKeys();
-                if (generatedId.next()) {
-                    edition.setId(generatedId.getInt(1));
-                    isEditionAdded = true;
-                }
-            }
-            if (!isEditionAdded) {
-                throw new RepositoryException(EDITION_NOT_ADDED_MESSAGE);
-            }
+            int generatedId = executeUpdateOneRowAndGetGeneratedId(statement, EDITION_NOT_ADDED_MESSAGE);
+            edition.setId(generatedId);
         } catch (SQLException e) {
             throw new RepositoryException(e);
-        } finally {
-            closeResultSet(generatedId);
         }
     }
 
