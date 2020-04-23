@@ -8,6 +8,7 @@ import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.exception.ValidatorException;
+import by.kiselevich.periodicals.factory.PaymentTypeFactory;
 import by.kiselevich.periodicals.factory.RepositoryFactory;
 import by.kiselevich.periodicals.repository.subscription.SubscriptionRepository;
 import by.kiselevich.periodicals.specification.subscription.FindAllSubscriptions;
@@ -76,10 +77,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
             Payment payment = new Payment.PaymentBuilder()
                     .user(user)
-                    .paymentType(new PaymentType.PaymentTypeBuilder()
-                        .id(2)
-                        .type("payment")
-                        .build())
+                    .paymentType(PaymentTypeFactory.getPayment())
                     .date(new Timestamp(System.currentTimeMillis()))
                     .amount(subscriptionPrice)
                     .subscription(subscription)
