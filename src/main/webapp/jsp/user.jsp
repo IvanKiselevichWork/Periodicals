@@ -268,7 +268,11 @@
                                                         <td><c:out value="${ edition.key.name }"/></td>
                                                         <td><c:out value="${ edition.key.periodicityPerYear }"/></td>
                                                         <td><c:out value="${ edition.key.minimumSubscriptionPeriodInMonths }"/></td>
-                                                        <td><c:out value="${ edition.key.priceForMinimumSubscriptionPeriod }"/></td>
+                                                        <td>
+                                                            <fmt:formatNumber type="number"
+                                                                              maxFractionDigits="2"
+                                                                              value = "${ edition.key.priceForMinimumSubscriptionPeriod }" />
+                                                        </td>
                                                         <td>
                                                             <c:if test="${edition.value eq true}">
                                                                 <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0 disabled"
@@ -294,7 +298,7 @@
                                                                     <input type="hidden" name="minPeriod"
                                                                            value="${edition.key.minimumSubscriptionPeriodInMonths}"/>
                                                                     <input type="hidden" name="price"
-                                                                           value="${edition.key.priceForMinimumSubscriptionPeriod}"/>
+                                                                           value="<fmt:formatNumber type="number" maxFractionDigits="2" value = "${ edition.key.priceForMinimumSubscriptionPeriod }"/>"/>
                                                                 </button>
                                                             </c:if>
                                                         </td>
