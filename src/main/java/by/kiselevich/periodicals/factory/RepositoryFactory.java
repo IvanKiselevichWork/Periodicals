@@ -28,8 +28,8 @@ public class RepositoryFactory {
         editionRepository = new EditionRepositoryImpl(ConnectionPoolImpl.INSTANCE);
         paymentRepository = new PaymentRepositoryImpl(ConnectionPoolImpl.INSTANCE);
         subscriptionRepository = new SubscriptionRepositoryImpl(ConnectionPoolImpl.INSTANCE);
-        themeRepository = new ThemeRepositoryImpl(ConnectionPoolImpl.INSTANCE);
-        editionTypeRepository = new EditionTypeRepositoryImpl(ConnectionPoolImpl.INSTANCE);
+        themeRepository = new ThemeRepositoryImpl();
+        editionTypeRepository = new EditionTypeRepositoryImpl();
     }
 
     private static class RepositoryFactoryHolder {

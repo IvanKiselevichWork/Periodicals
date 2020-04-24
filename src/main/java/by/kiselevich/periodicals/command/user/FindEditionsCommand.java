@@ -48,25 +48,12 @@ public class FindEditionsCommand implements Command {
             String typeIdString = req.getParameter(JspParameter.TYPE_ID.getValue());
             String themeIdString = req.getParameter(JspParameter.THEME_ID.getValue());
 
-            List<Edition> editionList;
             String sourceName = name;
             name = String.format(EDITION_NAME_FORMAT, name);
-
-            if (StringUtils.isEmpty(typeIdString) && StringUtils.isEmpty(themeIdString)) {
-                editionList = editionService.getNotBlockedEditionsByName(name);
-            } else {
-                if (StringUtils.isEmpty(typeIdString)) {
-                    int themeId = Integer.parseInt(themeIdString);
-                    editionList = editionService.getNotBlockedEditionsByNameAndThemeId(name, themeId);
-                } else if (StringUtils.isEmpty(themeIdString)) {
-                    int typeId = Integer.parseInt(typeIdString);
-                    editionList = editionService.getNotBlockedEditionsByNameAndTypeId(name, typeId);
-                } else {
-                    int typeId = Integer.parseInt(typeIdString);
-                    int themeId = Integer.parseInt(themeIdString);
-                    editionList = editionService.getNotBlockedEditionsByNameAndTypeIdAndThemeId(name, typeId, themeId);
-                }
-            }
+            Integer typeId = getIntegerFromString(typeIdString);
+            Integer themeId = getIntegerFromString(themeIdString);
+            List<Edition> editionList;
+            editionList = editionService.getNotBlockedEditionsByNameAndTypeIdAndThemeId(name, typeId, themeId);
 
             List<EditionType> editionTypeList = editionTypeService.getAllEditionsTypes();
             List<EditionTheme> editionThemeList = editionThemeService.getAllThemes();
@@ -87,5 +74,16 @@ public class FindEditionsCommand implements Command {
             req.setAttribute(Attribute.MESSAGE.getValue(), message);
         }
         return Page.USER_PAGE;
+    }
+
+    private Integer getIntegerFromString(String string) {
+        try {
+            if (StringUtils.isBlank(string)) {
+                return null;
+            }
+            return Integer.valueOf(string);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }

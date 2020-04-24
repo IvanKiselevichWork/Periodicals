@@ -61,7 +61,7 @@ public class AddSubscriptionCommand implements Command {
                 throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
             }
 
-            List<Edition> editionList = editionService.getNotBlockedEditionsById(editionId);
+            List<Edition> editionList = editionService.getEditionsById(editionId, true);
             Edition edition;
             if (!editionList.isEmpty()) {
                 edition = editionList.get(0);

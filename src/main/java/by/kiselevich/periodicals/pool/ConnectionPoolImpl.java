@@ -1,7 +1,6 @@
 package by.kiselevich.periodicals.pool;
 
 import by.kiselevich.periodicals.exception.ConnectionPoolRuntimeException;
-import by.kiselevich.periodicals.exception.NoConnectionAvailableException;
 import by.kiselevich.periodicals.exception.NoJDBCDriverException;
 import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
 import com.mysql.cj.jdbc.Driver;
@@ -17,7 +16,6 @@ import java.util.Deque;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 public enum ConnectionPoolImpl implements ConnectionPool {
     INSTANCE;
@@ -91,31 +89,6 @@ public enum ConnectionPoolImpl implements ConnectionPool {
         ConnectionProxy connection = null;
         try {
             connection = availableConnections.take();
-            unavailableConnections.add(connection);
-        } catch (InterruptedException e) {
-            LOG.warn(e);
-            Thread.currentThread().interrupt();
-        }
-        return connection;
-    }
-
-    /**
-     * @param waitingDuration duration for waiting in units timeUnit
-     * @param timeUnit        units for waiting duration
-     * @return connection ready to use
-     * @throws NoConnectionAvailableException if waiting timed out and no connection
-     */
-    @Override
-    public ConnectionProxy getConnection(long waitingDuration, TimeUnit timeUnit) throws NoConnectionAvailableException {
-        if (!isPoolAlreadyInitiated) {
-            throw new ConnectionPoolRuntimeException(POOL_NOT_INITIALIZED);
-        }
-        ConnectionProxy connection = null;
-        try {
-            connection = availableConnections.poll(waitingDuration, timeUnit);
-            if (connection == null) {
-                throw new NoConnectionAvailableException();
-            }
             unavailableConnections.add(connection);
         } catch (InterruptedException e) {
             LOG.warn(e);

@@ -2,8 +2,6 @@ package by.kiselevich.periodicals.command.admin;
 
 import by.kiselevich.periodicals.command.*;
 import by.kiselevich.periodicals.entity.Edition;
-import by.kiselevich.periodicals.entity.EditionTheme;
-import by.kiselevich.periodicals.entity.EditionType;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.edition.EditionService;
@@ -12,12 +10,11 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 import static by.kiselevich.periodicals.util.HttpUtil.writeMessageToResponse;
 
-public class AddEditionCommand implements Command {
+public class AddEditionCommand extends AbstractEditionCommand implements Command {
 
     private static final Logger LOG = LogManager.getLogger(AddEditionCommand.class);
 
@@ -30,25 +27,7 @@ public class AddEditionCommand implements Command {
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            String name = req.getParameter(JspParameter.NAME.getValue());
-            int typeId = Integer.parseInt(req.getParameter(JspParameter.TYPE_ID.getValue()));
-            int themeId = Integer.parseInt(req.getParameter(JspParameter.THEME_ID.getValue()));
-            int periodicityPerYear = Integer.parseInt(req.getParameter(JspParameter.PERIODICITY_PER_YEAR.getValue()));
-            int minimumSubscriptionPeriodInMonths = Integer.parseInt(req.getParameter(JspParameter.MINIMUM_SUBSCRIPTION_PERIOD.getValue()));
-            BigDecimal priceForMinimumSubscriptionPeriod = BigDecimal.valueOf(Double.parseDouble(req.getParameter(JspParameter.PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD.getValue())));
-
-            Edition edition = new Edition.EditionBuilder()
-                    .name(name)
-                    .editionType(new EditionType.EditionTypeBuilder()
-                            .id(typeId)
-                            .build())
-                    .editionTheme(new EditionTheme.EditionThemeBuilder()
-                            .id(themeId)
-                            .build())
-                    .periodicityPerYear(periodicityPerYear)
-                    .minimumSubscriptionPeriodInMonths(minimumSubscriptionPeriodInMonths)
-                    .priceForMinimumSubscriptionPeriod(priceForMinimumSubscriptionPeriod)
-                    .build();
+            Edition edition = getEditionFromRequest(req);
             editionService.add(edition);
             return CommandProvider.getInstance().getCommand(CommandName.SHOW_EDITIONS).execute(req,resp);
         } catch (NumberFormatException e) {

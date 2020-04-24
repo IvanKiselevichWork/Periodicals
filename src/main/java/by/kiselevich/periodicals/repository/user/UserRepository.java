@@ -6,6 +6,10 @@ import by.kiselevich.periodicals.repository.Repository;
 
 public interface UserRepository extends Repository<User> {
 
+    void add(User user) throws RepositoryException;
+
+    void update(User user) throws RepositoryException;
+
     void block(int id) throws RepositoryException;
 
     void unblock(int id) throws RepositoryException;

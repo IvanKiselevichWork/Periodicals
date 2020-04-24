@@ -35,32 +35,32 @@ public class UserValidator {
     }
 
     private void checkLogin(String login) throws ValidatorException {
-        if (login == null || !isStringMatchesRegex(login, LOGIN_REGEX)) {
+        if (login == null || isStringNotMatchesRegex(login, LOGIN_REGEX)) {
             throw new ValidatorException(ResourceBundleMessages.INVALID_LOGIN.getKey());
         }
     }
 
     private void checkPassword(String password) throws ValidatorException {
-        if (password == null || !isStringMatchesRegex(password, PASSWORD_REGEX)) {
+        if (password == null || isStringNotMatchesRegex(password, PASSWORD_REGEX)) {
             throw new ValidatorException(ResourceBundleMessages.INVALID_PASSWORD.getKey());
         }
     }
 
     private void checkFullName(String fullName) throws ValidatorException {
-        if (fullName == null || !isStringMatchesRegex(fullName, FULL_NAME_REGEX)) {
+        if (fullName == null || isStringNotMatchesRegex(fullName, FULL_NAME_REGEX)) {
             throw new ValidatorException(ResourceBundleMessages.INVALID_FULL_NAME.getKey());
         }
     }
 
     private void checkEmail(String email) throws ValidatorException {
-        if (email == null || !isStringMatchesRegex(email, EMAIL_REGEX)) {
+        if (email == null || isStringNotMatchesRegex(email, EMAIL_REGEX)) {
             throw new ValidatorException(ResourceBundleMessages.INVALID_EMAIL.getKey());
         }
     }
 
-    private boolean isStringMatchesRegex(String string, String regex) {
+    private boolean isStringNotMatchesRegex(String string, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(string);
-        return matcher.matches();
+        return !matcher.matches();
     }
 }

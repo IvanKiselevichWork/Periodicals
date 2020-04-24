@@ -3,11 +3,11 @@ package by.kiselevich.periodicals.service.user;
 import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.command.UserType;
 import by.kiselevich.periodicals.entity.Payment;
-import by.kiselevich.periodicals.entity.PaymentType;
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.exception.ValidatorException;
+import by.kiselevich.periodicals.factory.PaymentTypeFactory;
 import by.kiselevich.periodicals.factory.RepositoryFactory;
 import by.kiselevich.periodicals.repository.user.UserRepository;
 import by.kiselevich.periodicals.specification.user.FindAllUsers;
@@ -152,10 +152,7 @@ public class UserServiceImpl implements UserService {
             user.setMoney(user.getMoney().add(amount));
             Payment payment = new Payment.PaymentBuilder()
                     .user(user)
-                    .paymentType(new PaymentType.PaymentTypeBuilder()
-                            .id(1)
-                            .type("refill")
-                            .build())
+                    .paymentType(PaymentTypeFactory.getRefill())
                     .date(new Timestamp(System.currentTimeMillis()))
                     .amount(amount)
                     .build();

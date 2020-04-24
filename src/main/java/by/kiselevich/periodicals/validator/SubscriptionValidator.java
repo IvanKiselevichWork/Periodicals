@@ -32,7 +32,7 @@ public class SubscriptionValidator {
     private void checkEdition(Edition edition) throws ValidatorException {
         try {
             EditionService editionService = ServiceFactory.getInstance().getEditionService();
-            List<Edition> editionList = editionService.getEditionsById(edition.getId());
+            List<Edition> editionList = editionService.getEditionsById(edition.getId(), false);
             if (editionList.isEmpty() || !editionList.get(0).equals(edition)) {
                 throw new ValidatorException(ResourceBundleMessages.INVALID_EDITION.getKey());
             }
@@ -44,7 +44,7 @@ public class SubscriptionValidator {
     private void checkPeriodForEditionWithId(Timestamp start, Timestamp end, int editionId) throws ValidatorException {
         try {
             EditionService editionService = ServiceFactory.getInstance().getEditionService();
-            List<Edition> editionList = editionService.getEditionsById(editionId);
+            List<Edition> editionList = editionService.getEditionsById(editionId, false);
             if (editionList.isEmpty()) {
                 throw new ValidatorException(ResourceBundleMessages.INVALID_EDITION.getKey());
             } else {

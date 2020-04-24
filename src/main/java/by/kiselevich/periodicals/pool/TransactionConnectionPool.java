@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.concurrent.TimeUnit;
 
 public class TransactionConnectionPool implements ConnectionPool {
 
@@ -28,8 +27,4 @@ public class TransactionConnectionPool implements ConnectionPool {
         return connection;
     }
 
-    @Override
-    public TransactionConnectionProxy getConnection(long waitingDuration, TimeUnit timeUnit) {
-        return connection;
-    }
 }

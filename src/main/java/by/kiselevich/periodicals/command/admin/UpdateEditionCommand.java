@@ -14,13 +14,12 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
 import java.util.List;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 import static by.kiselevich.periodicals.util.HttpUtil.writeMessageToResponse;
 
-public class UpdateEditionCommand implements Command {
+public class UpdateEditionCommand extends AbstractEditionCommand implements Command {
 
     private static final Logger LOG = LogManager.getLogger(UpdateEditionCommand.class);
 
@@ -37,42 +36,31 @@ public class UpdateEditionCommand implements Command {
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            int id = Integer.parseInt(req.getParameter(JspParameter.ID.getValue()));
-            String name = req.getParameter(JspParameter.NAME.getValue());
-            int typeId = Integer.parseInt(req.getParameter(JspParameter.TYPE_ID.getValue()));
-            int themeId = Integer.parseInt(req.getParameter(JspParameter.THEME_ID.getValue()));
-            int periodicityPerYear = Integer.parseInt(req.getParameter(JspParameter.PERIODICITY_PER_YEAR.getValue()));
-            int minimumSubscriptionPeriodInMonths = Integer.parseInt(req.getParameter(JspParameter.MINIMUM_SUBSCRIPTION_PERIOD.getValue()));
-            BigDecimal priceForMinimumSubscriptionPeriod = BigDecimal.valueOf(Double.parseDouble(req.getParameter(JspParameter.PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD.getValue())));
+            Edition edition = getEditionFromRequest(req);
 
-            List<EditionType> editionTypeList = editionTypeService.getEditionTypeById(typeId);
+            List<EditionType> editionTypeList = editionTypeService.getEditionTypeById(edition.getEditionType().getId());
             if (editionTypeList.isEmpty()) {
                 throw new ServiceException(ResourceBundleMessages.INVALID_TYPE.getKey());
             }
-            List<EditionTheme> editionThemeList = editionThemeService.getThemeById(themeId);
+            List<EditionTheme> editionThemeList = editionThemeService.getThemeById(edition.getEditionTheme().getId());
             if (editionThemeList.isEmpty()) {
                 throw new ServiceException(ResourceBundleMessages.INVALID_THEME.getKey());
             }
-            Edition edition = new Edition.EditionBuilder()
-                    .id(id)
-                    .name(name)
-                    .editionType(editionTypeList.get(0))
-                    .editionTheme(editionThemeList.get(0))
-                    .periodicityPerYear(periodicityPerYear)
-                    .minimumSubscriptionPeriodInMonths(minimumSubscriptionPeriodInMonths)
-                    .priceForMinimumSubscriptionPeriod(priceForMinimumSubscriptionPeriod)
-                    .build();
+            int id = Integer.parseInt(req.getParameter(JspParameter.ID.getValue()));
+
+            edition.setId(id);
+            edition.setEditionType(editionTypeList.get(0));
+            edition.setEditionTheme(editionThemeList.get(0));
+
             editionService.update(edition);
-            return Page.EMPTY_PAGE;
         } catch (NumberFormatException e) {
             LOG.info(e);
             String message = getLocalizedMessageFromResources(req.getSession(), ResourceBundleMessages.INVALID_DATA_FORMAT.getKey());
             writeMessageToResponse(resp, message);
-            return Page.EMPTY_PAGE;
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
             writeMessageToResponse(resp, message);
-            return Page.EMPTY_PAGE;
         }
+        return Page.EMPTY_PAGE;
     }
 }
