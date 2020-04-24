@@ -19,6 +19,12 @@ public class EditionValidator {
 
     private static final String NAME_REGEX = ".{1,200}";
 
+    /**
+     * Check {@link Edition} fields: <p>
+     *     {@code name}, {@code editionType}, {@code editionTheme}, {@code periodicityPerYear}, {@code MinimumSubscriptionPeriodInMonths}, {@code priceForMinimumSubscriptionPeriod}
+     * @param edition {@link Edition} entity to validate
+     * @throws ValidatorException if one of check failed
+     */
     public void checkEdition(Edition edition) throws ValidatorException {
         if (edition == null) {
             throw new ValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
