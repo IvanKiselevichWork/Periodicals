@@ -29,7 +29,7 @@ public class UserRepositoryImpl extends RepositoryUtil implements UserRepository
     private static final String USER_NOT_BLOCKED_MESSAGE = "User was not blocked";
     private static final String USER_NOT_UNBLOCKED_MESSAGE = "User was not unblocked";
 
-    private ConnectionPool connectionPool;
+    private final ConnectionPool connectionPool;
 
     public UserRepositoryImpl(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;

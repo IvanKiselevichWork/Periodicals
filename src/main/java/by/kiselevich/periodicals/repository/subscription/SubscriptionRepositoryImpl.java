@@ -15,7 +15,7 @@ public class SubscriptionRepositoryImpl extends RepositoryUtil implements Subscr
 
     private static final String SUBSCRIPTION_NOT_ADDED_MESSAGE = "Subscription has not been added";
 
-    private ConnectionPool connectionPool;
+    private final ConnectionPool connectionPool;
 
     public SubscriptionRepositoryImpl(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;

@@ -14,7 +14,7 @@ import static by.kiselevich.periodicals.util.HttpUtil.writeMessageToResponse;
 
 public class RefillBalanceCommand implements Command {
 
-    private UserService userService;
+    private final UserService userService;
 
     public RefillBalanceCommand() {
         userService = ServiceFactory.getInstance().getUserService();

@@ -18,9 +18,9 @@ public class FindNotBlockedEditionsByNameAndTypeIdAndThemeId extends Specificati
     private static final String AND_TYPE = " and edition_type.id = ?";
     private static final String AND_THEME = " and edition_theme.id = ?";
 
-    private String name;
-    private Integer typeId;
-    private Integer themeId;
+    private final String name;
+    private final Integer typeId;
+    private final Integer themeId;
 
     public FindNotBlockedEditionsByNameAndTypeIdAndThemeId(String name, Integer typeId, Integer themeId) {
         this.name = name;

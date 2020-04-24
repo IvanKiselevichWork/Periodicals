@@ -17,10 +17,10 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 
 public class ShowAdminPageCommand implements Command {
 
-    private UserService userService;
-    private EditionService editionService;
-    private PaymentService paymentService;
-    private SubscriptionService subscriptionService;
+    private final UserService userService;
+    private final EditionService editionService;
+    private final PaymentService paymentService;
+    private final SubscriptionService subscriptionService;
 
     public ShowAdminPageCommand() {
         userService = ServiceFactory.getInstance().getUserService();

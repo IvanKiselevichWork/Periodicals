@@ -18,8 +18,8 @@ public class EditionServiceImpl implements EditionService {
 
     private static final Logger LOG = LogManager.getLogger(EditionServiceImpl.class);
 
-    private EditionRepository editionRepository;
-    private EditionValidator editionValidator;
+    private final EditionRepository editionRepository;
+    private final EditionValidator editionValidator;
 
     public EditionServiceImpl() {
         editionRepository = RepositoryFactory.getInstance().getEditionRepository();

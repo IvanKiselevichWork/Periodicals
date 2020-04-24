@@ -18,8 +18,8 @@ public class FindEditionById extends SpecificationUtil implements EditionSpecifi
     private static final String FIND_NOT_BLOCKED_EDITIONS_BY_ID = "select * from edition inner join edition_theme on edition.theme_id = edition_theme.id inner join edition_type on edition.type_id = edition_type.id where edition.id = ? and is_blocked= false";
 
 
-    private int id;
-    private boolean findNotBlockedEditionsOnly;
+    private final int id;
+    private final boolean findNotBlockedEditionsOnly;
 
     public FindEditionById(int id, boolean findNotBlockedEditionsOnly) {
         this.id = id;

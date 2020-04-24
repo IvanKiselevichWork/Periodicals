@@ -16,12 +16,12 @@ import by.kiselevich.periodicals.repository.user.UserRepositoryImpl;
 
 public class RepositoryFactory {
 
-    private UserRepository userRepository;
-    private EditionRepository editionRepository;
-    private PaymentRepository paymentRepository;
-    private SubscriptionRepository subscriptionRepository;
-    private ThemeRepository themeRepository;
-    private EditionTypeRepository editionTypeRepository;
+    private final UserRepository userRepository;
+    private final EditionRepository editionRepository;
+    private final PaymentRepository paymentRepository;
+    private final SubscriptionRepository subscriptionRepository;
+    private final ThemeRepository themeRepository;
+    private final EditionTypeRepository editionTypeRepository;
 
     private RepositoryFactory(){
         userRepository = new UserRepositoryImpl(ConnectionPoolImpl.INSTANCE);

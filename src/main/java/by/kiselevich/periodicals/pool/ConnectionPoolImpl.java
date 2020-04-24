@@ -28,8 +28,8 @@ public enum ConnectionPoolImpl implements ConnectionPool {
     private static final String DATABASE_PROPERTIES_FILENAME = "database.properties";
     private static final String DATABASE_URL_PROPERTY = "url";
 
-    private BlockingQueue<ConnectionProxy> availableConnections;
-    private Deque<ConnectionProxy> unavailableConnections;
+    private final BlockingQueue<ConnectionProxy> availableConnections;
+    private final Deque<ConnectionProxy> unavailableConnections;
     private boolean isPoolAlreadyInitiated;
     private String url;
 

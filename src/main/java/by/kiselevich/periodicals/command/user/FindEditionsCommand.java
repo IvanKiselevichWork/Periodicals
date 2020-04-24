@@ -28,10 +28,10 @@ public class FindEditionsCommand implements Command {
 
     private static final String EDITION_NAME_FORMAT = "%%%s%%";
 
-    private EditionService editionService;
-    private EditionTypeService editionTypeService;
-    private EditionThemeService editionThemeService;
-    private SubscriptionService subscriptionService;
+    private final EditionService editionService;
+    private final EditionTypeService editionTypeService;
+    private final EditionThemeService editionThemeService;
+    private final SubscriptionService subscriptionService;
 
     public FindEditionsCommand() {
         editionService = ServiceFactory.getInstance().getEditionService();

@@ -30,9 +30,9 @@ public class AddSubscriptionCommand implements Command {
     private static final String USER_NOT_FOUND = "USER NOT FOUND IN DATABASE WITH LOGIN FROM SESSION";
     private static final String EDITION_NOT_FOUND = "EDITION NOT FOUND OR BLOCKED IN DATABASE WITH ID FROM SUBSCRIPTION REQUEST";
 
-    private SubscriptionService subscriptionService;
-    private UserService userService;
-    private EditionService editionService;
+    private final SubscriptionService subscriptionService;
+    private final UserService userService;
+    private final EditionService editionService;
 
     public AddSubscriptionCommand() {
         subscriptionService = ServiceFactory.getInstance().getSubscriptionService();

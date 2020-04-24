@@ -19,7 +19,7 @@ public class UserBlockFilter implements Filter {
 
     private static final Logger LOG = LogManager.getLogger(UserBlockFilter.class);
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserBlockFilter() {
         userService = ServiceFactory.getInstance().getUserService();

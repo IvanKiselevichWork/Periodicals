@@ -18,7 +18,7 @@ public class AddEditionCommand extends AbstractEditionCommand implements Command
 
     private static final Logger LOG = LogManager.getLogger(AddEditionCommand.class);
 
-    private EditionService editionService;
+    private final EditionService editionService;
 
     public AddEditionCommand() {
         editionService = ServiceFactory.getInstance().getEditionService();

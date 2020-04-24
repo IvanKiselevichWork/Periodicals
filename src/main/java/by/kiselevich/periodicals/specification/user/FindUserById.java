@@ -16,7 +16,7 @@ public class FindUserById extends SpecificationUtil implements UserSpecification
 
     private static final String FIND_USER_BY_ID = "select * from user inner join user_role on user.role_id = user_role.id where user.id = ?";
 
-    private int id;
+    private final int id;
 
     public FindUserById(int id) {
         this.id = id;

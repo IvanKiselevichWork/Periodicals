@@ -17,8 +17,8 @@ public class FindUserByLoginAndPassword extends SpecificationUtil implements Use
 
     private static final String FIND_USERS_BY_LOGIN_AND_PASSWORD = "select * from user inner join user_role on user.role_id = user_role.id where login = ? and password = ?";
 
-    private String login;
-    private String password;
+    private final String login;
+    private final String password;
 
     public FindUserByLoginAndPassword(String login, String password) {
         this.login = login;

@@ -14,7 +14,7 @@ import static by.kiselevich.periodicals.util.HttpUtil.writeMessageToResponse;
 
 public class SignInCommand implements Command {
 
-    private UserService userService;
+    private final UserService userService;
 
     public SignInCommand() {
         userService = ServiceFactory.getInstance().getUserService();

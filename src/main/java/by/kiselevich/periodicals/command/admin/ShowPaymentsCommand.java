@@ -17,7 +17,7 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 
 public class ShowPaymentsCommand implements Command {
 
-    private PaymentService paymentService;
+    private final PaymentService paymentService;
 
     public ShowPaymentsCommand() {
         paymentService = ServiceFactory.getInstance().getPaymentService();

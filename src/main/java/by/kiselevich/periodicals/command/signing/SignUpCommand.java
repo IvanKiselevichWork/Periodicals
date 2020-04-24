@@ -15,8 +15,8 @@ import static by.kiselevich.periodicals.util.HttpUtil.writeMessageToResponse;
 
 public class SignUpCommand implements Command {
 
-    private UserService userService;
-    private MailService mailService;
+    private final UserService userService;
+    private final MailService mailService;
 
     public SignUpCommand() {
         userService = ServiceFactory.getInstance().getUserService();

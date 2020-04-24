@@ -22,7 +22,7 @@ public enum Attribute {
     EDITION_TYPE_ID_VALUE("editionTypeIdValue"),
     EDITION_THEME_ID_VALUE("editionThemeIdValue");
 
-    private String value;
+    private final String value;
 
     Attribute(String value) {
         this.value = value;

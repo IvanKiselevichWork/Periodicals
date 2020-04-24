@@ -24,7 +24,7 @@ public class EmailSender {
     private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
     private static final String SUBJECT_CHARSET = "UTF-8";
 
-    private Properties mailServerProperties = new Properties();
+    private final Properties mailServerProperties = new Properties();
 
     private EmailSender() {
         try {
