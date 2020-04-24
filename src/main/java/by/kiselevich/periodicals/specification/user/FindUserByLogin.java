@@ -16,7 +16,7 @@ public class FindUserByLogin extends SpecificationUtil implements UserSpecificat
 
     private static final String FIND_USERS_BY_LOGIN = "select * from user inner join user_role on user.role_id = user_role.id where login = ?";
 
-    private String login;
+    private final String login;
 
     public FindUserByLogin(String login) {
         this.login = login;

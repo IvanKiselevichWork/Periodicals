@@ -17,7 +17,7 @@ public class EditionTypeServiceImpl implements EditionTypeService {
 
     private static final Logger LOG = LogManager.getLogger(EditionTypeServiceImpl.class);
 
-    private EditionTypeRepository editionTypeRepository;
+    private final EditionTypeRepository editionTypeRepository;
 
     public EditionTypeServiceImpl() {
         editionTypeRepository = RepositoryFactory.getInstance().getEditionTypeRepository();

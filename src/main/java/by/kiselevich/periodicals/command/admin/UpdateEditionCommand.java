@@ -23,9 +23,9 @@ public class UpdateEditionCommand extends AbstractEditionCommand implements Comm
 
     private static final Logger LOG = LogManager.getLogger(UpdateEditionCommand.class);
 
-    private EditionService editionService;
-    private EditionTypeService editionTypeService;
-    private EditionThemeService editionThemeService;
+    private final EditionService editionService;
+    private final EditionTypeService editionTypeService;
+    private final EditionThemeService editionThemeService;
 
     public UpdateEditionCommand() {
         editionService = ServiceFactory.getInstance().getEditionService();

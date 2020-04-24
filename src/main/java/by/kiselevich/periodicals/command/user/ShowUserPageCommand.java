@@ -22,8 +22,8 @@ public class ShowUserPageCommand implements Command {
 
     private static final BigDecimal DEFAULT_BALANCE = BigDecimal.valueOf(0);
 
-    private UserService userService;
-    private SubscriptionService subscriptionService;
+    private final UserService userService;
+    private final SubscriptionService subscriptionService;
 
     public ShowUserPageCommand() {
         userService = ServiceFactory.getInstance().getUserService();

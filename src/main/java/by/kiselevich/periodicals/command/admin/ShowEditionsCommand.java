@@ -21,9 +21,9 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 
 public class ShowEditionsCommand implements Command {
 
-    private EditionService editionService;
-    private EditionThemeService editionThemeService;
-    private EditionTypeService editionTypeService;
+    private final EditionService editionService;
+    private final EditionThemeService editionThemeService;
+    private final EditionTypeService editionTypeService;
 
     public ShowEditionsCommand() {
         editionService = ServiceFactory.getInstance().getEditionService();

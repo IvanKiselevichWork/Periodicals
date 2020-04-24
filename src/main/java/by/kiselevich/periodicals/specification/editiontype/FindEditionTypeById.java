@@ -16,7 +16,7 @@ public class FindEditionTypeById extends SpecificationUtil implements EditionTyp
 
     private static final String FIND_EDITION_TYPE_BY_ID = "select * from edition_type where id = ?";
 
-    private int id;
+    private final int id;
 
     public FindEditionTypeById(int id) {
         this.id = id;

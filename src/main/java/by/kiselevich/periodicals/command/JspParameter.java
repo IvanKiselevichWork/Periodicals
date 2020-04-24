@@ -17,7 +17,7 @@ public enum JspParameter {
     PERIOD("period"),
     AMOUNT("amount");
 
-    private String value;
+    private final String value;
 
     JspParameter(String value) {
         this.value = value;

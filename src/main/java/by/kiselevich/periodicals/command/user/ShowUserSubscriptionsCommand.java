@@ -21,7 +21,7 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 
 public class ShowUserSubscriptionsCommand implements Command {
 
-    private SubscriptionService subscriptionService;
+    private final SubscriptionService subscriptionService;
 
     public ShowUserSubscriptionsCommand() {
         subscriptionService = ServiceFactory.getInstance().getSubscriptionService();

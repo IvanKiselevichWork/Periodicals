@@ -22,7 +22,7 @@ public class EditionRepositoryImpl extends RepositoryUtil implements EditionRepo
     private static final String EDITION_NOT_BLOCKED_MESSAGE = "Edition was not blocked";
     private static final String EDITION_NOT_UNBLOCKED_MESSAGE = "Edition was not unblocked";
 
-    private ConnectionPool connectionPool;
+    private final ConnectionPool connectionPool;
 
     public EditionRepositoryImpl(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;

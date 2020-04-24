@@ -10,7 +10,7 @@ public class TransactionConnectionPool implements ConnectionPool {
 
     private static final Logger LOG = LogManager.getLogger(TransactionConnectionPool.class);
 
-    private TransactionConnectionProxy connection;
+    private final TransactionConnectionProxy connection;
 
     public TransactionConnectionPool(Connection connection) {
         try {

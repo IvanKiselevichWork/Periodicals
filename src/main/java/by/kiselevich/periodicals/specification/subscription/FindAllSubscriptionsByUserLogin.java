@@ -16,7 +16,7 @@ public class FindAllSubscriptionsByUserLogin extends SpecificationUtil implement
 
     private static final String FIND_ALL_SUBSCRIPTION_BY_USER_LOGIN = "select * from subscription inner join edition on subscription.edition_id = edition.id inner  join edition_type on edition.type_id = edition_type.id inner join edition_theme on edition.theme_id = edition_theme.id inner join user on subscription.user_id = user.id inner join user_role on user.role_id = user_role.id where user.login = ?";
 
-    private String userLogin;
+    private final String userLogin;
 
     public FindAllSubscriptionsByUserLogin(String userLogin) {
         this.userLogin = userLogin;

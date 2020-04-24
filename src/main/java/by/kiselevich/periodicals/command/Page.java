@@ -8,7 +8,7 @@ public enum Page {
     USER_PAGE("/jsp/user.jsp"),
     EMPTY_PAGE("");
 
-    private String path;
+    private final String path;
 
     Page(String page) {
         this.path = page;

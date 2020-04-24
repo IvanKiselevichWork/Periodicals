@@ -36,7 +36,7 @@ public enum ResourceBundleMessages {
 
     INTERNAL_ERROR("internal_error");
 
-    private String key;
+    private final String key;
 
     ResourceBundleMessages(String key) {
         this.key = key;

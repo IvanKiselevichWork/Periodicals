@@ -17,13 +17,13 @@ import by.kiselevich.periodicals.service.user.UserServiceImpl;
 
 public class ServiceFactory {
 
-    private UserService userService;
-    private EditionService editionService;
-    private PaymentService paymentService;
-    private SubscriptionService subscriptionService;
-    private EditionThemeService editionThemeService;
-    private EditionTypeService editionTypeService;
-    private MailService mailService;
+    private final UserService userService;
+    private final EditionService editionService;
+    private final PaymentService paymentService;
+    private final SubscriptionService subscriptionService;
+    private final EditionThemeService editionThemeService;
+    private final EditionTypeService editionTypeService;
+    private final MailService mailService;
 
     private ServiceFactory(){
         userService = new UserServiceImpl();

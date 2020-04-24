@@ -13,7 +13,7 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 
 public class UnblockUserCommand implements Command {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UnblockUserCommand() {
         userService = ServiceFactory.getInstance().getUserService();

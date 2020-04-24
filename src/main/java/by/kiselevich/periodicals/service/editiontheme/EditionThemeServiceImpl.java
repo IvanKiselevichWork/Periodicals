@@ -17,7 +17,7 @@ public class EditionThemeServiceImpl implements EditionThemeService {
 
     private static final Logger LOG = LogManager.getLogger(EditionThemeServiceImpl.class);
 
-    private ThemeRepository themeRepository;
+    private final ThemeRepository themeRepository;
 
     public EditionThemeServiceImpl() {
         themeRepository = RepositoryFactory.getInstance().getThemeRepository();

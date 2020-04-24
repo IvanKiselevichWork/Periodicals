@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
 
-    private UserRepository userRepository;
-    private UserValidator userValidator;
+    private final UserRepository userRepository;
+    private final UserValidator userValidator;
 
     public UserServiceImpl() {
         userRepository = RepositoryFactory.getInstance().getUserRepository();

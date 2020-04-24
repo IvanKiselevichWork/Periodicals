@@ -17,7 +17,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private static final Logger LOG = LogManager.getLogger(PaymentServiceImpl.class);
 
-    private PaymentRepository paymentRepository;
+    private final PaymentRepository paymentRepository;
 
     public PaymentServiceImpl() {
         paymentRepository = RepositoryFactory.getInstance().getPaymentRepository();

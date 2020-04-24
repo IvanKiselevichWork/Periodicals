@@ -17,11 +17,11 @@ public class TransactionUnitOfWork {
 
     private static final Logger LOG = LogManager.getLogger(TransactionUnitOfWork.class);
 
-    private TransactionConnectionPool connectionPool;
+    private final TransactionConnectionPool connectionPool;
 
-    private SubscriptionRepository subscriptionRepository;
-    private PaymentRepository paymentRepository;
-    private UserRepository userRepository;
+    private final SubscriptionRepository subscriptionRepository;
+    private final PaymentRepository paymentRepository;
+    private final UserRepository userRepository;
 
     public TransactionUnitOfWork() {
         connectionPool = new TransactionConnectionPool(ConnectionPoolImpl.INSTANCE.getConnection());

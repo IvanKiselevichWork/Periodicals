@@ -15,7 +15,7 @@ public class PaymentRepositoryImpl extends RepositoryUtil implements PaymentRepo
 
     private static final String PAYMENT_NOT_ADDED_MESSAGE = "Payment has not been added";
 
-    private ConnectionPool connectionPool;
+    private final ConnectionPool connectionPool;
 
     public PaymentRepositoryImpl(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;

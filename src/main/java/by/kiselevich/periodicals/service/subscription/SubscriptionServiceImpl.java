@@ -27,8 +27,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     private static final Logger LOG = LogManager.getLogger(SubscriptionServiceImpl.class);
 
-    private SubscriptionRepository subscriptionRepository;
-    private SubscriptionValidator subscriptionValidator;
+    private final SubscriptionRepository subscriptionRepository;
+    private final SubscriptionValidator subscriptionValidator;
 
     public SubscriptionServiceImpl() {
         subscriptionRepository = RepositoryFactory.getInstance().getSubscriptionRepository();

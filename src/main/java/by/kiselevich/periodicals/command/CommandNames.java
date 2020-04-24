@@ -47,7 +47,7 @@ public enum CommandNames {
         )
     );
 
-    private Set<CommandName> names;
+    private final Set<CommandName> names;
 
     CommandNames(Set<CommandName> names) {
         this.names = names;

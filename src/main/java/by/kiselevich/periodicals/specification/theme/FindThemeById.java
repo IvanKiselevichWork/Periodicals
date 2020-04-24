@@ -16,7 +16,7 @@ public class FindThemeById extends SpecificationUtil implements ThemeSpecificati
 
     private static final String FIND_THEME_BY_ID = "select * from edition_theme where id = ?";
 
-    private int id;
+    private final int id;
 
     public FindThemeById(int id) {
         this.id = id;

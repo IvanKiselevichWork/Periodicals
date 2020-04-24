@@ -16,7 +16,7 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 
 public class ShowUsersCommand implements Command {
 
-    private UserService userService;
+    private final UserService userService;
 
     public ShowUsersCommand() {
         userService = ServiceFactory.getInstance().getUserService();

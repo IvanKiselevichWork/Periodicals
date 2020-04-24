@@ -13,7 +13,7 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 
 public class BlockEditionCommand implements Command {
 
-    private EditionService editionService;
+    private final EditionService editionService;
 
     public BlockEditionCommand() {
         editionService = ServiceFactory.getInstance().getEditionService();
