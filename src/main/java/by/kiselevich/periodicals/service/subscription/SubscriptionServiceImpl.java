@@ -56,7 +56,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public Subscription addSubscription(Subscription subscription) throws ServiceException {
+    public void addSubscription(Subscription subscription) throws ServiceException {
         TransactionUnitOfWork transactionUnitOfWork = new TransactionUnitOfWork();
         try {
             subscriptionValidator.checkSubscription(subscription);
@@ -86,7 +86,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             transactionUnitOfWork.getSubscriptionRepository().add(subscription);
             transactionUnitOfWork.getPaymentRepository().add(payment);
             transactionUnitOfWork.commit();
-            return subscription;
         } catch (RepositoryException e) {
             LOG.warn(e);
             transactionUnitOfWork.rollback();

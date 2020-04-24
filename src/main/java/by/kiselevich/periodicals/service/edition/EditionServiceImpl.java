@@ -27,11 +27,10 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
-    public Edition add(Edition edition) throws ServiceException {
+    public void add(Edition edition) throws ServiceException {
         try {
             editionValidator.checkEdition(edition);
             editionRepository.add(edition);
-            return edition;
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
@@ -42,11 +41,10 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
-    public Edition update(Edition edition) throws ServiceException {
+    public void update(Edition edition) throws ServiceException {
         try {
             editionValidator.checkEdition(edition);
             editionRepository.update(edition);
-            return edition;
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());

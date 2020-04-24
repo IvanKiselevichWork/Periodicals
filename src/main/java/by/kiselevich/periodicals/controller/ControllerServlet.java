@@ -35,15 +35,23 @@ public class ControllerServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         LOG.trace("ControllerServlet doGet");
-        processRequest(req, resp);
+        try {
+            processRequest(req, resp);
+        } catch (IOException | ServletException e) {
+            LOG.warn(e);
+        }
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         LOG.trace("ControllerServlet doPost");
-        processRequest(req, resp);
+        try {
+            processRequest(req, resp);
+        } catch (IOException | ServletException e) {
+            LOG.warn(e);
+        }
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
