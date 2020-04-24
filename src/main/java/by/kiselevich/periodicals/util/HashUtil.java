@@ -23,6 +23,12 @@ public class HashUtil {
 
     }
 
+    /**
+     * Return SHA-512 hash of {@code array} with {@code salt} as salt
+     * @param array {@code char[]} array to create hash from
+     * @param salt {@link String} data to use as salt while create hash
+     * @return hash {@code String}
+     */
     public static String getHash(char[] array, String salt) {
         if (array == null) {
             throw new UtilRuntimeException(ARRAY_IS_NULL);
