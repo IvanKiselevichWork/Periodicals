@@ -19,6 +19,12 @@ public class SubscriptionValidator {
 
     private static final int MAXIMUM_SUBSCRIPTION_PERIOD = 12;
 
+    /**
+     * Check {@link Subscription} fields: <p>
+     * {@code name}, {@code edition}, subscription period by calculation from {@code subscriptionStartDate} and {@code subscriptionEndDate}, {@code user}
+     * @param subscription {@link Subscription} entity to validate
+     * @throws ValidatorException if one of check failed
+     */
     public void checkSubscription(Subscription subscription) throws ValidatorException {
         if (subscription == null) {
             throw new ValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
