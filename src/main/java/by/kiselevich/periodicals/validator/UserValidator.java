@@ -14,6 +14,12 @@ public class UserValidator {
     private static final String FULL_NAME_REGEX = ".{1,200}";
     private static final String EMAIL_REGEX = "[a-zA-z0-9_-]{1,40}@[a-zA-z0-9_-]{2,40}\\.[a-z]{2,10}";
 
+    /**
+     * Check {@link User} fields: <p>
+     * {@code login}, {@code password}, {@code fullName}, {@code email}
+     * @param user {@link User} entity to validate
+     * @throws ValidatorException if one of check failed
+     */
     public void checkUserCredentialsOnSignUp(User user) throws ValidatorException {
         if (user == null) {
             throw new ValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
@@ -25,6 +31,12 @@ public class UserValidator {
         checkEmail(user.getEmail());
     }
 
+    /**
+     * Check {@link User} fields: <p>
+     * {@code login}, {@code password}
+     * @param user {@link User} entity to validate
+     * @throws ValidatorException if one of check failed
+     */
     public void checkUserCredentialsOnSignIn(User user) throws ValidatorException {
         if (user == null) {
             throw new ValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
