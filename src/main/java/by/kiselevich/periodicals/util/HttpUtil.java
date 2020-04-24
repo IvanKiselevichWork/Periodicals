@@ -24,6 +24,11 @@ public class HttpUtil {
 
     }
 
+    /**
+     * Writes a string to response
+     * @param resp {@link HttpServletResponse} to write message in
+     * @param message {@link String} to be written
+     */
     public static void writeMessageToResponse(HttpServletResponse resp, String message) {
         try {
             resp.setContentType(TEXT_CONTENT_TYPE);
@@ -35,6 +40,12 @@ public class HttpUtil {
         }
     }
 
+    /**
+     * Returns string from {@code pagecontent} {@link ResourceBundle} by key with locale from session
+     * @param session {@link HttpSession} for getting locale
+     * @param key {@link String} to find message by
+     * @return localized message
+     */
     public static String getLocalizedMessageFromResources(HttpSession session, String key) {
         String language = (String) session.getAttribute(Attribute.LANGUAGE.getValue());
         Locale locale;
