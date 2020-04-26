@@ -10,6 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Utility class for {@code Repository} implementations
+ */
 public class RepositoryUtil {
 
     private static final Logger LOG = LogManager.getLogger(RepositoryUtil.class);
