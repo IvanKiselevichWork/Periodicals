@@ -46,6 +46,12 @@ public class EmailSender {
         return EmailSenderHolder.EMAIL_SENDER;
     }
 
+    /**
+     * Send letter to {@code destinationEmail} with letter subject {@code subject} and letter body {@code body} in separate {@code Thread}
+     * @param destinationEmail {@code String} email address
+     * @param subject {@code String} letter subject
+     * @param body {@code String} letter body
+     */
     public void sendLetter(String destinationEmail, String subject, String body) {
         new Thread(() -> sendLetterInThread(destinationEmail, subject, body)).start();
     }
