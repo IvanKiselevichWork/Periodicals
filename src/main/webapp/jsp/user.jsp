@@ -264,7 +264,7 @@
                                                 </thead>
                                                 <tbody>
                                                 <c:forEach var="edition" items="${editions}" varStatus="status">
-                                                    <tr>
+                                                    <tr id="row${edition.key.id}">
                                                         <td><c:out value="${ edition.key.name }"/></td>
                                                         <td><c:out value="${ edition.key.periodicityPerYear }"/></td>
                                                         <td><c:out value="${ edition.key.minimumSubscriptionPeriodInMonths }"/></td>
@@ -274,33 +274,39 @@
                                                                               value = "${ edition.key.priceForMinimumSubscriptionPeriod }" />
                                                         </td>
                                                         <td>
-                                                            <c:if test="${edition.value eq true}">
-                                                                <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0 disabled"
-                                                                        type="button">
-                                                                    <fmt:message key="subscribed"/>
-                                                                </button>
-                                                            </c:if>
-                                                            <c:if test="${edition.value eq false}">
-                                                                <button class="btn btn-outline-success waves-effect py-0 px-1 m-0"
-                                                                        type="button" id="edition${edition.key.id}"
-                                                                        onclick="openModalWindowToSubscribeEdition(this)">
-                                                                    <fmt:message key="subscribe"/>
-                                                                    <input type="hidden" name="id"
-                                                                           value="${edition.key.id}"/>
-                                                                    <input type="hidden" name="name"
-                                                                           value="<c:out value="${ edition.key.name }"/>"/>
-                                                                    <input type="hidden" name="type"
-                                                                           value="<c:out value="${ edition.key.editionType.type }"/>"/>
-                                                                    <input type="hidden" name="theme"
-                                                                           value="<c:out value="${ edition.key.editionTheme.title }"/>"/>
-                                                                    <input type="hidden" name="periodicity"
-                                                                           value="${edition.key.periodicityPerYear}"/>
-                                                                    <input type="hidden" name="minPeriod"
-                                                                           value="${edition.key.minimumSubscriptionPeriodInMonths}"/>
-                                                                    <input type="hidden" name="price"
-                                                                           value="<fmt:formatNumber type="number" maxFractionDigits="2" value = "${ edition.key.priceForMinimumSubscriptionPeriod }"/>"/>
-                                                                </button>
-                                                            </c:if>
+                                                            <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0 disabled"
+                                                                    type="button"
+                                                                    id="subscribed${edition.key.id}"
+                                                                    <c:if test="${edition.value eq false}">
+                                                                        hidden="hidden"
+                                                                    </c:if>
+                                                                >
+                                                                <fmt:message key="subscribed"/>
+                                                            </button>
+                                                            <button class="btn btn-outline-success waves-effect py-0 px-1 m-0"
+                                                                    type="button"
+                                                                    id="subscribe${edition.key.id}"
+                                                                    onclick="openModalWindowToSubscribeEdition(this)"
+                                                                    <c:if test="${edition.value eq true}">
+                                                                        hidden="hidden"
+                                                                    </c:if>
+                                                                >
+                                                                <fmt:message key="subscribe"/>
+                                                                <input type="hidden" name="id"
+                                                                       value="${edition.key.id}"/>
+                                                                <input type="hidden" name="name"
+                                                                       value="<c:out value="${ edition.key.name }"/>"/>
+                                                                <input type="hidden" name="type"
+                                                                       value="<c:out value="${ edition.key.editionType.type }"/>"/>
+                                                                <input type="hidden" name="theme"
+                                                                       value="<c:out value="${ edition.key.editionTheme.title }"/>"/>
+                                                                <input type="hidden" name="periodicity"
+                                                                       value="${edition.key.periodicityPerYear}"/>
+                                                                <input type="hidden" name="minPeriod"
+                                                                       value="${edition.key.minimumSubscriptionPeriodInMonths}"/>
+                                                                <input type="hidden" name="price"
+                                                                       value="<fmt:formatNumber type="number" maxFractionDigits="2" value = "${ edition.key.priceForMinimumSubscriptionPeriod }"/>"/>
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -695,12 +701,14 @@
 
             if (isValid) {
                 $.post('./', $.param(data), function (responseText) {
-                    if (responseText.length < 50) {
+                    if (responseText.length !== 0) {
                         $('#add-new-subscription-message').text(responseText);
                     } else {
-                        document.open();
-                        document.write(responseText);
-                        document.close();
+                        let subscribeButtonElement = $('#subscribe' + data.id);
+                        let subscribedButtonElement = $('#subscribed' + data.id);
+                        $(subscribeButtonElement).prop('hidden', 'hidden');
+                        $(subscribedButtonElement).prop('hidden', '');
+                        $('#modalSubscribe').modal('hide');
                     }
                 });
             }
