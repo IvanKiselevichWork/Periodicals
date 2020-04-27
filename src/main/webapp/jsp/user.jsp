@@ -130,7 +130,7 @@
             <div class="row">
 
                 <!--Grid column-->
-                <div class="col-md-12 mb-4">
+                <div class="col-md-12 mb-4 mt-5">
 
                     <!--Card-->
                     <div class="card mb-4">
@@ -143,6 +143,9 @@
                                     <c:if test="${not empty message}">
                                         <div id="users_div" class="alert alert-danger" role="alert">${message}</div>
                                     </c:if>
+                                    <div class="list-group list-group-flush">
+                                        <h4><fmt:message key="welcome"/> ${sessionScope.fullName}!</h4>
+                                    </div>
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
                                         <div class="list-group-item">

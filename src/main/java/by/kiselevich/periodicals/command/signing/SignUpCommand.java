@@ -41,6 +41,7 @@ public class SignUpCommand implements Command {
             mailService.sendRegistrationLetter(user, req.getSession());
             req.getSession().setAttribute(Attribute.USER_TYPE.getValue(), UserType.USER);
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
+            req.getSession().setAttribute(Attribute.FULL_NAME.getValue(), fullName);
             return Page.HOME_PAGE;
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());

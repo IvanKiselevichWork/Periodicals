@@ -32,6 +32,7 @@ public class SignInCommand implements Command {
             user = userService.signIn(user);
             req.getSession().setAttribute(Attribute.USER_TYPE.getValue(), UserType.getUserTypeByUser(user));
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
+            req.getSession().setAttribute(Attribute.FULL_NAME.getValue(), user.getFullName());
             return Page.HOME_PAGE;
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
