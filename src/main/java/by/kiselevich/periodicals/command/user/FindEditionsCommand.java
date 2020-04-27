@@ -49,7 +49,9 @@ public class FindEditionsCommand implements Command {
             String themeIdString = req.getParameter(JspParameter.THEME_ID.getValue());
 
             String sourceName = name;
-            name = String.format(EDITION_NAME_FORMAT, name);
+            if (name != null) {
+                name = String.format(EDITION_NAME_FORMAT, name);
+            }
             Integer typeId = getIntegerFromString(typeIdString);
             Integer themeId = getIntegerFromString(themeIdString);
             List<Edition> editionList;
