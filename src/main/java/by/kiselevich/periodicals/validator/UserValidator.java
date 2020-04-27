@@ -12,7 +12,7 @@ public class UserValidator {
     private static final String LOGIN_REGEX = "[a-zA-z0-9_]{5,40}";
     private static final String PASSWORD_REGEX = ".{8,200}";
     private static final String FULL_NAME_REGEX = ".{1,200}";
-    private static final String EMAIL_REGEX = "[a-zA-z0-9_-]{1,40}@[a-zA-z0-9_-]{2,40}\\.[a-z]{2,10}";
+    private static final String EMAIL_REGEX = "[a-zA-z0-9_.-]{1,40}@[a-zA-z0-9_-]{2,40}\\.[a-z]{2,10}";
 
     private UserValidator() {}
 
