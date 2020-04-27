@@ -6,6 +6,7 @@ import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.mail.MailService;
 import by.kiselevich.periodicals.service.user.UserService;
+import by.kiselevich.periodicals.util.HttpUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,9 +29,9 @@ public class SignUpCommand implements Command {
         String login = req.getParameter(JspParameter.LOGIN.getValue());
         String password = req.getParameter(JspParameter.PASSWORD.getValue());
         String fullName = req.getParameter(JspParameter.FULL_NAME.getValue());
+        fullName = HttpUtil.parseToPreventXss(fullName);
         String email = req.getParameter(JspParameter.EMAIL.getValue());
         try {
-
             User user = new User();
             user.setLogin(login);
             user.setPassword(password);
