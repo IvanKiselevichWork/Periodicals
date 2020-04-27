@@ -26,8 +26,6 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 
 public class FindEditionsCommand implements Command {
 
-    private static final String EDITION_NAME_FORMAT = "%%%s%%";
-
     private final EditionService editionService;
     private final EditionTypeService editionTypeService;
     private final EditionThemeService editionThemeService;
@@ -48,8 +46,6 @@ public class FindEditionsCommand implements Command {
             String typeIdString = req.getParameter(JspParameter.TYPE_ID.getValue());
             String themeIdString = req.getParameter(JspParameter.THEME_ID.getValue());
 
-            String sourceName = name;
-            name = String.format(EDITION_NAME_FORMAT, name);
             Integer typeId = getIntegerFromString(typeIdString);
             Integer themeId = getIntegerFromString(themeIdString);
             List<Edition> editionList;
@@ -61,7 +57,7 @@ public class FindEditionsCommand implements Command {
             String userLogin = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
             List<Subscription> subscriptionList = subscriptionService.getAllSubscriptionsByUserLogin(userLogin);
 
-            req.setAttribute(Attribute.EDITION_NAME_VALUE.getValue(), sourceName);
+            req.setAttribute(Attribute.EDITION_NAME_VALUE.getValue(), name);
             req.setAttribute(Attribute.EDITION_TYPE_ID_VALUE.getValue(), typeIdString);
             req.setAttribute(Attribute.EDITION_THEME_ID_VALUE.getValue(), themeIdString);
             req.setAttribute(Attribute.EDITIONS.getValue(), EntityMapsFactory.getEditionAndIfUserSubscribedMap(editionList, subscriptionList));

@@ -1,14 +1,19 @@
 package by.kiselevich.periodicals.specification;
 
 import by.kiselevich.periodicals.entity.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
  * Class for getting entities from {@link ResultSet}
+ * and closing {@link ResultSet}
  */
 public class SpecificationUtil {
+
+    private static final Logger LOG = LogManager.getLogger(SpecificationUtil.class);
 
     private static final String EDITION_ID = "edition.id";
     private static final String EDITION_NAME = "edition.name";
@@ -117,5 +122,21 @@ public class SpecificationUtil {
                 .id(resultSet.getInt(USER_ROLE_ID))
                 .role(resultSet.getString(USER_ROLE_ROLE))
                 .build();
+    }
+
+    /**
+     * Close {@code ResultSet} if not null and not closed
+     * @param resultSet {@code ResultSet} to close
+     */
+    protected void closeResultSet(ResultSet resultSet) {
+        if (resultSet != null) {
+            try {
+                if (!resultSet.isClosed()) {
+                    resultSet.close();
+                }
+            } catch (SQLException e) {
+                LOG.warn(e);
+            }
+        }
     }
 }

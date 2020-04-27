@@ -19,6 +19,16 @@ public class SubscriptionValidator {
 
     private static final int MAXIMUM_SUBSCRIPTION_PERIOD = 12;
 
+    private SubscriptionValidator() {}
+
+    private static class SubscriptionValidatorHolder {
+        private static final SubscriptionValidator INSTANCE = new SubscriptionValidator();
+    }
+
+    public static SubscriptionValidator getInstance() {
+        return SubscriptionValidator.SubscriptionValidatorHolder.INSTANCE;
+    }
+
     /**
      * Check {@link Subscription} fields: <p>
      * {@code name}, {@code edition}, subscription period by calculation from {@code subscriptionStartDate} and {@code subscriptionEndDate}, {@code user}

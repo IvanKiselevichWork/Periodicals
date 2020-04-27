@@ -130,7 +130,7 @@
             <div class="row">
 
                 <!--Grid column-->
-                <div class="col-md-12 mb-4">
+                <div class="col-md-12 mb-4 mt-5">
 
                     <!--Card-->
                     <div class="card mb-4">
@@ -143,6 +143,9 @@
                                     <c:if test="${not empty message}">
                                         <div id="users_div" class="alert alert-danger" role="alert">${message}</div>
                                     </c:if>
+                                    <div class="list-group list-group-flush">
+                                        <h4><fmt:message key="welcome"/> ${sessionScope.fullName}!</h4>
+                                    </div>
                                     <!-- List group links -->
                                     <div class="list-group list-group-flush">
                                         <div class="list-group-item">
@@ -159,6 +162,7 @@
                                                     <div class="col-sm px-0" id="userBalance">
                                                         <fmt:formatNumber type="number"
                                                                           maxFractionDigits="2"
+                                                                          groupingUsed="false"
                                                                           value = "${userBalance}" />
                                                     </div>
                                                     <div class="col-sm px-0">
@@ -264,43 +268,54 @@
                                                 </thead>
                                                 <tbody>
                                                 <c:forEach var="edition" items="${editions}" varStatus="status">
-                                                    <tr>
+                                                    <tr id="row${edition.key.id}">
                                                         <td><c:out value="${ edition.key.name }"/></td>
                                                         <td><c:out value="${ edition.key.periodicityPerYear }"/></td>
                                                         <td><c:out value="${ edition.key.minimumSubscriptionPeriodInMonths }"/></td>
                                                         <td>
                                                             <fmt:formatNumber type="number"
+                                                                              groupingUsed="false"
                                                                               maxFractionDigits="2"
                                                                               value = "${ edition.key.priceForMinimumSubscriptionPeriod }" />
                                                         </td>
                                                         <td>
-                                                            <c:if test="${edition.value eq true}">
-                                                                <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0 disabled"
-                                                                        type="button">
-                                                                    <fmt:message key="subscribed"/>
-                                                                </button>
-                                                            </c:if>
-                                                            <c:if test="${edition.value eq false}">
-                                                                <button class="btn btn-outline-success waves-effect py-0 px-1 m-0"
-                                                                        type="button" id="edition${edition.key.id}"
-                                                                        onclick="openModalWindowToSubscribeEdition(this)">
-                                                                    <fmt:message key="subscribe"/>
-                                                                    <input type="hidden" name="id"
-                                                                           value="${edition.key.id}"/>
-                                                                    <input type="hidden" name="name"
-                                                                           value="<c:out value="${ edition.key.name }"/>"/>
-                                                                    <input type="hidden" name="type"
-                                                                           value="<c:out value="${ edition.key.editionType.type }"/>"/>
-                                                                    <input type="hidden" name="theme"
-                                                                           value="<c:out value="${ edition.key.editionTheme.title }"/>"/>
-                                                                    <input type="hidden" name="periodicity"
-                                                                           value="${edition.key.periodicityPerYear}"/>
-                                                                    <input type="hidden" name="minPeriod"
-                                                                           value="${edition.key.minimumSubscriptionPeriodInMonths}"/>
-                                                                    <input type="hidden" name="price"
-                                                                           value="<fmt:formatNumber type="number" maxFractionDigits="2" value = "${ edition.key.priceForMinimumSubscriptionPeriod }"/>"/>
-                                                                </button>
-                                                            </c:if>
+                                                            <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0 disabled"
+                                                                    type="button"
+                                                                    id="subscribed${edition.key.id}"
+                                                                    <c:if test="${edition.value eq false}">
+                                                                        hidden="hidden"
+                                                                    </c:if>
+                                                                >
+                                                                <fmt:message key="subscribed"/>
+                                                            </button>
+                                                            <button class="btn btn-outline-success waves-effect py-0 px-1 m-0"
+                                                                    type="button"
+                                                                    id="subscribe${edition.key.id}"
+                                                                    onclick="openModalWindowToSubscribeEdition(this)"
+                                                                    <c:if test="${edition.value eq true}">
+                                                                        hidden="hidden"
+                                                                    </c:if>
+                                                                >
+                                                                <fmt:message key="subscribe"/>
+                                                                <input type="hidden" name="id"
+                                                                       value="${edition.key.id}"/>
+                                                                <input type="hidden" name="name"
+                                                                       value="<c:out value="${ edition.key.name }"/>"/>
+                                                                <input type="hidden" name="type"
+                                                                       value="<c:out value="${ edition.key.editionType.type }"/>"/>
+                                                                <input type="hidden" name="theme"
+                                                                       value="<c:out value="${ edition.key.editionTheme.title }"/>"/>
+                                                                <input type="hidden" name="periodicity"
+                                                                       value="${edition.key.periodicityPerYear}"/>
+                                                                <input type="hidden" name="minPeriod"
+                                                                       value="${edition.key.minimumSubscriptionPeriodInMonths}"/>
+                                                                <input type="hidden" name="price"
+                                                                       value="<fmt:formatNumber
+                                                                            groupingUsed="false"
+                                                                            maxFractionDigits="2"
+                                                                            type="number"
+                                                                            value = "${ edition.key.priceForMinimumSubscriptionPeriod }"/>"/>
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -348,12 +363,6 @@
                                                                         <em class="fas fa-arrow-up ml-1"></em>
                                                                     </span>
                                                                 </c:when>
-                                                                <c:when test="${ payment.paymentType.type eq 'refund'}">
-                                                                    <span class="badge badge-warning badge-pill pull-right">
-                                                                        <c:out value="${ payment.paymentType.type }"/>
-                                                                        <em class="fas fa-arrow-up ml-1"></em>
-                                                                    </span>
-                                                                </c:when>
                                                                 <c:when test="${ payment.paymentType.type eq 'payment'}">
                                                                     <span class="badge badge-danger badge-pill pull-right">
                                                                         <c:out value="${ payment.paymentType.type }"/>
@@ -366,6 +375,7 @@
                                                         <td>
                                                             <fmt:formatNumber type="number"
                                                                               maxFractionDigits="2"
+                                                                              groupingUsed="false"
                                                                               value = "${payment.amount}" />
                                                         </td>
                                                         <td>
@@ -515,7 +525,7 @@
                                 <label for="edition-period-label-sub"><fmt:message key="period"/></label>
                                 <input type="number" class="form-control" id="edition-period-label-sub" name="period"
                                        placeholder="<fmt:message key="enter_subscription_period"/>" min="1" max="12"
-                                       onchange="onPeriodChange()">
+                                       oninput="onPeriodChange()">
                             </div>
 
                             <div class="form-group">
@@ -680,6 +690,7 @@
                 command: 'ADD_SUBSCRIPTION',
                 id: idInput.val(),
                 period: periodInput.val(),
+                amount: $('#finalPriceInput').val()
             };
 
             const regexInt = RegExp(/^[1-9]\d*$/i);
@@ -701,12 +712,14 @@
 
             if (isValid) {
                 $.post('./', $.param(data), function (responseText) {
-                    if (responseText.length < 50) {
+                    if (responseText.length !== 0) {
                         $('#add-new-subscription-message').text(responseText);
                     } else {
-                        document.open();
-                        document.write(responseText);
-                        document.close();
+                        let subscribeButtonElement = $('#subscribe' + data.id);
+                        let subscribedButtonElement = $('#subscribed' + data.id);
+                        $(subscribeButtonElement).prop('hidden', 'hidden');
+                        $(subscribedButtonElement).prop('hidden', '');
+                        $('#modalSubscribe').modal('hide');
                     }
                 });
             }
@@ -721,7 +734,7 @@
             const periodInput = $('#edition-period-label-sub');
             const finalPriceInput = $('#edition-final-price-label-sub');
 
-            let price = periodInput.val() * priceInput.val() / minPeriodInput.val();
+            let price = periodInput.val() * priceInput.val().replace(/,/g, '.') / minPeriodInput.val();
             price = Math.round((price + Number.EPSILON) * 100) / 100;
             finalPriceInput.val(price);
         }

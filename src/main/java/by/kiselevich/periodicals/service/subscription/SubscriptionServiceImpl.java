@@ -32,7 +32,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     public SubscriptionServiceImpl() {
         subscriptionRepository = RepositoryFactory.getInstance().getSubscriptionRepository();
-        subscriptionValidator = new SubscriptionValidator();
+        subscriptionValidator = SubscriptionValidator.getInstance();
     }
 
     @Override

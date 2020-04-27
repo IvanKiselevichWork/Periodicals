@@ -12,16 +12,18 @@ public interface UserService {
     /**
      * Sign up user by validating and adding it to data source
      * @param user {@code User} for signing up
+     * @return {@link User} if valid and added
      * @throws ServiceException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      */
-    void signUp(User user) throws ServiceException;
+    User signUp(User user) throws ServiceException;
 
     /**
      * Sign in user by validating and setting role from data source
      * @param user {@code User} for signing in
+     * @return {@link User} if valid and exist
      * @throws ServiceException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      */
-    void signIn(User user) throws ServiceException;
+    User signIn(User user) throws ServiceException;
 
     /**
      * Returns {@code Optional<User>} by login from data source

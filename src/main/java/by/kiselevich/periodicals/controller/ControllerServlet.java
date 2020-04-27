@@ -63,7 +63,7 @@ public class ControllerServlet extends HttpServlet {
                 Command command = commandProvider.getCommand(commandParameter);
                 LOG.info("Executing command: {}", command);
                 Page page = command.execute(req, resp);
-                if (page != Page.EMPTY_PAGE && command != commandProvider.getCommand(CommandName.CHANGE_LANGUAGE)) {
+                if (page != Page.EMPTY_PAGE) {
                     req.getRequestDispatcher(page.getPath()).forward(req, resp);
                 }
             } catch (RuntimeException e) {

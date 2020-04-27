@@ -36,7 +36,7 @@ public class UserRepositoryImpl extends RepositoryUtil implements UserRepository
     }
 
     @Override
-    public void add(User user) throws RepositoryException {
+    public User add(User user) throws RepositoryException {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(ADD_USER, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getLogin());
@@ -48,6 +48,7 @@ public class UserRepositoryImpl extends RepositoryUtil implements UserRepository
             int generatedId = executeUpdateOneRowAndGetGeneratedId(statement, USER_NOT_ADDED_MESSAGE);
             user.setId(generatedId);
             user.setPassword(hash);
+            return user;
         } catch (SQLException e) {
             throw new RepositoryException(e);
         }

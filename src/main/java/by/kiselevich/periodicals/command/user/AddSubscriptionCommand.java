@@ -77,16 +77,14 @@ public class AddSubscriptionCommand implements Command {
                     .user(user)
                     .build();
             subscriptionService.addSubscription(subscription);
-            return CommandProvider.getInstance().getCommand(CommandName.SHOW_USER_SUBSCRIPTIONS).execute(req,resp);
         } catch (NumberFormatException e) {
             LOG.info(e);
             String message = getLocalizedMessageFromResources(req.getSession(), ResourceBundleMessages.INVALID_DATA_FORMAT.getKey());
             writeMessageToResponse(resp, message);
-            return Page.EMPTY_PAGE;
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
             writeMessageToResponse(resp, message);
-            return Page.EMPTY_PAGE;
         }
+        return Page.EMPTY_PAGE;
     }
 }

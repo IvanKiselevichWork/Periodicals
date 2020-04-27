@@ -4,6 +4,7 @@ public enum Attribute {
     MESSAGE("message"),
     USER_TYPE("userType"),
     LOGIN("login"),
+    FULL_NAME("fullName"),
     LANGUAGE("language"),
     ADMIN_PAGE_OPTION("adminPageOption"),
     USER_PAGE_OPTION("userPageOption"),

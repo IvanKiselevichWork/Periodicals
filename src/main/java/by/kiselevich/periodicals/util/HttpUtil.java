@@ -19,6 +19,9 @@ public class HttpUtil {
     private static final String UTF_8_ENCODING = "UTF-8";
     private static final String RESOURCE_NAME = "pagecontent";
     private static final Locale DEFAULT_LOCALE = new Locale("en");
+    private static final String XSS_SYMBOLS_REGEX = "[%<>]";
+    private static final String XSS_SYMBOL_REPLACEMENT = "_";
+
 
     private HttpUtil() {
 
@@ -57,5 +60,14 @@ public class HttpUtil {
 
         ResourceBundle resourceBundle = ResourceBundle.getBundle(RESOURCE_NAME, locale);
         return resourceBundle.getString(key);
+    }
+
+    /**
+     * Replace symbols {@code <>&} with '_' to prevent XSS
+     * @param data {@code String} to replace
+     * @return {@code String} without XSS symbols
+     */
+    public static String parseToPreventXss(String data) {
+        return data.replaceAll(XSS_SYMBOLS_REGEX, XSS_SYMBOL_REPLACEMENT);
     }
 }

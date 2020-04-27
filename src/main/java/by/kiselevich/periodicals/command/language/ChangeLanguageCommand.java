@@ -26,6 +26,7 @@ public class ChangeLanguageCommand implements Command {
             String prev = req.getHeader(REFERER_HEADER);
             try {
                 resp.sendRedirect(prev);
+                return Page.EMPTY_PAGE;
             } catch (IOException e) {
                 LOG.warn(e);
             }
