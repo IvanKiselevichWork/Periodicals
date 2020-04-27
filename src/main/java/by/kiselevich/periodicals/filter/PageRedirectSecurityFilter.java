@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * {@link Filter} implementation to prevent direct usage of jsp pages
+ */
 public class PageRedirectSecurityFilter implements Filter {
 
     private static final String COMMAND_PARAMETER_PREFIX = "/?command=";
