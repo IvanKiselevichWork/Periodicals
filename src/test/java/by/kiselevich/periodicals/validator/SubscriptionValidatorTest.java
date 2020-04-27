@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 
 public class SubscriptionValidatorTest extends Assert {
 
-    private static final SubscriptionValidator subscriptionValidator = new SubscriptionValidator();
+    private static final SubscriptionValidator subscriptionValidator = SubscriptionValidator.getInstance();
 
     @Before
     public void init() throws NoJDBCDriverException, NoJDBCPropertiesException {
