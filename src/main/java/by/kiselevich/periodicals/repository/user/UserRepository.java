@@ -9,9 +9,10 @@ public interface UserRepository extends Repository<User> {
     /**
      * Adds {@code User} to data source
      * @param user {@link User} to add
+     * @return {@link User} if added
      * @throws RepositoryException if error occurs
      */
-    void add(User user) throws RepositoryException;
+    User add(User user) throws RepositoryException;
 
     /**
      * Updates {@code User} in data source

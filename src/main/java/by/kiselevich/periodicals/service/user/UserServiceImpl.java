@@ -37,15 +37,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void signUp(User user) throws ServiceException {
+    public User signUp(User user) throws ServiceException {
         try {
             userValidator.checkUserCredentialsOnSignUp(user);
 
             if (!userRepository.query(new FindUserByLogin(user.getLogin())).isEmpty()) {
                 throw new ServiceException(ResourceBundleMessages.LOGIN_IN_USE_KEY.getKey());
             }
-
-            userRepository.add(user);
+            user = userRepository.add(user);
+            return user;
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());

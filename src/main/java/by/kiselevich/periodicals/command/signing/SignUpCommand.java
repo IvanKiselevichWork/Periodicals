@@ -36,7 +36,7 @@ public class SignUpCommand implements Command {
             user.setPassword(password);
             user.setFullName(fullName);
             user.setEmail(email);
-            userService.signUp(user);
+            user = userService.signUp(user);
             mailService.sendRegistrationLetter(user, req.getSession());
             req.getSession().setAttribute(Attribute.USER_TYPE.getValue(), UserType.USER);
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
