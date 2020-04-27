@@ -6,6 +6,10 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * This pool contains exactly one {@link TransactionConnectionProxy} to work with {@link by.kiselevich.periodicals.repository.Repository}
+ * with transaction support
+ */
 public class TransactionConnectionPool implements ConnectionPool {
 
     private static final Logger LOG = LogManager.getLogger(TransactionConnectionPool.class);
