@@ -159,6 +159,7 @@
                                                     <div class="col-sm px-0" id="userBalance">
                                                         <fmt:formatNumber type="number"
                                                                           maxFractionDigits="2"
+                                                                          groupingUsed="false"
                                                                           value = "${userBalance}" />
                                                     </div>
                                                     <div class="col-sm px-0">
@@ -270,6 +271,7 @@
                                                         <td><c:out value="${ edition.key.minimumSubscriptionPeriodInMonths }"/></td>
                                                         <td>
                                                             <fmt:formatNumber type="number"
+                                                                              groupingUsed="false"
                                                                               maxFractionDigits="2"
                                                                               value = "${ edition.key.priceForMinimumSubscriptionPeriod }" />
                                                         </td>
@@ -305,7 +307,11 @@
                                                                 <input type="hidden" name="minPeriod"
                                                                        value="${edition.key.minimumSubscriptionPeriodInMonths}"/>
                                                                 <input type="hidden" name="price"
-                                                                       value="<fmt:formatNumber type="number" maxFractionDigits="2" value = "${ edition.key.priceForMinimumSubscriptionPeriod }"/>"/>
+                                                                       value="<fmt:formatNumber
+                                                                            groupingUsed="false"
+                                                                            maxFractionDigits="2"
+                                                                            type="number"
+                                                                            value = "${ edition.key.priceForMinimumSubscriptionPeriod }"/>"/>
                                                             </button>
                                                         </td>
                                                     </tr>
@@ -366,6 +372,7 @@
                                                         <td>
                                                             <fmt:formatNumber type="number"
                                                                               maxFractionDigits="2"
+                                                                              groupingUsed="false"
                                                                               value = "${payment.amount}" />
                                                         </td>
                                                         <td>
@@ -515,7 +522,7 @@
                                 <label for="edition-period-label-sub"><fmt:message key="period"/></label>
                                 <input type="number" class="form-control" id="edition-period-label-sub" name="period"
                                        placeholder="<fmt:message key="enter_subscription_period"/>" min="1" max="12"
-                                       onchange="onPeriodChange()">
+                                       oninput="onPeriodChange()">
                             </div>
 
                             <div class="form-group">
@@ -680,6 +687,7 @@
                 command: 'ADD_SUBSCRIPTION',
                 id: idInput.val(),
                 period: periodInput.val(),
+                amount: $('#finalPriceInput').val()
             };
 
             const regexInt = RegExp(/^[1-9]\d*$/i);
@@ -723,7 +731,7 @@
             const periodInput = $('#edition-period-label-sub');
             const finalPriceInput = $('#edition-final-price-label-sub');
 
-            let price = periodInput.val() * priceInput.val() / minPeriodInput.val();
+            let price = periodInput.val() * priceInput.val().replace(/,/g, '.') / minPeriodInput.val();
             price = Math.round((price + Number.EPSILON) * 100) / 100;
             finalPriceInput.val(price);
         }
