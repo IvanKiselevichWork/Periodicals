@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 
 public class EditionValidatorTest extends Assert {
 
-    private static final EditionValidator editionValidator = new EditionValidator();
+    private static final EditionValidator editionValidator = EditionValidator.getInstance();
 
     @Before
     public void init() throws NoJDBCDriverException, NoJDBCPropertiesException {

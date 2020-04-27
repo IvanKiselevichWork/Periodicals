@@ -23,7 +23,7 @@ public class EditionServiceImpl implements EditionService {
 
     public EditionServiceImpl() {
         editionRepository = RepositoryFactory.getInstance().getEditionRepository();
-        editionValidator = new EditionValidator();
+        editionValidator = EditionValidator.getInstance();
     }
 
     @Override

@@ -19,9 +19,19 @@ public class EditionValidator {
 
     private static final String NAME_REGEX = ".{1,200}";
 
+    private EditionValidator() {}
+
+    private static class EditionValidatorHolder {
+        private static final EditionValidator INSTANCE = new EditionValidator();
+    }
+
+    public static EditionValidator getInstance() {
+        return EditionValidatorHolder.INSTANCE;
+    }
+
     /**
      * Check {@link Edition} fields: <p>
-     *     {@code name}, {@code editionType}, {@code editionTheme}, {@code periodicityPerYear}, {@code MinimumSubscriptionPeriodInMonths}, {@code priceForMinimumSubscriptionPeriod}
+     * {@code name}, {@code editionType}, {@code editionTheme}, {@code periodicityPerYear}, {@code MinimumSubscriptionPeriodInMonths}, {@code priceForMinimumSubscriptionPeriod}
      * @param edition {@link Edition} entity to validate
      * @throws ValidatorException if one of check failed
      */
