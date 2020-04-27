@@ -29,7 +29,7 @@ public class SignInCommand implements Command {
             User user = new User();
             user.setLogin(login);
             user.setPassword(password);
-            userService.signIn(user);
+            user = userService.signIn(user);
             req.getSession().setAttribute(Attribute.USER_TYPE.getValue(), UserType.getUserTypeByUser(user));
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
             return Page.HOME_PAGE;
