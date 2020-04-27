@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class UserValidatorTest extends Assert {
 
-    private static final UserValidator userValidator = new UserValidator();
+    private static final UserValidator userValidator = UserValidator.getInstance();
 
     @Test
     public void testCheckUserCredentialsOnSignUpPositive() throws ValidatorException {

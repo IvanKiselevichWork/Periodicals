@@ -14,6 +14,16 @@ public class UserValidator {
     private static final String FULL_NAME_REGEX = ".{1,200}";
     private static final String EMAIL_REGEX = "[a-zA-z0-9_-]{1,40}@[a-zA-z0-9_-]{2,40}\\.[a-z]{2,10}";
 
+    private UserValidator() {}
+
+    private static class UserValidatorHolder {
+        private static final UserValidator INSTANCE = new UserValidator();
+    }
+
+    public static UserValidator getInstance() {
+        return UserValidator.UserValidatorHolder.INSTANCE;
+    }
+
     /**
      * Check {@link User} fields: <p>
      * {@code login}, {@code password}, {@code fullName}, {@code email}

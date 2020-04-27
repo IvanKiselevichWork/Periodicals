@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 
     public UserServiceImpl() {
         userRepository = RepositoryFactory.getInstance().getUserRepository();
-        userValidator = new UserValidator();
+        userValidator = UserValidator.getInstance();
     }
 
     @Override
