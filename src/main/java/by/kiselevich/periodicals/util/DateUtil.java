@@ -14,12 +14,23 @@ public class DateUtil {
 
     }
 
+    /**
+     * Returns {@link Subscription} period in months
+     * @param subscription {@code Subscription} object to calculate period from
+     * @return integer period in months
+     */
     public static int getIntegerSubscriptionPeriodInMonths(Subscription subscription) {
         Timestamp start = subscription.getSubscriptionStartDate();
         Timestamp end = subscription.getSubscriptionEndDate();
         return getPeriod(start, end);
     }
 
+    /**
+     * Returns period in months between two {@link Timestamp}
+     * @param start {@code Timestamp} period start from
+     * @param end {@code Timestamp} period end with
+     * @return integer period in months
+     */
     public static int getIntegerSubscriptionPeriodInMonths(Timestamp start, Timestamp end) {
         return getPeriod(start, end);
     }

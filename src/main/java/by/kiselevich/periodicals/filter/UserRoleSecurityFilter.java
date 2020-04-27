@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * {@link Filter} implementation to set user role to {@code GUEST} if user dont has role
+ */
 public class UserRoleSecurityFilter implements Filter {
 
     private static final Logger LOG = LogManager.getLogger(UserRoleSecurityFilter.class);

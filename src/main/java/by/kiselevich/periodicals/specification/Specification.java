@@ -8,8 +8,17 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface Specification<T> {
+    /**
+     * Execute {@code Specification} and return result as {@code List}
+     * @return {@code List} result
+     * @throws RepositoryException if repository error occurs
+     */
     List<T> query() throws RepositoryException;
 
+    /**
+     * Close {@code ResultSet} if not null and not closed
+     * @param resultSet {@code ResultSet} to close
+     */
     default void closeResultSet(ResultSet resultSet) {
         if (resultSet != null) {
             try {

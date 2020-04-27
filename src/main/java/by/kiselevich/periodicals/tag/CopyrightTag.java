@@ -9,6 +9,9 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
+/**
+ * JSTL tag printing copyright
+ */
 public class CopyrightTag extends TagSupport {
 
     private static final Logger LOG = LogManager.getLogger(CopyrightTag.class);

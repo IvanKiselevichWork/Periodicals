@@ -13,6 +13,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 
+/**
+ * Class to work with repositories {@link SubscriptionRepository}, {@link PaymentRepository}, {@link UserRepository}
+ * with transactions support
+ */
 public class TransactionUnitOfWork {
 
     private static final Logger LOG = LogManager.getLogger(TransactionUnitOfWork.class);

@@ -5,6 +5,9 @@ import by.kiselevich.periodicals.entity.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Class for getting entities from {@link ResultSet}
+ */
 public class SpecificationUtil {
 
     private static final String EDITION_ID = "edition.id";

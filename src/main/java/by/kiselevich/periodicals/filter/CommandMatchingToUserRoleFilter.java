@@ -11,6 +11,9 @@ import java.util.Set;
 
 import static by.kiselevich.periodicals.command.CommandName.*;
 
+/**
+ * {@link Filter} implementation to check if user command match to user role
+ */
 public class CommandMatchingToUserRoleFilter implements Filter {
 
     private static final Logger LOG = LogManager.getLogger(CommandMatchingToUserRoleFilter.class);
