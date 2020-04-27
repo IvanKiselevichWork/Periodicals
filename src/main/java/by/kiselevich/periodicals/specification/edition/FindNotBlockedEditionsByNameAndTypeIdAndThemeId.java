@@ -15,11 +15,19 @@ import java.util.List;
 public class FindNotBlockedEditionsByNameAndTypeIdAndThemeId extends SpecificationUtil implements EditionSpecification {
 
     private static final String FIND_EDITIONS_BY_NAME = "select * from edition inner join edition_theme on edition.theme_id = edition_theme.id inner join edition_type on edition.type_id = edition_type.id where edition.is_blocked = false";
-    private static final String AND_NAME = " and edition.name like ?";
+    private static final String AND_NAME = " and edition.name like ? escape '!'";
     private static final String AND_TYPE = " and edition_type.id = ?";
     private static final String AND_THEME = " and edition_theme.id = ?";
 
-    private final String name;
+    private static final String EDITION_NAME_FORMAT = "%%%s%%";
+    private static final String EXCLAMATION_MARK = "!";
+    private static final String EXCLAMATION_MARK_REPLACEMENT = "!!";
+    private static final String PERCENT_SIGN = "%";
+    private static final String PERCENT_SIGN_REPLACEMENT = "!%";
+    private static final String UNDERSCORE_SYMBOL = "_";
+    private static final String UNDERSCORE_SYMBOL_REPLACEMENT = "!_";
+
+    private String name;
     private final Integer typeId;
     private final Integer themeId;
 
@@ -52,6 +60,10 @@ public class FindNotBlockedEditionsByNameAndTypeIdAndThemeId extends Specificati
     private String buildSqlQuery() {
         StringBuilder result = new StringBuilder(FIND_EDITIONS_BY_NAME);
         if (name != null) {
+            name = name.replace(EXCLAMATION_MARK, EXCLAMATION_MARK_REPLACEMENT)
+                    .replace(PERCENT_SIGN, PERCENT_SIGN_REPLACEMENT)
+                    .replace(UNDERSCORE_SYMBOL, UNDERSCORE_SYMBOL_REPLACEMENT);
+            name = String.format(EDITION_NAME_FORMAT, name);
             result.append(AND_NAME);
         }
         if (typeId != null) {
