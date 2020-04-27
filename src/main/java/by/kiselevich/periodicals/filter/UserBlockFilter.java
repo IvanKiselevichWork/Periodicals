@@ -15,6 +15,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * {@link Filter} implementation to prevent user activity if user has been banned
+ */
 public class UserBlockFilter implements Filter {
 
     private static final Logger LOG = LogManager.getLogger(UserBlockFilter.class);
