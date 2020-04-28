@@ -17,7 +17,7 @@ import java.sql.SQLException;
  * Class to work with repositories {@link SubscriptionRepository}, {@link PaymentRepository}, {@link UserRepository}
  * with transactions support
  */
-public class TransactionUnitOfWork {
+public class TransactionUnitOfWork implements AutoCloseable {
 
     private static final Logger LOG = LogManager.getLogger(TransactionUnitOfWork.class);
 
@@ -47,24 +47,23 @@ public class TransactionUnitOfWork {
     }
 
     public void commit() throws RepositoryException {
-        TransactionConnectionProxy connection = connectionPool.getConnection();
         try {
-            connection.commit();
+            connectionPool.getConnection().commit();
         } catch (SQLException e) {
             throw new RepositoryException(e);
-        } finally {
-            ConnectionPoolImpl.INSTANCE.returnConnection(connection.getInnerConnection());
         }
     }
 
     public void rollback() {
-        TransactionConnectionProxy connection = connectionPool.getConnection();
         try {
-            connection.rollback();
+            connectionPool.getConnection().rollback();
         } catch (SQLException e) {
             LOG.warn(e);
-        } finally {
-            ConnectionPoolImpl.INSTANCE.returnConnection(connection.getInnerConnection());
         }
+    }
+
+    @Override
+    public void close() {
+        ConnectionPoolImpl.INSTANCE.returnConnection(connectionPool.getConnection().getInnerConnection());
     }
 }

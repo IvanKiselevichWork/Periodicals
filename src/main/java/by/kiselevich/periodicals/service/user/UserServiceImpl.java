@@ -163,6 +163,8 @@ public class UserServiceImpl implements UserService {
             transactionUnitOfWork.rollback();
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        } finally {
+            transactionUnitOfWork.close();
         }
     }
 }
