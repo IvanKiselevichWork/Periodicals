@@ -33,7 +33,7 @@ public class SubscriptionValidator {
      * Check {@link Subscription} fields: <p>
      * {@code name}, {@code edition}, subscription period by calculation from {@code subscriptionStartDate} and {@code subscriptionEndDate}, {@code user}
      * @param subscription {@link Subscription} entity to validate
-     * @throws ValidatorException if one of check failed
+     * @throws ValidatorException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      */
     public void checkSubscription(Subscription subscription) throws ValidatorException {
         if (subscription == null) {

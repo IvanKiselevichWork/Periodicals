@@ -28,7 +28,7 @@ public class UserValidator {
      * Check {@link User} fields: <p>
      * {@code login}, {@code password}, {@code fullName}, {@code email}
      * @param user {@link User} entity to validate
-     * @throws ValidatorException if one of check failed
+     * @throws ValidatorException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      */
     public void checkUserCredentialsOnSignUp(User user) throws ValidatorException {
         if (user == null) {
@@ -45,7 +45,7 @@ public class UserValidator {
      * Check {@link User} fields: <p>
      * {@code login}, {@code password}
      * @param user {@link User} entity to validate
-     * @throws ValidatorException if one of check failed
+     * @throws ValidatorException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      */
     public void checkUserCredentialsOnSignIn(User user) throws ValidatorException {
         if (user == null) {

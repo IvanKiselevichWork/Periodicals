@@ -93,6 +93,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         } catch (ValidatorException e) {
             LOG.info(e);
             throw new ServiceException(e.getMessage());
+        } finally {
+            transactionUnitOfWork.close();
         }
     }
 }
