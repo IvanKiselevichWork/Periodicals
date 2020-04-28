@@ -33,7 +33,7 @@ public class EditionValidator {
      * Check {@link Edition} fields: <p>
      * {@code name}, {@code editionType}, {@code editionTheme}, {@code periodicityPerYear}, {@code MinimumSubscriptionPeriodInMonths}, {@code priceForMinimumSubscriptionPeriod}
      * @param edition {@link Edition} entity to validate
-     * @throws ValidatorException if one of check failed
+     * @throws ValidatorException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      */
     public void checkEdition(Edition edition) throws ValidatorException {
         if (edition == null) {
