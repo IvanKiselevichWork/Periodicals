@@ -5,6 +5,7 @@ import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.ConnectionPoolImpl;
 import by.kiselevich.periodicals.pool.ConnectionProxy;
 import by.kiselevich.periodicals.specification.SpecificationUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -59,7 +60,7 @@ public class FindNotBlockedEditionsByNameAndTypeIdAndThemeId extends Specificati
 
     private String buildSqlQuery() {
         StringBuilder result = new StringBuilder(FIND_EDITIONS_BY_NAME);
-        if (name != null) {
+        if (!StringUtils.isEmpty(name)) {
             name = name.replace(EXCLAMATION_MARK, EXCLAMATION_MARK_REPLACEMENT)
                     .replace(PERCENT_SIGN, PERCENT_SIGN_REPLACEMENT)
                     .replace(UNDERSCORE_SYMBOL, UNDERSCORE_SYMBOL_REPLACEMENT);
@@ -77,7 +78,7 @@ public class FindNotBlockedEditionsByNameAndTypeIdAndThemeId extends Specificati
 
     private void setParametersInPreparedStatement(PreparedStatement statement) throws SQLException {
         int index = 1;
-        if (name != null) {
+        if (!StringUtils.isEmpty(name)) {
             statement.setString(index++, name);
         }
         if (typeId != null) {
