@@ -758,7 +758,7 @@
                 theme_id: themeInput.val(),
                 periodicity_per_year: periodicityInput.val(),
                 minimum_subscription_period: minPeriodInput.val(),
-                price_for_minimum_subscription_period: priceInput.val()
+                price_for_minimum_subscription_period: priceInput.val().replace(/,/g, '.')
             };
 
             const regexAny = RegExp(/^.{1,200}$/i);
@@ -943,7 +943,7 @@
                 theme_id: themeInput.val(),
                 periodicity_per_year: periodicityInput.val(),
                 minimum_subscription_period: minPeriodInput.val(),
-                price_for_minimum_subscription_period: priceInput.val()
+                price_for_minimum_subscription_period: priceInput.val().replace(/,/g, '.')
             };
 
             const regexAny = RegExp(/^.{1,200}$/i);
