@@ -43,39 +43,9 @@ public class AddSubscriptionCommand implements Command {
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            int editionId = Integer.parseInt(req.getParameter(JspParameter.ID.getValue()));
-            int subscriptionPeriod = Integer.parseInt(req.getParameter(JspParameter.PERIOD.getValue()));
-            Timestamp start = new Timestamp(System.currentTimeMillis());
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(start);
-            calendar.add(Calendar.MONTH, subscriptionPeriod);
-            Timestamp end = new Timestamp(calendar.getTimeInMillis());
-
-            String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
-            Optional<User> optionalUser = userService.getUserByLogin(login);
-            User user;
-            if (optionalUser.isPresent()) {
-                user = optionalUser.get();
-            } else {
-                LOG.warn(USER_NOT_FOUND);
-                throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
-            }
-
-            List<Edition> editionList = editionService.getEditionsById(editionId, true);
-            Edition edition;
-            if (!editionList.isEmpty()) {
-                edition = editionList.get(0);
-            } else {
-                LOG.warn(EDITION_NOT_FOUND);
-                throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
-            }
-
-            Subscription subscription = new Subscription.SubscriptionBuilder()
-                    .edition(edition)
-                    .subscriptionStartDate(start)
-                    .subscriptionEndDate(end)
-                    .user(user)
-                    .build();
+            User user = getUserFromRequest(req);
+            Edition edition = getEditionFromRequest(req);
+            Subscription subscription = getSubscriptionFromRequest(req, user, edition);
             subscriptionService.addSubscription(subscription);
         } catch (NumberFormatException e) {
             LOG.info(e);
@@ -86,5 +56,46 @@ public class AddSubscriptionCommand implements Command {
             writeMessageToResponse(resp, message);
         }
         return Page.EMPTY_PAGE;
+    }
+
+    private Subscription getSubscriptionFromRequest(HttpServletRequest req, User user, Edition edition) {
+        int subscriptionPeriod = Integer.parseInt(req.getParameter(JspParameter.PERIOD.getValue()));
+        Timestamp start = new Timestamp(System.currentTimeMillis());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(start);
+        calendar.add(Calendar.MONTH, subscriptionPeriod);
+        Timestamp end = new Timestamp(calendar.getTimeInMillis());
+        return new Subscription.SubscriptionBuilder()
+                .edition(edition)
+                .subscriptionStartDate(start)
+                .subscriptionEndDate(end)
+                .user(user)
+                .build();
+    }
+
+    private Edition getEditionFromRequest(HttpServletRequest req) throws ServiceException {
+        int editionId = Integer.parseInt(req.getParameter(JspParameter.ID.getValue()));
+        List<Edition> editionList = editionService.getEditionsById(editionId, true);
+        Edition edition;
+        if (!editionList.isEmpty()) {
+            edition = editionList.get(0);
+        } else {
+            LOG.warn(EDITION_NOT_FOUND);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+        return edition;
+    }
+
+    private User getUserFromRequest(HttpServletRequest req) throws ServiceException {
+        String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
+        Optional<User> optionalUser = userService.getUserByLogin(login);
+        User user;
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
+        } else {
+            LOG.warn(USER_NOT_FOUND);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+        return user;
     }
 }
