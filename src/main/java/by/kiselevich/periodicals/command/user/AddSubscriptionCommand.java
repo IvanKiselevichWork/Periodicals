@@ -79,10 +79,10 @@ public class AddSubscriptionCommand implements Command {
             subscriptionService.addSubscription(subscription);
         } catch (NumberFormatException e) {
             LOG.info(e);
-            String message = getLocalizedMessageFromResources(req.getSession(), ResourceBundleMessages.INVALID_DATA_FORMAT.getKey());
+            String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), ResourceBundleMessages.INVALID_DATA_FORMAT.getKey());
             writeMessageToResponse(resp, message);
         } catch (ServiceException e) {
-            String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
+            String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), e.getMessage());
             writeMessageToResponse(resp, message);
         }
         return Page.EMPTY_PAGE;

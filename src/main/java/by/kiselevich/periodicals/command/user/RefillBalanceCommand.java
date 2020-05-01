@@ -27,10 +27,10 @@ public class RefillBalanceCommand implements Command {
             BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(req.getParameter(JspParameter.AMOUNT.getValue())));
             userService.refillBalance(login, amount);
         } catch (ServiceException e) {
-            String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
+            String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), e.getMessage());
             writeMessageToResponse(resp, message);
         } catch (NumberFormatException e) {
-            String message = getLocalizedMessageFromResources(req.getSession(), ResourceBundleMessages.INVALID_REFILL_AMOUNT.getKey());
+            String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), ResourceBundleMessages.INVALID_REFILL_AMOUNT.getKey());
             writeMessageToResponse(resp, message);
         }
         return Page.EMPTY_PAGE;

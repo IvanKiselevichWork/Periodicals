@@ -38,13 +38,13 @@ public class SignUpCommand implements Command {
             user.setFullName(fullName);
             user.setEmail(email);
             user = userService.signUp(user);
-            mailService.sendRegistrationLetter(user, req.getSession());
+            mailService.sendRegistrationLetter(user);
             req.getSession().setAttribute(Attribute.USER_TYPE.getValue(), UserType.USER);
             req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
             req.getSession().setAttribute(Attribute.FULL_NAME.getValue(), fullName);
             return Page.HOME_PAGE;
         } catch (ServiceException e) {
-            String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
+            String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), e.getMessage());
             writeMessageToResponse(resp, message);
             return Page.EMPTY_PAGE;
         }

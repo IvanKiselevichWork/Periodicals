@@ -1,11 +1,9 @@
 package by.kiselevich.periodicals.util;
 
-import by.kiselevich.periodicals.command.Attribute;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Locale;
@@ -45,12 +43,11 @@ public class HttpUtil {
 
     /**
      * Returns string from {@code pagecontent} {@link ResourceBundle} by key with locale from session
-     * @param session {@link HttpSession} for getting locale
+     * @param language {@link String} with 'ru' or 'en' language string
      * @param key {@link String} to find message by
      * @return localized message
      */
-    public static String getLocalizedMessageFromResources(HttpSession session, String key) {
-        String language = (String) session.getAttribute(Attribute.LANGUAGE.getValue());
+    public static String getLocalizedMessageFromResources(String language, String key) {
         Locale locale;
         if (language != null) {
             locale = new Locale(language);
