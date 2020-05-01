@@ -4,6 +4,9 @@ import by.kiselevich.periodicals.entity.Subscription;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.repository.Repository;
 
+/**
+ * Repository interface to work with {@link Subscription}
+ */
 public interface SubscriptionRepository extends Repository<Subscription> {
 
     /**

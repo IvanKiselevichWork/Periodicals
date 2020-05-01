@@ -4,6 +4,9 @@ import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.repository.Repository;
 
+/**
+ * Repository interface to work with {@link User}
+ */
 public interface UserRepository extends Repository<User> {
 
     /**

@@ -5,6 +5,10 @@ import by.kiselevich.periodicals.specification.Specification;
 
 import java.util.List;
 
+/**
+ * Base interface for all repositories
+ * @param <T> entity repository work with
+ */
 public interface Repository<T> {
 
     /**

@@ -10,6 +10,9 @@ import by.kiselevich.periodicals.util.HashUtil;
 import java.sql.*;
 import java.util.List;
 
+/**
+ * Implementation of {@link UserRepository}
+ */
 public class UserRepositoryImpl extends RepositoryUtil implements UserRepository {
 
     private static final String USER_ROLE_ID = "2";

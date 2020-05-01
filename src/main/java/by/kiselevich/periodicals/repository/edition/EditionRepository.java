@@ -4,6 +4,9 @@ import by.kiselevich.periodicals.entity.Edition;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.repository.Repository;
 
+/**
+ * Repository interface to work with {@link Edition}
+ */
 public interface EditionRepository extends Repository<Edition> {
 
     /**

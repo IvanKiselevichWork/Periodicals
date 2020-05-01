@@ -6,6 +6,9 @@ import by.kiselevich.periodicals.specification.Specification;
 
 import java.util.List;
 
+/**
+ * Implementation of {@link ThemeRepository}
+ */
 public class ThemeRepositoryImpl implements ThemeRepository {
 
     @Override

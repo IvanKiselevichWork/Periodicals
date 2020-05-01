@@ -9,6 +9,9 @@ import by.kiselevich.periodicals.specification.Specification;
 import java.sql.*;
 import java.util.List;
 
+/**
+ * Implementation of {@link EditionRepository}
+ */
 public class EditionRepositoryImpl extends RepositoryUtil implements EditionRepository {
 
     private static final String ADD_EDITION = "insert into edition (name, type_id, theme_id, periodicity_per_year, minimum_subscription_period_in_months, price_for_minimum_subscription_period, is_blocked) values (?, ?, ?, ?, ?, ?, ?)";
