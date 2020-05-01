@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of {@link SubscriptionSpecification} for finding all {@link Subscription} from database
+ */
 public class FindAllSubscriptions extends SpecificationUtil implements SubscriptionSpecification {
 
     private static final String FIND_ALL_SUBSCRIPTION = "select * from subscription inner join edition on subscription.edition_id = edition.id inner  join edition_type on edition.type_id = edition_type.id inner join edition_theme on edition.theme_id = edition_theme.id inner join user on subscription.user_id = user.id inner join user_role on user.role_id = user_role.id";

@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of {@link PaymentSpecification} for finding all {@link Payment} from database
+ */
 public class FindAllPayments extends SpecificationUtil implements PaymentSpecification {
 
     private static final String FIND_ALL_PAYMENTS = "select * from payment inner join payment_type on payment.type_id = payment_type.id left join subscription on payment.subscription_id = subscription.id left join edition on subscription.edition_id = edition.id inner join user on payment.user_id = user.id left join edition_theme on edition.theme_id = edition_theme.id left join edition_type on edition.type_id = edition_type.id inner join user_role on user.role_id = user_role.id";

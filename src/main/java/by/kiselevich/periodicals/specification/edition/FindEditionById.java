@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of {@link EditionSpecification} for finding all {@link Edition} by {@code id} from database
+ */
 public class FindEditionById extends SpecificationUtil implements EditionSpecification {
 
     private static final String FIND_EDITIONS_BY_ID = "select * from edition inner join edition_theme on edition.theme_id = edition_theme.id inner join edition_type on edition.type_id = edition_type.id where edition.id = ?";

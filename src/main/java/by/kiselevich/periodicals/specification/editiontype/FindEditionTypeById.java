@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of {@link EditionTypeSpecification} for finding all {@link EditionType} by {@code id} from database
+ */
 public class FindEditionTypeById extends SpecificationUtil implements EditionTypeSpecification {
 
     private static final String FIND_EDITION_TYPE_BY_ID = "select * from edition_type where id = ?";

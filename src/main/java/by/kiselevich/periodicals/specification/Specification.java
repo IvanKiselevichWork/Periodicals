@@ -4,6 +4,10 @@ import by.kiselevich.periodicals.exception.RepositoryException;
 
 import java.util.List;
 
+/**
+ * Base interface for all specification {@link by.kiselevich.periodicals.repository.Repository} work with
+ * @param <T> entity specification work with
+ */
 public interface Specification<T> {
     /**
      * Execute {@code Specification} and return result as {@code List}
