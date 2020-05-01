@@ -61,26 +61,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         try {
             subscriptionValidator.checkSubscription(subscription);
 
-            int subscriptionPeriodInMonths = DateUtil.getIntegerSubscriptionPeriodInMonths(subscription);
-            BigDecimal subscriptionPrice =
-                subscription.getEdition().getPriceForMinimumSubscriptionPeriod()
-                .multiply(new BigDecimal(subscriptionPeriodInMonths))
-                .divide(new BigDecimal(subscription.getEdition().getMinimumSubscriptionPeriodInMonths()), RoundingMode.UP);
-
-            if (subscription.getUser().getMoney().compareTo(subscriptionPrice) < 0) {
-                throw new ServiceException(ResourceBundleMessages.INSUFFICIENT_FUNDS.getKey());
-            }
-
-            User user = subscription.getUser();
-            user.setMoney(user.getMoney().subtract(subscriptionPrice));
-
-            Payment payment = new Payment.PaymentBuilder()
-                    .user(user)
-                    .paymentType(PaymentTypeFactory.getPayment())
-                    .date(new Timestamp(System.currentTimeMillis()))
-                    .amount(subscriptionPrice)
-                    .subscription(subscription)
-                    .build();
+            BigDecimal subscriptionPrice = calculateSubscriptionPrice(subscription);
+            User user = updateUserBalance(subscription.getUser(), subscriptionPrice);
+            Payment payment = buildNewPayment(subscription, subscriptionPrice, user);
 
             transactionUnitOfWork.getUserRepository().update(user);
             transactionUnitOfWork.getSubscriptionRepository().add(subscription);
@@ -96,5 +79,31 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         } finally {
             transactionUnitOfWork.close();
         }
+    }
+
+    private User updateUserBalance(User user, BigDecimal subscriptionPrice) throws ServiceException {
+        if (user.getMoney().compareTo(subscriptionPrice) < 0) {
+            throw new ServiceException(ResourceBundleMessages.INSUFFICIENT_FUNDS.getKey());
+        }
+
+        user.setMoney(user.getMoney().subtract(subscriptionPrice));
+        return user;
+    }
+
+    private BigDecimal calculateSubscriptionPrice(Subscription subscription) {
+        int subscriptionPeriodInMonths = DateUtil.getIntegerSubscriptionPeriodInMonths(subscription);
+        return subscription.getEdition().getPriceForMinimumSubscriptionPeriod()
+        .multiply(new BigDecimal(subscriptionPeriodInMonths))
+        .divide(new BigDecimal(subscription.getEdition().getMinimumSubscriptionPeriodInMonths()), RoundingMode.UP);
+    }
+
+    private Payment buildNewPayment(Subscription subscription, BigDecimal subscriptionPrice, User user) {
+        return new Payment.PaymentBuilder()
+                        .user(user)
+                        .paymentType(PaymentTypeFactory.getPayment())
+                        .date(new Timestamp(System.currentTimeMillis()))
+                        .amount(subscriptionPrice)
+                        .subscription(subscription)
+                        .build();
     }
 }
