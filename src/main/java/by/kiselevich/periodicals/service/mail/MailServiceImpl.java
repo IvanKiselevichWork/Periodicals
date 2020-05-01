@@ -4,6 +4,9 @@ import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.util.EmailSender;
 import by.kiselevich.periodicals.util.HttpUtil;
 
+/**
+ * Implementation of {@link MailService}
+ */
 public class MailServiceImpl implements MailService {
 
     private static final String SUBJECT_KEY = "registration_letter_subject";

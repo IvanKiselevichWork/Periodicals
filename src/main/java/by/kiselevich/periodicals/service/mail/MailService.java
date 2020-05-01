@@ -4,7 +4,9 @@ import by.kiselevich.periodicals.entity.User;
 
 import javax.servlet.http.HttpSession;
 
-
+/**
+ * Service to work with email
+ */
 public interface MailService {
 
     /**

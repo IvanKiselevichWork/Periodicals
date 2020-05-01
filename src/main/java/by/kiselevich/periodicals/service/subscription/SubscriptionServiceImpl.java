@@ -23,6 +23,9 @@ import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * Implementation of {@link SubscriptionService}
+ */
 public class SubscriptionServiceImpl implements SubscriptionService {
 
     private static final Logger LOG = LogManager.getLogger(SubscriptionServiceImpl.class);

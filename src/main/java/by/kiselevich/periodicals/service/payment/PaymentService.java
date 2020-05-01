@@ -7,6 +7,9 @@ import by.kiselevich.periodicals.exception.ServiceException;
 
 import java.util.List;
 
+/**
+ * Service to work with {@link Payment}
+ */
 public interface PaymentService {
 
     /**

@@ -13,6 +13,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * Implementation of {@link PaymentService}
+ */
 public class PaymentServiceImpl implements PaymentService {
 
     private static final Logger LOG = LogManager.getLogger(PaymentServiceImpl.class);

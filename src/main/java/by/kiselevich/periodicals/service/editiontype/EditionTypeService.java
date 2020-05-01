@@ -6,6 +6,9 @@ import by.kiselevich.periodicals.exception.ServiceException;
 
 import java.util.List;
 
+/**
+ * Service to work with {@link EditionType}
+ */
 public interface EditionTypeService {
 
     /**

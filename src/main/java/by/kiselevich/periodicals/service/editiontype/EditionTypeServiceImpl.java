@@ -13,6 +13,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * Implementation of {@link EditionTypeService}
+ */
 public class EditionTypeServiceImpl implements EditionTypeService {
 
     private static final Logger LOG = LogManager.getLogger(EditionTypeServiceImpl.class);

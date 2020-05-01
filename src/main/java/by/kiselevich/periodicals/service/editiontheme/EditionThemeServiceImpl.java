@@ -13,6 +13,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * Implementation of {@link EditionThemeService}
+ */
 public class EditionThemeServiceImpl implements EditionThemeService {
 
     private static final Logger LOG = LogManager.getLogger(EditionThemeServiceImpl.class);

@@ -24,6 +24,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation of {@link UserService}
+ */
 public class UserServiceImpl implements UserService {
 
     private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
