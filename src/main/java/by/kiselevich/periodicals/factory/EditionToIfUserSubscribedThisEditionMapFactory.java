@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class for building {@link Map} with {@link Edition} as key and {@link Boolean} contains if {@link List} with {@link Subscription} contains this {@link Edition} as value from {@code List<Edition>} and {@code List<Subscription>}
+ */
 public class EditionToIfUserSubscribedThisEditionMapFactory {
 
     private EditionToIfUserSubscribedThisEditionMapFactory() {
