@@ -40,10 +40,6 @@ public class UserServiceImpl implements UserService {
     public User signUp(User user) throws ServiceException {
         try {
             userValidator.checkUserCredentialsOnSignUp(user);
-
-            if (!userRepository.query(new FindUserByLogin(user.getLogin())).isEmpty()) {
-                throw new ServiceException(ResourceBundleMessages.LOGIN_IN_USE_KEY.getKey());
-            }
             user = userRepository.add(user);
             return user;
         } catch (RepositoryException e) {

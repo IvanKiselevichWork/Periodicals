@@ -2,8 +2,12 @@ package by.kiselevich.periodicals.validator;
 
 import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.entity.User;
+import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.exception.ValidatorException;
+import by.kiselevich.periodicals.factory.ServiceFactory;
+import by.kiselevich.periodicals.service.user.UserService;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,12 +34,13 @@ public class UserValidator {
      * @param user {@link User} entity to validate
      * @throws ValidatorException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      */
-    public void checkUserCredentialsOnSignUp(User user) throws ValidatorException {
+    public void checkUserCredentialsOnSignUp(User user) throws ValidatorException, ServiceException {
         if (user == null) {
             throw new ValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
 
         checkLogin(user.getLogin());
+        checkIsLoginInUse(user.getLogin());
         checkPassword(user.getPassword());
         checkFullName(user.getFullName());
         checkEmail(user.getEmail());
@@ -59,6 +64,14 @@ public class UserValidator {
     private void checkLogin(String login) throws ValidatorException {
         if (login == null || isStringNotMatchesRegex(login, LOGIN_REGEX)) {
             throw new ValidatorException(ResourceBundleMessages.INVALID_LOGIN.getKey());
+        }
+    }
+
+    private void checkIsLoginInUse(String login) throws ValidatorException, ServiceException {
+        UserService userService = ServiceFactory.getInstance().getUserService();
+        Optional<User> optionalUser = userService.getUserByLogin(login);
+        if (optionalUser.isPresent()) {
+            throw new ValidatorException(ResourceBundleMessages.LOGIN_IN_USE_KEY.getKey());
         }
     }
 
