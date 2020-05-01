@@ -5,6 +5,7 @@ import by.kiselevich.periodicals.entity.EditionTheme;
 import by.kiselevich.periodicals.entity.EditionType;
 import by.kiselevich.periodicals.exception.NoJDBCDriverException;
 import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
+import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.exception.ValidatorException;
 import by.kiselevich.periodicals.pool.ConnectionPoolImpl;
 import org.junit.After;
@@ -29,48 +30,48 @@ public class EditionValidatorTest extends Assert {
     }
 
     @Test
-    public void testCheckEditionPositive() throws ValidatorException {
+    public void testCheckEditionPositive() throws ValidatorException, ServiceException {
         Edition edition = getEdition();
         editionValidator.checkEdition(edition);
     }
 
     @Test(expected = ValidatorException.class)
-    public void testCheckEditionInvalidName() throws ValidatorException {
+    public void testCheckEditionInvalidName() throws ValidatorException, ServiceException {
         Edition edition = getEdition();
         edition.setName("");
         editionValidator.checkEdition(edition);
     }
 
     @Test(expected = ValidatorException.class)
-    public void testCheckEditionInvalidType() throws ValidatorException {
+    public void testCheckEditionInvalidType() throws ValidatorException, ServiceException {
         Edition edition = getEdition();
         edition.getEditionType().setType("Invalid type");
         editionValidator.checkEdition(edition);
     }
 
     @Test(expected = ValidatorException.class)
-    public void testCheckEditionInvalidTheme() throws ValidatorException {
+    public void testCheckEditionInvalidTheme() throws ValidatorException, ServiceException {
         Edition edition = getEdition();
         edition.getEditionTheme().setTitle("Invalid theme");
         editionValidator.checkEdition(edition);
     }
 
     @Test(expected = ValidatorException.class)
-    public void testCheckEditionInvalidPeriodicity() throws ValidatorException {
+    public void testCheckEditionInvalidPeriodicity() throws ValidatorException, ServiceException {
         Edition edition = getEdition();
         edition.setPeriodicityPerYear(0);
         editionValidator.checkEdition(edition);
     }
 
     @Test(expected = ValidatorException.class)
-    public void testCheckEditionInvalidMinimumSubscriptionPeriod() throws ValidatorException {
+    public void testCheckEditionInvalidMinimumSubscriptionPeriod() throws ValidatorException, ServiceException {
         Edition edition = getEdition();
         edition.setMinimumSubscriptionPeriodInMonths(0);
         editionValidator.checkEdition(edition);
     }
 
     @Test(expected = ValidatorException.class)
-    public void testCheckEditionInvalidPrice() throws ValidatorException {
+    public void testCheckEditionInvalidPrice() throws ValidatorException, ServiceException {
         Edition edition = getEdition();
         edition.setPriceForMinimumSubscriptionPeriod(BigDecimal.valueOf(0));
         editionValidator.checkEdition(edition);

@@ -35,7 +35,7 @@ public class EditionValidator {
      * @param edition {@link Edition} entity to validate
      * @throws ValidatorException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      */
-    public void checkEdition(Edition edition) throws ValidatorException {
+    public void checkEdition(Edition edition) throws ValidatorException, ServiceException {
         if (edition == null) {
             throw new ValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
@@ -55,27 +55,19 @@ public class EditionValidator {
         }
     }
 
-    private void checkEditionType(EditionType editionType) throws ValidatorException {
-        try {
-            EditionTypeService editionTypeService = ServiceFactory.getInstance().getEditionTypeService();
-            List<EditionType> editionTypeList = editionTypeService.getEditionTypeById(editionType.getId());
-            if (editionTypeList.isEmpty() || !editionTypeList.get(0).equals(editionType)) {
-                throw new ValidatorException(ResourceBundleMessages.INVALID_TYPE.getKey());
-            }
-        } catch (ServiceException e) {
-            throw new ValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+    private void checkEditionType(EditionType editionType) throws ValidatorException, ServiceException {
+        EditionTypeService editionTypeService = ServiceFactory.getInstance().getEditionTypeService();
+        List<EditionType> editionTypeList = editionTypeService.getEditionTypeById(editionType.getId());
+        if (editionTypeList.isEmpty() || !editionTypeList.get(0).equals(editionType)) {
+            throw new ValidatorException(ResourceBundleMessages.INVALID_TYPE.getKey());
         }
     }
 
-    private void checkEditionTheme(EditionTheme editionTheme) throws ValidatorException {
-        try {
-            EditionThemeService editionThemeService = ServiceFactory.getInstance().getEditionThemeService();
-            List<EditionTheme> editionThemeList = editionThemeService.getThemeById(editionTheme.getId());
-            if (editionThemeList.isEmpty() || !editionThemeList.get(0).equals(editionTheme)) {
-                throw new ValidatorException(ResourceBundleMessages.INVALID_THEME.getKey());
-            }
-        } catch (ServiceException e) {
-            throw new ValidatorException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+    private void checkEditionTheme(EditionTheme editionTheme) throws ValidatorException, ServiceException {
+        EditionThemeService editionThemeService = ServiceFactory.getInstance().getEditionThemeService();
+        List<EditionTheme> editionThemeList = editionThemeService.getThemeById(editionTheme.getId());
+        if (editionThemeList.isEmpty() || !editionThemeList.get(0).equals(editionTheme)) {
+            throw new ValidatorException(ResourceBundleMessages.INVALID_THEME.getKey());
         }
     }
 
