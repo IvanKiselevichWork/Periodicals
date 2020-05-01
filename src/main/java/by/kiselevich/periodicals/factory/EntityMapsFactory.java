@@ -1,6 +1,5 @@
 package by.kiselevich.periodicals.factory;
 
-import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.entity.Edition;
 import by.kiselevich.periodicals.entity.Subscription;
 
@@ -30,17 +29,5 @@ public class EntityMapsFactory {
             editionAndIfUserSubscribedMap.put(edition, isSubscribed);
         }
         return editionAndIfUserSubscribedMap;
-    }
-
-    public static Map<Subscription, String> getSubscriptionAndStatusMap(List<Subscription> subscriptionList) {
-        Map<Subscription, String> subscriptionAndStatusMap = new HashMap<>();
-        for (Subscription subscription: subscriptionList) {
-            if (subscription.getSubscriptionEndDate().after(new Timestamp(System.currentTimeMillis()))) {
-                subscriptionAndStatusMap.put(subscription, ResourceBundleMessages.ACTIVE.getKey());
-            } else {
-                subscriptionAndStatusMap.put(subscription, ResourceBundleMessages.EXPIRED.getKey());
-            }
-        }
-        return subscriptionAndStatusMap;
     }
 }
