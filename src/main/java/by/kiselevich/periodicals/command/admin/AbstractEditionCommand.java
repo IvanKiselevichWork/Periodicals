@@ -26,27 +26,36 @@ public class AbstractEditionCommand {
 
     protected Edition getEditionFromRequest(HttpServletRequest req) throws ServiceException {
         String name = req.getParameter(JspParameter.NAME.getValue());
-        int typeId = Integer.parseInt(req.getParameter(JspParameter.TYPE_ID.getValue()));
-        List<EditionType> editionTypeList = editionTypeService.getEditionTypeById(typeId);
-        if (editionTypeList.isEmpty()) {
-            throw new ServiceException(ResourceBundleMessages.INVALID_TYPE.getKey());
-        }
+        EditionType editionType = getEditionTypeFromRequest(req);
+        EditionTheme editionTheme = getEditionThemeFromRequest(req);
+        int periodicityPerYear = Integer.parseInt(req.getParameter(JspParameter.PERIODICITY_PER_YEAR.getValue()));
+        int minimumSubscriptionPeriodInMonths = Integer.parseInt(req.getParameter(JspParameter.MINIMUM_SUBSCRIPTION_PERIOD.getValue()));
+        BigDecimal priceForMinimumSubscriptionPeriod = BigDecimal.valueOf(Double.parseDouble(req.getParameter(JspParameter.PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD.getValue())));
+        return new Edition.EditionBuilder()
+                .name(name)
+                .editionType(editionType)
+                .editionTheme(editionTheme)
+                .periodicityPerYear(periodicityPerYear)
+                .minimumSubscriptionPeriodInMonths(minimumSubscriptionPeriodInMonths)
+                .priceForMinimumSubscriptionPeriod(priceForMinimumSubscriptionPeriod)
+                .build();
+    }
+
+    private EditionTheme getEditionThemeFromRequest(HttpServletRequest req) throws ServiceException {
         int themeId = Integer.parseInt(req.getParameter(JspParameter.THEME_ID.getValue()));
         List<EditionTheme> editionThemeList = editionThemeService.getThemeById(themeId);
         if (editionThemeList.isEmpty()) {
             throw new ServiceException(ResourceBundleMessages.INVALID_THEME.getKey());
         }
-        int periodicityPerYear = Integer.parseInt(req.getParameter(JspParameter.PERIODICITY_PER_YEAR.getValue()));
-        int minimumSubscriptionPeriodInMonths = Integer.parseInt(req.getParameter(JspParameter.MINIMUM_SUBSCRIPTION_PERIOD.getValue()));
-        BigDecimal priceForMinimumSubscriptionPeriod = BigDecimal.valueOf(Double.parseDouble(req.getParameter(JspParameter.PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD.getValue())));
+        return editionThemeList.get(0);
+    }
 
-        return new Edition.EditionBuilder()
-                .name(name)
-                .editionType(editionTypeList.get(0))
-                .editionTheme(editionThemeList.get(0))
-                .periodicityPerYear(periodicityPerYear)
-                .minimumSubscriptionPeriodInMonths(minimumSubscriptionPeriodInMonths)
-                .priceForMinimumSubscriptionPeriod(priceForMinimumSubscriptionPeriod)
-                .build();
+    private EditionType getEditionTypeFromRequest(HttpServletRequest req) throws ServiceException {
+        int typeId = Integer.parseInt(req.getParameter(JspParameter.TYPE_ID.getValue()));
+        List<EditionType> editionTypeList = editionTypeService.getEditionTypeById(typeId);
+        if (editionTypeList.isEmpty()) {
+            throw new ServiceException(ResourceBundleMessages.INVALID_TYPE.getKey());
+        }
+        return editionTypeList.get(0);
     }
 }
