@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class for building {@link Map} with {@link Subscription} as key and {@link String} contains {@link Subscription} status (active, expired) as value from {@code List<Subscription>}
+ */
 public class SubscriptionToItsStatusMapFactory {
 
     private SubscriptionToItsStatusMapFactory() {
