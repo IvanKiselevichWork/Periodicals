@@ -58,17 +58,12 @@ public class ControllerServlet extends HttpServlet {
         if (!ConnectionPoolImpl.INSTANCE.isPoolInitiated()) {
             req.getRequestDispatcher(Page.APP_FAILURE.getPath()).forward(req, resp);
         } else {
-            try {
-                String commandParameter = req.getParameter(JspParameter.COMMAND.getValue());
-                Command command = commandProvider.getCommand(commandParameter);
-                LOG.info("Executing command: {}", command);
-                Page page = command.execute(req, resp);
-                if (page != Page.EMPTY_PAGE) {
-                    req.getRequestDispatcher(page.getPath()).forward(req, resp);
-                }
-            } catch (RuntimeException e) {
-                LOG.error(e);
-                req.getRequestDispatcher(Page.WRONG_REQUEST.getPath()).forward(req, resp);
+            String commandParameter = req.getParameter(JspParameter.COMMAND.getValue());
+            Command command = commandProvider.getCommand(commandParameter);
+            LOG.info("Executing command: {}", command);
+            Page page = command.execute(req, resp);
+            if (page != Page.EMPTY_PAGE) {
+                req.getRequestDispatcher(page.getPath()).forward(req, resp);
             }
         }
     }
