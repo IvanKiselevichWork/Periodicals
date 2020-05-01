@@ -2,6 +2,8 @@ package by.kiselevich.periodicals.exception;
 
 public class UtilRuntimeException extends RuntimeException {
 
+    private static final long serialVersionUID = -3373716502508638598L;
+
     public UtilRuntimeException() {
     }
 
