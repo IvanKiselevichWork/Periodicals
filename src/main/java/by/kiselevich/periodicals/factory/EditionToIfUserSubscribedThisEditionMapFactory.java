@@ -8,23 +8,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EntityMapsFactory {
+public class EditionToIfUserSubscribedThisEditionMapFactory {
 
-    private EntityMapsFactory() {
+    private EditionToIfUserSubscribedThisEditionMapFactory() {
 
     }
 
     public static Map<Edition, Boolean> getEditionAndIfUserSubscribedMap(List<Edition> editionList, List<Subscription> subscriptionList) {
         Map<Edition, Boolean> editionAndIfUserSubscribedMap = new HashMap<>();
         boolean isSubscribed;
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
         for (Edition edition : editionList) {
             isSubscribed = false;
             for (Subscription subscription : subscriptionList) {
-                if (subscription.getEdition().equals(edition) && (subscription.getSubscriptionEndDate().after(new Timestamp(System.currentTimeMillis())))) {
+                if (subscription.getEdition().equals(edition) && (subscription.getSubscriptionEndDate().after(currentTimestamp))) {
                     isSubscribed = true;
                     break;
                 }
-
             }
             editionAndIfUserSubscribedMap.put(edition, isSubscribed);
         }
