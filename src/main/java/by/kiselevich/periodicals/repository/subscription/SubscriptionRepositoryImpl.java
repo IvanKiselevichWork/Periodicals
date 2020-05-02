@@ -15,6 +15,9 @@ import java.util.List;
 public class SubscriptionRepositoryImpl extends RepositoryUtil implements SubscriptionRepository {
 
     private static final String ADD_SUBSCRIPTION = "insert into subscription(edition_id, subscription_start_date, subscription_end_date, user_id) values (?, ?, ?, ?)";
+    private static final String ROW_COUNT = "rowcount";
+    private static final String COUNT_SUBSCRIPTION = "select count(*) as " + ROW_COUNT + " from subscription";
+
 
     private static final String SUBSCRIPTION_NOT_ADDED_MESSAGE = "Subscription has not been added";
 
@@ -42,5 +45,22 @@ public class SubscriptionRepositoryImpl extends RepositoryUtil implements Subscr
     @Override
     public List<Subscription> query(Specification<Subscription> specification) throws RepositoryException {
         return specification.query();
+    }
+
+    @Override
+    public int size() throws RepositoryException {
+        ResultSet resultSet = null;
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(COUNT_SUBSCRIPTION)) {
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(ROW_COUNT);
+            }
+            return 0;
+        } catch (SQLException e) {
+            throw new RepositoryException(e);
+        } finally {
+            closeResultSet(resultSet);
+        }
     }
 }
