@@ -32,4 +32,11 @@ public interface SubscriptionService {
      * @throws ServiceException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      */
     void addSubscription(Subscription subscription) throws ServiceException;
+
+    /**
+     * Returns count of all subscription in datasource
+     * @return count of subscription
+     * @throws ServiceException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
+     */
+    int getAllSubscriptionCount() throws ServiceException;
 }
