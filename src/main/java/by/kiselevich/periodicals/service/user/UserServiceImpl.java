@@ -24,6 +24,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation of {@link UserService}
+ */
 public class UserServiceImpl implements UserService {
 
     private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
@@ -40,10 +43,6 @@ public class UserServiceImpl implements UserService {
     public User signUp(User user) throws ServiceException {
         try {
             userValidator.checkUserCredentialsOnSignUp(user);
-
-            if (!userRepository.query(new FindUserByLogin(user.getLogin())).isEmpty()) {
-                throw new ServiceException(ResourceBundleMessages.LOGIN_IN_USE_KEY.getKey());
-            }
             user = userRepository.add(user);
             return user;
         } catch (RepositoryException e) {
@@ -144,18 +143,8 @@ public class UserServiceImpl implements UserService {
             if (amount.compareTo(BigDecimal.ZERO) <= 0) {
                 throw new ServiceException(ResourceBundleMessages.INVALID_REFILL_AMOUNT.getKey());
             }
-            List<User> userList = userRepository.query(new FindUserByLogin(login));
-            if (userList.isEmpty()) {
-                throw new ServiceException(ResourceBundleMessages.USER_NOT_FOUND_KEY.getKey());
-            }
-            User user = userList.get(0);
-            user.setMoney(user.getMoney().add(amount));
-            Payment payment = new Payment.PaymentBuilder()
-                    .user(user)
-                    .paymentType(PaymentTypeFactory.getRefill())
-                    .date(new Timestamp(System.currentTimeMillis()))
-                    .amount(amount)
-                    .build();
+            User user = refillUserBalance(login, amount);
+            Payment payment = buildNewPayment(amount, user);
             transactionUnitOfWork.getUserRepository().update(user);
             transactionUnitOfWork.getPaymentRepository().add(payment);
             transactionUnitOfWork.commit();
@@ -166,5 +155,24 @@ public class UserServiceImpl implements UserService {
         } finally {
             transactionUnitOfWork.close();
         }
+    }
+
+    private User refillUserBalance(String login, BigDecimal amount) throws RepositoryException, ServiceException {
+        List<User> userList = userRepository.query(new FindUserByLogin(login));
+        if (userList.isEmpty()) {
+            throw new ServiceException(ResourceBundleMessages.USER_NOT_FOUND_KEY.getKey());
+        }
+        User user = userList.get(0);
+        user.setMoney(user.getMoney().add(amount));
+        return user;
+    }
+
+    private Payment buildNewPayment(BigDecimal amount, User user) {
+        return new Payment.PaymentBuilder()
+                        .user(user)
+                        .paymentType(PaymentTypeFactory.getRefill())
+                        .date(new Timestamp(System.currentTimeMillis()))
+                        .amount(amount)
+                        .build();
     }
 }

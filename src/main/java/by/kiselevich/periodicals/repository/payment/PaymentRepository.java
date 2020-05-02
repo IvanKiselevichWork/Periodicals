@@ -4,6 +4,9 @@ import by.kiselevich.periodicals.entity.Payment;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.repository.Repository;
 
+/**
+ * Repository interface to work with {@link Payment}
+ */
 public interface PaymentRepository extends Repository<Payment> {
 
     /**

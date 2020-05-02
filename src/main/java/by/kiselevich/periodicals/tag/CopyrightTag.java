@@ -1,5 +1,6 @@
 package by.kiselevich.periodicals.tag;
 
+import by.kiselevich.periodicals.command.Attribute;
 import by.kiselevich.periodicals.command.ResourceBundleMessages;
 import by.kiselevich.periodicals.util.HttpUtil;
 import org.apache.logging.log4j.LogManager;
@@ -20,7 +21,7 @@ public class CopyrightTag extends TagSupport {
     @Override
     public int doStartTag() {
         try {
-            String copyright = HttpUtil.getLocalizedMessageFromResources(pageContext.getSession(), ResourceBundleMessages.COPYRIGHT.getKey());
+            String copyright = HttpUtil.getLocalizedMessageFromResources((String)pageContext.getSession().getAttribute(Attribute.LANGUAGE.getValue()), ResourceBundleMessages.COPYRIGHT.getKey());
             JspWriter jspWriter = pageContext.getOut();
             jspWriter.write(copyright);
         } catch (IOException e) {

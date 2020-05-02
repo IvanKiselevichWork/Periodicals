@@ -9,6 +9,9 @@ import by.kiselevich.periodicals.specification.Specification;
 import java.sql.*;
 import java.util.List;
 
+/**
+ * Implementation of {@link PaymentRepository}
+ */
 public class PaymentRepositoryImpl extends RepositoryUtil implements PaymentRepository {
 
     private static final String ADD_PAYMENT = "insert into payment(user_id, type_id, date, amount, subscription_id) values(?, ?, ?, ?, ?)";

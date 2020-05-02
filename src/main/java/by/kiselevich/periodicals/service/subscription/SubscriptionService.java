@@ -7,6 +7,9 @@ import by.kiselevich.periodicals.exception.ServiceException;
 
 import java.util.List;
 
+/**
+ * Service to work with {@link Subscription}
+ */
 public interface SubscriptionService {
     /**
      * Returns all subscriptions from data source

@@ -6,8 +6,8 @@ import by.kiselevich.periodicals.command.Page;
 import by.kiselevich.periodicals.command.admin.DashboardPageOptionCommand;
 import by.kiselevich.periodicals.entity.Subscription;
 import by.kiselevich.periodicals.exception.ServiceException;
-import by.kiselevich.periodicals.factory.EntityMapsFactory;
 import by.kiselevich.periodicals.factory.ServiceFactory;
+import by.kiselevich.periodicals.factory.SubscriptionToItsStatusMapFactory;
 import by.kiselevich.periodicals.service.subscription.SubscriptionService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,13 +33,13 @@ public class ShowUserSubscriptionsCommand implements Command {
         try {
             String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
             List<Subscription> subscriptionList = subscriptionService.getAllSubscriptionsByUserLogin(login);
-            Map<Subscription, String> subscriptionAndStatusMap = EntityMapsFactory.getSubscriptionAndStatusMap(subscriptionList);
+            Map<Subscription, String> subscriptionAndStatusMap = SubscriptionToItsStatusMapFactory.getSubscriptionAndStatusMap(subscriptionList);
             Map<Subscription, String> subscriptionAndStatusSortedMap = new TreeMap<>(Comparator.comparing(Subscription::getSubscriptionStartDate).reversed());
             subscriptionAndStatusSortedMap.putAll(subscriptionAndStatusMap);
             req.setAttribute(Attribute.SUBSCRIPTIONS.getValue(), subscriptionAndStatusSortedMap);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
-            String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
+            String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), e.getMessage());
             req.setAttribute(Attribute.USERS.getValue(), null);
             req.setAttribute(Attribute.MESSAGE.getValue(), message);
         }

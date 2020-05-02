@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of {@link UserSpecification} for finding all {@link User} from database
+ */
 public class FindAllUsers extends SpecificationUtil implements UserSpecification {
 
     private static final String FIND_ALL_USERS = "select * from user inner join user_role on user.role_id = user_role.id";

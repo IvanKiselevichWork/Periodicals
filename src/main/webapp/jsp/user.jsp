@@ -737,6 +737,9 @@
             let price = periodInput.val() * priceInput.val().replace(/,/g, '.') / minPeriodInput.val();
             price = Math.round((price + Number.EPSILON) * 100) / 100;
             finalPriceInput.val(price);
+            if ('<c:out value="${sessionScope.language}"/>' === 'ru') {
+                finalPriceInput.val(finalPriceInput.val().replace(/\./g, ','));
+            }
         }
     </script>
 
@@ -753,7 +756,7 @@
 
             const data = {
                 command: 'REFILL_USER_BALANCE',
-                amount: amountInput.val(),
+                amount: amountInput.val().replace(/,/g, '.'),
             };
 
             const regexDouble = RegExp(/^[1-9]\d*(\.\d{0,2})?$/i);
@@ -771,7 +774,12 @@
                     if (responseText.length !== 0) {
                         $('#refill-balance-message').text(responseText);
                     } else {
-                        userBalance.text(+(userBalance.text()) + +(data.amount));
+                        if ('<c:out value="${sessionScope.language}"/>' === 'ru') {
+                            userBalance.text(+(userBalance.text().replace(/,/g, '.')) + +(data.amount));
+                            userBalance.text(userBalance.text().replace(/\./g, ','));
+                        } else {
+                            userBalance.text(+(userBalance.text()) + +(data.amount));
+                        }
                         amountInput.val('0');
                         modalWindow.modal('hide');
                     }

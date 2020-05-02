@@ -2,6 +2,8 @@ package by.kiselevich.periodicals.exception;
 
 public class ValidatorException extends Exception {
 
+    private static final long serialVersionUID = -6880824845286374190L;
+
     public ValidatorException() {
     }
 

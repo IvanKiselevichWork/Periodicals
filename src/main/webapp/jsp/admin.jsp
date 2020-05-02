@@ -758,7 +758,7 @@
                 theme_id: themeInput.val(),
                 periodicity_per_year: periodicityInput.val(),
                 minimum_subscription_period: minPeriodInput.val(),
-                price_for_minimum_subscription_period: priceInput.val()
+                price_for_minimum_subscription_period: priceInput.val().replace(/,/g, '.')
             };
 
             const regexAny = RegExp(/^.{1,200}$/i);
@@ -926,6 +926,8 @@
 
     <script>
         $(document).on('click', '#edit-edition-button', function () {
+            const buttonElementModal = $('#edit-edition-button');
+            $(buttonElementModal).prop('disabled', true);
 
             const idInput = $('#edition-id-label-edit');
             const nameInput = $('#edition-name-label-edit');
@@ -943,7 +945,7 @@
                 theme_id: themeInput.val(),
                 periodicity_per_year: periodicityInput.val(),
                 minimum_subscription_period: minPeriodInput.val(),
-                price_for_minimum_subscription_period: priceInput.val()
+                price_for_minimum_subscription_period: priceInput.val().replace(/,/g, '.')
             };
 
             const regexAny = RegExp(/^.{1,200}$/i);
@@ -1008,8 +1010,13 @@
                         $(buttonElement).find('input[name="theme"]').val(data.theme_id);
                         $(buttonElement).find('input[name="periodicity"]').val(data.periodicity_per_year);
                         $(buttonElement).find('input[name="minPeriod"]').val(data.minimum_subscription_period);
-                        $(buttonElement).find('input[name="price"]').val(data.price_for_minimum_subscription_period);
+                        if ('<c:out value="${sessionScope.language}"/>' === 'ru') {
+                            $(buttonElement).find('input[name="price"]').val(data.price_for_minimum_subscription_period.replace(/\./g, ','));
+                        } else {
+                            $(buttonElement).find('input[name="price"]').val(data.price_for_minimum_subscription_period);
+                        }
 
+                        $(buttonElementModal).prop('disabled', false);
                         $('#modalEditEdition').modal('hide');
                     }
                 });

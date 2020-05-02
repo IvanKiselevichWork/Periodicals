@@ -2,6 +2,9 @@ package by.kiselevich.periodicals.factory;
 
 import by.kiselevich.periodicals.entity.PaymentType;
 
+/**
+ * Class with pre-build {@link PaymentType} objects: refill and payment
+ */
 public class PaymentTypeFactory {
     private static final int REFILL_ID = 1;
     private static final int PAYMENT_ID = 2;

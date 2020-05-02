@@ -32,7 +32,7 @@ public class ShowPaymentsCommand implements Command {
             req.setAttribute(Attribute.PAYMENTS.getValue(), paymentList);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
-            String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
+            String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), e.getMessage());
             req.setAttribute(Attribute.PAYMENTS.getValue(), null);
             req.setAttribute(Attribute.MESSAGE.getValue(), message);
         }

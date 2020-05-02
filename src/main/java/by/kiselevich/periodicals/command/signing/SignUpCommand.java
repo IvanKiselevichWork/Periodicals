@@ -26,27 +26,33 @@ public class SignUpCommand implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
+
+        try {
+            User user = createUserFromRequest(req);
+            user = userService.signUp(user);
+            mailService.sendRegistrationLetter(user);
+            req.getSession().setAttribute(Attribute.USER_TYPE.getValue(), UserType.USER);
+            req.getSession().setAttribute(Attribute.LOGIN.getValue(), user.getLogin());
+            req.getSession().setAttribute(Attribute.FULL_NAME.getValue(), user.getFullName());
+            return Page.HOME_PAGE;
+        } catch (ServiceException e) {
+            String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), e.getMessage());
+            writeMessageToResponse(resp, message);
+            return Page.EMPTY_PAGE;
+        }
+    }
+
+    private User createUserFromRequest(HttpServletRequest req) {
         String login = req.getParameter(JspParameter.LOGIN.getValue());
         String password = req.getParameter(JspParameter.PASSWORD.getValue());
         String fullName = req.getParameter(JspParameter.FULL_NAME.getValue());
         fullName = HttpUtil.parseToPreventXss(fullName);
         String email = req.getParameter(JspParameter.EMAIL.getValue());
-        try {
-            User user = new User();
-            user.setLogin(login);
-            user.setPassword(password);
-            user.setFullName(fullName);
-            user.setEmail(email);
-            user = userService.signUp(user);
-            mailService.sendRegistrationLetter(user, req.getSession());
-            req.getSession().setAttribute(Attribute.USER_TYPE.getValue(), UserType.USER);
-            req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
-            req.getSession().setAttribute(Attribute.FULL_NAME.getValue(), fullName);
-            return Page.HOME_PAGE;
-        } catch (ServiceException e) {
-            String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
-            writeMessageToResponse(resp, message);
-            return Page.EMPTY_PAGE;
-        }
+        return new User.UserBuilder()
+                .login(login)
+                .password(password)
+                .fullName(fullName)
+                .email(email)
+                .build();
     }
 }

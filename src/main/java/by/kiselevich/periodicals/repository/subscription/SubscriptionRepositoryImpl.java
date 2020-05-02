@@ -9,6 +9,9 @@ import by.kiselevich.periodicals.specification.Specification;
 import java.sql.*;
 import java.util.List;
 
+/**
+ * Implementation of {@link SubscriptionRepository}
+ */
 public class SubscriptionRepositoryImpl extends RepositoryUtil implements SubscriptionRepository {
 
     private static final String ADD_SUBSCRIPTION = "insert into subscription(edition_id, subscription_start_date, subscription_end_date, user_id) values (?, ?, ?, ?)";

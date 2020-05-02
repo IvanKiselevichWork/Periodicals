@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of {@link ThemeSpecification} for finding all {@link EditionTheme} from database
+ */
 public class FindAllThemes extends SpecificationUtil implements ThemeSpecification {
 
     private static final String FIND_ALL_THEMES = "select * from edition_theme";

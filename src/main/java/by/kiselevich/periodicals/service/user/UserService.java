@@ -8,6 +8,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service to work with {@link User}
+ */
 public interface UserService {
     /**
      * Sign up user by validating and adding it to data source

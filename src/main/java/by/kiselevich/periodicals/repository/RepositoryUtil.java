@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Utility class for {@code Repository} implementations
+ * Utility class for {@code Repository} implementations for not duplicate code purpose
  */
 public class RepositoryUtil {
 

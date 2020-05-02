@@ -2,6 +2,8 @@ package by.kiselevich.periodicals.exception;
 
 public class ConnectionPoolRuntimeException extends RuntimeException {
 
+    private static final long serialVersionUID = 7972560797503105153L;
+
     public ConnectionPoolRuntimeException() {
     }
 

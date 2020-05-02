@@ -32,11 +32,11 @@ public class AddEditionCommand extends AbstractEditionCommand implements Command
             return CommandProvider.getInstance().getCommand(CommandName.SHOW_EDITIONS).execute(req,resp);
         } catch (NumberFormatException e) {
             LOG.info(e);
-            String message = getLocalizedMessageFromResources(req.getSession(), ResourceBundleMessages.INVALID_DATA_FORMAT.getKey());
+            String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), ResourceBundleMessages.INVALID_DATA_FORMAT.getKey());
             writeMessageToResponse(resp, message);
             return Page.EMPTY_PAGE;
         } catch (ServiceException e) {
-            String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
+            String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), e.getMessage());
             writeMessageToResponse(resp, message);
             return Page.EMPTY_PAGE;
         }

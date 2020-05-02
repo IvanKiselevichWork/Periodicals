@@ -22,22 +22,26 @@ public class SignInCommand implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
-
-        String login = req.getParameter(JspParameter.LOGIN.getValue());
-        String password = req.getParameter(JspParameter.PASSWORD.getValue());
         try {
-            User user = new User();
-            user.setLogin(login);
-            user.setPassword(password);
+            User user = createUserFromRequest(req);
             user = userService.signIn(user);
             req.getSession().setAttribute(Attribute.USER_TYPE.getValue(), UserType.getUserTypeByUser(user));
-            req.getSession().setAttribute(Attribute.LOGIN.getValue(), login);
+            req.getSession().setAttribute(Attribute.LOGIN.getValue(), user.getLogin());
             req.getSession().setAttribute(Attribute.FULL_NAME.getValue(), user.getFullName());
             return Page.HOME_PAGE;
         } catch (ServiceException e) {
-            String message = getLocalizedMessageFromResources(req.getSession(), e.getMessage());
+            String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), e.getMessage());
             writeMessageToResponse(resp, message);
             return Page.EMPTY_PAGE;
         }
+    }
+
+    private User createUserFromRequest(HttpServletRequest req) {
+        String login = req.getParameter(JspParameter.LOGIN.getValue());
+        String password = req.getParameter(JspParameter.PASSWORD.getValue());
+        return new User.UserBuilder()
+                .login(login)
+                .password(password)
+                .build();
     }
 }

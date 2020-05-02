@@ -1,10 +1,13 @@
 package by.kiselevich.periodicals.specification.edition;
 
 import by.kiselevich.periodicals.entity.Edition;
+import by.kiselevich.periodicals.entity.EditionTheme;
+import by.kiselevich.periodicals.entity.EditionType;
 import by.kiselevich.periodicals.exception.RepositoryException;
 import by.kiselevich.periodicals.pool.ConnectionPoolImpl;
 import by.kiselevich.periodicals.pool.ConnectionProxy;
 import by.kiselevich.periodicals.specification.SpecificationUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +15,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of {@link EditionSpecification} for finding all {@link Edition}
+ * by {@code name}, {@link EditionType} {@code id} and {@link EditionTheme} {@code id} from database. <br>
+ * In {@code name} replacing exclamation mark, percent sign, underscore symbol and place in {@code %%%s%%} pattern (if not null). <br>
+ * {@link EditionType} {@code id} and {@link EditionTheme} {@code id} also counts only if not null
+ */
 public class FindNotBlockedEditionsByNameAndTypeIdAndThemeId extends SpecificationUtil implements EditionSpecification {
 
     private static final String FIND_EDITIONS_BY_NAME = "select * from edition inner join edition_theme on edition.theme_id = edition_theme.id inner join edition_type on edition.type_id = edition_type.id where edition.is_blocked = false";
@@ -59,7 +68,7 @@ public class FindNotBlockedEditionsByNameAndTypeIdAndThemeId extends Specificati
 
     private String buildSqlQuery() {
         StringBuilder result = new StringBuilder(FIND_EDITIONS_BY_NAME);
-        if (name != null) {
+        if (!StringUtils.isEmpty(name)) {
             name = name.replace(EXCLAMATION_MARK, EXCLAMATION_MARK_REPLACEMENT)
                     .replace(PERCENT_SIGN, PERCENT_SIGN_REPLACEMENT)
                     .replace(UNDERSCORE_SYMBOL, UNDERSCORE_SYMBOL_REPLACEMENT);
@@ -77,7 +86,7 @@ public class FindNotBlockedEditionsByNameAndTypeIdAndThemeId extends Specificati
 
     private void setParametersInPreparedStatement(PreparedStatement statement) throws SQLException {
         int index = 1;
-        if (name != null) {
+        if (!StringUtils.isEmpty(name)) {
             statement.setString(index++, name);
         }
         if (typeId != null) {
