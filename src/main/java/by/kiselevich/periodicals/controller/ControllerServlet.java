@@ -55,7 +55,7 @@ public class ControllerServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        if (!ConnectionPoolImpl.INSTANCE.isPoolInitiated()) {
+        if (!ConnectionPoolImpl.INSTANCE.isPoolInitialized()) {
             req.getRequestDispatcher(Page.APP_FAILURE.getPath()).forward(req, resp);
         } else {
             String commandParameter = req.getParameter(JspParameter.COMMAND.getValue());

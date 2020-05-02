@@ -29,25 +29,26 @@ public enum ConnectionPoolImpl implements ConnectionPool {
     private static final String DATABASE_PROPERTIES_FILENAME = "database.properties";
     private static final String DATABASE_URL_PROPERTY = "url";
 
-    private static boolean AUTO_COMMIT_TRUE = true;
+    private static final boolean AUTO_COMMIT_TRUE = true;
 
     private final BlockingQueue<ConnectionProxy> availableConnections;
     private final Deque<ConnectionProxy> unavailableConnections;
-    private boolean isPoolAlreadyInitiated;
+    private boolean isPoolAlreadyInitialized;
     private String url;
 
     ConnectionPoolImpl() {
         availableConnections = new LinkedBlockingQueue<>();
         unavailableConnections = new ArrayDeque<>();
-        isPoolAlreadyInitiated = false;
+        isPoolAlreadyInitialized = false;
     }
 
     /**
+     * Connection pool initialization
      * @throws NoJDBCDriverException     while no driver
      * @throws NoJDBCPropertiesException while no properties file
      */
     public synchronized void initPool() throws NoJDBCDriverException, NoJDBCPropertiesException {
-        if (!isPoolAlreadyInitiated) {
+        if (!isPoolAlreadyInitialized) {
             LOG.trace("init pool started");
             Properties databaseProperties = new Properties();
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(DATABASE_PROPERTIES_FILENAME);
@@ -63,7 +64,7 @@ public enum ConnectionPoolImpl implements ConnectionPool {
                 for (int i = 0; i < POOL_CAPACITY; i++) {
                     availableConnections.add(new ConnectionProxy(DriverManager.getConnection(url, databaseProperties)));
                 }
-                isPoolAlreadyInitiated = true;
+                isPoolAlreadyInitialized = true;
                 LOG.trace("pool initialized");
             } catch (IOException e) {
                 throw new NoJDBCPropertiesException(e);
@@ -75,18 +76,20 @@ public enum ConnectionPoolImpl implements ConnectionPool {
     }
 
     /**
+     * Returns true if pool initialized, false otherwise
      * @return is pool initiated
      */
-    public boolean isPoolInitiated() {
-        return isPoolAlreadyInitiated;
+    public boolean isPoolInitialized() {
+        return isPoolAlreadyInitialized;
     }
 
     /**
+     * Returns available connection from pool (auto commit true)
      * @return Connection ready to use
      */
     @Override
     public ConnectionProxy getConnection() {
-        if (!isPoolAlreadyInitiated) {
+        if (!isPoolAlreadyInitialized) {
             throw new ConnectionPoolRuntimeException(POOL_NOT_INITIALIZED);
         }
         ConnectionProxy connection = null;
@@ -105,6 +108,7 @@ public enum ConnectionPoolImpl implements ConnectionPool {
     }
 
     /**
+     * Method for returning connection to pool
      * @param connection Connection to return
      */
     public void returnConnection(ConnectionProxy connection) {
@@ -122,10 +126,10 @@ public enum ConnectionPoolImpl implements ConnectionPool {
     }
 
     /**
-     *
+     * Connection pool de-initialization
      */
     public void deInitPool() {
-        if (isPoolAlreadyInitiated) {
+        if (isPoolAlreadyInitialized) {
             LOG.trace("deInit pool started");
             try {
                 for (int i = 0; i < POOL_CAPACITY; i++) {
@@ -139,7 +143,7 @@ public enum ConnectionPoolImpl implements ConnectionPool {
             }
             deregisterDriver();
 
-            isPoolAlreadyInitiated = false;
+            isPoolAlreadyInitialized = false;
             LOG.trace("pool deinitialized");
         }
         LOG.trace("deInit pool ended");
