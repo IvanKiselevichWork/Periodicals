@@ -92,19 +92,19 @@ public enum ConnectionPoolImpl implements ConnectionPool {
         if (!isPoolAlreadyInitialized) {
             throw new ConnectionPoolRuntimeException(POOL_NOT_INITIALIZED);
         }
-        ConnectionProxy connection = null;
         try {
-            connection = availableConnections.take();
+            ConnectionProxy connection = availableConnections.take();
             unavailableConnections.add(connection);
             connection.setAutoCommit(AUTO_COMMIT_TRUE);
+            return connection;
         } catch (InterruptedException e) {
             LOG.warn(e);
             Thread.currentThread().interrupt();
+            throw new ConnectionPoolRuntimeException(e);
         } catch (SQLException e) {
             LOG.warn(e);
             throw new ConnectionPoolRuntimeException(CANT_MAKE_AUTO_COMMIT_TRUE);
         }
-        return connection;
     }
 
     /**
