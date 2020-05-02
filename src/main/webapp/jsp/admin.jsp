@@ -478,6 +478,15 @@
                                                 </tbody>
                                             </table>
                                         </c:if>
+                                        <div class="btn-toolbar justify-content-center" role="toolbar">
+                                            <div class="btn-group" role="group">
+                                                <c:forEach var="page" begin="1" end="${pages}">
+                                                    <a href="./?command=SHOW_SUBSCRIPTIONS&page=${page}" type="button" class="btn btn-page">
+                                                        ${page}
+                                                    </a>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
                                     </div>
                                 </c:when>
                             </c:choose>
