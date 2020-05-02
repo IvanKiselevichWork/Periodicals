@@ -23,10 +23,13 @@ public enum ConnectionPoolImpl implements ConnectionPool {
     private static final Logger LOG = LogManager.getLogger(ConnectionPoolImpl.class);
 
     private static final String POOL_NOT_INITIALIZED = "Pool not initialized";
+    private static final String CANT_MAKE_AUTO_COMMIT_TRUE = "Error on setting auto commit true";
 
     private static final int POOL_CAPACITY = 15;
     private static final String DATABASE_PROPERTIES_FILENAME = "database.properties";
     private static final String DATABASE_URL_PROPERTY = "url";
+
+    private static boolean AUTO_COMMIT_TRUE = true;
 
     private final BlockingQueue<ConnectionProxy> availableConnections;
     private final Deque<ConnectionProxy> unavailableConnections;
@@ -90,9 +93,13 @@ public enum ConnectionPoolImpl implements ConnectionPool {
         try {
             connection = availableConnections.take();
             unavailableConnections.add(connection);
+            connection.setAutoCommit(AUTO_COMMIT_TRUE);
         } catch (InterruptedException e) {
             LOG.warn(e);
             Thread.currentThread().interrupt();
+        } catch (SQLException e) {
+            LOG.warn(e);
+            throw new ConnectionPoolRuntimeException(CANT_MAKE_AUTO_COMMIT_TRUE);
         }
         return connection;
     }
