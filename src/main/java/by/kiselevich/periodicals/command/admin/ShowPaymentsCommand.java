@@ -18,9 +18,11 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 public class ShowPaymentsCommand implements Command {
 
     private final PaymentService paymentService;
+    private final LongListUtil<Payment> longListUtil;
 
     public ShowPaymentsCommand() {
         paymentService = ServiceFactory.getInstance().getPaymentService();
+        longListUtil = new LongListUtil<>();
     }
 
     @Override
@@ -29,6 +31,7 @@ public class ShowPaymentsCommand implements Command {
         try {
             List<Payment> paymentList = paymentService.getAllPayments();
             paymentList.sort(Comparator.comparing(Payment::getId));
+            paymentList = longListUtil.getSubListByPageFromRequest(req, paymentList);
             req.setAttribute(Attribute.PAYMENTS.getValue(), paymentList);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
