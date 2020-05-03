@@ -2,20 +2,17 @@ package by.kiselevich.periodicals.pool;
 
 import by.kiselevich.periodicals.exception.NoJDBCDriverException;
 import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class ConnectionPoolImplTest {
 
-    private ConnectionPoolImpl connectionPoolImpl;
+    private static ConnectionPoolImpl connectionPoolImpl;
 
-    @Before
-    public void init() throws NoJDBCDriverException, NoJDBCPropertiesException {
+    @BeforeClass
+    public static void init() throws NoJDBCDriverException, NoJDBCPropertiesException {
         connectionPoolImpl = ConnectionPoolImpl.INSTANCE;
         connectionPoolImpl.initPool();
     }
@@ -27,8 +24,8 @@ public class ConnectionPoolImplTest {
         }
     }
 
-    @After
-    public void deInit() {
+    @AfterClass
+    public static void deInit() {
         connectionPoolImpl.deInitPool();
     }
 }

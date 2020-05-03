@@ -8,10 +8,7 @@ import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.exception.ValidatorException;
 import by.kiselevich.periodicals.pool.ConnectionPoolImpl;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import java.math.BigDecimal;
 
@@ -19,13 +16,13 @@ public class EditionValidatorTest extends Assert {
 
     private static final EditionValidator editionValidator = EditionValidator.getInstance();
 
-    @Before
-    public void init() throws NoJDBCDriverException, NoJDBCPropertiesException {
+    @BeforeClass
+    public static void init() throws NoJDBCDriverException, NoJDBCPropertiesException {
         ConnectionPoolImpl.INSTANCE.initPool();
     }
 
-    @After
-    public void deInit() {
+    @AfterClass
+    public static void deInit() {
         ConnectionPoolImpl.INSTANCE.deInitPool();
     }
 

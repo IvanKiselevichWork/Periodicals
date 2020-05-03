@@ -7,10 +7,7 @@ import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.exception.ValidatorException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.pool.ConnectionPoolImpl;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -19,13 +16,13 @@ public class SubscriptionValidatorTest extends Assert {
 
     private static final SubscriptionValidator subscriptionValidator = SubscriptionValidator.getInstance();
 
-    @Before
-    public void init() throws NoJDBCDriverException, NoJDBCPropertiesException {
+    @BeforeClass
+    public static void init() throws NoJDBCDriverException, NoJDBCPropertiesException {
         ConnectionPoolImpl.INSTANCE.initPool();
     }
 
-    @After
-    public void deInit() {
+    @AfterClass
+    public static void deInit() {
         ConnectionPoolImpl.INSTANCE.deInitPool();
     }
 
