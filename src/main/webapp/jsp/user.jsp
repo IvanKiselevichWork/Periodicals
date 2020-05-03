@@ -310,10 +310,9 @@
                                                                 <input type="hidden" name="minPeriod"
                                                                        value="${edition.key.minimumSubscriptionPeriodInMonths}"/>
                                                                 <input type="hidden" name="price"
-                                                                       value="<fmt:formatNumber
-                                                                            groupingUsed="false"
+                                                                       value="<fmt:formatNumber type="number"
                                                                             maxFractionDigits="2"
-                                                                            type="number"
+                                                                            groupingUsed="false"
                                                                             value = "${ edition.key.priceForMinimumSubscriptionPeriod }"/>"/>
                                                             </button>
                                                         </td>
