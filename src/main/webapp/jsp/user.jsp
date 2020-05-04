@@ -321,6 +321,22 @@
                                                 </tbody>
                                             </table>
                                         </c:if>
+                                        <div class="btn-toolbar" role="toolbar">
+                                            <div class="btn-group" role="group">
+                                                <c:forEach var="page" begin="1" end="${pages}">
+                                                    <form method="get" action="./">
+                                                        <input hidden type="text" value="FIND_EDITIONS" name="command"/>
+                                                        <input hidden type="text" value="${page}" name="page"/>
+                                                        <input id="editionNameOnPage${page}" hidden type="text" value="" name="name"/>
+                                                        <input id="editionTypeOnPage${page}" hidden type="text" value="" name="type_id"/>
+                                                        <input id="editionThemeOnPage${page}" hidden type="text" value="" name="theme_id"/>
+                                                        <button onclick="onEditionsPageClick(${page})" type="submit" type="button" class="btn btn-page">
+                                                                ${page}
+                                                        </button>
+                                                    </form>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
                                     </div>
                                 </c:when>
                                 <c:when test="${userPageOption.toString() == 'PAYMENTS'}">
@@ -645,7 +661,7 @@
                 theme_id: themeInput.val(),
             };
 
-            $.post('./', $.param(data), function (responseText) {
+            $.get('./', $.param(data), function (responseText) {
                 if (responseText.length < 50) {
                     $('#find-editions-message').text(responseText);
                 } else {
@@ -759,6 +775,24 @@
             }
         }
     </script>
+
+    <!-- on editions page click -->
+    <script type="text/javascript">
+        function onEditionsPageClick(page) {
+            const nameInputOnPage = $('#editionNameOnPage' + page);
+            const typeInputOnPage = $('#editionTypeOnPage' + page);
+            const themeInputOnPage = $('#editionThemeOnPage' + page);
+
+            const nameInput = $('#edition-name-label');
+            const typeInput = $('#edition-type-label');
+            const themeInput = $('#edition-theme-label');
+
+            nameInputOnPage.val(nameInput.val());
+            typeInputOnPage.val(typeInput.val());
+            themeInputOnPage.val(themeInput.val());
+        }
+    </script>
+
 
     <!-- refill balance button -->
     <script type="text/javascript">

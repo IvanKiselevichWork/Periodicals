@@ -5,10 +5,8 @@ import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.JspParameter;
 import by.kiselevich.periodicals.command.Page;
 import by.kiselevich.periodicals.command.admin.DashboardPageOptionCommand;
-import by.kiselevich.periodicals.entity.Edition;
-import by.kiselevich.periodicals.entity.EditionTheme;
-import by.kiselevich.periodicals.entity.EditionType;
-import by.kiselevich.periodicals.entity.Subscription;
+import by.kiselevich.periodicals.command.admin.LongListUtil;
+import by.kiselevich.periodicals.entity.*;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.EditionToIfUserSubscribedThisEditionMapFactory;
 import by.kiselevich.periodicals.factory.ServiceFactory;
@@ -30,12 +28,14 @@ public class FindEditionsCommand implements Command {
     private final EditionTypeService editionTypeService;
     private final EditionThemeService editionThemeService;
     private final SubscriptionService subscriptionService;
+    private final LongListUtil<Edition> longListUtil;
 
     public FindEditionsCommand() {
         editionService = ServiceFactory.getInstance().getEditionService();
         editionTypeService = ServiceFactory.getInstance().getEditionTypeService();
         editionThemeService = ServiceFactory.getInstance().getEditionThemeService();
         subscriptionService = ServiceFactory.getInstance().getSubscriptionService();
+        longListUtil = new LongListUtil<>();
     }
 
     @Override
@@ -50,6 +50,7 @@ public class FindEditionsCommand implements Command {
             Integer themeId = getIntegerFromString(themeIdString);
             List<Edition> editionList;
             editionList = editionService.getNotBlockedEditionsByNameAndTypeIdAndThemeId(name, typeId, themeId);
+            editionList = longListUtil.getSubListByPageFromRequest(req, editionList);
 
             List<EditionType> editionTypeList = editionTypeService.getAllEditionsTypes();
             List<EditionTheme> editionThemeList = editionThemeService.getAllThemes();
