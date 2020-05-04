@@ -4,6 +4,7 @@ import by.kiselevich.periodicals.command.Attribute;
 import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.Page;
 import by.kiselevich.periodicals.command.admin.DashboardPageOptionCommand;
+import by.kiselevich.periodicals.command.admin.LongListUtil;
 import by.kiselevich.periodicals.entity.Subscription;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
@@ -22,9 +23,11 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 public class ShowUserSubscriptionsCommand implements Command {
 
     private final SubscriptionService subscriptionService;
+    private final LongListUtil<Subscription> longListUtil;
 
     public ShowUserSubscriptionsCommand() {
         subscriptionService = ServiceFactory.getInstance().getSubscriptionService();
+        longListUtil = new LongListUtil<>();
     }
 
     @Override
@@ -33,6 +36,7 @@ public class ShowUserSubscriptionsCommand implements Command {
         try {
             String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
             List<Subscription> subscriptionList = subscriptionService.getAllSubscriptionsByUserLogin(login);
+            subscriptionList = longListUtil.getSubListByPageFromRequest(req, subscriptionList);
             Map<Subscription, String> subscriptionAndStatusMap = SubscriptionToItsStatusMapFactory.getSubscriptionAndStatusMap(subscriptionList);
             Map<Subscription, String> subscriptionAndStatusSortedMap = new TreeMap<>(Comparator.comparing(Subscription::getSubscriptionStartDate).reversed());
             subscriptionAndStatusSortedMap.putAll(subscriptionAndStatusMap);
