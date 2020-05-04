@@ -387,6 +387,15 @@
                                                 </tbody>
                                             </table>
                                         </c:if>
+                                        <div class="btn-toolbar" role="toolbar">
+                                            <div class="btn-group" role="group">
+                                                <c:forEach var="page" begin="1" end="${pages}">
+                                                    <a href="./?command=SHOW_USER_PAYMENTS&page=${page}" type="button" class="btn btn-page">
+                                                            ${page}
+                                                    </a>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
                                     </div>
                                 </c:when>
                                 <c:when test="${userPageOption.toString() == 'SUBSCRIPTIONS'}">
