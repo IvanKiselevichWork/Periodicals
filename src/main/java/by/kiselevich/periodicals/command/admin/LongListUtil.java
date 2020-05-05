@@ -24,8 +24,6 @@ public class LongListUtil<T> {
     public List<T> getSubListByPageFromRequest(HttpServletRequest req, List<T> list) {
         int subscriptionCount = list.size();
         int pages = subscriptionCount / DEFAULT_RECORD_COUNT_PER_PAGE + (subscriptionCount % DEFAULT_RECORD_COUNT_PER_PAGE == 0 ? 0 : 1);
-        req.setAttribute(Attribute.PAGES.getValue(), pages);
-
         int pageNumber = getPageNumberFromRequest(req);
         if (pageNumber < 1 || pageNumber > pages) {
             pageNumber = 1;
@@ -36,6 +34,8 @@ public class LongListUtil<T> {
             toIndex = subscriptionCount;
         }
         list = list.subList(fromIndex, toIndex);
+        req.setAttribute(Attribute.PAGES.getValue(), pages);
+        req.setAttribute(Attribute.CURRENT_PAGE.getValue(), pageNumber);
         return list;
     }
 

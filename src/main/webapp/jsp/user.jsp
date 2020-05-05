@@ -337,7 +337,8 @@
                                                         <input id="editionNameOnPage${page}" hidden type="text" value="" name="name"/>
                                                         <input id="editionTypeOnPage${page}" hidden type="text" value="" name="type_id"/>
                                                         <input id="editionThemeOnPage${page}" hidden type="text" value="" name="theme_id"/>
-                                                        <button onclick="onEditionsPageClick(${page})" type="submit" type="button" class="btn btn-page">
+                                                        <button onclick="onEditionsPageClick(${page})" type="submit" type="button" class="btn btn-page
+                                                           <c:if test="${page == currentPage}">btn-primary</c:if> ">
                                                                 ${page}
                                                         </button>
                                                     </form>
@@ -413,7 +414,8 @@
                                         <div class="btn-toolbar" role="toolbar">
                                             <div class="btn-group" role="group">
                                                 <c:forEach var="page" begin="1" end="${pages}">
-                                                    <a href="./?command=SHOW_USER_PAYMENTS&page=${page}" type="button" class="btn btn-page">
+                                                    <a href="./?command=SHOW_USER_PAYMENTS&page=${page}" type="button" class="btn btn-page
+                                                           <c:if test="${page == currentPage}">btn-primary</c:if> ">
                                                             ${page}
                                                     </a>
                                                 </c:forEach>
@@ -471,7 +473,8 @@
                                         <div class="btn-toolbar" role="toolbar">
                                             <div class="btn-group" role="group">
                                                 <c:forEach var="page" begin="1" end="${pages}">
-                                                    <a href="./?command=SHOW_USER_SUBSCRIPTIONS&page=${page}" type="button" class="btn btn-page">
+                                                    <a href="./?command=SHOW_USER_SUBSCRIPTIONS&page=${page}" type="button" class="btn btn-page
+                                                           <c:if test="${page == currentPage}">btn-primary</c:if> ">
                                                             ${page}
                                                     </a>
                                                 </c:forEach>
