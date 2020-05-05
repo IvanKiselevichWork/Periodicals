@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class AbstractEditionCommand {
+public abstract class AbstractEditionCommand {
 
     protected final EditionTypeService editionTypeService;
     protected final EditionThemeService editionThemeService;
