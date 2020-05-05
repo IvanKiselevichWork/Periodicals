@@ -15,7 +15,8 @@ public enum JspParameter {
     MINIMUM_SUBSCRIPTION_PERIOD("minimum_subscription_period"),
     PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD("price_for_minimum_subscription_period"),
     PERIOD("period"),
-    AMOUNT("amount");
+    AMOUNT("amount"),
+    PAGE("page");
 
     private final String value;
 

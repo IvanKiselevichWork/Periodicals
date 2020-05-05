@@ -4,6 +4,7 @@ import by.kiselevich.periodicals.command.Attribute;
 import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.Page;
 import by.kiselevich.periodicals.command.admin.DashboardPageOptionCommand;
+import by.kiselevich.periodicals.command.admin.LongListUtil;
 import by.kiselevich.periodicals.entity.Payment;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
@@ -19,9 +20,11 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 public class ShowUserPaymentsCommand implements Command {
 
     private final PaymentService paymentService;
+    private final LongListUtil<Payment> longListUtil;
 
     public ShowUserPaymentsCommand() {
         paymentService = ServiceFactory.getInstance().getPaymentService();
+        longListUtil = new LongListUtil<>();
     }
 
     @Override
@@ -31,11 +34,11 @@ public class ShowUserPaymentsCommand implements Command {
             String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
             List<Payment> paymentList = paymentService.getPaymentsByLogin(login);
             paymentList.sort(Comparator.comparing(Payment::getDate).reversed());
+            paymentList = longListUtil.getSubListByPageFromRequest(req, paymentList);
             req.setAttribute(Attribute.PAYMENTS.getValue(), paymentList);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), e.getMessage());
-            req.setAttribute(Attribute.USERS.getValue(), null);
             req.setAttribute(Attribute.MESSAGE.getValue(), message);
         }
         return Page.USER_PAGE;

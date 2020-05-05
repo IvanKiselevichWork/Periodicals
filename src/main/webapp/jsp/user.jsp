@@ -225,10 +225,17 @@
                                     </div>
                                     <div class="d-flex">
                                         <div class="p-0 pt-3">
-                                            <button type="button" class="btn btn-outline-primary waves-effect"
-                                                    id="findEditions">
-                                                <fmt:message key="find_editions"/>
-                                            </button>
+                                            <form method="get" action="./">
+                                                <input hidden type="text" value="FIND_EDITIONS" name="command"/>
+                                                <input id="editionName" hidden type="text" value="" name="name"/>
+                                                <input id="editionType" hidden type="text" value="" name="type_id"/>
+                                                <input id="editionTheme" hidden type="text" value="" name="theme_id"/>
+                                                <button onclick="onFindEditionsClick()" type="submit" class="btn btn-outline-primary waves-effect"
+                                                        id="findEditions">
+                                                    <fmt:message key="find_editions"/>
+                                                </button>
+                                            </form>
+
                                         </div>
                                     </div>
                                     <div class="d-flex">
@@ -310,10 +317,9 @@
                                                                 <input type="hidden" name="minPeriod"
                                                                        value="${edition.key.minimumSubscriptionPeriodInMonths}"/>
                                                                 <input type="hidden" name="price"
-                                                                       value="<fmt:formatNumber
-                                                                            groupingUsed="false"
+                                                                       value="<fmt:formatNumber type="number"
                                                                             maxFractionDigits="2"
-                                                                            type="number"
+                                                                            groupingUsed="false"
                                                                             value = "${ edition.key.priceForMinimumSubscriptionPeriod }"/>"/>
                                                             </button>
                                                         </td>
@@ -322,6 +328,23 @@
                                                 </tbody>
                                             </table>
                                         </c:if>
+                                        <div class="btn-toolbar" role="toolbar">
+                                            <div class="btn-group" role="group">
+                                                <c:forEach var="page" begin="1" end="${pages}">
+                                                    <form method="get" action="./">
+                                                        <input hidden type="text" value="FIND_EDITIONS" name="command"/>
+                                                        <input hidden type="text" value="${page}" name="page"/>
+                                                        <input id="editionNameOnPage${page}" hidden type="text" value="" name="name"/>
+                                                        <input id="editionTypeOnPage${page}" hidden type="text" value="" name="type_id"/>
+                                                        <input id="editionThemeOnPage${page}" hidden type="text" value="" name="theme_id"/>
+                                                        <button onclick="onEditionsPageClick(${page})" type="submit" type="button" class="btn btn-page
+                                                           <c:if test="${page == currentPage}">btn-primary</c:if> ">
+                                                                ${page}
+                                                        </button>
+                                                    </form>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
                                     </div>
                                 </c:when>
                                 <c:when test="${userPageOption.toString() == 'PAYMENTS'}">
@@ -388,6 +411,16 @@
                                                 </tbody>
                                             </table>
                                         </c:if>
+                                        <div class="btn-toolbar" role="toolbar">
+                                            <div class="btn-group" role="group">
+                                                <c:forEach var="page" begin="1" end="${pages}">
+                                                    <a href="./?command=SHOW_USER_PAYMENTS&page=${page}" type="button" class="btn btn-page
+                                                           <c:if test="${page == currentPage}">btn-primary</c:if> ">
+                                                            ${page}
+                                                    </a>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
                                     </div>
                                 </c:when>
                                 <c:when test="${userPageOption.toString() == 'SUBSCRIPTIONS'}">
@@ -437,6 +470,16 @@
                                                 </tbody>
                                             </table>
                                         </c:if>
+                                        <div class="btn-toolbar" role="toolbar">
+                                            <div class="btn-group" role="group">
+                                                <c:forEach var="page" begin="1" end="${pages}">
+                                                    <a href="./?command=SHOW_USER_SUBSCRIPTIONS&page=${page}" type="button" class="btn btn-page
+                                                           <c:if test="${page == currentPage}">btn-primary</c:if> ">
+                                                            ${page}
+                                                    </a>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
                                     </div>
                                 </c:when>
                             </c:choose>
@@ -613,33 +656,6 @@
         })
     </script>
 
-    <!-- find editions button -->
-    <script type="text/javascript">
-        $(document).on('click', '#findEditions', function () {
-
-            const nameInput = $('#edition-name-label');
-            const typeInput = $('#edition-type-label');
-            const themeInput = $('#edition-theme-label');
-
-            const data = {
-                command: 'FIND_EDITIONS',
-                name: nameInput.val(),
-                type_id: typeInput.val(),
-                theme_id: themeInput.val(),
-            };
-
-            $.post('./', $.param(data), function (responseText) {
-                if (responseText.length < 50) {
-                    $('#find-editions-message').text(responseText);
-                } else {
-                    document.open();
-                    document.write(responseText);
-                    document.close();
-                }
-            });
-        });
-    </script>
-
     <!-- open modal window to subscribe edition -->
     <script type="text/javascript">
         function openModalWindowToSubscribeEdition(buttonElement) {
@@ -740,6 +756,40 @@
             if ('<c:out value="${sessionScope.language}"/>' === 'ru') {
                 finalPriceInput.val(finalPriceInput.val().replace(/\./g, ','));
             }
+        }
+    </script>
+
+    <!-- on editions page click -->
+    <script type="text/javascript">
+        function onEditionsPageClick(page) {
+            const nameInputOnPage = $('#editionNameOnPage' + page);
+            const typeInputOnPage = $('#editionTypeOnPage' + page);
+            const themeInputOnPage = $('#editionThemeOnPage' + page);
+
+            const nameInput = $('#edition-name-label');
+            const typeInput = $('#edition-type-label');
+            const themeInput = $('#edition-theme-label');
+
+            nameInputOnPage.val(nameInput.val());
+            typeInputOnPage.val(typeInput.val());
+            themeInputOnPage.val(themeInput.val());
+        }
+    </script>
+
+    <!-- on find editions click -->
+    <script type="text/javascript">
+        function onFindEditionsClick(page) {
+            const nameInputFind = $('#editionName');
+            const typeInputFind = $('#editionType');
+            const themeInputFind = $('#editionTheme');
+
+            const nameInput = $('#edition-name-label');
+            const typeInput = $('#edition-type-label');
+            const themeInput = $('#edition-theme-label');
+
+            nameInputFind.val(nameInput.val());
+            typeInputFind.val(typeInput.val());
+            themeInputFind.val(themeInput.val());
         }
     </script>
 

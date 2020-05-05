@@ -19,9 +19,11 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 public class ShowSubscriptionsCommand implements Command {
 
     private final SubscriptionService subscriptionService;
+    private final LongListUtil<Subscription> longListUtil;
 
     public ShowSubscriptionsCommand() {
         subscriptionService = ServiceFactory.getInstance().getSubscriptionService();
+        longListUtil = new LongListUtil<>();
     }
 
     @Override
@@ -29,6 +31,7 @@ public class ShowSubscriptionsCommand implements Command {
         req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), DashboardPageOptionCommand.SUBSCRIPTIONS);
         try {
             List<Subscription> subscriptionList = subscriptionService.getAllSubscriptions();
+            subscriptionList = longListUtil.getSubListByPageFromRequest(req, subscriptionList);
             Map<Subscription, String> subscriptionAndStatusMap = SubscriptionToItsStatusMapFactory.getSubscriptionAndStatusMap(subscriptionList);
             req.setAttribute(Attribute.SUBSCRIPTIONS.getValue(), subscriptionAndStatusMap);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);

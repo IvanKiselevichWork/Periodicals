@@ -15,4 +15,11 @@ public interface SubscriptionRepository extends Repository<Subscription> {
      * @throws RepositoryException if error occurs
      */
     void add(Subscription subscription) throws RepositoryException;
+
+    /**
+     * Returns count of all {@link Subscription} in database
+     * @return count of {@link Subscription}
+     * @throws RepositoryException if error occurs
+     */
+    int size() throws RepositoryException;
 }

@@ -244,6 +244,16 @@
                                                 </tbody>
                                             </table>
                                         </c:if>
+                                        <div class="btn-toolbar" role="toolbar">
+                                            <div class="btn-group" role="group">
+                                                <c:forEach var="page" begin="1" end="${pages}">
+                                                    <a href="./?command=SHOW_USERS&page=${page}" type="button" class="btn btn-page
+                                                           <c:if test="${page == currentPage}">btn-primary</c:if> ">
+                                                            ${page}
+                                                    </a>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
                                     </div>
                                 </c:when>
                                 <c:when test="${adminPageOption.toString() == 'EDITIONS'}">
@@ -321,7 +331,7 @@
                                                                 <input type="hidden" name="minPeriod"
                                                                        value="${edition.minimumSubscriptionPeriodInMonths}"/>
                                                                 <input type="hidden" name="price"
-                                                                       value="<fmt:formatNumber type="number" maxFractionDigits="2" value = "${ edition.priceForMinimumSubscriptionPeriod }"/>"/>
+                                                                       value="<fmt:formatNumber type="number" maxFractionDigits="2" groupingUsed="false" value = "${ edition.priceForMinimumSubscriptionPeriod }"/>"/>
                                                             </button>
                                                         </td>
                                                         <td>
@@ -355,6 +365,16 @@
                                                 </tbody>
                                             </table>
                                         </c:if>
+                                        <div class="btn-toolbar" role="toolbar">
+                                            <div class="btn-group" role="group">
+                                                <c:forEach var="page" begin="1" end="${pages}">
+                                                    <a href="./?command=SHOW_EDITIONS&page=${page}" type="button" class="btn btn-page
+                                                           <c:if test="${page == currentPage}">btn-primary</c:if> ">
+                                                            ${page}
+                                                    </a>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
                                     </div>
                                 </c:when>
                                 <c:when test="${adminPageOption.toString() == 'PAYMENTS'}">
@@ -413,6 +433,7 @@
                                                         <td>
                                                             <fmt:formatNumber type="number"
                                                                               maxFractionDigits="2"
+                                                                              groupingUsed="false"
                                                                               value = "${ payment.amount }" />
                                                         </td>
                                                     </tr>
@@ -420,6 +441,16 @@
                                                 </tbody>
                                             </table>
                                         </c:if>
+                                        <div class="btn-toolbar" role="toolbar">
+                                            <div class="btn-group" role="group">
+                                                <c:forEach var="page" begin="1" end="${pages}">
+                                                    <a href="./?command=SHOW_PAYMENTS&page=${page}" type="button" class="btn btn-page
+                                                           <c:if test="${page == currentPage}">btn-primary</c:if> ">
+                                                            ${page}
+                                                    </a>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
                                     </div>
                                 </c:when>
                                 <c:when test="${adminPageOption.toString() == 'SUBSCRIPTIONS'}">
@@ -478,6 +509,16 @@
                                                 </tbody>
                                             </table>
                                         </c:if>
+                                        <div class="btn-toolbar" role="toolbar">
+                                            <div class="btn-group" role="group">
+                                                <c:forEach var="page" begin="1" end="${pages}">
+                                                    <a href="./?command=SHOW_SUBSCRIPTIONS&page=${page}" type="button" class="btn btn-page
+                                                           <c:if test="${page == currentPage}">btn-primary</c:if> ">
+                                                        ${page}
+                                                    </a>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
                                     </div>
                                 </c:when>
                             </c:choose>

@@ -9,6 +9,7 @@ import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.exception.ValidatorException;
 import by.kiselevich.periodicals.factory.PaymentTypeFactory;
 import by.kiselevich.periodicals.factory.RepositoryFactory;
+import by.kiselevich.periodicals.repository.Repository;
 import by.kiselevich.periodicals.repository.subscription.SubscriptionRepository;
 import by.kiselevich.periodicals.specification.subscription.FindAllSubscriptions;
 import by.kiselevich.periodicals.specification.subscription.FindAllSubscriptionsByUserLogin;
@@ -81,6 +82,16 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             throw new ServiceException(e.getMessage());
         } finally {
             transactionUnitOfWork.close();
+        }
+    }
+
+    @Override
+    public int getAllSubscriptionCount() throws ServiceException {
+        try {
+            return subscriptionRepository.size();
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
     }
 

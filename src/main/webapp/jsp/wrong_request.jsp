@@ -61,6 +61,9 @@
             <div class="text-center white-text mx-5">
                 <h3><fmt:message key="wrong_request_message"/></h3>
                 <fmt:message key="wrong_request_go_home"/><br/>
+                <c:if test="${not empty message}">
+                    <div id="users_div" class="alert alert-danger" role="alert">${message}</div>
+                </c:if>
                 <form action="${pageContext.request.contextPath}" method="get">
                     <button type="submit" class="btn btn-outline-white waves-effect"><fmt:message key="home_page"/></button>
                 </form>

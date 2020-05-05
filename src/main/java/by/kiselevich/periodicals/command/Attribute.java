@@ -6,6 +6,8 @@ public enum Attribute {
     LOGIN("login"),
     FULL_NAME("fullName"),
     LANGUAGE("language"),
+    PAGES("pages"),
+    CURRENT_PAGE("currentPage"),
     ADMIN_PAGE_OPTION("adminPageOption"),
     USER_PAGE_OPTION("userPageOption"),
     USER_BALANCE("userBalance"),
