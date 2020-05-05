@@ -386,6 +386,12 @@
                                                                         <em class="fas fa-arrow-up ml-1"></em>
                                                                     </span>
                                                                 </c:when>
+                                                                <c:when test="${ payment.paymentType.type eq 'refund'}">
+                                                                    <span class="badge badge-warning badge-pill pull-right">
+                                                                        <c:out value="${ payment.paymentType.type }"/>
+                                                                        <em class="fas fa-arrow-up ml-1"></em>
+                                                                    </span>
+                                                                </c:when>
                                                                 <c:when test="${ payment.paymentType.type eq 'payment'}">
                                                                     <span class="badge badge-danger badge-pill pull-right">
                                                                         <c:out value="${ payment.paymentType.type }"/>
