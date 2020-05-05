@@ -225,10 +225,17 @@
                                     </div>
                                     <div class="d-flex">
                                         <div class="p-0 pt-3">
-                                            <button type="button" class="btn btn-outline-primary waves-effect"
-                                                    id="findEditions">
-                                                <fmt:message key="find_editions"/>
-                                            </button>
+                                            <form method="get" action="./">
+                                                <input hidden type="text" value="FIND_EDITIONS" name="command"/>
+                                                <input id="editionName" hidden type="text" value="" name="name"/>
+                                                <input id="editionType" hidden type="text" value="" name="type_id"/>
+                                                <input id="editionTheme" hidden type="text" value="" name="theme_id"/>
+                                                <button onclick="onFindEditionsClick()" type="submit" class="btn btn-outline-primary waves-effect"
+                                                        id="findEditions">
+                                                    <fmt:message key="find_editions"/>
+                                                </button>
+                                            </form>
+
                                         </div>
                                     </div>
                                     <div class="d-flex">
@@ -646,33 +653,6 @@
         })
     </script>
 
-    <!-- find editions button -->
-    <script type="text/javascript">
-        $(document).on('click', '#findEditions', function () {
-
-            const nameInput = $('#edition-name-label');
-            const typeInput = $('#edition-type-label');
-            const themeInput = $('#edition-theme-label');
-
-            const data = {
-                command: 'FIND_EDITIONS',
-                name: nameInput.val(),
-                type_id: typeInput.val(),
-                theme_id: themeInput.val(),
-            };
-
-            $.get('./', $.param(data), function (responseText) {
-                if (responseText.length < 50) {
-                    $('#find-editions-message').text(responseText);
-                } else {
-                    document.open();
-                    document.write(responseText);
-                    document.close();
-                }
-            });
-        });
-    </script>
-
     <!-- open modal window to subscribe edition -->
     <script type="text/javascript">
         function openModalWindowToSubscribeEdition(buttonElement) {
@@ -793,6 +773,22 @@
         }
     </script>
 
+    <!-- on find editions click -->
+    <script type="text/javascript">
+        function onFindEditionsClick(page) {
+            const nameInputFind = $('#editionName');
+            const typeInputFind = $('#editionType');
+            const themeInputFind = $('#editionTheme');
+
+            const nameInput = $('#edition-name-label');
+            const typeInput = $('#edition-type-label');
+            const themeInput = $('#edition-theme-label');
+
+            nameInputFind.val(nameInput.val());
+            typeInputFind.val(typeInput.val());
+            themeInputFind.val(themeInput.val());
+        }
+    </script>
 
     <!-- refill balance button -->
     <script type="text/javascript">

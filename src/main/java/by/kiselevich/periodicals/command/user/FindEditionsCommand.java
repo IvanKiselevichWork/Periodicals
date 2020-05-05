@@ -65,12 +65,12 @@ public class FindEditionsCommand implements Command {
             req.setAttribute(Attribute.EDITIONS_TYPES.getValue(), editionTypeList);
             req.setAttribute(Attribute.EDITIONS_THEMES.getValue(), editionThemeList);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);
+            return Page.USER_PAGE;
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), e.getMessage());
-            req.setAttribute(Attribute.USERS.getValue(), null);
             req.setAttribute(Attribute.MESSAGE.getValue(), message);
+            return Page.WRONG_REQUEST;
         }
-        return Page.USER_PAGE;
     }
 
     private Integer getIntegerFromString(String string) {
