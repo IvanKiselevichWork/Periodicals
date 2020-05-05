@@ -39,7 +39,6 @@ public class ShowUserPaymentsCommand implements Command {
             req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), e.getMessage());
-            req.setAttribute(Attribute.USERS.getValue(), null);
             req.setAttribute(Attribute.MESSAGE.getValue(), message);
         }
         return Page.USER_PAGE;
