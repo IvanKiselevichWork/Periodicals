@@ -42,7 +42,7 @@ public abstract class AbstractSubscriptionCommand {
      * @throws NumberFormatException if data format invalid
      */
     protected Subscription buildSubscriptionFromRequest(HttpServletRequest req) throws ServiceException {
-        User user = getUserFromRequest(req);
+        User user = getUserFromSession(req);
         Edition edition = getEditionFromRequest(req);
         int subscriptionPeriod = Integer.parseInt(req.getParameter(JspParameter.PERIOD.getValue()));
         Timestamp start = new Timestamp(System.currentTimeMillis());
@@ -71,7 +71,7 @@ public abstract class AbstractSubscriptionCommand {
         return edition;
     }
 
-    private User getUserFromRequest(HttpServletRequest req) throws ServiceException {
+    protected User getUserFromSession(HttpServletRequest req) throws ServiceException {
         String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
         Optional<User> optionalUser = userService.getUserByLogin(login);
         User user;
