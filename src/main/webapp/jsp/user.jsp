@@ -455,21 +455,39 @@
                                                     <th class="th-sm">
                                                         <fmt:message key="status"/>
                                                     </th>
+                                                    <th class="th-sm">
+                                                        <fmt:message key="unsubscribe"/>
+                                                    </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <c:forEach var="subscription" items="${subscriptions}" varStatus="status">
                                                     <c:if test="${subscription.value eq 'active'}">
-                                                        <tr>
+                                                        <tr id="rowSub${subscription.key.id}">
                                                     </c:if>
                                                     <c:if test="${subscription.value eq 'expired'}">
-                                                        <tr class="table-danger">
+                                                        <tr id="rowSub${subscription.key.id}" class="table-danger">
                                                     </c:if>
                                                         <td><c:out value="${ subscription.key.edition.name }"/></td>
                                                         <td><c:out value="${ subscription.key.subscriptionStartDate }"/></td>
                                                         <td><c:out value="${ subscription.key.subscriptionEndDate }"/></td>
                                                         <td>
                                                             <fmt:message key="${ subscription.value }"/>
+                                                        </td>
+                                                        <td>
+                                                            <c:if test="${subscription.value eq 'active'}">
+
+                                                                    <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0"
+                                                                            type="button" id="stopSubscription${subscription.key.id}"
+                                                                            onclick="stopSubscription(this)"
+                                                                    >
+                                                                        <input type="hidden" name="id" value="${subscription.key.id}"/>
+                                                                        <input type="hidden" name="command"
+                                                                               value="STOP_SUBSCRIPTION"/>
+                                                                        <fmt:message key="unsubscribe"/>
+                                                                    </button>
+
+                                                            </c:if>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -648,6 +666,8 @@
         // Animations initialization
         new WOW().init();
     </script>
+    <!-- Toast -->
+    <script type="text/javascript" src="${root}/js/toast.min.js"></script>
 
     <!-- select inputs setting -->
     <script type="text/javascript">
@@ -843,6 +863,41 @@
             }
             $(buttonElement).prop('disabled', false);
         });
+    </script>
+
+    <!-- stop subscription button -->
+    <script type="text/javascript">
+        function stopSubscription(buttonElement) {
+            $(buttonElement).prop('disabled', true);
+            const data = {
+                command: $(buttonElement).find('input[name="command"]').val(),
+                id: $(buttonElement).find('input[name="id"]').val()
+            };
+            $.post('./', $.param(data), function (responseText) {
+                const options = {
+                    style: {
+                        main: {
+                            background: "pink",
+                            color: "black"
+                        }
+                    },
+                    settings: {
+                        duration: 2000
+                    }
+                };
+                if (responseText.length !== 0) {
+                    iqwerty.toast.Toast(responseText, options);
+                } else {
+                    options.style.main.background = 'lightseagreen';
+                    iqwerty.toast.Toast('<fmt:message key="unsubscribed"/>', options);
+                    const row = $('#rowSub' + data.id);
+                    row.addClass('table-danger');
+                    row.find('td:eq(3)').text('<fmt:message key="expired"/>');
+                    $('#stopSubscription' + data.id).prop('hidden', 'hidden');
+                }
+            });
+            $(buttonElement).prop('disabled', false);
+        }
     </script>
 
     </body>
