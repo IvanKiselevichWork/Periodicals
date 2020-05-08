@@ -39,6 +39,7 @@ public class CommandProvider {
         commandMap.put(CommandName.SHOW_EDITION_SEARCH_FORM, new ShowEditionSearchFormCommand());
         commandMap.put(CommandName.FIND_EDITIONS, new FindEditionsCommand());
         commandMap.put(CommandName.ADD_SUBSCRIPTION, new AddSubscriptionCommand());
+        commandMap.put(CommandName.STOP_SUBSCRIPTION, new StopSubscriptionCommand());
         commandMap.put(CommandName.BLOCK_EDITION, new BlockEditionCommand());
         commandMap.put(CommandName.UNBLOCK_EDITION, new UnblockEditionCommand());
         commandMap.put(CommandName.UPDATE_EDITION, new UpdateEditionCommand());

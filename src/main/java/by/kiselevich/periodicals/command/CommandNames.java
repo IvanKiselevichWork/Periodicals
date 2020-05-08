@@ -25,6 +25,7 @@ public enum CommandNames {
             SHOW_EDITION_SEARCH_FORM,
             FIND_EDITIONS,
             ADD_SUBSCRIPTION,
+            STOP_SUBSCRIPTION,
             REFILL_USER_BALANCE
         )
     ),
