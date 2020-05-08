@@ -10,7 +10,7 @@ public enum ResourceBundleMessages {
     USER_NOT_FOUND_KEY("user_not_found"),
     USER_BLOCKED("user_blocked"),
     LOGIN_IN_USE_KEY("login_in_use"),
-
+    SUBSCRIPTION_NOT_FOUND("subscription_not_found"),
     EDITION_NOT_FOUND("edition_not_found"),
     INVALID_EDITION("invalid_edition"),
     INVALID_NAME("invalid_name"),
