@@ -34,6 +34,14 @@ public interface SubscriptionService {
     void addSubscription(Subscription subscription) throws ServiceException;
 
     /**
+     * Stop {@link Subscription} if not expired
+     * @param subscription {@link Subscription} to stop
+     * @param user {@link User} which owns {@link Subscription}
+     * @throws ServiceException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
+     */
+    void stopSubscription(Subscription subscription, User user) throws ServiceException;
+
+    /**
      * Returns count of all subscription in datasource
      * @return count of subscription
      * @throws ServiceException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
