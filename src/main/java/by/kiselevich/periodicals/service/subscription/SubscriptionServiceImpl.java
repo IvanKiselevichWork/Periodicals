@@ -13,6 +13,7 @@ import by.kiselevich.periodicals.repository.Repository;
 import by.kiselevich.periodicals.repository.subscription.SubscriptionRepository;
 import by.kiselevich.periodicals.specification.subscription.FindAllSubscriptions;
 import by.kiselevich.periodicals.specification.subscription.FindAllSubscriptionsByUserLogin;
+import by.kiselevich.periodicals.specification.subscription.FindSubscriptionById;
 import by.kiselevich.periodicals.unitofwork.TransactionUnitOfWork;
 import by.kiselevich.periodicals.util.DateUtil;
 import by.kiselevich.periodicals.validator.SubscriptionValidator;
@@ -23,6 +24,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of {@link SubscriptionService}
@@ -43,6 +45,21 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public List<Subscription> getAllSubscriptions() throws ServiceException {
         try {
             return subscriptionRepository.query(new FindAllSubscriptions());
+        } catch (RepositoryException e) {
+            LOG.warn(e);
+            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        }
+    }
+
+    @Override
+    public Optional<Subscription> getSubscriptions(int id) throws ServiceException {
+        try {
+            List<Subscription> subscriptionList = subscriptionRepository.query(new FindSubscriptionById(id));
+            Optional<Subscription> optionalSubscription = Optional.empty();
+            if (!subscriptionList.isEmpty()) {
+                optionalSubscription = Optional.of(subscriptionList.get(0));
+            }
+            return optionalSubscription;
         } catch (RepositoryException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());

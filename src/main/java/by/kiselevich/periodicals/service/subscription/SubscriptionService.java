@@ -6,6 +6,7 @@ import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.ServiceException;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service to work with {@link Subscription}
@@ -17,6 +18,14 @@ public interface SubscriptionService {
      * @throws ServiceException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      */
     List<Subscription> getAllSubscriptions() throws ServiceException;
+
+    /**
+     * Returns subscription from data source by id
+     * @param id {@link Subscription} {@code id}
+     * @return {@link Optional} with {@link Subscription}
+     * @throws ServiceException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
+     */
+    Optional<Subscription> getSubscriptions(int id) throws ServiceException;
 
     /**
      * Returns all subscriptions by {@link User} {@code login} from data source
