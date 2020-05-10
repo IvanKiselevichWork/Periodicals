@@ -15,11 +15,13 @@ import java.util.List;
 public class SubscriptionRepositoryImpl extends RepositoryUtil implements SubscriptionRepository {
 
     private static final String ADD_SUBSCRIPTION = "insert into subscription(edition_id, subscription_start_date, subscription_end_date, user_id) values (?, ?, ?, ?)";
+    private static final String UPDATE_SUBSCRIPTION = "UPDATE periodicals.subscription SET edition_id = ?, subscription_start_date = ?, subscription_end_date = ?, user_id = ? WHERE id = ?";
     private static final String ROW_COUNT = "rowcount";
     private static final String COUNT_SUBSCRIPTION = "select count(*) as " + ROW_COUNT + " from subscription";
 
 
     private static final String SUBSCRIPTION_NOT_ADDED_MESSAGE = "Subscription has not been added";
+    private static final String SUBSCRIPTION_NOT_UPDATED_MESSAGE = "Subscription has not been updated";
 
     private final ConnectionPool connectionPool;
 
@@ -31,10 +33,7 @@ public class SubscriptionRepositoryImpl extends RepositoryUtil implements Subscr
     public void add(Subscription subscription) throws RepositoryException {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(ADD_SUBSCRIPTION, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setInt(1, subscription.getEdition().getId());
-            statement.setTimestamp(2, subscription.getSubscriptionStartDate());
-            statement.setTimestamp(3, subscription.getSubscriptionEndDate());
-            statement.setInt(4, subscription.getUser().getId());
+            setSubscriptionInPreparedStatement(subscription, statement);
             int generatedId = executeUpdateOneRowAndGetGeneratedId(statement, SUBSCRIPTION_NOT_ADDED_MESSAGE);
             subscription.setId(generatedId);
         } catch (SQLException e) {
@@ -45,6 +44,21 @@ public class SubscriptionRepositoryImpl extends RepositoryUtil implements Subscr
     @Override
     public List<Subscription> query(Specification<Subscription> specification) throws RepositoryException {
         return specification.query();
+    }
+
+    @Override
+    public void update(Subscription subscription) throws RepositoryException {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_SUBSCRIPTION)) {
+            setSubscriptionInPreparedStatement(subscription, statement);
+            statement.setInt(5, subscription.getId());
+            int updatedRowCount = statement.executeUpdate();
+            if (updatedRowCount != 1) {
+                throw new RepositoryException(SUBSCRIPTION_NOT_UPDATED_MESSAGE);
+            }
+        } catch (SQLException e) {
+            throw new RepositoryException(e);
+        }
     }
 
     @Override
@@ -62,5 +76,12 @@ public class SubscriptionRepositoryImpl extends RepositoryUtil implements Subscr
         } finally {
             closeResultSet(resultSet);
         }
+    }
+
+    private void setSubscriptionInPreparedStatement(Subscription subscription, PreparedStatement statement) throws SQLException {
+        statement.setInt(1, subscription.getEdition().getId());
+        statement.setTimestamp(2, subscription.getSubscriptionStartDate());
+        statement.setTimestamp(3, subscription.getSubscriptionEndDate());
+        statement.setInt(4, subscription.getUser().getId());
     }
 }
