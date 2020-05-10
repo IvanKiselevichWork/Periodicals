@@ -15,7 +15,7 @@ import java.util.List;
 public class SubscriptionRepositoryImpl extends RepositoryUtil implements SubscriptionRepository {
 
     private static final String ADD_SUBSCRIPTION = "insert into subscription(edition_id, subscription_start_date, subscription_end_date, user_id) values (?, ?, ?, ?)";
-    private static final String UPDATE_SUBSCRIPTION = "UPDATE periodicals.subscription SET edition_id = ?, subscription_start_date = ?, subscription_end_date = ?, user_id = ? WHERE id = ?";
+    private static final String UPDATE_SUBSCRIPTION = "UPDATE subscription SET edition_id = ?, subscription_start_date = ?, subscription_end_date = ?, user_id = ? WHERE id = ?";
     private static final String ROW_COUNT = "rowcount";
     private static final String COUNT_SUBSCRIPTION = "select count(*) as " + ROW_COUNT + " from subscription";
 
