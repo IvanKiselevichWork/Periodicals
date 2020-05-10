@@ -25,7 +25,6 @@
         <jsp-api.version>2.2</jsp-api.version>
         <commons-lang3.version>3.10</commons-lang3.version>
         <javax.mail.version>1.6.2</javax.mail.version>
-        <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
         <maven-dependency-plugin.webapp-runner.version>9.0.30.0</maven-dependency-plugin.webapp-runner.version>
         <server.name>tomcat9server</server.name>
         <server.username>3</server.username>
@@ -41,17 +40,6 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>${tomcat7-maven-plugin.version}</version>
-                <configuration>
-                    <server>${server.name}</server>
-                    <username>${server.username}</username>
-                    <password>${server.password}</password>
                 </configuration>
             </plugin>
 
