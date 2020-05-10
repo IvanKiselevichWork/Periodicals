@@ -715,6 +715,11 @@
     <link href="${root}/css/addons/datatables-select.min.css" rel="stylesheet">
     <!-- DataTables Select JS -->
     <script type="text/javascript" src="${root}/js/addons/datatables-select.min.js"></script>
+    <!-- Initializations -->
+    <script type="text/javascript">
+        // Animations initialization
+        new WOW().init();
+    </script>
     <!-- Toast -->
     <script type="text/javascript" src="${root}/js/toast.min.js"></script>
 
