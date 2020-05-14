@@ -25,6 +25,7 @@
         <jsp-api.version>2.2</jsp-api.version>
         <commons-lang3.version>3.10</commons-lang3.version>
         <javax.mail.version>1.6.2</javax.mail.version>
+        <hibernate-core.version>5.4.15.Final</hibernate-core.version>
         <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
         <server.name>tomcat9server</server.name>
         <server.username>3</server.username>
@@ -100,6 +101,11 @@
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
             <version>${javax.mail.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate-core.version}</version>
         </dependency>
     </dependencies>
 </project>
