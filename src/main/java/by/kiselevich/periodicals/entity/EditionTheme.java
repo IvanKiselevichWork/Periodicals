@@ -1,13 +1,21 @@
 package by.kiselevich.periodicals.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Table(name = ("edition_theme"))
 public class EditionTheme implements Serializable {
 
     private static final long serialVersionUID = 5438421720708516488L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = ("id"))
     private int id;
+
+    @Column(name = ("title"))
     private String title;
 
     public EditionTheme() {
