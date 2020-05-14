@@ -1,19 +1,38 @@
 package by.kiselevich.periodicals.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+@Entity
+@Table(name = ("payment"))
 public class Payment implements Serializable {
 
     private static final long serialVersionUID = -719674600971588113L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = ("id"))
     private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "type_id")
     private PaymentType paymentType;
+
+    @Column(name = ("date"))
     private Timestamp date;
+
+    @Column(name = ("amount"))
     private BigDecimal amount;
+
+    @OneToOne
+    @JoinColumn(name = "subscription_id")
     private Subscription subscription;
 
     public Payment() {
