@@ -71,7 +71,7 @@ public class UserRepositoryImpl extends RepositoryUtil implements UserRepository
     public void update(User user) throws RepositoryException {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_USER)) {
-            statement.setInt(1, user.getRole().getId());
+            statement.setInt(1, user.getUserRole().getId());
             statement.setString(2, user.getLogin());
             statement.setString(3, user.getPassword());
             statement.setString(4, user.getFullName());

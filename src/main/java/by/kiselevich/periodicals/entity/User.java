@@ -3,7 +3,7 @@ package by.kiselevich.periodicals.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
+import java.util.List;
 
 @Entity
 @Table(name = ("user"))
@@ -38,8 +38,14 @@ public class User implements Serializable {
     @Column(name = ("money"))
     private BigDecimal money = DEFAULT_MONEY;
 
-    @Column(name = ("is_available"))
+    @Column(name = ("is_available"), columnDefinition = "TINYINT")
     private boolean available = DEFAULT_AVAILABILITY;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Subscription> subscriptions;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Payment> payments;
 
     public User() {
 
@@ -120,11 +126,11 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public UserRole getRole() {
+    public UserRole getUserRole() {
         return userRole;
     }
 
-    public void setRole(UserRole userRole) {
+    public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
     }
 
@@ -176,46 +182,35 @@ public class User implements Serializable {
         this.available = available;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        if (id != user.id) return false;
-        if (!Objects.equals(userRole, user.userRole)) return false;
-        if (available != user.available) return false;
-        if (!Objects.equals(login, user.login)) return false;
-        if (!Objects.equals(password, user.password)) return false;
-        if (!Objects.equals(fullName, user.fullName)) return false;
-        if (!Objects.equals(email, user.email)) return false;
-        return Objects.equals(money, user.money);
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (userRole != null ? userRole.hashCode() : 0);
-        result = 31 * result + (login != null ? login.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (money != null ? money.hashCode() : 0);
-        result = 31 * result + (available ? 1 : 0);
-        return result;
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", roleId=" + userRole +
+                ", userRole=" + userRole +
                 ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", money=" + money +
-                ", isAvailable=" + available +
+                ", available=" + available +
+                ", subscriptions=" + subscriptions +
+                ", payments=" + payments +
                 '}';
     }
 }

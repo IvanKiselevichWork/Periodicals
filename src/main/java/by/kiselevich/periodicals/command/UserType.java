@@ -8,6 +8,6 @@ public enum  UserType {
     USER;
 
     public static UserType getUserTypeByUser(User user) {
-        return valueOf(user.getRole().getRole().toUpperCase());
+        return valueOf(user.getUserRole().getRole().toUpperCase());
     }
 }
