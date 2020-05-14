@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">
+            jdbc:mysql://localhost:3306/periodicals?zeroDateTimeBehavior=convertToNull
+        </property>
+        <property name="hibernate.connection.isolation">8</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">1234</property>
+        <property name="hibernate.show_sql">true</property>
+        <!-- enable Hibernate's automatic session context management -->
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.hbm2ddl.auto">validate</property>
+        <mapping class="by.kiselevich.periodicals.entity.Subscription"/>
+        <mapping class="by.kiselevich.periodicals.entity.Edition"/>
+        <mapping class="by.kiselevich.periodicals.entity.EditionType"/>
+        <mapping class="by.kiselevich.periodicals.entity.EditionTheme"/>
+        <mapping class="by.kiselevich.periodicals.entity.PaymentType"/>
+        <mapping class="by.kiselevich.periodicals.entity.Payment"/>
+        <mapping class="by.kiselevich.periodicals.entity.UserRole"/>
+        <mapping class="by.kiselevich.periodicals.entity.User"/>
+    </session-factory>
+</hibernate-configuration>
