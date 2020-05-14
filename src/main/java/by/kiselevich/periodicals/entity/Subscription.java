@@ -1,17 +1,33 @@
 package by.kiselevich.periodicals.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+@Entity
+@Table(name = ("subscription"))
 public class Subscription implements Serializable {
 
     private static final long serialVersionUID = -2727013561485656825L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = ("id"))
     private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "edition_id")
     private Edition edition;
+
+    @Column(name = ("subscription_start_date"))
     private Timestamp subscriptionStartDate;
+
+    @Column(name = ("subscription_end_date"))
     private Timestamp subscriptionEndDate;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Subscription() {
