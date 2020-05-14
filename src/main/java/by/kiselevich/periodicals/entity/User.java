@@ -1,9 +1,12 @@
 package by.kiselevich.periodicals.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Entity
+@Table(name = ("user"))
 public class User implements Serializable {
 
     private static final long serialVersionUID = -3056882988523044542L;
@@ -11,13 +14,31 @@ public class User implements Serializable {
     private static final BigDecimal DEFAULT_MONEY = BigDecimal.valueOf(0);
     private static final boolean DEFAULT_AVAILABILITY = true;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = ("id"))
     private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private UserRole userRole;
+
+    @Column(name = ("login"))
     private String login;
+
+    @Column(name = ("password"))
     private String password;
+
+    @Column(name = ("full_name"))
     private String fullName;
+
+    @Column(name = ("email"))
     private String email;
+
+    @Column(name = ("money"))
     private BigDecimal money = DEFAULT_MONEY;
+
+    @Column(name = ("is_available"))
     private boolean available = DEFAULT_AVAILABILITY;
 
     public User() {
