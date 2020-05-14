@@ -1,22 +1,44 @@
 package by.kiselevich.periodicals.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Entity
+@Table(name = ("edition"))
 public class Edition implements Serializable {
 
     private static final long serialVersionUID = -8443520786551186762L;
 
     private static final boolean DEFAULT_BLOCKAGE = false;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = ("id"))
     private int id;
+
+    @Column(name = ("name"))
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "type_id")
     private EditionType editionType;
+
+    @ManyToOne
+    @JoinColumn(name = "theme_id")
     private EditionTheme editionTheme;
+
+    @Column(name = ("periodicity_per_year"))
     private int periodicityPerYear;
+
+    @Column(name = ("minimum_subscription_period_in_months"))
     private int minimumSubscriptionPeriodInMonths;
+
+    @Column(name = ("price_for_minimum_subscription_period"))
     private BigDecimal priceForMinimumSubscriptionPeriod;
+
+    @Column(name = ("is_blocked"), columnDefinition = "TINYINT")
     private boolean blocked = DEFAULT_BLOCKAGE;
 
     public Edition() {
