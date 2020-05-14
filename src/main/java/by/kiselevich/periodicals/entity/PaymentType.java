@@ -1,13 +1,21 @@
 package by.kiselevich.periodicals.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Table(name = ("payment_type"))
 public class PaymentType implements Serializable {
 
     private static final long serialVersionUID = -9128783422591446558L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = ("id"))
     private int id;
+
+    @Column(name = ("type"))
     private String type;
 
     public PaymentType() {
