@@ -1,13 +1,21 @@
 package by.kiselevich.periodicals.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Table(name = ("edition_type"))
 public class EditionType implements Serializable {
 
     private static final long serialVersionUID = -4941478345701599265L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = ("id"))
     int id;
+
+    @Column(name = ("type"))
     String type;
 
     public EditionType() {
