@@ -1,13 +1,21 @@
 package by.kiselevich.periodicals.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Table(name = ("user_role"))
 public class UserRole implements Serializable {
 
     private static final long serialVersionUID = -8285019634206760939L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = ("id"))
     private int id;
+
+    @Column(name = ("role"))
     private String role;
 
     public UserRole() {
