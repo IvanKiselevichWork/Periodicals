@@ -187,7 +187,7 @@ public class Edition implements Serializable {
                 Objects.equals(name, edition.name) &&
                 Objects.equals(editionType, edition.editionType) &&
                 Objects.equals(editionTheme, edition.editionTheme) &&
-                Objects.equals(priceForMinimumSubscriptionPeriod, edition.priceForMinimumSubscriptionPeriod);
+                Objects.equals(priceForMinimumSubscriptionPeriod.stripTrailingZeros(), edition.priceForMinimumSubscriptionPeriod.stripTrailingZeros());
     }
 
     @Override
