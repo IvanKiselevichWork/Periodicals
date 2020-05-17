@@ -1,5 +1,8 @@
 package by.kiselevich.periodicals.entity;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -199,6 +202,40 @@ public class User implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return new EqualsBuilder()
+                .append(id, user.id)
+                .append(available, user.available)
+                .append(userRole, user.userRole)
+                .append(login, user.login)
+                .append(password, user.password)
+                .append(fullName, user.fullName)
+                .append(email, user.email)
+                .append(money.stripTrailingZeros(), user.money.stripTrailingZeros())
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(userRole)
+                .append(login)
+                .append(password)
+                .append(fullName)
+                .append(email)
+                .append(money.stripTrailingZeros())
+                .append(available)
+                .toHashCode();
+    }
+
+    @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
@@ -209,8 +246,6 @@ public class User implements Serializable {
                 ", email='" + email + '\'' +
                 ", money=" + money +
                 ", available=" + available +
-                ", subscriptions=" + subscriptions +
-                ", payments=" + payments +
                 '}';
     }
 }
