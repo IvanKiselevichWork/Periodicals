@@ -13,7 +13,6 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Optional;
 
 /**
  * {@link Filter} implementation to prevent user activity if user has been banned
@@ -35,8 +34,8 @@ public class UserBlockFilter implements Filter {
         String userLogin = (String) httpSession.getAttribute(Attribute.LOGIN.getValue());
         try {
             if (userLogin != null) {
-                Optional<User> optionalUser = userService.getUserByLogin(userLogin);
-                if(!optionalUser.isPresent() || !optionalUser.get().isAvailable()) {
+                User user = userService.getUserByLogin(userLogin);
+                if(user == null || !user.isAvailable()) {
                     httpServletRequest.getSession().setAttribute(Attribute.USER_TYPE.getValue(), UserType.GUEST);
                 }
             }

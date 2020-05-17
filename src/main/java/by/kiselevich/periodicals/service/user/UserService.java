@@ -6,7 +6,6 @@ import by.kiselevich.periodicals.exception.ServiceException;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Service to work with {@link User}
@@ -22,19 +21,19 @@ public interface UserService {
 
     /**
      * Sign in user by validating and setting role from data source
-     * @param user {@code User} for signing in
+     * @param user {@link User} for signing in
      * @return {@link User} if valid and exist
      * @throws ServiceException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      */
     User signIn(User user) throws ServiceException;
 
     /**
-     * Returns {@code Optional<User>} by login from data source
+     * Returns {@link User} by login from data source
      * @param login user login
-     * @return {@code Optional<User>} by login
+     * @return {@link User}
      * @throws ServiceException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      */
-    Optional<User> getUserByLogin(String login) throws ServiceException;
+    User getUserByLogin(String login) throws ServiceException;
 
     /**
      * Returns all users as {@code List} from data source

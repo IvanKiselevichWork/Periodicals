@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 
@@ -33,13 +32,12 @@ public class ShowUserPageCommand implements Command {
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
         req.setAttribute(Attribute.USER_PAGE_OPTION.getValue(), DashboardPageOptionCommand.MAIN);
-
         try {
             String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
-            Optional<User> optionalUser = userService.getUserByLogin(login);
+            User user = userService.getUserByLogin(login);
             BigDecimal userBalance;
-            if (optionalUser.isPresent()) {
-                userBalance = optionalUser.get().getMoney();
+            if (user != null) {
+                userBalance = user.getMoney();
             } else {
                 userBalance = DEFAULT_BALANCE;
             }

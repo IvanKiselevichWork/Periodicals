@@ -7,7 +7,6 @@ import by.kiselevich.periodicals.exception.ValidatorException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.user.UserService;
 
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,8 +68,8 @@ public class UserValidator {
 
     private void checkIsLoginInUse(String login) throws ValidatorException, ServiceException {
         UserService userService = ServiceFactory.getInstance().getUserService();
-        Optional<User> optionalUser = userService.getUserByLogin(login);
-        if (optionalUser.isPresent()) {
+        User user = userService.getUserByLogin(login);
+        if (user != null) {
             throw new ValidatorException(ResourceBundleMessages.LOGIN_IN_USE_KEY.getKey());
         }
     }

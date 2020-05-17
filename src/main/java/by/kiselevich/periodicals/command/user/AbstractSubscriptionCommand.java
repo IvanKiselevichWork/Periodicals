@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Optional;
 
 public abstract class AbstractSubscriptionCommand {
     private static final Logger LOG = LogManager.getLogger(AbstractSubscriptionCommand.class);
@@ -71,14 +70,12 @@ public abstract class AbstractSubscriptionCommand {
 
     protected User getUserFromSession(HttpServletRequest req) throws ServiceException {
         String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
-        Optional<User> optionalUser = userService.getUserByLogin(login);
-        User user;
-        if (optionalUser.isPresent()) {
-            user = optionalUser.get();
+        User user = userService.getUserByLogin(login);
+        if (user != null) {
+            return user;
         } else {
             LOG.warn(USER_NOT_FOUND);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
-        return user;
     }
 }

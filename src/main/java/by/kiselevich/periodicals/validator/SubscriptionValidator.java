@@ -12,8 +12,6 @@ import by.kiselevich.periodicals.service.user.UserService;
 import by.kiselevich.periodicals.util.DateUtil;
 
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
 
 public class SubscriptionValidator {
 
@@ -77,8 +75,8 @@ public class SubscriptionValidator {
     private void checkUser(User user) throws ValidatorException {
         try {
             UserService userService = ServiceFactory.getInstance().getUserService();
-            Optional<User> optionalUser = userService.getUserByLogin(user.getLogin());
-            if (!optionalUser.isPresent() || !optionalUser.get().equals(user)) {
+            User user1 = userService.getUserByLogin(user.getLogin());
+            if (user1 == null || !user1.equals(user)) {
                 throw new ValidatorException(ResourceBundleMessages.INVALID_USER.getKey());
             }
         } catch (ServiceException e) {

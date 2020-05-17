@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 
@@ -34,11 +33,11 @@ public class ShowUserPaymentsCommand implements Command {
         req.setAttribute(Attribute.USER_PAGE_OPTION.getValue(), DashboardPageOptionCommand.PAYMENTS);
         try {
             String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
-            Optional<User> optionalUser = userService.getUserByLogin(login);
-            if (!optionalUser.isPresent()) {
+            User user = userService.getUserByLogin(login);
+            if (user == null) {
                 return Page.WRONG_REQUEST;
             }
-            List<Payment> paymentList = optionalUser.get().getPayments();
+            List<Payment> paymentList = user.getPayments();
             paymentList.sort(Comparator.comparing(Payment::getDate).reversed());
             paymentList = longListUtil.getSubListByPageFromRequest(req, paymentList);
             req.setAttribute(Attribute.PAYMENTS.getValue(), paymentList);
