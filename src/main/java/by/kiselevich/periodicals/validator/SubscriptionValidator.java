@@ -48,8 +48,8 @@ public class SubscriptionValidator {
     private void checkEdition(Edition edition) throws ValidatorException {
         try {
             EditionService editionService = ServiceFactory.getInstance().getEditionService();
-            List<Edition> editionList = editionService.getEditionsById(edition.getId(), false);
-            if (editionList.isEmpty() || !editionList.get(0).equals(edition)) {
+            Edition edition1 = editionService.getEditionById(edition.getId(), false);
+            if (edition1 == null || !edition1.equals(edition)) {
                 throw new ValidatorException(ResourceBundleMessages.INVALID_EDITION.getKey());
             }
         } catch (ServiceException e) {
@@ -60,12 +60,12 @@ public class SubscriptionValidator {
     private void checkPeriodForEditionWithId(Timestamp start, Timestamp end, int editionId) throws ValidatorException {
         try {
             EditionService editionService = ServiceFactory.getInstance().getEditionService();
-            List<Edition> editionList = editionService.getEditionsById(editionId, false);
-            if (editionList.isEmpty()) {
+            Edition edition1 = editionService.getEditionById(editionId, false);
+            if (edition1 == null) {
                 throw new ValidatorException(ResourceBundleMessages.INVALID_EDITION.getKey());
             } else {
                 int periodInMonths = DateUtil.getIntegerSubscriptionPeriodInMonths(start, end);
-                if (periodInMonths < editionList.get(0).getMinimumSubscriptionPeriodInMonths() || periodInMonths > MAXIMUM_SUBSCRIPTION_PERIOD) {
+                if (periodInMonths < edition1.getMinimumSubscriptionPeriodInMonths() || periodInMonths > MAXIMUM_SUBSCRIPTION_PERIOD) {
                     throw new ValidatorException(ResourceBundleMessages.INVALID_PERIOD.getKey());
                 }
             }

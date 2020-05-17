@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Optional;
 
 public abstract class AbstractSubscriptionCommand {
@@ -35,10 +34,11 @@ public abstract class AbstractSubscriptionCommand {
 
     /**
      * Get data from {@link HttpServletRequest} and build {@link Subscription}
+     *
      * @param req {@link HttpServletRequest} with {@code JspParameter.PERIOD}, {@code JspParameter.ID}
      * and {@link javax.servlet.http.HttpSession} with {@code Attribute.LOGIN}
      * @return fully build {@link Subscription}
-     * @throws ServiceException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
+     * @throws ServiceException      with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      * @throws NumberFormatException if data format invalid
      */
     protected Subscription buildSubscriptionFromRequest(HttpServletRequest req) throws ServiceException {
@@ -60,15 +60,13 @@ public abstract class AbstractSubscriptionCommand {
 
     private Edition getEditionFromRequest(HttpServletRequest req) throws ServiceException {
         int editionId = Integer.parseInt(req.getParameter(JspParameter.ID.getValue()));
-        List<Edition> editionList = editionService.getEditionsById(editionId, true);
-        Edition edition;
-        if (!editionList.isEmpty()) {
-            edition = editionList.get(0);
+        Edition edition = editionService.getEditionById(editionId, true);
+        if (edition != null) {
+            return edition;
         } else {
             LOG.warn(EDITION_NOT_FOUND);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
-        return edition;
     }
 
     protected User getUserFromSession(HttpServletRequest req) throws ServiceException {

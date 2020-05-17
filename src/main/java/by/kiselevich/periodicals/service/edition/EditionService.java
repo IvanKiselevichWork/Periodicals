@@ -43,13 +43,13 @@ public interface EditionService {
     List<Edition> getNotBlockedEditionsByNameAndTypeIdAndThemeId(String name, Integer typeId, Integer themeId) throws ServiceException;
 
     /**
-     * Returns {@code Edition} from data source by its {@code id}
+     * Returns {@link Edition} from data source by its {@code id}
      * @param editionId {@link Edition} {@code id}
      * @param findNotBlockedEditionsOnly if true - find only not-blocked {@code Edition}
-     * @return {@code List<Edition>}
+     * @return {@link Edition}
      * @throws ServiceException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      */
-    List<Edition> getEditionsById(int editionId, boolean findNotBlockedEditionsOnly) throws ServiceException;
+    Edition getEditionById(int editionId, boolean findNotBlockedEditionsOnly) throws ServiceException;
 
     /**
      * Block {@code Edition} by its {@code id}
