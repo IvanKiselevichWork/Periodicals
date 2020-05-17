@@ -13,7 +13,6 @@ import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.edition.EditionService;
 import by.kiselevich.periodicals.service.editiontheme.EditionThemeService;
 import by.kiselevich.periodicals.service.editiontype.EditionTypeService;
-import by.kiselevich.periodicals.service.subscription.SubscriptionService;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,19 +21,17 @@ import java.util.List;
 
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 
-public class FindEditionsCommand implements Command {
+public class FindEditionsCommand extends AbstractUserCommand implements Command {
 
     private final EditionService editionService;
     private final EditionTypeService editionTypeService;
     private final EditionThemeService editionThemeService;
-    private final SubscriptionService subscriptionService;
     private final LongListUtil<Edition> longListUtil;
 
     public FindEditionsCommand() {
         editionService = ServiceFactory.getInstance().getEditionService();
         editionTypeService = ServiceFactory.getInstance().getEditionTypeService();
         editionThemeService = ServiceFactory.getInstance().getEditionThemeService();
-        subscriptionService = ServiceFactory.getInstance().getSubscriptionService();
         longListUtil = new LongListUtil<>();
     }
 
@@ -54,9 +51,7 @@ public class FindEditionsCommand implements Command {
 
             List<EditionType> editionTypeList = editionTypeService.getAllEditionsTypes();
             List<EditionTheme> editionThemeList = editionThemeService.getAllThemes();
-
-            String userLogin = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
-            List<Subscription> subscriptionList = subscriptionService.getAllSubscriptionsByUserLogin(userLogin);
+            List<Subscription> subscriptionList = getSubscriptionsByUserLoginFromRequest(req);
 
             req.setAttribute(Attribute.EDITION_NAME_VALUE.getValue(), name);
             req.setAttribute(Attribute.EDITION_TYPE_ID_VALUE.getValue(), typeIdString);

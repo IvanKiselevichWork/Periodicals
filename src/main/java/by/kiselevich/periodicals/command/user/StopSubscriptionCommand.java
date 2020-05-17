@@ -10,12 +10,10 @@ import by.kiselevich.periodicals.service.subscription.SubscriptionService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.Optional;
-
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 import static by.kiselevich.periodicals.util.HttpUtil.writeMessageToResponse;
 
-public class StopSubscriptionCommand extends AbstractSubscriptionCommand implements Command {
+public class StopSubscriptionCommand extends AbstractUserCommand implements Command {
     private final SubscriptionService subscriptionService;
 
     public StopSubscriptionCommand() {
@@ -26,14 +24,14 @@ public class StopSubscriptionCommand extends AbstractSubscriptionCommand impleme
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
         try {
             int subscriptionId = Integer.parseInt(req.getParameter(JspParameter.ID.getValue()));
-            Optional<Subscription> optionalSubscription = subscriptionService.getSubscriptions(subscriptionId);
-            if (!optionalSubscription.isPresent()) {
+            Subscription subscription = subscriptionService.getSubscriptionById(subscriptionId);
+            if (subscription == null) {
                 String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), ResourceBundleMessages.SUBSCRIPTION_NOT_FOUND.getKey());
                 writeMessageToResponse(resp, message);
                 return Page.EMPTY_PAGE;
             }
             User user = getUserFromSession(req);
-            subscriptionService.stopSubscription(optionalSubscription.get(), user);
+            subscriptionService.stopSubscription(subscription, user);
         } catch (ServiceException e) {
             String message = getLocalizedMessageFromResources((String)req.getSession().getAttribute(Attribute.LANGUAGE.getValue()), e.getMessage());
             writeMessageToResponse(resp, message);

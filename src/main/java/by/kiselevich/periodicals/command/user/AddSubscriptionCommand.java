@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 import static by.kiselevich.periodicals.util.HttpUtil.writeMessageToResponse;
 
-public class AddSubscriptionCommand extends AbstractSubscriptionCommand implements Command {
+public class AddSubscriptionCommand extends AbstractUserCommand implements Command {
     private static final Logger LOG = LogManager.getLogger(AddSubscriptionCommand.class);
 
     private final SubscriptionService subscriptionService;

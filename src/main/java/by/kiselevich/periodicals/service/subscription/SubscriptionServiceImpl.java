@@ -1,30 +1,28 @@
 package by.kiselevich.periodicals.service.subscription;
 
 import by.kiselevich.periodicals.command.ResourceBundleMessages;
+import by.kiselevich.periodicals.dao.payment.PaymentDao;
+import by.kiselevich.periodicals.dao.subscription.SubscriptionDao;
+import by.kiselevich.periodicals.dao.user.UserDao;
 import by.kiselevich.periodicals.entity.Payment;
 import by.kiselevich.periodicals.entity.Subscription;
 import by.kiselevich.periodicals.entity.User;
-import by.kiselevich.periodicals.exception.RepositoryException;
+import by.kiselevich.periodicals.exception.DaoException;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.exception.ValidatorException;
+import by.kiselevich.periodicals.factory.DaoFactory;
 import by.kiselevich.periodicals.factory.PaymentTypeFactory;
-import by.kiselevich.periodicals.factory.RepositoryFactory;
-import by.kiselevich.periodicals.repository.Repository;
-import by.kiselevich.periodicals.repository.subscription.SubscriptionRepository;
-import by.kiselevich.periodicals.specification.subscription.FindAllSubscriptions;
-import by.kiselevich.periodicals.specification.subscription.FindAllSubscriptionsByUserLogin;
-import by.kiselevich.periodicals.specification.subscription.FindSubscriptionById;
-import by.kiselevich.periodicals.unitofwork.TransactionUnitOfWork;
 import by.kiselevich.periodicals.util.DateUtil;
 import by.kiselevich.periodicals.validator.SubscriptionValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Implementation of {@link SubscriptionService}
@@ -33,44 +31,33 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     private static final Logger LOG = LogManager.getLogger(SubscriptionServiceImpl.class);
 
-    private final SubscriptionRepository subscriptionRepository;
+    private final SubscriptionDao subscriptionDao;
+    private final UserDao userDao;
+    private final PaymentDao paymentDao;
     private final SubscriptionValidator subscriptionValidator;
 
     public SubscriptionServiceImpl() {
-        subscriptionRepository = RepositoryFactory.getInstance().getSubscriptionRepository();
+        subscriptionDao = DaoFactory.getInstance().getSubscriptionDao();
+        userDao = DaoFactory.getInstance().getUserDao();
+        paymentDao = DaoFactory.getInstance().getPaymentDao();
         subscriptionValidator = SubscriptionValidator.getInstance();
     }
 
     @Override
     public List<Subscription> getAllSubscriptions() throws ServiceException {
         try {
-            return subscriptionRepository.query(new FindAllSubscriptions());
-        } catch (RepositoryException e) {
+            return subscriptionDao.getAllSubscriptions();
+        } catch (DaoException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
     }
 
     @Override
-    public Optional<Subscription> getSubscriptions(int id) throws ServiceException {
+    public Subscription getSubscriptionById(int id) throws ServiceException {
         try {
-            List<Subscription> subscriptionList = subscriptionRepository.query(new FindSubscriptionById(id));
-            Optional<Subscription> optionalSubscription = Optional.empty();
-            if (!subscriptionList.isEmpty()) {
-                optionalSubscription = Optional.of(subscriptionList.get(0));
-            }
-            return optionalSubscription;
-        } catch (RepositoryException e) {
-            LOG.warn(e);
-            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
-        }
-    }
-
-    @Override
-    public List<Subscription> getAllSubscriptionsByUserLogin(String userLogin) throws ServiceException {
-        try {
-            return subscriptionRepository.query(new FindAllSubscriptionsByUserLogin(userLogin));
-        } catch (RepositoryException e) {
+            return subscriptionDao.getSubscriptionById(id);
+        } catch (DaoException e) {
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
@@ -78,33 +65,31 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public void addSubscription(Subscription subscription) throws ServiceException {
-        TransactionUnitOfWork transactionUnitOfWork = new TransactionUnitOfWork();
+        Session session = DaoFactory.getSession();
+        Transaction transaction = session.beginTransaction();
         try {
             subscriptionValidator.checkSubscription(subscription);
-
             BigDecimal subscriptionPrice = calculateSubscriptionPrice(subscription);
             User user = decreaseUserBalance(subscription.getUser(), subscriptionPrice);
             Payment payment = buildNewPayment(subscription, subscriptionPrice, user);
-
-            transactionUnitOfWork.getUserRepository().update(user);
-            transactionUnitOfWork.getSubscriptionRepository().add(subscription);
-            transactionUnitOfWork.getPaymentRepository().add(payment);
-            transactionUnitOfWork.commit();
-        } catch (RepositoryException e) {
+            userDao.update(user);
+            subscriptionDao.add(subscription);
+            paymentDao.add(payment);
+            transaction.commit();
+        } catch (DaoException e) {
             LOG.warn(e);
-            transactionUnitOfWork.rollback();
+            transaction.rollback();
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         } catch (ValidatorException e) {
             LOG.info(e);
             throw new ServiceException(e.getMessage());
-        } finally {
-            transactionUnitOfWork.close();
         }
     }
 
     @Override
     public void stopSubscription(Subscription subscription, User user) throws ServiceException {
-        TransactionUnitOfWork transactionUnitOfWork = new TransactionUnitOfWork();
+        Session session = DaoFactory.getSession();
+        Transaction transaction = session.beginTransaction();
         try {
             checkIfUserOwnSubscription(subscription, user);
             checkIfSubscriptionNotExpired(subscription);
@@ -117,25 +102,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             user = increaseUserBalance(subscription.getUser(), userRefundAmount);
             Payment payment = buildNewRefund(subscription, userRefundAmount, user);
 
-            transactionUnitOfWork.getUserRepository().update(user);
-            transactionUnitOfWork.getSubscriptionRepository().update(subscription);
-            transactionUnitOfWork.getPaymentRepository().add(payment);
-            transactionUnitOfWork.commit();
-        } catch (RepositoryException e) {
+            userDao.update(user);
+            subscriptionDao.update(subscription);
+            paymentDao.add(payment);
+            transaction.commit();
+        } catch (DaoException e) {
             LOG.warn(e);
-            transactionUnitOfWork.rollback();
-            throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
-        } finally {
-            transactionUnitOfWork.close();
-        }
-    }
-
-    @Override
-    public int getAllSubscriptionCount() throws ServiceException {
-        try {
-            return subscriptionRepository.size();
-        } catch (RepositoryException e) {
-            LOG.warn(e);
+            transaction.rollback();
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
     }
@@ -159,18 +132,18 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private BigDecimal calculateSubscriptionPrice(Subscription subscription) {
         int subscriptionPeriodInMonths = DateUtil.getIntegerSubscriptionPeriodInMonths(subscription);
         return subscription.getEdition().getPriceForMinimumSubscriptionPeriod()
-        .multiply(new BigDecimal(subscriptionPeriodInMonths))
-        .divide(new BigDecimal(subscription.getEdition().getMinimumSubscriptionPeriodInMonths()), RoundingMode.UP);
+                .multiply(new BigDecimal(subscriptionPeriodInMonths))
+                .divide(new BigDecimal(subscription.getEdition().getMinimumSubscriptionPeriodInMonths()), RoundingMode.UP);
     }
 
     private Payment buildNewPayment(Subscription subscription, BigDecimal subscriptionPrice, User user) {
         return new Payment.PaymentBuilder()
-                        .user(user)
-                        .paymentType(PaymentTypeFactory.getPayment())
-                        .date(new Timestamp(System.currentTimeMillis()))
-                        .amount(subscriptionPrice)
-                        .subscription(subscription)
-                        .build();
+                .user(user)
+                .paymentType(PaymentTypeFactory.getPayment())
+                .date(new Timestamp(System.currentTimeMillis()))
+                .amount(subscriptionPrice)
+                .subscription(subscription)
+                .build();
     }
 
     private Payment buildNewRefund(Subscription subscription, BigDecimal subscriptionPrice, User user) {

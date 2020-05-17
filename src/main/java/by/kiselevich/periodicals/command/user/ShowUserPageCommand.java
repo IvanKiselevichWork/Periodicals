@@ -7,7 +7,6 @@ import by.kiselevich.periodicals.command.admin.DashboardPageOptionCommand;
 import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
-import by.kiselevich.periodicals.service.subscription.SubscriptionService;
 import by.kiselevich.periodicals.service.user.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +21,9 @@ public class ShowUserPageCommand implements Command {
     private static final BigDecimal DEFAULT_BALANCE = BigDecimal.valueOf(0);
 
     private final UserService userService;
-    private final SubscriptionService subscriptionService;
 
     public ShowUserPageCommand() {
         userService = ServiceFactory.getInstance().getUserService();
-        subscriptionService = ServiceFactory.getInstance().getSubscriptionService();
     }
 
     @Override
@@ -35,13 +32,13 @@ public class ShowUserPageCommand implements Command {
         try {
             String login = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
             User user = userService.getUserByLogin(login);
-            BigDecimal userBalance;
+            BigDecimal userBalance = DEFAULT_BALANCE;
+            int subscriptionsCount = 0;
             if (user != null) {
                 userBalance = user.getMoney();
-            } else {
-                userBalance = DEFAULT_BALANCE;
+                subscriptionsCount = user.getSubscriptions().size();
             }
-            int subscriptionsCount = subscriptionService.getAllSubscriptionsByUserLogin(login).size();
+
             req.setAttribute(Attribute.USER_BALANCE.getValue(), userBalance);
             req.setAttribute(Attribute.SUBSCRIPTIONS_COUNT.getValue(), subscriptionsCount);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);

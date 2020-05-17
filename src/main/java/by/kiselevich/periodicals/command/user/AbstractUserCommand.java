@@ -15,10 +15,12 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-public abstract class AbstractSubscriptionCommand {
-    private static final Logger LOG = LogManager.getLogger(AbstractSubscriptionCommand.class);
+public abstract class AbstractUserCommand {
+    private static final Logger LOG = LogManager.getLogger(AbstractUserCommand.class);
 
     private static final String USER_NOT_FOUND = "USER NOT FOUND IN DATABASE WITH LOGIN FROM SESSION";
     private static final String EDITION_NOT_FOUND = "EDITION NOT FOUND OR BLOCKED IN DATABASE WITH ID FROM SUBSCRIPTION REQUEST";
@@ -26,7 +28,7 @@ public abstract class AbstractSubscriptionCommand {
     private final UserService userService;
     private final EditionService editionService;
 
-    public AbstractSubscriptionCommand() {
+    public AbstractUserCommand() {
         userService = ServiceFactory.getInstance().getUserService();
         editionService = ServiceFactory.getInstance().getEditionService();
     }
@@ -77,5 +79,15 @@ public abstract class AbstractSubscriptionCommand {
             LOG.warn(USER_NOT_FOUND);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
+    }
+
+    protected List<Subscription> getSubscriptionsByUserLoginFromRequest(HttpServletRequest req) throws ServiceException {
+        String userLogin = (String) req.getSession().getAttribute(Attribute.LOGIN.getValue());
+        List<Subscription> subscriptionList = new ArrayList<>();
+        User user = userService.getUserByLogin(userLogin);
+        if (user != null) {
+            subscriptionList = user.getSubscriptions();
+        }
+        return subscriptionList;
     }
 }
