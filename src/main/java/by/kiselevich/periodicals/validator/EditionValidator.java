@@ -65,8 +65,8 @@ public class EditionValidator {
 
     private void checkEditionTheme(EditionTheme editionTheme) throws ValidatorException, ServiceException {
         EditionThemeService editionThemeService = ServiceFactory.getInstance().getEditionThemeService();
-        List<EditionTheme> editionThemeList = editionThemeService.getThemeById(editionTheme.getId());
-        if (editionThemeList.isEmpty() || !editionThemeList.get(0).equals(editionTheme)) {
+        EditionTheme editionTheme1 = editionThemeService.getThemeById(editionTheme.getId());
+        if (editionTheme1 == null || !editionTheme1.equals(editionTheme)) {
             throw new ValidatorException(ResourceBundleMessages.INVALID_THEME.getKey());
         }
     }

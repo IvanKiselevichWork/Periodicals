@@ -43,11 +43,11 @@ public abstract class AbstractEditionCommand {
 
     private EditionTheme getEditionThemeFromRequest(HttpServletRequest req) throws ServiceException {
         int themeId = Integer.parseInt(req.getParameter(JspParameter.THEME_ID.getValue()));
-        List<EditionTheme> editionThemeList = editionThemeService.getThemeById(themeId);
-        if (editionThemeList.isEmpty()) {
+        EditionTheme editionTheme = editionThemeService.getThemeById(themeId);
+        if (editionTheme == null) {
             throw new ServiceException(ResourceBundleMessages.INVALID_THEME.getKey());
         }
-        return editionThemeList.get(0);
+        return editionTheme;
     }
 
     private EditionType getEditionTypeFromRequest(HttpServletRequest req) throws ServiceException {

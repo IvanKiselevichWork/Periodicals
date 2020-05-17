@@ -22,8 +22,8 @@ public interface EditionThemeService {
     /**
      * Returns {@link EditionTheme} from data source  by its {@code id}
      * @param id {@link EditionTheme} {@code id}
-     * @return {@link List} with {@link EditionTheme}
+     * @return {@link EditionTheme}
      * @throws ServiceException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      */
-    List<EditionTheme> getThemeById(int id) throws ServiceException;
+    EditionTheme getThemeById(int id) throws ServiceException;
 }
