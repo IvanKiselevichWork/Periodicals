@@ -12,7 +12,6 @@ import by.kiselevich.periodicals.service.editiontype.EditionTypeService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.List;
 
 public abstract class AbstractEditionCommand {
 
@@ -52,10 +51,10 @@ public abstract class AbstractEditionCommand {
 
     private EditionType getEditionTypeFromRequest(HttpServletRequest req) throws ServiceException {
         int typeId = Integer.parseInt(req.getParameter(JspParameter.TYPE_ID.getValue()));
-        List<EditionType> editionTypeList = editionTypeService.getEditionTypeById(typeId);
-        if (editionTypeList.isEmpty()) {
+        EditionType editionType = editionTypeService.getEditionTypeById(typeId);
+        if (editionType == null) {
             throw new ServiceException(ResourceBundleMessages.INVALID_TYPE.getKey());
         }
-        return editionTypeList.get(0);
+        return editionType;
     }
 }

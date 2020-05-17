@@ -57,8 +57,8 @@ public class EditionValidator {
 
     private void checkEditionType(EditionType editionType) throws ValidatorException, ServiceException {
         EditionTypeService editionTypeService = ServiceFactory.getInstance().getEditionTypeService();
-        List<EditionType> editionTypeList = editionTypeService.getEditionTypeById(editionType.getId());
-        if (editionTypeList.isEmpty() || !editionTypeList.get(0).equals(editionType)) {
+        EditionType editionType1 = editionTypeService.getEditionTypeById(editionType.getId());
+        if (editionType1 == null || !editionType1.equals(editionType)) {
             throw new ValidatorException(ResourceBundleMessages.INVALID_TYPE.getKey());
         }
     }

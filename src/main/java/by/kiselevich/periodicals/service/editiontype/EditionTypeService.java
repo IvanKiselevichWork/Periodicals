@@ -21,8 +21,8 @@ public interface EditionTypeService {
     /**
      * Returns {@link EditionType} from data source by its {@code id}
      * @param id {@link EditionType} {@code id}
-     * @return {@link List} with {@link EditionType}
+     * @return {@link EditionType}
      * @throws ServiceException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
      */
-    List<EditionType> getEditionTypeById(int id) throws ServiceException;
+    EditionType getEditionTypeById(int id) throws ServiceException;
 }
