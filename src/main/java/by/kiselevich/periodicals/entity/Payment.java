@@ -150,7 +150,7 @@ public class Payment implements Serializable {
         if (!Objects.equals(user, payment.user)) return false;
         if (!Objects.equals(paymentType, payment.paymentType)) return false;
         if (!Objects.equals(date, payment.date)) return false;
-        if (!Objects.equals(amount, payment.amount)) return false;
+        if (!Objects.equals(amount.stripTrailingZeros(), payment.amount.stripTrailingZeros())) return false;
         return Objects.equals(subscription, payment.subscription);
     }
 
