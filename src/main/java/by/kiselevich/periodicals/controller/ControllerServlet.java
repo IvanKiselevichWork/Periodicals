@@ -2,9 +2,7 @@ package by.kiselevich.periodicals.controller;
 
 
 import by.kiselevich.periodicals.command.*;
-import by.kiselevich.periodicals.exception.NoJDBCDriverException;
-import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
-import by.kiselevich.periodicals.pool.ConnectionPoolImpl;
+import by.kiselevich.periodicals.factory.DaoFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,11 +25,6 @@ public class ControllerServlet extends HttpServlet {
     @Override
     public void init() {
         LOG.trace("ControllerServlet init");
-        try {
-            ConnectionPoolImpl.INSTANCE.initPool();
-        } catch (NoJDBCPropertiesException | NoJDBCDriverException e) {
-            LOG.error(e);
-        }
     }
 
     @Override
@@ -55,22 +48,18 @@ public class ControllerServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        if (!ConnectionPoolImpl.INSTANCE.isPoolInitialized()) {
-            req.getRequestDispatcher(Page.APP_FAILURE.getPath()).forward(req, resp);
-        } else {
-            String commandParameter = req.getParameter(JspParameter.COMMAND.getValue());
-            Command command = commandProvider.getCommand(commandParameter);
-            LOG.info("Executing command: {}", command);
-            Page page = command.execute(req, resp);
-            if (page != Page.EMPTY_PAGE) {
-                req.getRequestDispatcher(page.getPath()).forward(req, resp);
-            }
+        String commandParameter = req.getParameter(JspParameter.COMMAND.getValue());
+        Command command = commandProvider.getCommand(commandParameter);
+        LOG.info("Executing command: {}", command);
+        Page page = command.execute(req, resp);
+        if (page != Page.EMPTY_PAGE) {
+            req.getRequestDispatcher(page.getPath()).forward(req, resp);
         }
     }
 
     @Override
     public void destroy() {
         LOG.trace("ControllerServlet destroy");
-        ConnectionPoolImpl.INSTANCE.deInitPool();
+        DaoFactory.getSession().close();
     }
 }

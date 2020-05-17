@@ -1,26 +1,13 @@
 package by.kiselevich.periodicals.validator;
 
 import by.kiselevich.periodicals.entity.User;
-import by.kiselevich.periodicals.exception.NoJDBCDriverException;
-import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.exception.ValidatorException;
-import by.kiselevich.periodicals.pool.ConnectionPoolImpl;
 import org.junit.*;
 
 public class UserValidatorTest extends Assert {
 
     private static final UserValidator userValidator = UserValidator.getInstance();
-
-    @BeforeClass
-    public static void init() throws NoJDBCDriverException, NoJDBCPropertiesException {
-        ConnectionPoolImpl.INSTANCE.initPool();
-    }
-
-    @AfterClass
-    public static void deInit() {
-        ConnectionPoolImpl.INSTANCE.deInitPool();
-    }
 
     @Test
     public void testCheckUserCredentialsOnSignUpPositive() throws ValidatorException, ServiceException {

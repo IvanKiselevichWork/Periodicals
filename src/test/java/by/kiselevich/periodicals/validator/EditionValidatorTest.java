@@ -3,11 +3,8 @@ package by.kiselevich.periodicals.validator;
 import by.kiselevich.periodicals.entity.Edition;
 import by.kiselevich.periodicals.entity.EditionTheme;
 import by.kiselevich.periodicals.entity.EditionType;
-import by.kiselevich.periodicals.exception.NoJDBCDriverException;
-import by.kiselevich.periodicals.exception.NoJDBCPropertiesException;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.exception.ValidatorException;
-import by.kiselevich.periodicals.pool.ConnectionPoolImpl;
 import org.junit.*;
 
 import java.math.BigDecimal;
@@ -15,16 +12,6 @@ import java.math.BigDecimal;
 public class EditionValidatorTest extends Assert {
 
     private static final EditionValidator editionValidator = EditionValidator.getInstance();
-
-    @BeforeClass
-    public static void init() throws NoJDBCDriverException, NoJDBCPropertiesException {
-        ConnectionPoolImpl.INSTANCE.initPool();
-    }
-
-    @AfterClass
-    public static void deInit() {
-        ConnectionPoolImpl.INSTANCE.deInitPool();
-    }
 
     @Test
     public void testCheckEditionPositive() throws ValidatorException, ServiceException {
