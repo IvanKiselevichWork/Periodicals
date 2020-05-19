@@ -17,7 +17,7 @@ public class SignOutCommand implements Command {
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
         req.getSession().invalidate();
         try {
-            resp.sendRedirect(req.getContextPath());
+            resp.sendRedirect(Page.HOME_PAGE.getPath());
         } catch (IOException e) {
             LOG.error(e);
         }
