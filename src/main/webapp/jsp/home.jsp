@@ -212,7 +212,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form class="mx-auto" action="./" method="post">
+                            <form class="mx-auto">
                                 <input type="hidden" name="command" value="SIGN_IN"/>
                                 <div class="form-group">
                                     <label for="user-name-label"><fmt:message key="login"/></label>
