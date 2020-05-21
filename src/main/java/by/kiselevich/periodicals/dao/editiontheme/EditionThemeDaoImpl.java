@@ -3,22 +3,25 @@ package by.kiselevich.periodicals.dao.editiontheme;
 import by.kiselevich.periodicals.entity.EditionTheme;
 import by.kiselevich.periodicals.exception.DaoException;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class EditionThemeDaoImpl implements EditionThemeDao {
 
-    private Session session;
+    private SessionFactory sessionFactory;
 
-    public EditionThemeDaoImpl(Session session) {
-        this.session = session;
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public List<EditionTheme> getAllEditionThemes() throws DaoException {
         try {
-            return session.createQuery("select e from EditionTheme e", EditionTheme.class).list();
+            Session session = sessionFactory.getCurrentSession();
+            return session.createQuery("from EditionTheme", EditionTheme.class).list();
         } catch (Exception e) {
             throw new DaoException(e);
         }
@@ -27,9 +30,8 @@ public class EditionThemeDaoImpl implements EditionThemeDao {
     @Override
     public EditionTheme getEditionThemeById(int id) throws DaoException {
         try {
-            Query<EditionTheme> query = session.createQuery("select e from EditionTheme e where id = :id", EditionTheme.class);
-            query.setParameter("id", id);
-            return query.uniqueResult();
+            Session session = sessionFactory.getCurrentSession();
+            return session.load(EditionTheme.class, id);
         } catch (Exception e) {
             throw new DaoException(e);
         }
