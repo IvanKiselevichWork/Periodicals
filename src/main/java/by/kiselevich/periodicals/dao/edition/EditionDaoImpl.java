@@ -4,7 +4,9 @@ import by.kiselevich.periodicals.entity.Edition;
 import by.kiselevich.periodicals.exception.DaoException;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -13,6 +15,7 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class EditionDaoImpl implements EditionDao {
 
     private static final String EDITION_NAME_FORMAT = "%%%s%%";
@@ -23,16 +26,17 @@ public class EditionDaoImpl implements EditionDao {
     private static final String UNDERSCORE_SYMBOL = "_";
     private static final String UNDERSCORE_SYMBOL_REPLACEMENT = "!_";
 
-    private Session session;
+    private SessionFactory sessionFactory;
 
-    public EditionDaoImpl(Session session) {
-        this.session = session;
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public void add(Edition edition) throws DaoException {
         try {
-            session.save(edition);
+            Session session = sessionFactory.getCurrentSession();
+            session.persist(edition);
         } catch (Exception e) {
             throw new DaoException(e);
         }
@@ -41,6 +45,7 @@ public class EditionDaoImpl implements EditionDao {
     @Override
     public void update(Edition edition) throws DaoException {
         try {
+            Session session = sessionFactory.getCurrentSession();
             session.update(edition);
         } catch (Exception e) {
             throw new DaoException(e);
@@ -50,9 +55,10 @@ public class EditionDaoImpl implements EditionDao {
     @Override
     public void block(int id) throws DaoException {
         try {
-            Query<Edition> query = session.createQuery("update Edition set blocked = 1 where id = :id", Edition.class);
-            query.setParameter("id", id);
-            query.executeUpdate();
+            Session session = sessionFactory.getCurrentSession();
+            Edition edition = session.load(Edition.class, id);
+            edition.setBlocked(true);
+            session.update(edition);
         } catch (Exception e) {
             throw new DaoException(e);
         }
@@ -61,9 +67,10 @@ public class EditionDaoImpl implements EditionDao {
     @Override
     public void unblock(int id) throws DaoException {
         try {
-            Query<Edition> query = session.createQuery("update Edition set blocked = 0 where id = :id", Edition.class);
-            query.setParameter("id", id);
-            query.executeUpdate();
+            Session session = sessionFactory.getCurrentSession();
+            Edition edition = session.load(Edition.class, id);
+            edition.setBlocked(false);
+            session.update(edition);
         } catch (Exception e) {
             throw new DaoException(e);
         }
@@ -72,8 +79,8 @@ public class EditionDaoImpl implements EditionDao {
     @Override
     public List<Edition> getAllEditions() throws DaoException {
         try {
-            Query<Edition> query = session.createQuery("select e from Edition e", Edition.class);
-            return query.list();
+            Session session = sessionFactory.getCurrentSession();
+            return session.createQuery("from Edition ", Edition.class).list();
         } catch (Exception e) {
             throw new DaoException(e);
         }
@@ -82,6 +89,7 @@ public class EditionDaoImpl implements EditionDao {
     @Override
     public Edition getEditionById(int id, boolean findNotBlockedEditionsOnly) throws DaoException {
         try {
+            Session session = sessionFactory.getCurrentSession();
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<Edition> editionCriteriaQuery = criteriaBuilder.createQuery(Edition.class);
             Root<Edition> editionRoot = editionCriteriaQuery.from(Edition.class);
@@ -101,6 +109,7 @@ public class EditionDaoImpl implements EditionDao {
     @Override
     public List<Edition> getEditionsByNameAndTypeAndThemeAndBlockage(String name, Integer typeId, Integer themeId, Boolean getBlocked) throws DaoException {
         try {
+            Session session = sessionFactory.getCurrentSession();
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<Edition> editionCriteriaQuery = criteriaBuilder.createQuery(Edition.class);
             Root<Edition> editionRoot = editionCriteriaQuery.from(Edition.class);
