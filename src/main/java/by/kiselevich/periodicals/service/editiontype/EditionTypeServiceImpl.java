@@ -5,26 +5,29 @@ import by.kiselevich.periodicals.dao.editiontype.EditionTypeDao;
 import by.kiselevich.periodicals.entity.EditionType;
 import by.kiselevich.periodicals.exception.DaoException;
 import by.kiselevich.periodicals.exception.ServiceException;
-import by.kiselevich.periodicals.factory.DaoFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * Implementation of {@link EditionTypeService}
  */
+@Service
 public class EditionTypeServiceImpl implements EditionTypeService {
 
     private static final Logger LOG = LogManager.getLogger(EditionTypeServiceImpl.class);
 
-    private final EditionTypeDao editionTypeDao;
+    private EditionTypeDao editionTypeDao;
 
-    public EditionTypeServiceImpl() {
-        editionTypeDao = DaoFactory.getInstance().getEditionTypeDao();
+    public void setEditionTypeDao(EditionTypeDao editionTypeDao) {
+        this.editionTypeDao = editionTypeDao;
     }
 
     @Override
+    @Transactional
     public List<EditionType> getAllEditionsTypes() throws ServiceException {
         try {
             return editionTypeDao.getAllEditionTypes();
@@ -35,6 +38,7 @@ public class EditionTypeServiceImpl implements EditionTypeService {
     }
 
     @Override
+    @Transactional
     public EditionType getEditionTypeById(int id) throws ServiceException {
         try {
             return editionTypeDao.getEditionTypeById(id);
