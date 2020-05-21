@@ -3,22 +3,25 @@ package by.kiselevich.periodicals.dao.subscription;
 import by.kiselevich.periodicals.entity.Subscription;
 import by.kiselevich.periodicals.exception.DaoException;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class SubscriptionDaoImpl implements SubscriptionDao {
 
-    private Session session;
+    private SessionFactory sessionFactory;
 
-    public SubscriptionDaoImpl(Session session) {
-        this.session = session;
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public void add(Subscription subscription) throws DaoException {
         try {
-            session.save(subscription);
+            Session session = sessionFactory.getCurrentSession();
+            session.persist(subscription);
         } catch (Exception e) {
             throw new DaoException(e);
         }
@@ -27,6 +30,7 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
     @Override
     public void update(Subscription subscription) throws DaoException {
         try {
+            Session session = sessionFactory.getCurrentSession();
             session.update(subscription);
         } catch (Exception e) {
             throw new DaoException(e);
@@ -36,7 +40,8 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
     @Override
     public List<Subscription> getAllSubscriptions() throws DaoException {
         try {
-            return session.createQuery("select s from Subscription s", Subscription.class).list();
+            Session session = sessionFactory.getCurrentSession();
+            return session.createQuery("from Subscription", Subscription.class).list();
         } catch (Exception e) {
             throw new DaoException(e);
         }
@@ -45,9 +50,8 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
     @Override
     public Subscription getSubscriptionById(int id) throws DaoException {
         try {
-            Query<Subscription> query = session.createQuery("select s from Subscription s where id = :id", Subscription.class);
-            query.setParameter("id", id);
-            return query.uniqueResult();
+            Session session = sessionFactory.getCurrentSession();
+            return session.load(Subscription.class, id);
         } catch (Exception e) {
             throw new DaoException(e);
         }
