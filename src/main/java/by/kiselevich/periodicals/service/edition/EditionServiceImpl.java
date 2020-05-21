@@ -6,29 +6,35 @@ import by.kiselevich.periodicals.entity.Edition;
 import by.kiselevich.periodicals.exception.DaoException;
 import by.kiselevich.periodicals.exception.ValidatorException;
 import by.kiselevich.periodicals.exception.ServiceException;
-import by.kiselevich.periodicals.factory.DaoFactory;
 import by.kiselevich.periodicals.validator.EditionValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * Implementation of {@link EditionService}
  */
+@Service
 public class EditionServiceImpl implements EditionService {
 
     private static final Logger LOG = LogManager.getLogger(EditionServiceImpl.class);
 
-    private final EditionDao editionDao;
+    private EditionDao editionDao;
     private final EditionValidator editionValidator;
 
     public EditionServiceImpl() {
-        editionDao = DaoFactory.getInstance().getEditionDao();
         editionValidator = EditionValidator.getInstance();
     }
 
+    public void setEditionDao(EditionDao editionDao) {
+        this.editionDao = editionDao;
+    }
+
     @Override
+    @Transactional
     public void add(Edition edition) throws ServiceException {
         try {
             editionValidator.checkEdition(edition);
@@ -43,6 +49,7 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
+    @Transactional
     public void update(Edition edition) throws ServiceException {
         try {
             editionValidator.checkEdition(edition);
@@ -57,6 +64,7 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
+    @Transactional
     public List<Edition> getAllEditions() throws ServiceException {
         try {
             return editionDao.getAllEditions();
@@ -67,6 +75,7 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
+    @Transactional
     public List<Edition> getNotBlockedEditionsByNameAndTypeIdAndThemeId(String name, Integer typeId, Integer themeId) throws ServiceException {
         try {
             return editionDao.getEditionsByNameAndTypeAndThemeAndBlockage(name, typeId, themeId, false);
@@ -77,6 +86,7 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
+    @Transactional
     public Edition getEditionById(int editionId, boolean findNotBlockedEditionsOnly) throws ServiceException {
         try {
             return editionDao.getEditionById(editionId, findNotBlockedEditionsOnly);
@@ -87,6 +97,7 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
+    @Transactional
     public void blockEdition(int id) throws ServiceException {
         try {
             if (editionDao.getEditionById(id, false) == null) {
@@ -100,6 +111,7 @@ public class EditionServiceImpl implements EditionService {
     }
 
     @Override
+    @Transactional
     public void unblockEdition(int id) throws ServiceException {
         try {
             if (editionDao.getEditionById(id, false) == null) {
