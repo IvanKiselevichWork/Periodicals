@@ -29,27 +29,27 @@ public class EditionDaoTest {
 
     @Test
     public void EditionDaoTest1() throws DaoException {
-        EditionDao editionDao = new EditionDaoImpl(session);
+        EditionDao editionDao = new EditionDaoImpl();
         Assert.assertEquals(740, editionDao.getAllEditions().size());
     }
 
     @Test
     public void EditionDaoTest2() throws DaoException {
-        EditionDao editionDao = new EditionDaoImpl(session);
+        EditionDao editionDao = new EditionDaoImpl();
         List<Edition> editionList = editionDao.getEditionsByNameAndTypeAndThemeAndBlockage(null, null, 1, null);
         Assert.assertEquals(3, editionList.size());
     }
 
     @Test
     public void EditionDaoTest3() throws DaoException {
-        EditionDao editionDao = new EditionDaoImpl(session);
+        EditionDao editionDao = new EditionDaoImpl();
         List<Edition> editionList = editionDao.getEditionsByNameAndTypeAndThemeAndBlockage(null, 1, null, null);
         Assert.assertEquals(278, editionList.size());
     }
 
     @Test
     public void EditionDaoTest4() throws DaoException {
-        EditionDao editionDao = new EditionDaoImpl(session);
+        EditionDao editionDao = new EditionDaoImpl();
         List<Edition> editionList = editionDao.getEditionsByNameAndTypeAndThemeAndBlockage("1", 1, 1, null);
         Assert.assertEquals(0, editionList.size());
     }

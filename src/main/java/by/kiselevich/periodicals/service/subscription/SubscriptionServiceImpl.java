@@ -10,14 +10,11 @@ import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.DaoException;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.exception.ValidatorException;
-import by.kiselevich.periodicals.factory.DaoFactory;
 import by.kiselevich.periodicals.factory.PaymentTypeFactory;
 import by.kiselevich.periodicals.util.DateUtil;
 import by.kiselevich.periodicals.validator.SubscriptionValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,8 +77,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     @Transactional
     public void addSubscription(Subscription subscription) throws ServiceException {
-        Session session = DaoFactory.getSession();
-        Transaction transaction = session.beginTransaction();
         try {
             subscriptionValidator.checkSubscription(subscription);
             BigDecimal subscriptionPrice = calculateSubscriptionPrice(subscription);
@@ -90,10 +85,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             userDao.update(user);
             subscriptionDao.add(subscription);
             paymentDao.add(payment);
-            transaction.commit();
         } catch (DaoException e) {
             LOG.warn(e);
-            transaction.rollback();
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         } catch (ValidatorException e) {
             LOG.info(e);
@@ -104,8 +97,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     @Transactional
     public void stopSubscription(Subscription subscription, User user) throws ServiceException {
-        Session session = DaoFactory.getSession();
-        Transaction transaction = session.beginTransaction();
         try {
             checkIfUserOwnSubscription(subscription, user);
             checkIfSubscriptionNotExpired(subscription);
@@ -117,14 +108,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             BigDecimal userRefundAmount = subscriptionPriceOld.subtract(subscriptionPriceNew);
             user = increaseUserBalance(subscription.getUser(), userRefundAmount);
             Payment payment = buildNewRefund(subscription, userRefundAmount, user);
-
             userDao.update(user);
             subscriptionDao.update(subscription);
             paymentDao.add(payment);
-            transaction.commit();
         } catch (DaoException e) {
             LOG.warn(e);
-            transaction.rollback();
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }
     }

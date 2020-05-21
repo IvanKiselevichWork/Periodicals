@@ -29,7 +29,7 @@ public class EditionThemeDaoTest {
 
     @Test
     public void EditionThemeDaoTest1() throws DaoException {
-        EditionThemeDao editionThemeDao = new EditionThemeDaoImpl(session);
+        EditionThemeDao editionThemeDao = new EditionThemeDaoImpl();
         List<EditionTheme> editionThemes = editionThemeDao.getAllEditionThemes();
         Assert.assertEquals(24, editionThemes.size());
     }

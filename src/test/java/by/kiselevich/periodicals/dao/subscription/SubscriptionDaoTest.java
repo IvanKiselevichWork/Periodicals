@@ -29,7 +29,7 @@ public class SubscriptionDaoTest {
 
     @Test
     public void SubscriptionDaoTest1() throws DaoException {
-        SubscriptionDao subscriptionDao = new SubscriptionDaoImpl(session);
+        SubscriptionDao subscriptionDao = new SubscriptionDaoImpl();
         List<Subscription> subscriptions = subscriptionDao.getAllSubscriptions();
         Assert.assertEquals(1008, subscriptions.size());
     }

@@ -2,49 +2,32 @@ package by.kiselevich.periodicals.controller;
 
 
 import by.kiselevich.periodicals.command.*;
-import by.kiselevich.periodicals.factory.DaoFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {""})
-@MultipartConfig(maxFileSize = 1024 * 1024 * 5)
-public class ControllerServlet extends HttpServlet {
+@Controller
+public class ControllerServlet {
 
     private static final Logger LOG = LogManager.getLogger(ControllerServlet.class);
     private static final CommandProvider commandProvider = CommandProvider.getInstance();
     private static final long serialVersionUID = 2992999480268151300L;
 
-    @Override
-    public void init() {
-        LOG.trace("ControllerServlet init");
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public void processGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        processRequest(req, resp);
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        LOG.trace("ControllerServlet doGet");
-        try {
-            processRequest(req, resp);
-        } catch (IOException | ServletException e) {
-            LOG.warn(e);
-        }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        LOG.trace("ControllerServlet doPost");
-        try {
-            processRequest(req, resp);
-        } catch (IOException | ServletException e) {
-            LOG.warn(e);
-        }
+    @RequestMapping(value = "", method = RequestMethod.POST)
+        public void processPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        processRequest(req, resp);
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -55,11 +38,5 @@ public class ControllerServlet extends HttpServlet {
         if (page != Page.EMPTY_PAGE) {
             req.getRequestDispatcher(page.getPath()).forward(req, resp);
         }
-    }
-
-    @Override
-    public void destroy() {
-        LOG.trace("ControllerServlet destroy");
-        DaoFactory.getSession().close();
     }
 }

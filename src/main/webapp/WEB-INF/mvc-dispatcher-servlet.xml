@@ -1,0 +1,104 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:component-scan base-package="by.kiselevich.periodicals"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- Database Information -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url"
+                  value="jdbc:mysql://localhost:3306/bookmanager"/>
+        <property name="username" value="root"/>
+        <property name="password" value="1234"/>
+    </bean>
+
+    <!-- Hibernate 4 SessionFactory Bean definition -->
+    <bean id="hibernate5AnnotatedSessionFactory"
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="annotatedClasses">
+            <list>
+                <value>by.kiselevich.periodicals.entity.Subscription</value>
+                <value>by.kiselevich.periodicals.entity.User</value>
+                <value>by.kiselevich.periodicals.entity.EditionType</value>
+                <value>by.kiselevich.periodicals.entity.EditionTheme</value>
+                <value>by.kiselevich.periodicals.entity.Payment</value>
+                <value>by.kiselevich.periodicals.entity.PaymentType</value>
+                <value>by.kiselevich.periodicals.entity.UserRole</value>
+                <value>by.kiselevich.periodicals.entity.Edition</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect
+                </prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--Dao and Service beans-->
+    <bean id="editionDao" class="by.kiselevich.periodicals.dao.edition.EditionDaoImpl">
+        <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>
+    </bean>
+    <bean id="editionThemeDao" class="by.kiselevich.periodicals.dao.editiontheme.EditionThemeDaoImpl">
+        <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>
+    </bean>
+    <bean id="editionTypeDao" class="by.kiselevich.periodicals.dao.editiontype.EditionTypeDaoImpl">
+        <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>
+    </bean>
+    <bean id="paymentDao" class="by.kiselevich.periodicals.dao.payment.PaymentDaoImpl">
+        <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>
+    </bean>
+    <bean id="subscriptionDao" class="by.kiselevich.periodicals.dao.subscription.SubscriptionDaoImpl">
+        <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>
+    </bean>
+    <bean id="userDao" class="by.kiselevich.periodicals.dao.user.UserDaoImpl">
+        <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>
+    </bean>
+
+    <bean id="editionService" class="by.kiselevich.periodicals.service.edition.EditionServiceImpl">
+        <property name="editionDao" ref="editionDao"/>
+    </bean>
+    <bean id="editionThemeService" class="by.kiselevich.periodicals.service.editiontheme.EditionThemeServiceImpl">
+        <property name="editionThemeDao" ref="editionThemeDao"/>
+    </bean>
+    <bean id="editionTypeService" class="by.kiselevich.periodicals.service.editiontype.EditionTypeServiceImpl">
+        <property name="editionTypeDao" ref="editionTypeDao"/>
+    </bean>
+    <bean id="paymentService" class="by.kiselevich.periodicals.service.payment.PaymentServiceImpl">
+        <property name="paymentDao" ref="paymentDao"/>
+    </bean>
+    <bean id="subscriptionService" class="by.kiselevich.periodicals.service.subscription.SubscriptionServiceImpl">
+        <property name="subscriptionDao" ref="subscriptionDao"/>
+        <property name="userDao" ref="userDao"/>
+        <property name="paymentDao" ref="paymentDao"/>
+    </bean>
+    <bean id="userService" class="by.kiselevich.periodicals.service.user.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
+        <property name="paymentDao" ref="paymentDao"/>
+    </bean>
+
+    <context:component-scan base-package="by.kiselevich.periodicals"/>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>
+    </bean>
+
+    <mvc:default-servlet-handler/>
+    <mvc:annotation-driven/>
+
+</beans>

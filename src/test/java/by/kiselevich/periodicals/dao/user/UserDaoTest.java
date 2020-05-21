@@ -29,28 +29,28 @@ public class UserDaoTest {
 
     @Test
     public void UserDaoTest1() throws DaoException {
-        UserDao userDao = new UserDaoImpl(session);
+        UserDao userDao = new UserDaoImpl();
         List<User> users = userDao.getAllUsers();
         Assert.assertEquals(1000, users.size());
     }
 
     @Test
     public void UserDaoTest2() throws DaoException {
-        UserDao userDao = new UserDaoImpl(session);
+        UserDao userDao = new UserDaoImpl();
         User user = userDao.getUserByLogin("user1");
         Assert.assertEquals("user@periodicals.com", user.getEmail());
     }
 
     @Test
     public void UserDaoTest3() throws DaoException {
-        UserDao userDao = new UserDaoImpl(session);
+        UserDao userDao = new UserDaoImpl();
         User user = userDao.getUserByLogin("user1");
         Assert.assertEquals(5, user.getPayments().size());
     }
 
     @Test
     public void UserDaoTest4() throws DaoException {
-        UserDao userDao = new UserDaoImpl(session);
+        UserDao userDao = new UserDaoImpl();
         User user = userDao.getUserByLogin("user1");
         Assert.assertEquals(1004, user.getSubscriptions().size());
     }

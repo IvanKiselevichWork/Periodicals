@@ -6,9 +6,20 @@
 
     <display-name>Periodicals by Kiselevich Ivan</display-name>
 
-    <error-page>
-        <location>/jsp/wrong_request.jsp</location>
-    </error-page>
+<!--    <error-page>-->
+<!--        <location>/jsp/wrong_request.jsp</location>-->
+<!--    </error-page>-->
+
+    <servlet>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 
     <filter>
         <filter-name>UserRoleSecurityFilter</filter-name>

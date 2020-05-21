@@ -7,6 +7,9 @@ import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.edition.EditionService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,14 +17,17 @@ import javax.servlet.http.HttpServletResponse;
 import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromResources;
 import static by.kiselevich.periodicals.util.HttpUtil.writeMessageToResponse;
 
+@Component
 public class AddEditionCommand extends AbstractEditionCommand implements Command {
 
     private static final Logger LOG = LogManager.getLogger(AddEditionCommand.class);
 
-    private final EditionService editionService;
+    private EditionService editionService;
 
-    public AddEditionCommand() {
-        editionService = ServiceFactory.getInstance().getEditionService();
+    @Autowired
+    @Qualifier(value = "editionService")
+    public void setEditionService(EditionService editionService) {
+        this.editionService = editionService;
     }
 
     @Override

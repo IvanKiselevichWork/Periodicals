@@ -9,14 +9,11 @@ import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.DaoException;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.exception.ValidatorException;
-import by.kiselevich.periodicals.factory.DaoFactory;
 import by.kiselevich.periodicals.factory.PaymentTypeFactory;
 import by.kiselevich.periodicals.util.HashUtil;
 import by.kiselevich.periodicals.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -153,8 +150,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void refillBalance(String login, BigDecimal amount) throws ServiceException {
-        Session session = DaoFactory.getSession();
-        Transaction transaction = session.beginTransaction();
         try {
             if (amount.compareTo(BigDecimal.ZERO) <= 0) {
                 throw new ServiceException(ResourceBundleMessages.INVALID_REFILL_AMOUNT.getKey());
@@ -163,9 +158,7 @@ public class UserServiceImpl implements UserService {
             Payment payment = buildNewPayment(amount, user);
             userDao.update(user);
             paymentDao.add(payment);
-            transaction.commit();
         } catch (DaoException e) {
-            transaction.rollback();
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
         }

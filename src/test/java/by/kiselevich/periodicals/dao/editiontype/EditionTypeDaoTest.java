@@ -29,7 +29,7 @@ public class EditionTypeDaoTest {
 
     @Test
     public void EditionTypeDaoTest1() throws DaoException {
-        EditionTypeDao editionTypeDao = new EditionTypeDaoImpl(session);
+        EditionTypeDao editionTypeDao = new EditionTypeDaoImpl();
         List<EditionType> editionTypes = editionTypeDao.getAllEditionTypes();
         Assert.assertEquals(2, editionTypes.size());
     }

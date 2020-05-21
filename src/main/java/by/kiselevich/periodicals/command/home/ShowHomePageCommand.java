@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowHomePageCommand implements Command {
-
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
         return Page.HOME_PAGE;

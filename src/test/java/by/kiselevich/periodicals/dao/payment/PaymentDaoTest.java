@@ -29,7 +29,7 @@ public class PaymentDaoTest {
 
     @Test
     public void PaymentDaoTest1() throws DaoException {
-        PaymentDao paymentDao = new PaymentDaoImpl(session);
+        PaymentDao paymentDao = new PaymentDaoImpl();
         List<Payment> payments = paymentDao.getAllPayments();
         Assert.assertEquals(1018, payments.size());
     }
