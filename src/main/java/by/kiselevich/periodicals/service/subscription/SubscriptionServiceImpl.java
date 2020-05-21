@@ -18,6 +18,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -27,23 +29,34 @@ import java.util.List;
 /**
  * Implementation of {@link SubscriptionService}
  */
+@Service
 public class SubscriptionServiceImpl implements SubscriptionService {
 
     private static final Logger LOG = LogManager.getLogger(SubscriptionServiceImpl.class);
 
-    private final SubscriptionDao subscriptionDao;
-    private final UserDao userDao;
-    private final PaymentDao paymentDao;
+    private SubscriptionDao subscriptionDao;
+    private UserDao userDao;
+    private PaymentDao paymentDao;
     private final SubscriptionValidator subscriptionValidator;
 
     public SubscriptionServiceImpl() {
-        subscriptionDao = DaoFactory.getInstance().getSubscriptionDao();
-        userDao = DaoFactory.getInstance().getUserDao();
-        paymentDao = DaoFactory.getInstance().getPaymentDao();
         subscriptionValidator = SubscriptionValidator.getInstance();
     }
 
+    public void setSubscriptionDao(SubscriptionDao subscriptionDao) {
+        this.subscriptionDao = subscriptionDao;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    public void setPaymentDao(PaymentDao paymentDao) {
+        this.paymentDao = paymentDao;
+    }
+
     @Override
+    @Transactional
     public List<Subscription> getAllSubscriptions() throws ServiceException {
         try {
             return subscriptionDao.getAllSubscriptions();
@@ -54,6 +67,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    @Transactional
     public Subscription getSubscriptionById(int id) throws ServiceException {
         try {
             return subscriptionDao.getSubscriptionById(id);
@@ -64,6 +78,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    @Transactional
     public void addSubscription(Subscription subscription) throws ServiceException {
         Session session = DaoFactory.getSession();
         Transaction transaction = session.beginTransaction();
@@ -87,6 +102,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    @Transactional
     public void stopSubscription(Subscription subscription, User user) throws ServiceException {
         Session session = DaoFactory.getSession();
         Transaction transaction = session.beginTransaction();
