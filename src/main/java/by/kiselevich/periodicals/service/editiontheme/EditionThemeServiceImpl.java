@@ -5,26 +5,29 @@ import by.kiselevich.periodicals.dao.editiontheme.EditionThemeDao;
 import by.kiselevich.periodicals.entity.EditionTheme;
 import by.kiselevich.periodicals.exception.DaoException;
 import by.kiselevich.periodicals.exception.ServiceException;
-import by.kiselevich.periodicals.factory.DaoFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * Implementation of {@link EditionThemeService}
  */
+@Service
 public class EditionThemeServiceImpl implements EditionThemeService {
 
     private static final Logger LOG = LogManager.getLogger(EditionThemeServiceImpl.class);
 
-    private final EditionThemeDao editionThemeDao;
+    private EditionThemeDao editionThemeDao;
 
-    public EditionThemeServiceImpl() {
-        editionThemeDao = DaoFactory.getInstance().getEditionThemeDao();
+    public void setEditionThemeDao(EditionThemeDao editionThemeDao) {
+        this.editionThemeDao = editionThemeDao;
     }
 
     @Override
+    @Transactional
     public List<EditionTheme> getAllThemes() throws ServiceException {
         try {
             return editionThemeDao.getAllEditionThemes();
@@ -35,6 +38,7 @@ public class EditionThemeServiceImpl implements EditionThemeService {
     }
 
     @Override
+    @Transactional
     public EditionTheme getThemeById(int id) throws ServiceException {
         try {
             return editionThemeDao.getEditionThemeById(id);
