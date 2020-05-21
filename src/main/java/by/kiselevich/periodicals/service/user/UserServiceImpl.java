@@ -17,6 +17,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -25,21 +27,29 @@ import java.util.List;
 /**
  * Implementation of {@link UserService}
  */
+@Service
 public class UserServiceImpl implements UserService {
 
     private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
 
-    private final UserDao userDao;
-    private final PaymentDao paymentDao;
+    private UserDao userDao;
+    private PaymentDao paymentDao;
     private final UserValidator userValidator;
 
     public UserServiceImpl() {
-        userDao = DaoFactory.getInstance().getUserDao();
-        paymentDao = DaoFactory.getInstance().getPaymentDao();
         userValidator = UserValidator.getInstance();
     }
 
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    public void setPaymentDao(PaymentDao paymentDao) {
+        this.paymentDao = paymentDao;
+    }
+
     @Override
+    @Transactional
     public User signUp(User user) throws ServiceException {
         try {
             userValidator.checkUserCredentialsOnSignUp(user);
@@ -57,6 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User signIn(User user) throws ServiceException {
         try {
             userValidator.checkUserCredentialsOnSignIn(user);
@@ -82,6 +93,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User getUserByLogin(String login) throws ServiceException {
         try {
             return userDao.getUserByLogin(login);
@@ -92,6 +104,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<User> getAllUsers() throws ServiceException {
         try {
             return userDao.getAllUsers();
@@ -102,6 +115,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void blockUser(int id) throws ServiceException {
         try {
             User user = userDao.getUserById(id);
@@ -119,6 +133,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void unblockUser(int id) throws ServiceException {
         try {
             User user = userDao.getUserById(id);
@@ -136,6 +151,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void refillBalance(String login, BigDecimal amount) throws ServiceException {
         Session session = DaoFactory.getSession();
         Transaction transaction = session.beginTransaction();
