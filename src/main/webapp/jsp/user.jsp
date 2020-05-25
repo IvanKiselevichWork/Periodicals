@@ -736,6 +736,7 @@
             };
 
             const regexInt = RegExp(/^[1-9]\d*$/i);
+            const regexPeriod = RegExp(/^\d{1,2}$/i);
             let isValid = true;
 
             if (!regexInt.test(data.id)) {
@@ -745,7 +746,7 @@
                 idInput.css('border-color', '');
             }
 
-            if (!regexInt.test(data.period)) {
+            if (!regexPeriod.test(data.period)) {
                 periodInput.css('border-color', 'red');
                 isValid = false;
             } else {
@@ -835,7 +836,7 @@
                 amount: amountInput.val().replace(/,/g, '.'),
             };
 
-            const regexDouble = RegExp(/^[1-9]\d*(\.\d{1,2})?$/i);
+            const regexDouble = RegExp(/^[1-9]\d{0,8}(\.\d{1,2})?$/i);
             let isValid = true;
 
             if (!regexDouble.test(data.amount)) {
