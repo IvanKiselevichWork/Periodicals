@@ -893,6 +893,7 @@
                     iqwerty.toast.Toast('<fmt:message key="unsubscribed"/>', options);
                     const row = $('#rowSub' + data.id);
                     row.addClass('table-danger');
+                    row.find('td:eq(2)').text('');
                     row.find('td:eq(3)').text('<fmt:message key="expired"/>');
                     $('#stopSubscription' + data.id).prop('hidden', 'hidden');
                 }
