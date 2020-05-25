@@ -11,11 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Properties;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public enum ConnectionPoolImpl implements ConnectionPool {
     INSTANCE;
@@ -32,13 +30,13 @@ public enum ConnectionPoolImpl implements ConnectionPool {
     private static final boolean AUTO_COMMIT_TRUE = true;
 
     private final BlockingQueue<ConnectionProxy> availableConnections;
-    private final Deque<ConnectionProxy> unavailableConnections;
+    private final BlockingQueue<ConnectionProxy> unavailableConnections;
     private boolean isPoolAlreadyInitialized;
     private String url;
 
     ConnectionPoolImpl() {
-        availableConnections = new LinkedBlockingQueue<>();
-        unavailableConnections = new ArrayDeque<>();
+        availableConnections = new ArrayBlockingQueue<>(POOL_CAPACITY);
+        unavailableConnections = new ArrayBlockingQueue<>(POOL_CAPACITY);
         isPoolAlreadyInitialized = false;
     }
 
@@ -155,6 +153,5 @@ public enum ConnectionPoolImpl implements ConnectionPool {
         } catch (SQLException e) {
             LOG.warn("Cant deregister driver", e);
         }
-
     }
 }
