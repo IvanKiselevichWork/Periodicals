@@ -7,6 +7,8 @@ import by.kiselevich.periodicals.exception.ValidatorException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.user.UserService;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,6 +61,30 @@ public class UserValidator {
 
         checkLogin(user.getLogin());
         checkPassword(user.getPassword());
+    }
+
+    /**
+     * Check {@code balance}
+     * @param value value to check
+     * @throws ValidatorException with {@link ResourceBundleMessages} key as message to view error message to user if error occurs
+     */
+    public void checkRefillAmount(BigDecimal value) throws ValidatorException {
+        if (value == null || isValueHasMoreThanTwoDecimalDigits(value) || isValueHasMoreThanNineDigitsBeforeDot(value) || isValueLessOrEqualsThanZero(value)) {
+            throw new ValidatorException(ResourceBundleMessages.INVALID_REFILL_AMOUNT.getKey());
+        }
+    }
+
+
+    private boolean isValueHasMoreThanTwoDecimalDigits(BigDecimal value) {
+        return !value.multiply(BigDecimal.valueOf(100)).remainder(BigDecimal.ONE).stripTrailingZeros().equals(BigDecimal.ZERO);
+    }
+
+    private boolean isValueHasMoreThanNineDigitsBeforeDot(BigDecimal value) {
+        return value.toBigInteger().compareTo(BigInteger.valueOf(999999999)) > 0;
+    }
+
+    private boolean isValueLessOrEqualsThanZero(BigDecimal value) {
+        return value.stripTrailingZeros().compareTo(BigDecimal.valueOf(0)) <= 0;
     }
 
     private void checkLogin(String login) throws ValidatorException {

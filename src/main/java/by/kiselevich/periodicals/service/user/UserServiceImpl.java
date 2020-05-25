@@ -140,9 +140,7 @@ public class UserServiceImpl implements UserService {
     public void refillBalance(String login, BigDecimal amount) throws ServiceException {
         TransactionUnitOfWork transactionUnitOfWork = new TransactionUnitOfWork();
         try {
-            if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-                throw new ServiceException(ResourceBundleMessages.INVALID_REFILL_AMOUNT.getKey());
-            }
+            userValidator.checkRefillAmount(amount);
             User user = refillUserBalance(login, amount);
             Payment payment = buildNewPayment(amount, user);
             transactionUnitOfWork.getUserRepository().update(user);
@@ -152,6 +150,9 @@ public class UserServiceImpl implements UserService {
             transactionUnitOfWork.rollback();
             LOG.warn(e);
             throw new ServiceException(ResourceBundleMessages.INTERNAL_ERROR.getKey());
+        } catch (ValidatorException e) {
+            LOG.info(e);
+            throw new ServiceException(e.getMessage());
         } finally {
             transactionUnitOfWork.close();
         }

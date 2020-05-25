@@ -630,7 +630,7 @@
                             <div class="form-group">
                                 <label for="balance-increase-label"><fmt:message key="balance_increase_amount"/></label>
                                 <input type="number" class="form-control" id="balance-increase-label" name="name"
-                                       value="" step="0.01">
+                                       value="" step="0.01" min="0.01" max="99999999.99">
                             </div>
                             <div id="refill-balance-message" class="alert alert-danger" role="alert"></div>
                         </form>
