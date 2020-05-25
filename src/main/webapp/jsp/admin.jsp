@@ -594,15 +594,15 @@
 
                             <div class="form-group">
                                 <label for="edition-periodicity-label"><fmt:message key="periodicity"/></label>
-                                <input type="text" class="form-control" id="edition-periodicity-label"
+                                <input type="number" class="form-control" id="edition-periodicity-label"
                                        name="periodicity"
-                                       placeholder="<fmt:message key="enter_periodicity"/>">
+                                       placeholder="<fmt:message key="enter_periodicity"/>" min="1" max="999">
                             </div>
 
                             <div class="form-group">
                                 <label for="edition-min-period-label"><fmt:message key="min_period"/></label>
-                                <input type="text" class="form-control" id="edition-min-period-label" name="min-period"
-                                       placeholder="<fmt:message key="enter_min_period"/>">
+                                <input type="number" class="form-control" id="edition-min-period-label" name="min-period"
+                                       placeholder="<fmt:message key="enter_min_period"/>" min="1" max="12">
                             </div>
 
                             <div class="form-group">
@@ -663,16 +663,16 @@
 
                             <div class="form-group">
                                 <label for="edition-periodicity-label-edit"><fmt:message key="periodicity"/></label>
-                                <input type="text" class="form-control" id="edition-periodicity-label-edit"
+                                <input type="number" class="form-control" id="edition-periodicity-label-edit"
                                        name="periodicity"
-                                       value="">
+                                       value="" min="1" max="999">
                             </div>
 
                             <div class="form-group">
                                 <label for="edition-min-period-label-edit"><fmt:message key="min_period"/></label>
-                                <input type="text" class="form-control" id="edition-min-period-label-edit"
+                                <input type="number" class="form-control" id="edition-min-period-label-edit"
                                        name="min-period"
-                                       value="">
+                                       value="" min="1" max="12">
                             </div>
 
                             <div class="form-group">
@@ -810,8 +810,10 @@
             };
 
             const regexAny = RegExp(/^.{1,200}$/i);
-            const regexInt = RegExp(/^[1-9]\d*$/i);
-            const regexDouble = RegExp(/^[1-9]\d*(\.\d{1,2})?$/i);
+            const regexInt = RegExp(/^\d+$/i);
+            const regexPeriodicity = RegExp(/^[1-9]\d{0,2}$/i);
+            const regexPeriod = RegExp(/^[1-9]\d?$/i);
+            const regexDouble = RegExp(/^\d{1,9}(\.\d{1,2})?$/i);
             let isValid = true;
             if (!regexAny.test(data.name)) {
                 nameInput.css('border-color', 'red');
@@ -834,21 +836,21 @@
                 themeInput.css('border-color', '');
             }
 
-            if (!regexInt.test(data.periodicity_per_year)) {
+            if (data.periodicity_per_year == null || !regexPeriodicity.test(data.periodicity_per_year)) {
                 periodicityInput.css('border-color', 'red');
                 isValid = false;
             } else {
                 periodicityInput.css('border-color', '');
             }
 
-            if (!regexInt.test(data.minimum_subscription_period)) {
+            if (data.minimum_subscription_period == null || !regexPeriod.test(data.minimum_subscription_period)) {
                 minPeriodInput.css('border-color', 'red');
                 isValid = false;
             } else {
                 minPeriodInput.css('border-color', '');
             }
 
-            if (!regexDouble.test(data.price_for_minimum_subscription_period)) {
+            if (data.price_for_minimum_subscription_period == null || !regexDouble.test(data.price_for_minimum_subscription_period)) {
                 priceInput.css('border-color', 'red');
                 isValid = false;
             } else {
@@ -997,8 +999,10 @@
             };
 
             const regexAny = RegExp(/^.{1,200}$/i);
-            const regexInt = RegExp(/^[1-9]\d*$/i);
-            const regexDouble = RegExp(/^[1-9]\d*(\.\d{1,2})?$/i);
+            const regexInt = RegExp(/^\d+$/i);
+            const regexPeriodicity = RegExp(/^[1-9]\d{0,2}$/i);
+            const regexPeriod = RegExp(/^[1-9]\d?$/i);
+            const regexDouble = RegExp(/^\d{1,9}(\.\d{1,2})?$/i);
             let isValid = true;
             if (!regexAny.test(data.name)) {
                 nameInput.css('border-color', 'red');
@@ -1021,21 +1025,21 @@
                 themeInput.css('border-color', '');
             }
 
-            if (!regexInt.test(data.periodicity_per_year)) {
+            if (data.periodicity_per_year == null || !regexPeriodicity.test(data.periodicity_per_year)) {
                 periodicityInput.css('border-color', 'red');
                 isValid = false;
             } else {
                 periodicityInput.css('border-color', '');
             }
 
-            if (!regexInt.test(data.minimum_subscription_period)) {
+            if (data.minimum_subscription_period == null || !regexPeriod.test(data.minimum_subscription_period)) {
                 minPeriodInput.css('border-color', 'red');
                 isValid = false;
             } else {
                 minPeriodInput.css('border-color', '');
             }
 
-            if (!regexDouble.test(data.price_for_minimum_subscription_period)) {
+            if (data.price_for_minimum_subscription_period == null || !regexDouble.test(data.price_for_minimum_subscription_period)) {
                 priceInput.css('border-color', 'red');
                 isValid = false;
             } else {

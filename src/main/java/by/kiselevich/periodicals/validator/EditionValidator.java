@@ -11,6 +11,7 @@ import by.kiselevich.periodicals.service.editiontype.EditionTypeService;
 import by.kiselevich.periodicals.service.editiontheme.EditionThemeService;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,6 +19,10 @@ import java.util.regex.Pattern;
 public class EditionValidator {
 
     private static final String NAME_REGEX = ".{1,200}";
+    private static final int MIN_PERIOD = 1;
+    private static final int MAX_PERIOD = 12;
+    private static final int MIN_PERIODICITY = 1;
+    private static final int MAX_PERIODICITY = 999;
 
     private EditionValidator() {}
 
@@ -71,25 +76,33 @@ public class EditionValidator {
     }
 
     private void checkPeriodicityPerYear(int periodicityPerYear) throws ValidatorException {
-        if (periodicityPerYear < 1) {
+        if (periodicityPerYear < MIN_PERIODICITY || periodicityPerYear > MAX_PERIODICITY) {
             throw new ValidatorException(ResourceBundleMessages.INVALID_PERIODICITY_PER_YEAR.getKey());
         }
     }
 
     private void checkMinimumSubscriptionPeriodInMonths(int minimumSubscriptionPeriodInMonths) throws ValidatorException {
-        if (minimumSubscriptionPeriodInMonths < 1) {
+        if (minimumSubscriptionPeriodInMonths < MIN_PERIOD || minimumSubscriptionPeriodInMonths > MAX_PERIOD) {
             throw new ValidatorException(ResourceBundleMessages.INVALID_MINIMUM_SUBSCRIPTION_PERIOD.getKey());
         }
     }
 
     private void checkPriceForMinimumSubscriptionPeriod(BigDecimal priceForMinimumSubscriptionPeriod) throws ValidatorException {
-        if (priceForMinimumSubscriptionPeriod == null || priceForMinimumSubscriptionPeriod.compareTo(BigDecimal.valueOf(0)) < 1 || isValueHasMoreThanTwoDecimalNumbers(priceForMinimumSubscriptionPeriod)) {
+        if (priceForMinimumSubscriptionPeriod == null || isValueLessOrEqualsThanZero(priceForMinimumSubscriptionPeriod) || isValueHasMoreThanTwoDecimalDigits(priceForMinimumSubscriptionPeriod) || isValueHasMoreThanNineDigitsBeforeDot(priceForMinimumSubscriptionPeriod)) {
             throw new ValidatorException(ResourceBundleMessages.INVALID_PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD.getKey());
         }
     }
 
-    private boolean isValueHasMoreThanTwoDecimalNumbers(BigDecimal value) {
+    private boolean isValueHasMoreThanTwoDecimalDigits(BigDecimal value) {
         return !value.multiply(BigDecimal.valueOf(100)).remainder(BigDecimal.ONE).stripTrailingZeros().equals(BigDecimal.ZERO);
+    }
+
+    private boolean isValueHasMoreThanNineDigitsBeforeDot(BigDecimal value) {
+        return value.toBigInteger().compareTo(BigInteger.valueOf(999999999)) > 0;
+    }
+
+    private boolean isValueLessOrEqualsThanZero(BigDecimal value) {
+        return value.stripTrailingZeros().compareTo(BigDecimal.valueOf(0)) <= 0;
     }
 
     private boolean isStringNotMatchesRegex(String string) {
