@@ -815,7 +815,7 @@
 
             const regexAny = RegExp(/^.{1,200}$/i);
             const regexInt = RegExp(/^[1-9]\d*$/i);
-            const regexDouble = RegExp(/^[1-9]\d*(\.\d+)?$/i);
+            const regexDouble = RegExp(/^[1-9]\d*(\.\d{1,2})?$/i);
             let isValid = true;
             if (!regexAny.test(data.name)) {
                 nameInput.css('border-color', 'red');
@@ -1002,7 +1002,7 @@
 
             const regexAny = RegExp(/^.{1,200}$/i);
             const regexInt = RegExp(/^[1-9]\d*$/i);
-            const regexDouble = RegExp(/^[1-9]\d*(\.\d+)?$/i);
+            const regexDouble = RegExp(/^[1-9]\d*(\.\d{1,2})?$/i);
             let isValid = true;
             if (!regexAny.test(data.name)) {
                 nameInput.css('border-color', 'red');

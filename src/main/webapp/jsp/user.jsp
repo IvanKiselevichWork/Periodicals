@@ -835,7 +835,7 @@
                 amount: amountInput.val().replace(/,/g, '.'),
             };
 
-            const regexDouble = RegExp(/^[1-9]\d*(\.\d{0,2})?$/i);
+            const regexDouble = RegExp(/^[1-9]\d*(\.\d{1,2})?$/i);
             let isValid = true;
 
             if (!regexDouble.test(data.amount)) {
