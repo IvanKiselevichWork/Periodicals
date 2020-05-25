@@ -195,9 +195,6 @@
                                                         <fmt:message key="full_name"/>
                                                     </th>
                                                     <th class="th-sm">
-                                                        <fmt:message key="is_active"/>
-                                                    </th>
-                                                    <th class="th-sm">
                                                         <fmt:message key="block_unblock"/>
                                                     </th>
                                                 </tr>
@@ -212,7 +209,6 @@
                                                     </c:if>
                                                         <td><c:out value="${ user.id }"/></td>
                                                         <td><c:out value="${ user.fullName }"/></td>
-                                                        <td><c:out value="${ user.available }"/></td>
                                                         <td>
                                                             <button class="btn btn-outline-danger waves-effect py-0 px-1 m-0"
                                                                     type="button" id="blockUser${user.id}"
