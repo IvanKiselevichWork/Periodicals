@@ -46,7 +46,6 @@ public class EditionValidator {
         checkPeriodicityPerYear(edition.getPeriodicityPerYear());
         checkMinimumSubscriptionPeriodInMonths(edition.getMinimumSubscriptionPeriodInMonths());
         checkPriceForMinimumSubscriptionPeriod(edition.getPriceForMinimumSubscriptionPeriod());
-
     }
 
     private void checkName(String name) throws ValidatorException {
@@ -84,9 +83,13 @@ public class EditionValidator {
     }
 
     private void checkPriceForMinimumSubscriptionPeriod(BigDecimal priceForMinimumSubscriptionPeriod) throws ValidatorException {
-        if (priceForMinimumSubscriptionPeriod == null || priceForMinimumSubscriptionPeriod.compareTo(BigDecimal.valueOf(0)) < 1 ) {
+        if (priceForMinimumSubscriptionPeriod == null || priceForMinimumSubscriptionPeriod.compareTo(BigDecimal.valueOf(0)) < 1 || isValueHasMoreThanTwoDecimalNumbers(priceForMinimumSubscriptionPeriod)) {
             throw new ValidatorException(ResourceBundleMessages.INVALID_PRICE_FOR_MINIMUM_SUBSCRIPTION_PERIOD.getKey());
         }
+    }
+
+    private boolean isValueHasMoreThanTwoDecimalNumbers(BigDecimal value) {
+        return !value.multiply(BigDecimal.valueOf(100)).remainder(BigDecimal.ONE).stripTrailingZeros().equals(BigDecimal.ZERO);
     }
 
     private boolean isStringNotMatchesRegex(String string) {
