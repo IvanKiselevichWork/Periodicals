@@ -630,7 +630,7 @@
                             <div class="form-group">
                                 <label for="balance-increase-label"><fmt:message key="balance_increase_amount"/></label>
                                 <input type="number" class="form-control" id="balance-increase-label" name="name"
-                                       value="" step="0.01">
+                                       value="" step="0.01" min="0.01" max="99999999.99">
                             </div>
                             <div id="refill-balance-message" class="alert alert-danger" role="alert"></div>
                         </form>
@@ -736,6 +736,7 @@
             };
 
             const regexInt = RegExp(/^[1-9]\d*$/i);
+            const regexPeriod = RegExp(/^\d{1,2}$/i);
             let isValid = true;
 
             if (!regexInt.test(data.id)) {
@@ -745,7 +746,7 @@
                 idInput.css('border-color', '');
             }
 
-            if (!regexInt.test(data.period)) {
+            if (!regexPeriod.test(data.period)) {
                 periodInput.css('border-color', 'red');
                 isValid = false;
             } else {
@@ -835,7 +836,7 @@
                 amount: amountInput.val().replace(/,/g, '.'),
             };
 
-            const regexDouble = RegExp(/^[1-9]\d*(\.\d{0,2})?$/i);
+            const regexDouble = RegExp(/^[1-9]\d{0,8}(\.\d{1,2})?$/i);
             let isValid = true;
 
             if (!regexDouble.test(data.amount)) {
@@ -892,6 +893,7 @@
                     iqwerty.toast.Toast('<fmt:message key="unsubscribed"/>', options);
                     const row = $('#rowSub' + data.id);
                     row.addClass('table-danger');
+                    row.find('td:eq(2)').text('');
                     row.find('td:eq(3)').text('<fmt:message key="expired"/>');
                     $('#stopSubscription' + data.id).prop('hidden', 'hidden');
                 }

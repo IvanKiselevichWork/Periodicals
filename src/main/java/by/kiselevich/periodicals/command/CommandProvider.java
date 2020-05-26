@@ -56,7 +56,7 @@ public class CommandProvider {
 
     public Command getCommand(String commandNameString) {
         if (commandNameString == null) {
-            LOG.warn("Command is null");
+            LOG.info("Command is null");
             return commandMap.get(CommandName.HOME);
         }
 
@@ -66,7 +66,7 @@ public class CommandProvider {
             commandName = CommandName.valueOf(commandNameString.toUpperCase());
             command = commandMap.get(commandName);
         } catch (IllegalArgumentException e) {
-            LOG.warn(e);
+            LOG.info(e);
             command = commandMap.get(CommandName.WRONG_REQUEST);
         }
         return command;
