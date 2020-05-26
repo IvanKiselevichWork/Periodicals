@@ -1,5 +1,6 @@
 package by.kiselevich.periodicals.command.signing;
 
+import by.kiselevich.periodicals.command.Attribute;
 import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.Page;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +16,9 @@ public class SignOutCommand implements Command {
 
     @Override
     public Page execute(HttpServletRequest req, HttpServletResponse resp) {
+        String language = (String) req.getSession().getAttribute(Attribute.LANGUAGE.getValue());
         req.getSession().invalidate();
+        req.getSession().setAttribute(Attribute.LANGUAGE.getValue(), language);
         try {
             resp.sendRedirect(req.getContextPath());
         } catch (IOException e) {
