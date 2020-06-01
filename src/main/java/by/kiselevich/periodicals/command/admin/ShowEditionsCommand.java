@@ -11,6 +11,7 @@ import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.edition.EditionService;
 import by.kiselevich.periodicals.service.editiontype.EditionTypeService;
 import by.kiselevich.periodicals.service.editiontheme.EditionThemeService;
+import by.kiselevich.periodicals.util.LongListUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,13 +25,11 @@ public class ShowEditionsCommand implements Command {
     private final EditionService editionService;
     private final EditionThemeService editionThemeService;
     private final EditionTypeService editionTypeService;
-    private final LongListUtil<Edition> longListUtil;
 
     public ShowEditionsCommand() {
         editionService = ServiceFactory.getInstance().getEditionService();
         editionThemeService = ServiceFactory.getInstance().getEditionThemeService();
         editionTypeService = ServiceFactory.getInstance().getEditionTypeService();
-        longListUtil = new LongListUtil<>();
     }
 
     @Override
@@ -44,7 +43,7 @@ public class ShowEditionsCommand implements Command {
             editionList.sort(Comparator.comparing(Edition::getId).reversed());
             editionThemeList.sort(Comparator.comparing(EditionTheme::getId));
             editionTypeList.sort(Comparator.comparing(EditionType::getId));
-            editionList = longListUtil.getSubListByPageFromRequest(req, editionList);
+            editionList = LongListUtil.getSubListByPageFromRequest(req, editionList);
 
             req.setAttribute(Attribute.EDITIONS.getValue(), editionList);
             req.setAttribute(Attribute.EDITIONS_THEMES.getValue(), editionThemeList);
