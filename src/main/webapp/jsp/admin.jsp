@@ -859,7 +859,7 @@
 
             if (isValid) {
                 $.post('./', $.param(data), function (responseText) {
-                    if (responseText.length < 50) {
+                    if (responseText.length < 100) {
                         $('#add-new-edition-message').text(responseText);
                     } else {
                         document.open();

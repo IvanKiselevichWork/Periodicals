@@ -312,7 +312,7 @@
             };
 
             $.post('./', $.param(data), function (responseText) {
-                if (responseText.length < 50) {
+                if (responseText.length < 100) {
                     $('#sign_up_div').text(responseText);
                 } else {
                     document.open();
@@ -332,7 +332,7 @@
             };
 
             $.post('./', $.param(data), function (responseText) {
-                if (responseText.length < 50) {
+                if (responseText.length < 100) {
                     $('#sign_in_div').text(responseText);
                 } else {
                     document.open();
