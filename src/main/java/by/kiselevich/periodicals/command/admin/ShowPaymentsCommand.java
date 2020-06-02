@@ -7,6 +7,7 @@ import by.kiselevich.periodicals.entity.Payment;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.payment.PaymentService;
+import by.kiselevich.periodicals.util.LongListUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,11 +19,9 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 public class ShowPaymentsCommand implements Command {
 
     private final PaymentService paymentService;
-    private final LongListUtil<Payment> longListUtil;
 
     public ShowPaymentsCommand() {
         paymentService = ServiceFactory.getInstance().getPaymentService();
-        longListUtil = new LongListUtil<>();
     }
 
     @Override
@@ -31,7 +30,7 @@ public class ShowPaymentsCommand implements Command {
         try {
             List<Payment> paymentList = paymentService.getAllPayments();
             paymentList.sort(Comparator.comparing(Payment::getId));
-            paymentList = longListUtil.getSubListByPageFromRequest(req, paymentList);
+            paymentList = LongListUtil.getSubListByPageFromRequest(req, paymentList);
             req.setAttribute(Attribute.PAYMENTS.getValue(), paymentList);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {

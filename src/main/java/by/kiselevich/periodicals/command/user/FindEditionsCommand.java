@@ -5,7 +5,6 @@ import by.kiselevich.periodicals.command.Command;
 import by.kiselevich.periodicals.command.JspParameter;
 import by.kiselevich.periodicals.command.Page;
 import by.kiselevich.periodicals.command.admin.DashboardPageOptionCommand;
-import by.kiselevich.periodicals.command.admin.LongListUtil;
 import by.kiselevich.periodicals.entity.*;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.EditionToIfUserSubscribedThisEditionMapFactory;
@@ -14,6 +13,7 @@ import by.kiselevich.periodicals.service.edition.EditionService;
 import by.kiselevich.periodicals.service.editiontheme.EditionThemeService;
 import by.kiselevich.periodicals.service.editiontype.EditionTypeService;
 import by.kiselevich.periodicals.service.subscription.SubscriptionService;
+import by.kiselevich.periodicals.util.LongListUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,14 +28,12 @@ public class FindEditionsCommand implements Command {
     private final EditionTypeService editionTypeService;
     private final EditionThemeService editionThemeService;
     private final SubscriptionService subscriptionService;
-    private final LongListUtil<Edition> longListUtil;
 
     public FindEditionsCommand() {
         editionService = ServiceFactory.getInstance().getEditionService();
         editionTypeService = ServiceFactory.getInstance().getEditionTypeService();
         editionThemeService = ServiceFactory.getInstance().getEditionThemeService();
         subscriptionService = ServiceFactory.getInstance().getSubscriptionService();
-        longListUtil = new LongListUtil<>();
     }
 
     @Override
@@ -50,7 +48,7 @@ public class FindEditionsCommand implements Command {
             Integer themeId = getIntegerFromString(themeIdString);
             List<Edition> editionList;
             editionList = editionService.getNotBlockedEditionsByNameAndTypeIdAndThemeId(name, typeId, themeId);
-            editionList = longListUtil.getSubListByPageFromRequest(req, editionList);
+            editionList = LongListUtil.getSubListByPageFromRequest(req, editionList);
 
             List<EditionType> editionTypeList = editionTypeService.getAllEditionsTypes();
             List<EditionTheme> editionThemeList = editionThemeService.getAllThemes();

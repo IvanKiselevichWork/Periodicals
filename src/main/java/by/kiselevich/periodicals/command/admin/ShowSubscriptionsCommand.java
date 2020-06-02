@@ -8,6 +8,7 @@ import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.factory.SubscriptionToItsStatusMapFactory;
 import by.kiselevich.periodicals.service.subscription.SubscriptionService;
+import by.kiselevich.periodicals.util.LongListUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,11 +20,9 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 public class ShowSubscriptionsCommand implements Command {
 
     private final SubscriptionService subscriptionService;
-    private final LongListUtil<Subscription> longListUtil;
 
     public ShowSubscriptionsCommand() {
         subscriptionService = ServiceFactory.getInstance().getSubscriptionService();
-        longListUtil = new LongListUtil<>();
     }
 
     @Override
@@ -31,7 +30,7 @@ public class ShowSubscriptionsCommand implements Command {
         req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), DashboardPageOptionCommand.SUBSCRIPTIONS);
         try {
             List<Subscription> subscriptionList = subscriptionService.getAllSubscriptions();
-            subscriptionList = longListUtil.getSubListByPageFromRequest(req, subscriptionList);
+            subscriptionList = LongListUtil.getSubListByPageFromRequest(req, subscriptionList);
             Map<Subscription, String> subscriptionAndStatusMap = SubscriptionToItsStatusMapFactory.getSubscriptionAndStatusMap(subscriptionList);
             req.setAttribute(Attribute.SUBSCRIPTIONS.getValue(), subscriptionAndStatusMap);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);

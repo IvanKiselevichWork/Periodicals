@@ -7,6 +7,7 @@ import by.kiselevich.periodicals.entity.User;
 import by.kiselevich.periodicals.exception.ServiceException;
 import by.kiselevich.periodicals.factory.ServiceFactory;
 import by.kiselevich.periodicals.service.user.UserService;
+import by.kiselevich.periodicals.util.LongListUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,11 +18,9 @@ import static by.kiselevich.periodicals.util.HttpUtil.getLocalizedMessageFromRes
 public class ShowUsersCommand implements Command {
 
     private final UserService userService;
-    private final LongListUtil<User> longListUtil;
 
     public ShowUsersCommand() {
         userService = ServiceFactory.getInstance().getUserService();
-        longListUtil = new LongListUtil<>();
     }
 
     @Override
@@ -29,7 +28,7 @@ public class ShowUsersCommand implements Command {
         req.setAttribute(Attribute.ADMIN_PAGE_OPTION.getValue(), DashboardPageOptionCommand.USERS);
         try {
             List<User> userList = userService.getAllUsers();
-            userList = longListUtil.getSubListByPageFromRequest(req, userList);
+            userList = LongListUtil.getSubListByPageFromRequest(req, userList);
             req.setAttribute(Attribute.USERS.getValue(), userList);
             req.setAttribute(Attribute.MESSAGE.getValue(), null);
         } catch (ServiceException e) {
