@@ -18,7 +18,7 @@
         <maven-war-plugin.version>3.2.3</maven-war-plugin.version>
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <junit.version>4.12</junit.version>
-        <log4j.version>2.13.0</log4j.version>
+        <log4j.version>2.13.2</log4j.version>
         <mysql-connector.version>8.0.19</mysql-connector.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jstl.version>1.2</jstl.version>
